@@ -1,0 +1,43 @@
+.grilla {
+font: normal 12px/150% Arial, Helvetica, sans-serif;
+background: #fff;
+overflow: hidden;
+border: 1px solid #006699;
+-webkit-border-radius: 3px;
+-moz-border-radius: 3px;
+border-radius: 3px;
+display: table
+}
+.grilla table {
+border-collapse: collapse;
+text-align: center;
+width: 100%;
+}
+.grilla table td, .grilla table th, .grilla table .title  {
+padding: 3px 10px;
+}
+.grilla table thead th, .grilla table .title {
+background-image: linear-gradient(to bottom, #8DCBEA 5%, #539BBE 100%);
+background-color:#99bfe6;
+color:#FFFFFF;
+font-size: 15px;
+font-weight: bold;
+border-left: 1px solid #E1EEF4;
+}
+.grilla table thead th:first-child, .grilla table .title  {
+border: none;
+}
+.grilla table tbody td {
+background-color:#CCCCCC;
+color: #00557F;
+border-left: 1px solid #E1EEF4;
+font-size: 14px;
+border-bottom: 1px solid #E1EEF4;
+font-weight: bold;
+}
+.grilla table tbody td:first-child {
+border-left: none;
+}
+.grilla table tbody tr:last-child td {
+border-bottom: none;
+}
