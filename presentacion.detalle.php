@@ -16,7 +16,7 @@ $resFactura = mysql_query($sqlFactura);
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link rel="stylesheet" href="css/tablas.css"/>
-<title>.: Nueva Presentaciones S.S.S. :.</title>
+<title>.: Detalle Presentaciones S.S.S. :.</title>
 
 <style type="text/css" media="print">
 .nover {display:none}

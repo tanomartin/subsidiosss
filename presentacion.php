@@ -36,6 +36,12 @@ $canPresentacionAbierta = mysql_num_rows($resPresentacionAbierta);
 			 			<th>Facturas</th>
 			 			<th>Monto Comprobante</th>
 			 			<th>Monto Pedido</th>
+			 			<th>Fecha Presentacion</th>
+			 			<th>Fecha Cancelacion</th>
+			 			<th>Fecha Dev. Formato</th>
+			 			<th>Fecha Dev. Subsidio</th>
+			 			<th>Fecha Deposito</th>
+			 			<th></th>
 			 			<th>Acciones</th>
 			 		</tr>
 			 	</thead>
@@ -48,15 +54,35 @@ $canPresentacionAbierta = mysql_num_rows($resPresentacionAbierta);
 						<td><?php echo $rowPresentacion['cantfactura'] ?></td>
 						<td><?php echo $rowPresentacion['sumimpcomprobante'] ?></td>
 						<td><?php echo $rowPresentacion['sumimpsolicitado'] ?></td>
+						<td><?php echo $rowPresentacion['fechapresentacion'] ?></td>
+						<td><?php echo $rowPresentacion['fechacancelacion'] ?></td>
+						<td><?php echo $rowPresentacion['fechadevformato'] ?></td>
+						<td><?php echo $rowPresentacion['fechasubsidio'] ?></td>
+						<td><?php echo $rowPresentacion['fechadeposito'] ?></td>
+						<td><input type="button" value="Detalle" onClick="location.href = 'presentacion.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/></td>
 						<td>
-							<input type="button" value="Detalle" onClick="location.href = 'presentacion.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-							<?php if ($rowPresentacion['fechacancelacion'] == NULL && $rowPresentacion['fechapresentacion'] == NULL) { ?>
-								<input type="button" value="Generar Archivo" onClick="location.href = 'presentacion.generararchivo.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-								<input type="button" value="Cancelar" onClick="location.href = 'presentacion.cancelar.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-							<?php } ?>
+				    		 <?php 	if ($rowPresentacion['fechacancelacion'] == NULL) { 
+				    					if ($rowPresentacion['fechapresentacion'] == NULL) { ?>
+											<input type="button" value="Cancelar" onClick="location.href = 'presentacion.cancelar.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+											<input type="button" value="Generar Archivo" onClick="location.href = 'presentacion.generararchivo.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+					  		   	  <?php } else { 
+											if ($rowPresentacion['fechadevformato'] == NULL) { ?>
+												<input type="button" value="Cancelar" onClick="location.href = 'presentacion.cancelar.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+												<input type="button" value="Dev. Formato" onClick="location.href = 'presentacion.devformato.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+					  			  	  <?php } else { 
+				      							if ($rowPresentacion['fechasubsidio'] == NULL) { ?>
+				      								<input type="button" value="Dev. Subsidio" onClick="location.href = 'presentacion.devsubsidio.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+				     			 		  <?php } else { 
+				     			 		  			if ($rowPresentacion['fechadeposito'] == NULL) {?>
+				     									<input type="button" value="Info. Deposito" onClick="location.href = 'presentacion.deposito.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+				     						<?php 	}
+				     			 		  		}
+					  			  	  		}
+					  			  	  	}	
+				      				} ?>
 						</td>
 					</tr>
-			<?php } ?>
+			 <?php 	}  ?>
 			  	</tbody>
 			</table>
 		</div>
