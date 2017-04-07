@@ -26,6 +26,7 @@ $rowAPresentar = mysql_fetch_array($resAPresentar)
 	 	</table>
 	 	<form  action="presentacion.nueva.guardar.php" enctype="multipart/form-data" method="post">
  			<p><input style="display: none" type="text" name="idCronograma" id="idCronograma" value="<?php echo $rowAPresentar['id']?>"/></p>
+ 			<p><input style="display: none" type="text" name="carpeta" id="carpeta" value="<?php echo $rowAPresentar['carpeta']?>"/></p>
  			<h3>Cargar Excel con las facturas a incluir</h3>
  			<p><input type="file" name="archivo" id="archivo" accept=".csv" /></p>
  			<p><input type="submit" name="importar"  value="Cargar Facturas"/></p>

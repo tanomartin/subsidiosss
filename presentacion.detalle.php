@@ -30,7 +30,7 @@ $resFactura = mysql_query($sqlFactura);
 	 	<h2>Detalle Presentacio</h2>
 	 	<h3>ID: <?php echo $rowPresentacion['id']?> - PERIODO: <?php echo $rowPresentacion['periodo'] ?> - CARPETA: <?php echo $rowPresentacion['carpeta'] ?></h3>
 	 	<h2>Facturas</h2>
-	 	<h3>Cantidad: <?php echo $rowPresentacion['cantfactura']?> - Total Importe Comprobantes: <?php echo $rowPresentacion['sumimpcomprobante'] ?> - Total Imporate Solicitado: <?php echo $rowPresentacion['sumimpsolicitado'] ?></h3>
+	 	<h3>Cantidad: <?php echo $rowPresentacion['cantfactura']?> - Total Importe Comprobantes: <?php echo number_format($rowPresentacion['sumimpcomprobante'],"2",",",".") ?> - Total Imporate Solicitado: <?php echo number_format($rowPresentacion['sumimpsolicitado'],"2",",",".") ?></h3>
 	 	<div class="grilla">
 			 <table>
 			 	<thead>
@@ -51,13 +51,13 @@ $resFactura = mysql_query($sqlFactura);
 			 	<tbody>
 			<?php while ($rowFactura = mysql_fetch_array($resFactura)) { ?>
 					<tr>
-						<td><?php echo $rowFactura['nrocominterno'] ?></td>
+						<td><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
 						<td><?php echo $rowFactura['cuil'] ?></td>
 						<td><?php echo $rowFactura['vtocertificado'] ?></td>
 						<td><?php echo $rowFactura['periodo'] ?></td>
 						<td><?php echo $rowFactura['cuit'] ?></td>
-						<td><?php echo $rowFactura['impcomprobante'] ?></td>
-						<td><?php echo $rowFactura['impsolicitado'] ?></td>
+						<td><?php echo number_format($rowFactura['impcomprobante'],2,",",".") ?></td>
+						<td><?php echo number_format($rowFactura['impsolicitado'],2,",",".") ?></td>
 						<td><?php echo $rowFactura['codpractica'] ?></td>
 						<td><?php echo $rowFactura['cantidad'] ?></td>
 						<td><?php echo $rowFactura['provincia'] ?></td>

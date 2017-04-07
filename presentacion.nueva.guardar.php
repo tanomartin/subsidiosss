@@ -37,11 +37,30 @@ while ($data = fgetcsv ($fp, 1000, ";")) {
     		NULL,NULL,NULL,NULL,NULL,NULL),";
     $sqlInsertFacturas .= $linea;
     $cantFacturas++;
-} 
+}
+
 fclose ($fp);
 $sqlInsertFacturas = substr($sqlInsertFacturas, 0, -1);
 $sqlInsertPresentacion = "INSERT INTO presentacion VALUES(DEFAULT, ".$_POST['idCronograma'].", NULL, NULL,$cantFacturas,$impCompTotal,$impPedido,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL)";
 
+$anio = substr($_POST['carpeta'],0,4);
+$carpetaanio = "archivos/$anio";
+$carpetaGeneracion = "archivos/$anio/".$_POST['carpeta']."/generacion";
+$carpetaResultados= "archivos/$anio/".$_POST['carpeta']."/resultados";
+
+try {
+	if (!file_exists($carpetaanio)) {
+		mkdir($carpetaanio, 0777, true);
+	}
+	mkdir($carpetaGeneracion, 0777, true);
+	mkdir($carpetaResultados, 0777, true);
+	$archivocsv = $carpetaGeneracion."/mi".$_POST['carpeta'].".csv";
+	copy($archivo, $archivocsv);
+} catch (Exception $e) {
+	echo $e->getMessage();
+	exit -1;
+}
+	
 try {
 	$dbh = new PDO("mysql:host=$hostLocal;dbname=$dbname",$usuarioLocal,$claveLocal);
 	$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -53,10 +72,12 @@ try {
 	$dbh->exec($sqlInsertFacturas);
 	
 	$dbh->commit();
+	
 	Header("Location: presentacion.detalle.php?id=$lastId");
 } catch (PDOException $e) {
 	echo $e->getMessage();
 	$dbh->rollback();
+	exit -1;
 }
 
 

@@ -1,13 +1,23 @@
 <?php 
 include_once 'include/conector.php';
 
-$sqlPresentacion = "SELECT p.*, c.periodo, c.carpeta FROM presentacion p, cronograma c WHERE p.idcronograma = c.id ORDER BY p.id";
+$sqlPresentacion = "SELECT p.*, c.periodo, c.carpeta, 
+						DATE_FORMAT(p.fechapresentacion, '%d-%m-%Y') as fechapresentacion, 
+						DATE_FORMAT(p.fechacancelacion, '%d-%m-%Y') as fechacancelacion,
+						DATE_FORMAT(p.fechasubsidio, '%d-%m-%Y') as fechasubsidio,
+						DATE_FORMAT(p.fechadeposito, '%d-%m-%Y') as fechadeposito
+					FROM presentacion p, cronograma c WHERE p.idcronograma = c.id ORDER BY p.id";
 $resPresentacion = mysql_query($sqlPresentacion);
 $canPresentacion = mysql_num_rows($resPresentacion);
 
-$sqlPresentacionAbierta = "SELECT * FROM presentacion c WHERE fechasubsidio is null and fechacancelacion is null";
-$resPresentacionAbierta = mysql_query($sqlPresentacionAbierta);
-$canPresentacionAbierta = mysql_num_rows($resPresentacionAbierta);
+$sqlAPresentar = "SELECT c.*,DATE_FORMAT(c.fechacierre,'%m/%d/%Y') as fechacierre FROM cronograma c WHERE fechacierre >=  CURDATE() LIMIT 1";
+$resAPresentar = mysql_query($sqlAPresentar);
+$rowAPresentar = mysql_fetch_array($resAPresentar);
+
+$sqlPresentacionPeriodo = "SELECT * FROM presentacion c WHERE (fechasubsidio is null and fechacancelacion is null) or (fechasubsidio is not null and idcronograma = ".$rowAPresentar['id'].")";
+$resPresentacionPeriodo  = mysql_query($sqlPresentacionPeriodo);
+$canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -22,7 +32,13 @@ $canPresentacionAbierta = mysql_num_rows($resPresentacionAbierta);
 	<div align="center">
 	 	<p><input type="button" name="volver" value="Volver" onClick="location.href = 'menu.php'" /></p>
 	 	<h2>Presentaciones S.S.S.</h2>
-  <?php if ($canPresentacionAbierta == 0) {?>
+	 	<table border="1" style="text-align: center; margin-bottom: 15px">
+	 		<tr><td><p><b>Periodo:</b> <?php echo $rowAPresentar['periodo']?></p></td></tr>
+	 		<tr><td><p><b>Carpeta:</b> <?php echo $rowAPresentar['carpeta']?></p></td></tr>
+	 		<tr><td><p><b>Fecha de Cierre:</b> <?php echo $rowAPresentar['fechacierre']?></p></td></tr>
+	 		<tr><td><p><b>Periodos Incluidos:</b> <?php echo $rowAPresentar['periodosincluidos']?></p></td></tr>
+	 	</table>
+  <?php if ($canPresentacionPeriodo == 0) {?>
 	 		<p><input type="button" name="nueva" value="Nueva Presentacion" onClick="location.href = 'presentacion.nueva.php'" /></p>
   <?php } 
         if ($canPresentacion > 0) {?>
@@ -52,8 +68,8 @@ $canPresentacionAbierta = mysql_num_rows($resPresentacionAbierta);
 						<td><?php echo $rowPresentacion['periodo'] ?></td>
 						<td><?php echo $rowPresentacion['carpeta'] ?></td>
 						<td><?php echo $rowPresentacion['cantfactura'] ?></td>
-						<td><?php echo $rowPresentacion['sumimpcomprobante'] ?></td>
-						<td><?php echo $rowPresentacion['sumimpsolicitado'] ?></td>
+						<td><?php echo number_format($rowPresentacion['sumimpcomprobante'],2,",",".") ?></td>
+						<td><?php echo number_format($rowPresentacion['sumimpsolicitado'],2,",",".") ?></td>
 						<td><?php echo $rowPresentacion['fechapresentacion'] ?></td>
 						<td><?php echo $rowPresentacion['fechacancelacion'] ?></td>
 						<td><?php echo $rowPresentacion['fechadevformato'] ?></td>
@@ -64,13 +80,14 @@ $canPresentacionAbierta = mysql_num_rows($resPresentacionAbierta);
 				    		 <?php 	if ($rowPresentacion['fechacancelacion'] == NULL) { 
 				    					if ($rowPresentacion['fechapresentacion'] == NULL) { ?>
 											<input type="button" value="Cancelar" onClick="location.href = 'presentacion.cancelar.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-											<input type="button" value="Generar Archivo" onClick="location.href = 'presentacion.generararchivo.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+											<input type="button" value="Generar Archivo" onClick="location.href = 'presentacion.archivo.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 					  		   	  <?php } else { 
 											if ($rowPresentacion['fechadevformato'] == NULL) { ?>
 												<input type="button" value="Cancelar" onClick="location.href = 'presentacion.cancelar.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 												<input type="button" value="Dev. Formato" onClick="location.href = 'presentacion.devformato.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 					  			  	  <?php } else { 
 				      							if ($rowPresentacion['fechasubsidio'] == NULL) { ?>
+				      								<input type="button" value="Cancelar" onClick="location.href = 'presentacion.cancelar.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 				      								<input type="button" value="Dev. Subsidio" onClick="location.href = 'presentacion.devsubsidio.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 				     			 		  <?php } else { 
 				     			 		  			if ($rowPresentacion['fechadeposito'] == NULL) {?>
