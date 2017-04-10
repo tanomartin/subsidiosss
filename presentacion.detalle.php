@@ -30,6 +30,12 @@ $resFactura = mysql_query($sqlFactura);
 	 	<h2>Detalle Presentacio</h2>
 	 	<h3>ID: <?php echo $rowPresentacion['id']?> - PERIODO: <?php echo $rowPresentacion['periodo'] ?> - CARPETA: <?php echo $rowPresentacion['carpeta'] ?></h3>
 	 	<h2>Facturas</h2>
+	 	
+	 	<?php if ($rowPresentacion['fechacancelacion'] != null) {  ?>
+	 		<h3 style="color: red">PRESENTACION CANCELADA</h3>
+	 		<p><b>MOTIVO: </b><?php echo $rowPresentacion['motivocancelacion'] ?></p>
+	 	<?php } ?>
+	 	
 	 	<h3>Cantidad: <?php echo $rowPresentacion['cantfactura']?> - Total Importe Comprobantes: <?php echo number_format($rowPresentacion['sumimpcomprobante'],"2",",",".") ?> - Total Imporate Solicitado: <?php echo number_format($rowPresentacion['sumimpsolicitado'],"2",",",".") ?></h3>
 	 	<div class="grilla">
 			 <table>
@@ -40,12 +46,20 @@ $resFactura = mysql_query($sqlFactura);
 			 			<th>Vto. Certificado</th>
 			 			<th>Periodo</th>
 			 			<th>C.U.I.T.</th>
-			 			<th>Imp. Comprobante</th>
-			 			<th>Imp. Solicitado</th>
+			 			<th>$ Comprobante</th>
+			 			<th>$ Solicitado</th>
 			 			<th>Cod. Practica</th>
 			 			<th>Cantidad</th>
 			 			<th>Provincia</th>
 			 			<th>Dependencia</th>
+			 			<th colspan="2">Resultado Formato</th>
+			 			<th>Resultado Subsidio</th>
+			 		</tr>
+			 		<tr>
+			 			<th colspan="11"></th>
+			 			<th>$ Comprobante</th>
+			 			<th>$ Solicitado</th>
+			 			<th>$</th>	
 			 		</tr>
 			 	</thead>
 			 	<tbody>
@@ -62,6 +76,9 @@ $resFactura = mysql_query($sqlFactura);
 						<td><?php echo $rowFactura['cantidad'] ?></td>
 						<td><?php echo $rowFactura['provincia'] ?></td>
 						<td><?php echo $rowFactura['dependencia'] ?></td>
+						<td><?php if ($rowFactura['impcomprobanteformato'] != null) echo number_format($rowFactura['impcomprobanteformato'],2,",","."); else echo "-"; ?></td>
+						<td><?php if ($rowFactura['impsolicitadoformato'] != null) echo number_format($rowFactura['impsolicitadoformato'],2,",","."); else echo "-"; ?></td>
+						<td><?php if ($rowFactura['montosubsidio'] != null) echo number_format($rowFactura['montosubsidio'],2,",","."); else echo "-";  ?></td>
 					</tr>
 			<?php } ?>
 			  	</tbody>

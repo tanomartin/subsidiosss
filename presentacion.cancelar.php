@@ -22,7 +22,10 @@ $rowPresentacion = mysql_fetch_array($resPresentacion);
 	 	<h3>ID: <?php echo $rowPresentacion['id']?> - PERIODO: <?php echo $rowPresentacion['periodo'] ?> - CARPETA: <?php echo $rowPresentacion['carpeta'] ?></h3>
 	 	<h2>Facturas</h2>
 	 	<h3>Cantidad: <?php echo $rowPresentacion['cantfactura']?> - Total Importe Comprobantes: <?php echo number_format($rowPresentacion['sumimpcomprobante'],"2",",",".") ?> - Total Imporate Solicitado: <?php echo number_format($rowPresentacion['sumimpsolicitado'],"2",",",".") ?></h3>
-		<p><input type="button" name="cancelar" value="Cancelar Presentación" onClick="location.href = 'presentacion.cancelar.guardar.php?id=<?php echo $rowPresentacion['id']?>'" /></p>
+		<form action="presentacion.cancelar.guardar.php?id=<?php echo $rowPresentacion['id']?>" method="post">
+			<p><h3>Montivo</h3><textarea id="motivo" name="motivo" rows="8" cols="70"></textarea></p>
+			<p><input type="submit" name="cancelar" value="Cancelar Presentación" /></p>
+		</form>
 	</div>
 </body>
 </html>
