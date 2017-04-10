@@ -55,6 +55,7 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 			 			<th>Fecha Presentacion</th>
 			 			<th>Fecha Cancelacion</th>
 			 			<th>Fecha Dev. Formato</th>
+			 			<th>Fecha Dev. Integral</th>
 			 			<th>Fecha Dev. Subsidio</th>
 			 			<th>Fecha Deposito</th>
 			 			<th></th>
@@ -73,6 +74,7 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 						<td><?php echo $rowPresentacion['fechapresentacion'] ?></td>
 						<td><?php echo $rowPresentacion['fechacancelacion'] ?></td>
 						<td><?php echo $rowPresentacion['fechadevformato'] ?></td>
+						<td><?php echo $rowPresentacion['fechaintegral'] ?></td>
 						<td><?php echo $rowPresentacion['fechasubsidio'] ?></td>
 						<td><?php echo $rowPresentacion['fechadeposito'] ?></td>
 						<td><input type="button" value="Detalle" onClick="location.href = 'presentacion.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/></td>
@@ -86,14 +88,18 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 												<input type="button" value="Cancelar" onClick="location.href = 'presentacion.cancelar.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 												<input type="button" value="Dev. Formato" onClick="location.href = 'presentacion.devformato.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 					  			  	  <?php } else { 
-				      							if ($rowPresentacion['fechasubsidio'] == NULL) { ?>
-				      								<input type="button" value="Cancelar" onClick="location.href = 'presentacion.cancelar.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-				      								<input type="button" value="Dev. Subsidio" onClick="location.href = 'presentacion.devsubsidio.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-				     			 		  <?php } else { 
-				     			 		  			if ($rowPresentacion['fechadeposito'] == NULL) {?>
-				     									<input type="button" value="Info. Deposito" onClick="location.href = 'presentacion.deposito.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-				     						<?php 	}
-				     			 		  		}
+					  			  	  			if ($rowPresentacion['fechaintegral'] == NULL) { ?>
+					  			  	  				<input type="button" value="Cancelar" onClick="location.href = 'presentacion.cancelar.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+													<input type="button" value="Dev. Integral" onClick="location.href = 'presentacion.devintegral.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+					  			  	  	  <?php } else { 	
+				      								if ($rowPresentacion['fechasubsidio'] == NULL) { ?>
+				      									<input type="button" value="Dev. Subsidio" onClick="location.href = 'presentacion.devsubsidio.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+				     			 		  	  <?php } else { 
+				     			 		  				if ($rowPresentacion['fechadeposito'] == NULL) {?>
+				     										<input type="button" value="Info. Deposito" onClick="location.href = 'presentacion.deposito.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+				     							<?php 	}
+				     			 		  			}
+					  			  	  	  		}
 					  			  	  		}
 					  			  	  	}	
 				      				} ?>
