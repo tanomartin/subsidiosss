@@ -30,15 +30,28 @@ $resFactura = mysql_query($sqlFactura);
 	 	
 	 	<h2>Detalle Presentacio</h2>
 	 	<h3>ID: <?php echo $rowPresentacion['id']?> - PERIODO: <?php echo $rowPresentacion['periodo'] ?> - CARPETA: <?php echo $rowPresentacion['carpeta'] ?></h3>
-	 	
-	 	<h2>Facturas</h2>
-	 	
+	 	 	
 	 	<?php if ($rowPresentacion['fechacancelacion'] != null) {  ?>
 	 		<h3 style="color: red">PRESENTACION CANCELADA</h3>
 	 		<p><b>MOTIVO: </b><?php echo $rowPresentacion['motivocancelacion'] ?></p>
 	 	<?php } ?>
 	 	
-	 	<h3>Cantidad: <?php echo $rowPresentacion['cantfactura']?> - Total Importe Comprobantes: <?php echo number_format($rowPresentacion['sumimpcomprobante'],"2",",",".") ?> - Total Imporate Solicitado: <?php echo number_format($rowPresentacion['sumimpsolicitado'],"2",",",".") ?></h3>
+	 	<h3>[PRESENTACION]</h3><h3>Cantidad: <?php echo $rowPresentacion['cantfactura']?> - Imp. Comprobantes: <?php echo number_format($rowPresentacion['impcomprobantes'],"2",",",".") ?> - Imp. Solicitado: <?php echo number_format($rowPresentacion['impsolicitado'],"2",",",".") ?></h3>
+	 	
+	 	<?php if ($rowPresentacion['fechadevformato'] != null) {  ?>
+	 		<h3>[DEV. FORMATO]</h3>
+	 		<h3>Cantidad OK: <?php echo $rowPresentacion['cantformatook']?> - Imp. Comprobantes: <?php echo number_format($rowPresentacion['impcomprobantesformatook'],"2",",",".") ?> - Imp. Solicitado: <?php echo number_format($rowPresentacion['impsolicitadoformatook'],"2",",",".") ?></h3>
+	 		<h3>Cantidad Rech: <?php echo $rowPresentacion['cantformatonok']?> - Imp. Comprobantes: <?php echo number_format($rowPresentacion['impcomprobantesformatonok'],"2",",",".") ?> - Imp. Solicitado: <?php echo number_format($rowPresentacion['impsolicitadoformatonok'],"2",",",".") ?></h3>
+	 	<?php } ?>
+	 	
+	 	<?php if ($rowPresentacion['fechaintegral'] != null) {  ?>
+	 		<h3>[DEV. INTEGRAL]</h3>
+	 		<h3>Cantidad OK: <?php echo $rowPresentacion['cantintegralok']?> - Imp. Comprobantes: <?php echo number_format($rowPresentacion['impcomprobantesintegralok'],"2",",",".") ?> - Imp. Solicitado: <?php echo number_format($rowPresentacion['impsolicitadointegranlok'],"2",",",".") ?></h3>
+	 		<h3>Cantidad Rech: <?php echo $rowPresentacion['cantintegralnok']?> - Imp. Comprobantes: <?php echo number_format($rowPresentacion['impcomprobantesintegralnok'],"2",",",".") ?> - Imp. Solicitado: <?php echo number_format($rowPresentacion['impsolicitadointegranlnok'],"2",",",".") ?></h3>
+	 	<?php } ?>
+	 	
+	 	<h2>Facturas</h2>
+	 	
 	 	<div class="grilla">
 			 <table>
 			 	<thead>

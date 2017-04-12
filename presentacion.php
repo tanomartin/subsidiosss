@@ -69,8 +69,8 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 						<td><?php echo $rowPresentacion['periodo'] ?></td>
 						<td><?php echo $rowPresentacion['carpeta'] ?></td>
 						<td><?php echo $rowPresentacion['cantfactura'] ?></td>
-						<td><?php echo number_format($rowPresentacion['sumimpcomprobante'],2,",",".") ?></td>
-						<td><?php echo number_format($rowPresentacion['sumimpsolicitado'],2,",",".") ?></td>
+						<td><?php echo number_format($rowPresentacion['impcomprobantes'],2,",",".") ?></td>
+						<td><?php echo number_format($rowPresentacion['impsolicitado'],2,",",".") ?></td>
 						<td><?php echo $rowPresentacion['fechapresentacion'] ?></td>
 						<td><?php echo $rowPresentacion['fechacancelacion'] ?></td>
 						<td><?php echo $rowPresentacion['fechadevformato'] ?></td>

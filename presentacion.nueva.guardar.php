@@ -41,7 +41,7 @@ while ($data = fgetcsv ($fp, 1000, ";")) {
 
 fclose ($fp);
 $sqlInsertFacturas = substr($sqlInsertFacturas, 0, -1);
-$sqlInsertPresentacion = "INSERT INTO presentacion VALUES(DEFAULT, ".$_POST['idCronograma'].", NULL, NULL, NULL,$cantFacturas,$impCompTotal,$impPedido,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL)";
+$sqlInsertPresentacion = "INSERT INTO presentacion VALUES(DEFAULT, ".$_POST['idCronograma'].", NULL, NULL, NULL,$cantFacturas,$impCompTotal,$impPedido,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL)";
 
 $anio = substr($_POST['carpeta'],0,4);
 $carpetaanio = "archivos/$anio";
