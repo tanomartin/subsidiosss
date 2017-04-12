@@ -34,7 +34,7 @@ while ($data = fgetcsv ($fp, 1000, ";")) {
     		".$data['18'].",
     		".$data['19'].",
     		'".$data['20']."',
-    		NULL,NULL,NULL,NULL,NULL,NULL),";
+    		NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),";
     $sqlInsertFacturas .= $linea;
     $cantFacturas++;
 }
@@ -52,8 +52,12 @@ try {
 	if (!file_exists($carpetaanio)) {
 		mkdir($carpetaanio, 0777, true);
 	}
-	mkdir($carpetaGeneracion, 0777, true);
-	mkdir($carpetaResultados, 0777, true);
+	if (!file_exists($carpetaGeneracion)) {
+		mkdir($carpetaGeneracion, 0777, true);
+	}
+	if (!file_exists($carpetaResultados)) {
+		mkdir($carpetaResultados, 0777, true);
+	}
 	$archivocsv = $carpetaGeneracion."/mi".$_POST['carpeta'].".csv";
 	copy($archivo, $archivocsv);
 } catch (Exception $e) {
@@ -69,6 +73,9 @@ try {
 	$dbh->exec($sqlInsertPresentacion);
 	$lastId = $dbh->lastInsertId(); 
 	$sqlInsertFacturas = str_replace("idpres", $lastId, $sqlInsertFacturas);
+	
+	//echo $sqlInsertFacturas."<br>";
+	
 	$dbh->exec($sqlInsertFacturas);
 	
 	$dbh->commit();
