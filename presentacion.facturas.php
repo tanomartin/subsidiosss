@@ -16,7 +16,7 @@ $resFactura = mysql_query($sqlFactura);
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link rel="stylesheet" href="css/tablas.css"/>
-<title>.: Detalle Presentaciones S.S.S. :.</title>
+<title>.: Facturas Presentaciones S.S.S. :.</title>
 
 <style type="text/css" media="print">
 .nover {display:none}
@@ -28,7 +28,7 @@ $resFactura = mysql_query($sqlFactura);
 	<div align="center">
 	 	<p><input class="nover" type="button" name="volver" value="Volver" onClick="location.href = 'presentacion.php'" /></p>
 	 	
-	 	<h2>Detalle Presentacion</h2>
+	 	<h2>Facturas Presentacion</h2>
 	 	<h3>ID: <?php echo $rowPresentacion['id']?> - PERIODO: <?php echo $rowPresentacion['periodo'] ?> - CARPETA: <?php echo $rowPresentacion['carpeta'] ?></h3>
 	 	 	
 	 	<?php if ($rowPresentacion['fechacancelacion'] != null) {  ?>
@@ -57,81 +57,50 @@ $resFactura = mysql_query($sqlFactura);
 			 	<thead>
 			 		<tr>
 			 			<th style="font-size: 11px">Comp. Interno</th>
+			 			<th style="font-size: 11px">Tipo</th>
+			 			<th style="font-size: 11px">Codigo O.S.</th>
 			 			<th style="font-size: 11px">C.U.I.L.</th>
+			 			<th style="font-size: 11px">Cod. Certif.</th>
+			 			<th style="font-size: 11px">Vto. Certif.</th>
 			 			<th style="font-size: 11px">Periodo</th>
 			 			<th style="font-size: 11px">C.U.I.T.</th>
-			 			<th style="font-size: 11px">C.A.E.</th>
+			 			<th style="font-size: 11px">Tipo Comp.</th>
+			 			<th style="font-size: 11px">Tipo Emision</th>
 			 			<th style="font-size: 11px">Fec. Comp.</th>
+			 			<th style="font-size: 11px">C.A.E.</th>
+			 			<th style="font-size: 11px">Pto. Venta</th>
 			 			<th style="font-size: 11px">Num. Comp.</th>
-			 			<th style="font-size: 11px">$ Comprobante</th>
-			 			<th style="font-size: 11px">$ Solicitado</th>
-			 			<th style="font-size: 11px" colspan="2">Resultado Formato</th>
-			 			<th style="font-size: 11px" colspan="2">Resultado Integral</th>
-			 			<th style="font-size: 11px" colspan="2">Resultado Subsidio</th>
-			 		</tr>
-			 		<tr>
-			 			<th style="font-size: 11px" colspan="9"></th>
-			 			<th style="font-size: 11px">$ Comprobante</th>
-			 			<th style="font-size: 11px">$ Solicitado</th>
-			 			<th style="font-size: 11px">$ Comprobante</th>
-			 			<th style="font-size: 11px">$ Solicitado</th>
-			 			<th style="font-size: 11px">$ Solicitado</th>
-			 			<th style="font-size: 11px">$ Subsidiado</th>
+			 			<th style="font-size: 11px">$ Comp.</th>
+			 			<th style="font-size: 11px">$ Soli.</th>
+			 			<th style="font-size: 11px">Cod. Prac.</th>
+			 			<th style="font-size: 11px">Cant.</th>
+			 			<th style="font-size: 11px">Prov.</th>
+			 			<th style="font-size: 11px">Dep.</th>
 			 		</tr>
 			 	</thead>
 			 	<tbody>
 			<?php while ($rowFactura = mysql_fetch_array($resFactura)) { ?>
 					<tr>
 						<td style="font-size: 11px"><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
+						<td style="font-size: 11px"><?php echo $rowFactura['tipoarchivo'] ?></td>
+						<td style="font-size: 11px"><?php echo $rowFactura['codigoob'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['cuil'] ?></td>
+						<td style="font-size: 11px"><?php echo $rowFactura['codcertificado'] ?></td>
+						<td style="font-size: 11px"><?php echo $rowFactura['vtocertificado'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['periodo'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['cuit'] ?></td>
-						<td style="font-size: 11px"><?php echo $rowFactura['cae'] ?></td>
+						<td style="font-size: 11px"><?php echo $rowFactura['tipocomprobante'] ?></td>
+						<td style="font-size: 11px"><?php echo $rowFactura['tipoemision'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['fechacomprobante'] ?></td>
+						<td style="font-size: 11px"><?php echo $rowFactura['cae'] ?></td>
+						<td style="font-size: 11px"><?php echo $rowFactura['puntoventa'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['nrocomprobante'] ?></td>
 						<td style="font-size: 11px"><?php echo number_format($rowFactura['impcomprobante'],2,",",".") ?></td>
 						<td style="font-size: 11px"><?php echo number_format($rowFactura['impsolicitado'],2,",",".") ?></td>
-					<?php if ($rowFactura['deverrorformato'] != null &&  $rowPresentacion['fechadevformato'] != null ) { ?>
-							<td colspan="2" style="font-size: 11px; color: red"><?php  echo "ERROR: ".$rowFactura['deverrorformato'] ?></td>
-					<?php } else { 
-								if ($rowFactura['impcomprobanteformato'] != null && $rowFactura['impsolicitadoformato'] != null) { 
-									$controlComp = $rowFactura['impcomprobanteformato'] - $rowFactura['impcomprobante']; 
-									$controlSoli = $rowFactura['impsolicitadoformato'] - $rowFactura['impsolicitado'];
-									if ($controlComp != 0) $colorComp = 'red'; else $colorComp = '';
-									if ($controlSoli != 0) $colorSoli = 'red'; else $colorSoli = ''; ?>
-									<td style="font-size: 11px; color: <?php echo $colorComp ?>"><?php echo number_format($rowFactura['impcomprobanteformato'],2,",",".") ?></td>
-									<td style="font-size: 11px; color: <?php echo $colorSoli ?>"><?php echo number_format($rowFactura['impsolicitadoformato'],2,",",".") ?></td>
-					<?php 		} else {  ?>
-									<td style="font-size: 11px">-</td>
-									<td style="font-size: 11px">-</td>
-					<?php 		}
-						  }  
-					      if ($rowFactura['deverrorintegral'] != null &&  $rowPresentacion['fechaintegral'] != null) { ?>
-							<td colspan="2" style="font-size: 11px; color: red"><?php  echo "ERROR: ".$rowFactura['deverrorintegral'] ?></td>
-					<?php } else { 
-								if ($rowFactura['impcomprobanteintegral'] != null && $rowFactura['impsolicitadointegral'] != null) { 
-									$controlCompInt = $rowFactura['impcomprobanteintegral'] - $rowFactura['impcomprobante']; 
-									$controlSoliInt = $rowFactura['impsolicitadointegral'] - $rowFactura['impsolicitado'];
-									if ($controlCompInt != 0) $colorCompInt = 'red'; else $colorCompInt = '';
-									if ($controlSoliInt != 0) $colorSoliInt = 'red'; else $colorSoliInt = ''; ?>
-									<td style="font-size: 11px; color: <?php echo $colorCompInt ?>"><?php if ($rowFactura['impcomprobanteintegral'] != null) echo number_format($rowFactura['impcomprobanteintegral'],2,",","."); else echo "-";  ?></td>
-									<td style="font-size: 11px; color: <?php echo $colorSoliInt ?>"><?php if ($rowFactura['impsolicitadointegral'] != null) echo number_format($rowFactura['impsolicitadointegral'],2,",","."); else echo "-";  ?></td>
-					<?php		} else { ?>
-									<td style="font-size: 11px">-</td>
-									<td style="font-size: 11px">-</td>
-					<?php		} 	
-						  }  
-						  if ($rowFactura['deverrorsubsidio'] != null &&  $rowPresentacion['fechasubsidio'] != null) { ?>
-							<td colspan="2" style="font-size: 11px; color: red"><?php  echo "ERROR: ".$rowFactura['deverrorsubsidio'] ?></td>
-					<?php } else { 
-								if ($rowFactura['impsolicitadosubsidio'] != null && $rowFactura['impmontosubsidio'] != null) { ?>
-									<td style="font-size: 11px"><?php if ($rowFactura['impsolicitadosubsidio'] != null) echo number_format($rowFactura['impsolicitadosubsidio'],2,",","."); else echo "-";  ?></td>
-									<td style="font-size: 11px"><?php if ($rowFactura['impmontosubsidio'] != null) echo number_format($rowFactura['impmontosubsidio'],2,",","."); else echo "-";  ?></td>
-					<?php 		} else { ?>
-									<td style="font-size: 11px">-</td>
-									<td style="font-size: 11px">-</td>
-					<?php		}
-						  }?>
+						<td style="font-size: 11px"><?php echo $rowFactura['codpractica'] ?></td>
+						<td style="font-size: 11px"><?php echo $rowFactura['cantidad'] ?></td>
+						<td style="font-size: 11px"><?php echo $rowFactura['provincia'] ?></td>
+						<td style="font-size: 11px"><?php echo $rowFactura['dependencia'] ?></td>
 					</tr>
 			<?php } ?>
 			  	</tbody>

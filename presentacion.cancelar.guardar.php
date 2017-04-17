@@ -15,7 +15,7 @@ $carpetaGeneracion = "archivos/$anio/".$rowPresentacion['carpeta']."/generacion"
 $carpetaResultados= "archivos/$anio/".$rowPresentacion['carpeta']."/resultados";
 
 $arcvivocsv = $carpetaGeneracion."/mi".$rowPresentacion['carpeta'].".csv";
-$arcvivotxt = $carpetaGeneracion."/mi".$rowPresentacion['carpeta'].".txt";
+$arcvivotxt = $carpetaGeneracion."/111001_ds.txt";
 
 try {
 	unlink($arcvivocsv);

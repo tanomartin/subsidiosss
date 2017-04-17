@@ -77,7 +77,10 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 						<td><?php echo $rowPresentacion['fechaintegral'] ?></td>
 						<td><?php echo $rowPresentacion['fechasubsidio'] ?></td>
 						<td><?php echo $rowPresentacion['fechadeposito'] ?></td>
-						<td><input type="button" value="Detalle" onClick="location.href = 'presentacion.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/></td>
+						<td>
+							<input type="button" value="Detalle" onClick="location.href = 'presentacion.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+							<input type="button" value="Facturas" onClick="location.href = 'presentacion.facturas.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+						</td>
 						<td>
 				    		 <?php 	if ($rowPresentacion['fechacancelacion'] == NULL) { 
 				    					if ($rowPresentacion['fechapresentacion'] == NULL) { ?>

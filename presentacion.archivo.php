@@ -10,7 +10,7 @@ $sqlFactura = "SELECT * FROM facturas WHERE idpresentacion = $idPresentacion";
 $resFactura = mysql_query($sqlFactura);
 
 $anio = substr($rowPresentacion['carpeta'],0,4);
-$archivoGeneracion = "archivos/$anio/".$rowPresentacion['carpeta']."/generacion/mi".$rowPresentacion['carpeta'].".txt";
+$archivoGeneracion = "archivos/$anio/".$rowPresentacion['carpeta']."/generacion/111001_ds.txt";
 
 $file = fopen($archivoGeneracion, "w");
 while ($rowFactura = mysql_fetch_array($resFactura)) {
