@@ -33,7 +33,7 @@ while ($data = fgetcsv ($fp, 1000, ";")) {
     		".$data['18'].",
     		".$data['19'].",
     		'".strtoupper($data['20'])."',
-    		NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL)";
+    		NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL)";
     $sqlInsertFacturas[$cantFacturas] = $linea;
     $cantFacturas++;
 }

@@ -121,17 +121,15 @@ $resFactura = mysql_query($sqlFactura);
 									<td style="font-size: 11px">-</td>
 					<?php		} 	
 						  }  
-						  if ($rowFactura['deverrorsubsidio'] != null &&  $rowPresentacion['fechasubsidio'] != null) { ?>
-							<td colspan="2" style="font-size: 11px; color: red"><?php  echo "ERROR: ".$rowFactura['deverrorsubsidio'] ?></td>
-					<?php } else { 
+						  if ($rowPresentacion['fechasubsidio'] != null) { 
 								if ($rowFactura['impsolicitadosubsidio'] != null && $rowFactura['impmontosubsidio'] != null) { ?>
 									<td style="font-size: 11px"><?php if ($rowFactura['impsolicitadosubsidio'] != null) echo number_format($rowFactura['impsolicitadosubsidio'],2,",","."); else echo "-";  ?></td>
 									<td style="font-size: 11px"><?php if ($rowFactura['impmontosubsidio'] != null) echo number_format($rowFactura['impmontosubsidio'],2,",","."); else echo "-";  ?></td>
-					<?php 		} else { ?>
-									<td style="font-size: 11px">-</td>
-									<td style="font-size: 11px">-</td>
-					<?php		}
-						  }?>
+					<?php 		} 
+						  } else { ?>
+								<td style="font-size: 11px">-</td>
+								<td style="font-size: 11px">-</td>
+					<?php }?>
 					</tr>
 			<?php } ?>
 			  	</tbody>
