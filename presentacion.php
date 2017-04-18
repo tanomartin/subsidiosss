@@ -10,7 +10,7 @@ $sqlPresentacion = "SELECT p.*, c.periodo, c.carpeta,
 $resPresentacion = mysql_query($sqlPresentacion);
 $canPresentacion = mysql_num_rows($resPresentacion);
 
-$sqlAPresentar = "SELECT c.*,DATE_FORMAT(c.fechacierre,'%m/%d/%Y') as fechacierre FROM cronograma c WHERE fechacierre >=  CURDATE() LIMIT 1";
+$sqlAPresentar = "SELECT c.*,DATE_FORMAT(c.fechacierre,'%d/%m/%Y') as fechacierre FROM cronograma c WHERE fechacierre >=  CURDATE() LIMIT 1";
 $resAPresentar = mysql_query($sqlAPresentar);
 $rowAPresentar = mysql_fetch_array($resAPresentar);
 
@@ -58,7 +58,7 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 			 			<th>Fecha Dev. Integral</th>
 			 			<th>Fecha Dev. Subsidio</th>
 			 			<th>Fecha Deposito</th>
-			 			<th></th>
+			 			<th>Informacion</th>
 			 			<th>Acciones</th>
 			 		</tr>
 			 	</thead>
@@ -80,8 +80,11 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 						<td>
 							<input type="button" value="Detalle" onClick="location.href = 'presentacion.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 							<input type="button" value="Facturas" onClick="location.href = 'presentacion.facturas.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-					<?php	if ($rowPresentacion['fechaintegral'] == NULL) { ?>
+					<?php	if ($rowPresentacion['fechadevformato'] != NULL) { ?>
 								<input type="button" value="Errores Formato" onClick="location.href = 'presentacion.erroresformato.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+					<?php   } ?>
+					<?php	if ($rowPresentacion['fechaintegral'] != NULL) { ?>
+								<input type="button" value="Errores Integral" onClick="location.href = 'presentacion.erroresintegral.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 					<?php   } ?>
 						</td>
 						<td>

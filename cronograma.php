@@ -1,6 +1,6 @@
 <?php 
 include_once 'include/conector.php';
-$sqlCronograma = "SELECT c.*,DATE_FORMAT(c.fechacierre,'%m/%d/%Y') as fechacierre FROM cronograma c ORDER By carpeta DESC";
+$sqlCronograma = "SELECT c.*,DATE_FORMAT(c.fechacierre,'%d/%m/%Y') as fechacierre FROM cronograma c ORDER By carpeta DESC";
 $resCronograma = mysql_query($sqlCronograma);
 
 ?>
