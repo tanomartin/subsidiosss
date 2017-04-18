@@ -27,8 +27,8 @@ if ($archivook != null) {
 			$sumsoliok += $importeSolicitado;
 			
 			$arrayUpdate[$indexUpdate] = "UPDATE facturas SET impcomprobanteformato = $importeComprobante, impsolicitadoformato = $importeSolicitado
-												WHERE idpresentacion = $idPresentacion and cuil = '".$arraylinea[2]."' and periodo =  '".$arraylinea[5]."' and
-													  cuit = '".$arraylinea[6]."' and tipocomprobante = ".(int)$arraylinea[7]." and tipoemision = '".$arraylinea[8]."' and
+												WHERE idpresentacion = $idPresentacion and cuil = '".(double)$arraylinea[2]."' and periodo =  '".$arraylinea[5]."' and
+													  cuit = '".(double)$arraylinea[6]."' and tipocomprobante = ".(int)$arraylinea[7]." and tipoemision = '".$arraylinea[8]."' and
 													  fechacomprobante = '".$arraylinea[9]."' and cae = '".trim($arraylinea[10])."' and puntoventa = ".(int)$arraylinea[11]." and
 													  nrocomprobante = '".(int)$arraylinea[12]."'";
 			$indexUpdate++;
@@ -52,8 +52,8 @@ if ($archivoerror != null) {
 			$sumsolinok += $importeSolicitado;
 			
 			$arrayUpdate[$indexUpdate] = "UPDATE facturas SET deverrorformato = '".$arraylinea[19]."'
-												WHERE idpresentacion = $idPresentacion and cuil = '".$arraylinea[2]."' and periodo =  '".$arraylinea[5]."' and
-													  cuit = '".$arraylinea[6]."' and tipocomprobante = ".(int)$arraylinea[7]." and tipoemision = '".$arraylinea[8]."' and
+												WHERE idpresentacion = $idPresentacion and cuil = '".(double) $arraylinea[2]."' and periodo =  '".$arraylinea[5]."' and
+													  cuit = '".(double)$arraylinea[6]."' and tipocomprobante = ".(int)$arraylinea[7]." and tipoemision = '".$arraylinea[8]."' and
 													  fechacomprobante = '".$arraylinea[9]."' and cae = '".trim($arraylinea[10])."' and puntoventa = ".(int)$arraylinea[11]." and
 													  nrocomprobante = '".(int)$arraylinea[12]."'";
 			$indexUpdate++;
