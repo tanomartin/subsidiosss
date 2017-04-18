@@ -80,6 +80,9 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 						<td>
 							<input type="button" value="Detalle" onClick="location.href = 'presentacion.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 							<input type="button" value="Facturas" onClick="location.href = 'presentacion.facturas.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+					<?php	if ($rowPresentacion['fechaintegral'] == NULL) { ?>
+								<input type="button" value="Errores Formato" onClick="location.href = 'presentacion.erroresformato.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+					<?php   } ?>
 						</td>
 						<td>
 				    		 <?php 	if ($rowPresentacion['fechacancelacion'] == NULL) { 
