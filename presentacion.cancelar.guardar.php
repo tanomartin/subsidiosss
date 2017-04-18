@@ -16,10 +16,14 @@ $carpetaResultados= "archivos/$anio/".$rowPresentacion['carpeta']."/resultados";
 
 $arcvivocsv = $carpetaGeneracion."/mi".$rowPresentacion['carpeta'].".csv";
 $arcvivotxt = $carpetaGeneracion."/111001_ds.txt";
+$archivook = $carpetaResultados."/111001-".$rowPresentacion['carpeta']."_ds.ok";
+$archivoerr = $carpetaResultados."/111001-".$rowPresentacion['carpeta']."_ds.err";
 
 try {
-	unlink($arcvivocsv);
-	unlink($arcvivotxt);
+	if (file_exists($arcvivocsv)){ unlink($arcvivocsv); }
+	if (file_exists($arcvivotxt)){ unlink($arcvivotxt); }
+	if (file_exists($archivook)){ unlink($archivook); }
+	if (file_exists($archivoerr)){ unlink($archivoerr); }
 } catch (Exception $e) {
 	echo $e->getMessage();
 	exit -1;
