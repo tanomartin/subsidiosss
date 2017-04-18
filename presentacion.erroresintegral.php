@@ -36,30 +36,9 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 	<div align="center">
 	 	<p><input class="nover" type="button" name="volver" value="Volver" onClick="location.href = 'presentacion.php'" /></p>
 	 	
-	 	<h2>Detalle Errores Integral</h2>
-	 	<h3>ID: <?php echo $rowPresentacion['id']?> - PERIODO: <?php echo $rowPresentacion['periodo'] ?> - CARPETA: <?php echo $rowPresentacion['carpeta'] ?></h3>
-	 	 	
-	 	<?php if ($rowPresentacion['fechacancelacion'] != null) {  ?>
-	 		<h3 style="color: red">PRESENTACION CANCELADA</h3>
-	 		<p><b>MOTIVO: </b><?php echo $rowPresentacion['motivocancelacion'] ?></p>
-	 	<?php } ?>
-	 	
-	 	<h3>[PRESENTACION]</h3><h3>Cantidad: <?php echo $rowPresentacion['cantfactura']?> - Imp. Comprobantes: <?php echo number_format($rowPresentacion['impcomprobantes'],"2",",",".") ?> - Imp. Solicitado: <?php echo number_format($rowPresentacion['impsolicitado'],"2",",",".") ?></h3>
-	 	
-	 	<?php if ($rowPresentacion['fechadevformato'] != null) {  ?>
-	 		<h3>[DEV. FORMATO]</h3>
-	 		<h3>Cantidad OK: <?php echo $rowPresentacion['cantformatook']?> - Imp. Comprobantes: <?php echo number_format($rowPresentacion['impcomprobantesformatook'],"2",",",".") ?> - Imp. Solicitado: <?php echo number_format($rowPresentacion['impsolicitadoformatook'],"2",",",".") ?></h3>
-	 		<h3>Cantidad Rech: <?php echo $rowPresentacion['cantformatonok']?> - Imp. Comprobantes: <?php echo number_format($rowPresentacion['impcomprobantesformatonok'],"2",",",".") ?> - Imp. Solicitado: <?php echo number_format($rowPresentacion['impsolicitadoformatonok'],"2",",",".") ?></h3>
-	 	<?php } ?>
-	 	
-	 	<?php if ($rowPresentacion['fechaintegral'] != null) {  ?>
-	 		<h3>[DEV. INTEGRAL]</h3>
-	 		<h3>Cantidad OK: <?php echo $rowPresentacion['cantintegralok']?> - Imp. Comprobantes: <?php echo number_format($rowPresentacion['impcomprobantesintegralok'],"2",",",".") ?> - Imp. Solicitado: <?php echo number_format($rowPresentacion['impsolicitadointegranlok'],"2",",",".") ?></h3>
-	 		<h3>Cantidad Rech: <?php echo $rowPresentacion['cantintegralnok']?> - Imp. Comprobantes: <?php echo number_format($rowPresentacion['impcomprobantesintegralnok'],"2",",",".") ?> - Imp. Solicitado: <?php echo number_format($rowPresentacion['impsolicitadointegranlnok'],"2",",",".") ?></h3>
-	 	<?php } ?>
+	 	<?php include_once("include/detallePresentacion.php")?>
 	 	
 	 	<?php if ($rowPresentacion['cantintegralnok']!=0) {?>
-	 	
 	 	<h2>Facturas</h2>
 	 	
 	 	<div class="grilla">
@@ -105,7 +84,7 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 			</table>
 			</div>
 			<?php } else { ?>
-			
+				<h2 style="color: blue">No existen errores integrales en esta presentación</h2>
 			<?php } ?>
 		
 		<p><input class="nover" type="button" name="imprimir" value="Imprimir" onclick="window.print();"></p>

@@ -13,22 +13,20 @@ $rowPresentacion = mysql_fetch_array($resPresentacion);
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 
-<title>.: Devolucion Integral S.S.S. :.</title>
+<title>.: Devolucion Subsidio S.S.S. :.</title>
 </head>
 
 <body bgcolor="#CCCCCC">
 	<div align="center">
 	 	<p><input type="button" name="volver" value="Volver" onClick="location.href = 'presentacion.php'" /></p>
-	 	<h2>Devolucion Integral S.S.S.</h2>
+	 	<h2>Devolucion Subsidio S.S.S.</h2>
 	 	<h2>Detalle Presentacio</h2>
 	 	<h3>ID: <?php echo $rowPresentacion['id']?> - PERIODO: <?php echo $rowPresentacion['periodo'] ?> - CARPETA: <?php echo $rowPresentacion['carpeta'] ?></h3>
-	 	<form  action="presentacion.devintegral.guardar.php" enctype="multipart/form-data" method="post">
+	 	<form  action="presentacion.devsubsidio.guardar.php" enctype="multipart/form-data" method="post">
  			<input style="display: none" type="text" name="id" id="id" value="<?php echo $rowPresentacion['id']?>" />
- 			<h3>Cargar Archivo Integral OK</h3>
- 			<p><input type="file" name="archivook" id="archivook" accept=".DEVOK" /></p>
- 			<h3>Cargar Archivo Integral ERROR</h3>
- 			<p><input type="file" name="archivoerror" id="archivoerror" accept=".DEVERR" /></p>
- 			<p><input type="submit" name="importar"  value="Cargar Devolucion Integral"/></p>
+ 			<h3>Cargar Archivo Subsidio</h3>
+ 			<p><input type="file" name="archivo" id="archivo" accept=".SUBSIDIO" /></p>
+ 			<p><input type="submit" name="importar"  value="Cargar Subsidio"/></p>
  		</form>
 	</div>
 </body>

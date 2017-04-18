@@ -78,8 +78,8 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 						<td><?php echo $rowPresentacion['fechasubsidio'] ?></td>
 						<td><?php echo $rowPresentacion['fechadeposito'] ?></td>
 						<td>
-							<input type="button" value="Detalle" onClick="location.href = 'presentacion.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 							<input type="button" value="Facturas" onClick="location.href = 'presentacion.facturas.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+							<input type="button" value="Detalle Presentacion" onClick="location.href = 'presentacion.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 					<?php	if ($rowPresentacion['fechadevformato'] != NULL) { ?>
 								<input type="button" value="Errores Formato" onClick="location.href = 'presentacion.erroresformato.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 					<?php   } ?>
