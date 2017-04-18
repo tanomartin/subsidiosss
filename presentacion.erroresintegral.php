@@ -7,10 +7,10 @@ $sqlPresentacion = "SELECT p.*, c.periodo, c.carpeta FROM presentacion p, cronog
 $resPresentacion = mysql_query($sqlPresentacion);
 $rowPresentacion = mysql_fetch_array($resPresentacion);
 
-$sqlFactura = "SELECT * FROM facturas WHERE idpresentacion = $idPresentacion and deverrorformato is not null";
+$sqlFactura = "SELECT * FROM facturas WHERE idpresentacion = $idPresentacion and deverrorintegral is not null";
 $resFactura = mysql_query($sqlFactura);
 
-$sqlErrores = "SELECT * FROM errorsss WHERE id < 400";
+$sqlErrores = "SELECT * FROM errorsss WHERE id > 390";
 $resErrores = mysql_query($sqlErrores);
 $arrayErrores = array();
 while ($rowErrores = mysql_fetch_array($resErrores)) {
@@ -24,7 +24,7 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link rel="stylesheet" href="css/tablas.css"/>
-<title>.: Detalle Errores Formato S.S.S. :.</title>
+<title>.: Detalle Errores Integral S.S.S. :.</title>
 
 <style type="text/css" media="print">
 .nover {display:none}
@@ -36,7 +36,7 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 	<div align="center">
 	 	<p><input class="nover" type="button" name="volver" value="Volver" onClick="location.href = 'presentacion.php'" /></p>
 	 	
-	 	<h2>Detalle Errores Formato</h2>
+	 	<h2>Detalle Errores Integral</h2>
 	 	<h3>ID: <?php echo $rowPresentacion['id']?> - PERIODO: <?php echo $rowPresentacion['periodo'] ?> - CARPETA: <?php echo $rowPresentacion['carpeta'] ?></h3>
 	 	 	
 	 	<?php if ($rowPresentacion['fechacancelacion'] != null) {  ?>
@@ -58,8 +58,8 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 	 		<h3>Cantidad Rech: <?php echo $rowPresentacion['cantintegralnok']?> - Imp. Comprobantes: <?php echo number_format($rowPresentacion['impcomprobantesintegralnok'],"2",",",".") ?> - Imp. Solicitado: <?php echo number_format($rowPresentacion['impsolicitadointegranlnok'],"2",",",".") ?></h3>
 	 	<?php } ?>
 	 	
+	 	<?php if ($rowPresentacion['cantintegralnok']!=0) {?>
 	 	
-	 	<?php if ($rowPresentacion['cantformatonok']!=0) { ?>
 	 	<h2>Facturas</h2>
 	 	
 	 	<div class="grilla">
@@ -75,7 +75,7 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 			 			<th style="font-size: 11px">Num. Comp.</th>
 			 			<th style="font-size: 11px">$ Comprobante</th>
 			 			<th style="font-size: 11px">$ Solicitado</th>
-			 			<th style="font-size: 11px">FORMATO ERROR</th>
+			 			<th style="font-size: 11px">INTEGRAL ERROR</th>
 			 		</tr>
 			 	</thead>
 			 	<tbody>
@@ -91,7 +91,7 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 						<td style="font-size: 11px"><?php echo number_format($rowFactura['impcomprobante'],2,",",".") ?></td>
 						<td style="font-size: 11px"><?php echo number_format($rowFactura['impsolicitado'],2,",",".") ?></td>
 				 		<td style="font-size: 11px; color: red">
-				  <?php $explodeErrores = explode("-",$rowFactura['deverrorformato']);
+				  <?php $explodeErrores = explode("-",$rowFactura['deverrorintegral']);
 						foreach ($explodeErrores as $error) {
 							if ($error != "") {
 								$error = (int) $error;
@@ -104,9 +104,10 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 			  	</tbody>
 			</table>
 			</div>
-		<?php } else { ?>
-			<h2 style="color: blue">No existen errores integrales en esta presentación</h2>
-		<?php }?>
+			<?php } else { ?>
+			
+			<?php } ?>
+		
 		<p><input class="nover" type="button" name="imprimir" value="Imprimir" onclick="window.print();"></p>
 	</div>
 </body>

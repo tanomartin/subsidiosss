@@ -9,6 +9,17 @@ $rowPresentacion = mysql_fetch_array($resPresentacion);
 $archivook = $_FILES['archivook']['tmp_name'];
 $archivoerror = $_FILES['archivoerror']['tmp_name'];
 
+$anio = substr($rowPresentacion['carpeta'],0,4);
+$carpetaResultados= "archivos/$anio/".$rowPresentacion['carpeta']."/resultados";
+try {
+	$archivodestinook = $carpetaResultados."/".$_FILES['archivook']['name'];
+	$archivodestinoerr = $carpetaResultados."/".$_FILES['archivoerror']['name'];
+	copy($archivook, $archivodestinook);
+	copy($archivoerror, $archivodestinoerr);
+} catch (Exception $e) {
+	echo $e->getMessage();
+	exit -1;
+}
 
 $arrayUpdate = array();
 $indexUpdate = 0;
