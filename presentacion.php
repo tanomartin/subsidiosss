@@ -106,12 +106,16 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 				     			 		  	  <?php } else { 
 				     			 		  				if ($rowPresentacion['fechadeposito'] == NULL) {?>
 				     										<input type="button" value="Info. Deposito" onClick="location.href = 'presentacion.deposito.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-				     							<?php 	}
-				     			 		  			}
+				     							<?php 	} else {  ?>
+				     										<font color="blue">FINALIZADA</font>	
+				     			 		  		<?php	} 
+				     			 		 			}
 					  			  	  	  		}
 					  			  	  		}
 					  			  	  	}	
-				      				} ?>
+				      				} else { ?>
+				      					<font color="red">CANCELADA</font>	
+				     			<?php  } ?>
 						</td>
 					</tr>
 			 <?php 	}  ?>
