@@ -92,8 +92,8 @@ $resFactura = mysql_query($sqlFactura);
 							<td colspan="2" style="font-size: 11px; color: red"><?php  echo "ERROR: ".$rowFactura['deverrorintegral'] ?></td>
 					<?php } else { 
 								if ($rowFactura['impcomprobanteintegral'] != null && $rowFactura['impsolicitadointegral'] != null) { 
-									$controlCompInt = $rowFactura['impcomprobanteintegral'] - $rowFactura['impcomprobante']; 
-									$controlSoliInt = $rowFactura['impsolicitadointegral'] - $rowFactura['impsolicitado'];
+									$controlCompInt = $rowFactura['impcomprobanteintegral'] - $rowFactura['impcomprobanteformato']; 
+									$controlSoliInt = $rowFactura['impsolicitadointegral'] - $rowFactura['impsolicitadoformato'];
 									if ($controlCompInt != 0) $colorCompInt = 'red'; else $colorCompInt = '';
 									if ($controlSoliInt != 0) $colorSoliInt = 'red'; else $colorSoliInt = ''; ?>
 									<td style="font-size: 11px; color: <?php echo $colorCompInt ?>"><?php if ($rowFactura['impcomprobanteintegral'] != null) echo number_format($rowFactura['impcomprobanteintegral'],2,",","."); else echo "-";  ?></td>
