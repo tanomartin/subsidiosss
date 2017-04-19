@@ -18,7 +18,7 @@ $rowPresentacion = mysql_fetch_array($resPresentacion);
 	<div align="center">
 	 	<p><input type="button" name="volver" value="Volver" onClick="location.href = 'presentacion.php'" /></p>
 	 	<h2>Confirmación de Cancelación de Presentacion</h2>
-	 	<h2>Detalle Presentacio</h2>
+	 	<h2>Detalle Presentacion</h2>
 	 	<h3>ID: <?php echo $rowPresentacion['id']?> - PERIODO: <?php echo $rowPresentacion['periodo'] ?> - CARPETA: <?php echo $rowPresentacion['carpeta'] ?></h3>
 	 	<h2>Facturas</h2>
 	 	<h3>Cantidad: <?php echo $rowPresentacion['cantfactura']?> - Total Importe Comprobantes: <?php echo number_format($rowPresentacion['impcomprobantes'],"2",",",".") ?> - Total Imporate Solicitado: <?php echo number_format($rowPresentacion['impsolicitado'],"2",",",".") ?></h3>

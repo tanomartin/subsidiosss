@@ -48,38 +48,38 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 			 <table>
 			 	<thead>
 			 		<tr>
-			 			<th>Id</th>
-			 			<th>Periodo</th>
-			 			<th>Carpeta</th>
-			 			<th>Facturas</th>
-			 			<th>Monto Comprobante</th>
-			 			<th>Monto Pedido</th>
-			 			<th>Fecha Presentacion</th>
-			 			<th>Fecha Cancelacion</th>
-			 			<th>Fecha Dev. Formato</th>
-			 			<th>Fecha Dev. Integral</th>
-			 			<th>Fecha Dev. Subsidio</th>
-			 			<th>Fecha Deposito</th>
-			 			<th>Informacion</th>
-			 			<th>Acciones</th>
+			 			<th style="font-size: 11px">Id</th>
+			 			<th style="font-size: 11px">Periodo</th>
+			 			<th style="font-size: 11px">Carpeta</th>
+			 			<th style="font-size: 11px">Facturas</th>
+			 			<th style="font-size: 11px">Monto Comprobante</th>
+			 			<th style="font-size: 11px">Monto Pedido</th>
+			 			<th style="font-size: 11px">Fecha Presentacion</th>
+			 			<th style="font-size: 11px">Fecha Cancelacion</th>
+			 			<th style="font-size: 11px">Fecha Dev. Formato</th>
+			 			<th style="font-size: 11px">Fecha Dev. Integral</th>
+			 			<th style="font-size: 11px">Fecha Dev. Subsidio</th>
+			 			<th style="font-size: 11px">Fecha Deposito</th>
+			 			<th style="font-size: 11px">Informacion</th>
+			 			<th style="font-size: 11px">Acciones</th>
 			 		</tr>
 			 	</thead>
 			 	<tbody>
 			<?php while ($rowPresentacion = mysql_fetch_array($resPresentacion)) { ?>
 					<tr>
-						<td><?php echo $rowPresentacion['id'] ?></td>
-						<td><?php echo $rowPresentacion['periodo'] ?></td>
-						<td><?php echo $rowPresentacion['carpeta'] ?></td>
-						<td><?php echo $rowPresentacion['cantfactura'] ?></td>
-						<td><?php echo number_format($rowPresentacion['impcomprobantes'],2,",",".") ?></td>
-						<td><?php echo number_format($rowPresentacion['impsolicitado'],2,",",".") ?></td>
-						<td><?php echo $rowPresentacion['fechapresentacion'] ?></td>
-						<td><?php echo $rowPresentacion['fechacancelacion'] ?></td>
-						<td><?php echo $rowPresentacion['fechadevformato'] ?></td>
-						<td><?php echo $rowPresentacion['fechaintegral'] ?></td>
-						<td><?php echo $rowPresentacion['fechasubsidio'] ?></td>
-						<td><?php echo $rowPresentacion['fechadeposito'] ?></td>
-						<td>
+						<td style="font-size: 11px"><?php echo $rowPresentacion['id'] ?></td>
+						<td style="font-size: 11px"><?php echo $rowPresentacion['periodo'] ?></td>
+						<td style="font-size: 11px"><?php echo $rowPresentacion['carpeta'] ?></td>
+						<td style="font-size: 11px"><?php echo $rowPresentacion['cantfactura'] ?></td>
+						<td style="font-size: 11px"><?php echo number_format($rowPresentacion['impcomprobantes'],2,",",".") ?></td>
+						<td style="font-size: 11px"><?php echo number_format($rowPresentacion['impsolicitado'],2,",",".") ?></td>
+						<td style="font-size: 11px"><?php echo $rowPresentacion['fechapresentacion'] ?></td>
+						<td style="font-size: 11px"><?php echo $rowPresentacion['fechacancelacion'] ?></td>
+						<td style="font-size: 11px"><?php echo $rowPresentacion['fechadevformato'] ?></td>
+						<td style="font-size: 11px"><?php echo $rowPresentacion['fechaintegral'] ?></td>
+						<td style="font-size: 11px"><?php echo $rowPresentacion['fechasubsidio'] ?></td>
+						<td style="font-size: 11px"><?php echo $rowPresentacion['fechadeposito'] ?></td>
+						<td style="font-size: 11px">
 							<input type="button" value="Facturas" onClick="location.href = 'presentacion.facturas.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 							<input type="button" value="Detalle" onClick="location.href = 'presentacion.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 					<?php	if ($rowPresentacion['fechadevformato'] != NULL) { ?>

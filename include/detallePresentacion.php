@@ -28,5 +28,5 @@
 	 	
 		<?php if ($rowPresentacion['fechadeposito'] != null) {  ?>
 	 		<h3>[INFO. DEPOSITO]</h3>
-	 		<h3>Imp. Depositdo: <?php echo number_format($rowPresentacion['montodepositado'],"2",",",".") ?></h3>
+	 		<h3>Imp. Depositado: <?php echo number_format($rowPresentacion['montodepositado'],"2",",",".") ?></h3>
 	 	<?php } ?>
