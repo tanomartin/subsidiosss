@@ -4,6 +4,8 @@ include_once 'include/conector.php';
 $sqlPresentacion = "SELECT p.*, c.periodo, c.carpeta, 
 						DATE_FORMAT(p.fechapresentacion, '%d-%m-%Y') as fechapresentacion, 
 						DATE_FORMAT(p.fechacancelacion, '%d-%m-%Y') as fechacancelacion,
+						DATE_FORMAT(p.fechadevformato, '%d-%m-%Y') as fechadevformato,
+						DATE_FORMAT(p.fechaintegral, '%d-%m-%Y') as fechaintegral,
 						DATE_FORMAT(p.fechasubsidio, '%d-%m-%Y') as fechasubsidio,
 						DATE_FORMAT(p.fechadeposito, '%d-%m-%Y') as fechadeposito
 					FROM presentacion p, cronograma c WHERE p.idcronograma = c.id ORDER BY p.id";
@@ -79,12 +81,12 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 						<td><?php echo $rowPresentacion['fechadeposito'] ?></td>
 						<td>
 							<input type="button" value="Facturas" onClick="location.href = 'presentacion.facturas.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-							<input type="button" value="Detalle Presentacion" onClick="location.href = 'presentacion.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+							<input type="button" value="Detalle" onClick="location.href = 'presentacion.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 					<?php	if ($rowPresentacion['fechadevformato'] != NULL) { ?>
-								<input type="button" value="Errores Formato" onClick="location.href = 'presentacion.erroresformato.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+								<input type="button" value="Err. Formato" onClick="location.href = 'presentacion.erroresformato.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 					<?php   } ?>
 					<?php	if ($rowPresentacion['fechaintegral'] != NULL) { ?>
-								<input type="button" value="Errores Integral" onClick="location.href = 'presentacion.erroresintegral.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+								<input type="button" value="Err. Integral" onClick="location.href = 'presentacion.erroresintegral.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 					<?php   } ?>
 						</td>
 						<td>
@@ -95,17 +97,18 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 					  		   	  <?php } else { 
 											if ($rowPresentacion['fechadevformato'] == NULL) { ?>
 												<input type="button" value="Cancelar" onClick="location.href = 'presentacion.cancelar.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-												<input type="button" value="Dev. Formato" onClick="location.href = 'presentacion.devformato.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+												<input type="button" value="Formato" onClick="location.href = 'presentacion.devformato.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 					  			  	  <?php } else { 
 					  			  	  			if ($rowPresentacion['fechaintegral'] == NULL) { ?>
 					  			  	  				<input type="button" value="Cancelar" onClick="location.href = 'presentacion.cancelar.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-													<input type="button" value="Dev. Integral" onClick="location.href = 'presentacion.devintegral.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+													<input type="button" value="Integral" onClick="location.href = 'presentacion.devintegral.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 					  			  	  	  <?php } else { 	
 				      								if ($rowPresentacion['fechasubsidio'] == NULL) { ?>
-				      									<input type="button" value="Dev. Subsidio" onClick="location.href = 'presentacion.devsubsidio.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+				      									<input type="button" value="Cancelar" onClick="location.href = 'presentacion.cancelar.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+				      									<input type="button" value="Subsidio" onClick="location.href = 'presentacion.devsubsidio.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 				     			 		  	  <?php } else { 
 				     			 		  				if ($rowPresentacion['fechadeposito'] == NULL) {?>
-				     										<input type="button" value="Info. Deposito" onClick="location.href = 'presentacion.deposito.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+				     										<input type="button" value="Deposito" onClick="location.href = 'presentacion.deposito.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 				     							<?php 	} else {  ?>
 				     										<font color="blue">FINALIZADA</font>	
 				     			 		  		<?php	} 

@@ -22,5 +22,6 @@
 	 	
 	 	<?php if ($rowPresentacion['fechasubsidio'] != null) {  ?>
 	 		<h3>[DEV. SUBSIDIO]</h3>
+	 		<h3>Num. Liquidacion: <?php echo $rowPresentacion['numliquidacion'] ?></h3>
 	 		<h3>Imp. Solicitado: <?php echo number_format($rowPresentacion['impsolicitadosubsidio'],"2",",",".") ?> - Imp. Subsidiado: <?php echo number_format($rowPresentacion['montosubsidio'],"2",",",".") ?></h3>
 	 	<?php } ?>

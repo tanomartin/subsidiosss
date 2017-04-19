@@ -7,7 +7,7 @@ $sqlPresentacion = "SELECT p.*, c.periodo, c.carpeta FROM presentacion p, cronog
 $resPresentacion = mysql_query($sqlPresentacion);
 $rowPresentacion = mysql_fetch_array($resPresentacion);
 
-$sqlFactura = "SELECT * FROM facturas WHERE idpresentacion = $idPresentacion";
+$sqlFactura = "SELECT * FROM facturas WHERE idpresentacion = $idPresentacion order by cuil, periodo, codpractica";
 $resFactura = mysql_query($sqlFactura);
 ?>
 
@@ -43,19 +43,19 @@ $resFactura = mysql_query($sqlFactura);
 			 			<th style="font-size: 11px">C.A.E.</th>
 			 			<th style="font-size: 11px">Fec. Comp.</th>
 			 			<th style="font-size: 11px">Num. Comp.</th>
+			 			<th style="font-size: 11px">Cod. Prac.</th>
 			 			<th style="font-size: 11px">$ Comprobante</th>
 			 			<th style="font-size: 11px">$ Solicitado</th>
 			 			<th style="font-size: 11px" colspan="2">Resultado Formato</th>
 			 			<th style="font-size: 11px" colspan="2">Resultado Integral</th>
-			 			<th style="font-size: 11px" colspan="3">Resultado Subsidio</th>
+			 			<th style="font-size: 11px" colspan="2">Resultado Subsidio</th>
 			 		</tr>
 			 		<tr>
-			 			<th style="font-size: 11px" colspan="9"></th>
+			 			<th style="font-size: 11px" colspan="10"></th>
 			 			<th style="font-size: 11px">$ Comprobante</th>
 			 			<th style="font-size: 11px">$ Solicitado</th>
 			 			<th style="font-size: 11px">$ Comprobante</th>
 			 			<th style="font-size: 11px">$ Solicitado</th>
-			 			<th style="font-size: 11px">Num. Liquidacion</th>
 			 			<th style="font-size: 11px">$ Solicitado</th>
 			 			<th style="font-size: 11px">$ Subsidiado</th>
 			 		</tr>
@@ -70,6 +70,7 @@ $resFactura = mysql_query($sqlFactura);
 						<td style="font-size: 11px"><?php echo $rowFactura['cae'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['fechacomprobante'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['nrocomprobante'] ?></td>
+						<td style="font-size: 11px"><?php echo $rowFactura['codpractica'] ?></td>
 						<td style="font-size: 11px"><?php echo number_format($rowFactura['impcomprobante'],2,",",".") ?></td>
 						<td style="font-size: 11px"><?php echo number_format($rowFactura['impsolicitado'],2,",",".") ?></td>
 					<?php if ($rowFactura['deverrorformato'] != null &&  $rowPresentacion['fechadevformato'] != null ) { ?>
@@ -103,12 +104,16 @@ $resFactura = mysql_query($sqlFactura);
 					<?php		} 	
 						  }  
 						  if ($rowPresentacion['fechasubsidio'] != null) { 
-								if ($rowFactura['impsolicitadosubsidio'] != null && $rowFactura['impmontosubsidio'] != null) { ?>
+								if ($rowFactura['impsolicitadosubsidio'] != null && $rowFactura['impmontosubsidio'] != null) { 
+									$controlMontoSub = $rowFactura['impsolicitadosubsidio'] - $rowFactura['impmontosubsidio'];
+									if ($controlMontoSub != 0) $colorMontInt = 'red'; else $colorMontInt = ''; ?>
 									<td style="font-size: 11px"><?php if ($rowFactura['impsolicitadosubsidio'] != null) echo number_format($rowFactura['impsolicitadosubsidio'],2,",","."); else echo "-";  ?></td>
-									<td style="font-size: 11px"><?php if ($rowFactura['impmontosubsidio'] != null) echo number_format($rowFactura['impmontosubsidio'],2,",","."); else echo "-";  ?></td>
-					<?php 		} 
+									<td style="font-size: 11px; color: <?php echo $colorMontInt ?>""><?php if ($rowFactura['impmontosubsidio'] != null) echo number_format($rowFactura['impmontosubsidio'],2,",","."); else echo "-";  ?></td>
+					<?php 		} else { ?>
+									<td style="font-size: 11px">-</td>
+									<td style="font-size: 11px">-</td>
+						  <?php } 
 						  } else { ?>
-								<td style="font-size: 11px">-</td>
 								<td style="font-size: 11px">-</td>
 								<td style="font-size: 11px">-</td>
 					<?php }?>
