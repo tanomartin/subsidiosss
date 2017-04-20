@@ -82,10 +82,10 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 						<td style="font-size: 11px">
 							<input type="button" value="Facturas" onClick="location.href = 'presentacion.facturas.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 							<input type="button" value="Detalle" onClick="location.href = 'presentacion.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-					<?php	if ($rowPresentacion['fechadevformato'] != NULL) { ?>
+					<?php	if ($rowPresentacion['fechadevformato'] != NULL && $rowPresentacion['cantformatonok'] != 0) { ?>
 								<input type="button" value="Err. Formato" onClick="location.href = 'presentacion.erroresformato.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 					<?php   } ?>
-					<?php	if ($rowPresentacion['fechaintegral'] != NULL) { ?>
+					<?php	if ($rowPresentacion['fechaintegral'] != NULL && $rowPresentacion['cantintegralnok'] != 0) { ?>
 								<input type="button" value="Err. Integral" onClick="location.href = 'presentacion.erroresintegral.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 					<?php   } ?>
 						</td>

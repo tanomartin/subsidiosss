@@ -83,6 +83,7 @@ try {
 	
 	Header("Location: presentacion.detalle.php?id=$lastId");
 } catch (PDOException $e) {
+	echo $sqlinsert."<br>";
 	echo $e->getMessage();
 	$dbh->rollback();
 	exit -1;
