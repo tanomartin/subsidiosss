@@ -18,12 +18,16 @@ $arcvivocsv = $carpetaGeneracion."/mi".$rowPresentacion['carpeta'].".csv";
 $arcvivotxt = $carpetaGeneracion."/111001_ds.txt";
 $archivook = $carpetaResultados."/111001-".$rowPresentacion['carpeta']."_ds.ok";
 $archivoerr = $carpetaResultados."/111001-".$rowPresentacion['carpeta']."_ds.err";
+$archivointok = $carpetaResultados."/111001-".$rowPresentacion['carpeta']."_DS.DEVERR";
+$archivointerr = $carpetaResultados."/111001-".$rowPresentacion['carpeta']."_DS.DEVOK";
 
 try {
 	if (file_exists($arcvivocsv)){ unlink($arcvivocsv); }
 	if (file_exists($arcvivotxt)){ unlink($arcvivotxt); }
 	if (file_exists($archivook)){ unlink($archivook); }
 	if (file_exists($archivoerr)){ unlink($archivoerr); }
+	if (file_exists($archivointok)){ unlink($archivointok); }
+	if (file_exists($archivointerr)){ unlink($archivointerr); }
 } catch (Exception $e) {
 	echo $e->getMessage();
 	exit -1;
