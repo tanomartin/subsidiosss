@@ -36,10 +36,11 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 	<div align="center">
 	 	<p><input class="nover" type="button" name="volver" value="Volver" onClick="location.href = 'presentacion.php'" /></p>
 	 	
-	 	<?php include_once("include/detallePresentacion.php")?>
+	 	<h2>Detalle Presentacion</h2>
+	 	<h3>ID: <?php echo $rowPresentacion['id']?> - PERIODO: <?php echo $rowPresentacion['periodo'] ?> - CARPETA: <?php echo $rowPresentacion['carpeta'] ?></h3>
 	 	
 	 	<?php if ($rowPresentacion['cantformatonok']!=0) { ?>
-	 	<h2>Facturas</h2>
+	 	<h2>Errores Formato</h2>
 	 	
 	 	<div class="grilla">
 			 <table>
