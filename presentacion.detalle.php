@@ -72,6 +72,7 @@ $resFactura = mysql_query($sqlFactura);
 			 	<thead>
 			 		<tr>
 			 			<th style="font-size: 11px">Comp. Interno</th>
+			 			<th style="font-size: 11px">Tipo</th>
 			 			<th style="font-size: 11px">C.U.I.L.</th>
 			 			<th style="font-size: 11px">Periodo</th>
 			 			<th style="font-size: 11px">C.U.I.T.</th>
@@ -86,7 +87,7 @@ $resFactura = mysql_query($sqlFactura);
 			 			<th style="font-size: 11px" colspan="2">Resultado Subsidio</th>
 			 		</tr>
 			 		<tr>
-			 			<th style="font-size: 11px" colspan="10"></th>
+			 			<th style="font-size: 11px" colspan="11"></th>
 			 			<th style="font-size: 11px">$ Comprobante</th>
 			 			<th style="font-size: 11px">$ Solicitado</th>
 			 			<th style="font-size: 11px">$ Comprobante</th>
@@ -99,6 +100,7 @@ $resFactura = mysql_query($sqlFactura);
 			<?php while ($rowFactura = mysql_fetch_array($resFactura)) { ?>
 					<tr>
 						<td style="font-size: 11px"><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
+						<td style="font-size: 11px"><?php echo $rowFactura['tipoarchivo'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['cuil'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['periodo'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['cuit'] ?></td>
