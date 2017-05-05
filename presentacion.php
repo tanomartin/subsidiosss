@@ -31,11 +31,10 @@ $sqlAPresentar = "SELECT c.*,DATE_FORMAT(c.fechacierre,'%d/%m/%Y') as fechacierr
 $resAPresentar = mysql_query($sqlAPresentar);
 $rowAPresentar = mysql_fetch_array($resAPresentar);
 
-$sqlPresentacionPeriodo = "SELECT * FROM presentacion c, presentacionsubsidio s
-							WHERE 
-								c.id = s.id and
-								((fechasubsidio is null and fechacancelacion is null) or 
-								(fechasubsidio is not null and idcronograma = ".$rowAPresentar['id']."))";
+$sqlPresentacionPeriodo = "SELECT *
+							FROM presentacion p
+							LEFT JOIN presentacionsubsidio on p.id = presentacionsubsidio.id
+							WHERE p.fechacancelacion is null and presentacionsubsidio.fechasubsidio is null";
 $resPresentacionPeriodo  = mysql_query($sqlPresentacionPeriodo);
 $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 

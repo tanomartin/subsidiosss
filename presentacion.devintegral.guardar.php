@@ -2,7 +2,21 @@
 include_once 'include/conector.php';
 
 $idPresentacion = $_POST['id'];
-$sqlPresentacion = "SELECT p.*, c.periodo, c.carpeta FROM presentacion p, cronograma c WHERE p.id = $idPresentacion and p.idcronograma = c.id";
+$sqlPresentacion = "SELECT
+p.id,
+DATE_FORMAT(p.fechapresentacion, '%d-%m-%Y') as fechapresentacion,
+DATE_FORMAT(p.fechacancelacion, '%d-%m-%Y') as fechacancelacion,
+p.motivocancelacion,
+p.cantfactura,
+p.impcomprobantes,
+p.impsolicitado ,
+cronograma.periodo,
+cronograma.carpeta,
+presentacionformato.cantformatook
+FROM presentacion p
+INNER JOIN cronograma on p.idcronograma = cronograma.id
+LEFT JOIN presentacionformato on p.id = presentacionformato.id
+WHERE p.id = $idPresentacion";
 $resPresentacion = mysql_query($sqlPresentacion);
 $rowPresentacion = mysql_fetch_array($resPresentacion);
 
