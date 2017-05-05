@@ -21,8 +21,8 @@ try {
 	$dbh->commit();
 	Header("Location: presentacion.detalle.php?id=$idPresentacion");
 } catch (PDOException $e) {
-	echo $e->getMessage();
-	$dbh->rollback();
+	$redire = "Location: presentacion.error.php?id=$idPresentacion&page='Detalle Deposito'&error=".$e->getMessage();
+	Header($redire);
 }
 
 ?>

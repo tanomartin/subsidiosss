@@ -2,8 +2,42 @@
 include_once 'include/conector.php';
 
 $idPresentacion = $_GET['id'];
-
-$sqlPresentacion = "SELECT p.*, c.periodo, c.carpeta FROM presentacion p, cronograma c WHERE p.id = $idPresentacion and p.idcronograma = c.id";
+$sqlPresentacion = "SELECT 
+						p.id,
+						DATE_FORMAT(p.fechapresentacion, '%d-%m-%Y') as fechapresentacion,
+						DATE_FORMAT(p.fechacancelacion, '%d-%m-%Y') as fechacancelacion,
+						p.motivocancelacion,
+						p.cantfactura, 
+						p.impcomprobantes, 
+						p.impsolicitado , 
+						cronograma.periodo, 
+						cronograma.carpeta,
+						DATE_FORMAT(presentacionformato.fechadevformato, '%d-%m-%Y') as fechadevformato,
+						presentacionformato.cantformatook,
+						presentacionformato.impcomprobantesformatook,
+						presentacionformato.impsolicitadoformatook,
+						presentacionformato.cantformatonok,
+						presentacionformato.impcomprobantesformatonok,
+						presentacionformato.impsolicitadoformatonok,
+						DATE_FORMAT(presentacionintegral.fechaintegral, '%d-%m-%Y') as fechaintegral,
+						presentacionintegral.cantintegralok,
+						presentacionintegral.impcomprobantesintegralok,
+						presentacionintegral.impsolicitadointegranlok,
+						presentacionintegral.cantintegralnok,
+						presentacionintegral.impcomprobantesintegralnok,
+						presentacionintegral.impsolicitadointegranlnok,
+						DATE_FORMAT(presentacionsubsidio.fechasubsidio, '%d-%m-%Y') as fechasubsidio,
+						presentacionsubsidio.numliquidacion,
+						presentacionsubsidio.impsolicitadosubsidio,
+						presentacionsubsidio.montosubsidio,
+						DATE_FORMAT(p.fechadeposito, '%d-%m-%Y') as fechadeposito,
+						p.montodepositado
+					FROM presentacion p
+          			INNER JOIN cronograma on p.idcronograma = cronograma.id
+				  	LEFT JOIN presentacionformato on p.id = presentacionformato.id
+          			LEFT JOIN presentacionintegral on p.id = presentacionintegral.id
+          			LEFT JOIN presentacionsubsidio on p.id = presentacionsubsidio.id
+					WHERE p.id = $idPresentacion";
 $resPresentacion = mysql_query($sqlPresentacion);
 $rowPresentacion = mysql_fetch_array($resPresentacion);
 
@@ -29,6 +63,7 @@ $resFactura = mysql_query($sqlFactura);
 	 	<p><input class="nover" type="button" name="volver" value="Volver" onClick="location.href = 'presentacion.php'" /></p>
 	 	
 	 	<?php include_once("include/detallePresentacion.php")?>
+	 	<?php include_once("include/detalleDevolucion.php")?>
 	 	
 	 	<h2>Facturas</h2>
 	 	

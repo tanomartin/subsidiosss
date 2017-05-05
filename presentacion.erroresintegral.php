@@ -3,7 +3,19 @@ include_once 'include/conector.php';
 
 $idPresentacion = $_GET['id'];
 
-$sqlPresentacion = "SELECT p.*, c.periodo, c.carpeta FROM presentacion p, cronograma c WHERE p.id = $idPresentacion and p.idcronograma = c.id";
+$sqlPresentacion = "SELECT 
+						p.id,
+						DATE_FORMAT(p.fechapresentacion, '%d-%m-%Y') as fechapresentacion,
+						DATE_FORMAT(p.fechacancelacion, '%d-%m-%Y') as fechacancelacion,
+						p.motivocancelacion,
+						p.cantfactura, 
+						p.impcomprobantes, 
+						p.impsolicitado , 
+						cronograma.periodo, 
+						cronograma.carpeta
+					FROM presentacion p
+          			INNER JOIN cronograma on p.idcronograma = cronograma.id
+					WHERE p.id = $idPresentacion";
 $resPresentacion = mysql_query($sqlPresentacion);
 $rowPresentacion = mysql_fetch_array($resPresentacion);
 
@@ -36,11 +48,8 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 	<div align="center">
 	 	<p><input class="nover" type="button" name="volver" value="Volver" onClick="location.href = 'presentacion.php'" /></p>
 	 	
-	 	<h2>Detalle Presentacion</h2>
-	 	<h3>ID: <?php echo $rowPresentacion['id']?> - PERIODO: <?php echo $rowPresentacion['periodo'] ?> - CARPETA: <?php echo $rowPresentacion['carpeta'] ?></h3>
-	 
+	 	<?php include_once("include/detallePresentacion.php")?>
 	 	
-	 	<?php if ($rowPresentacion['cantintegralnok']!=0) {?>
 	 	<h2>Errores Integrales</h2>
 	 	
 	 	<div class="grilla">
@@ -85,9 +94,6 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 			  	</tbody>
 			</table>
 			</div>
-			<?php } else { ?>
-				<h2 style="color: blue">No existen errores integrales en esta presentación</h2>
-			<?php } ?>
 		
 		<p><input class="nover" type="button" name="imprimir" value="Imprimir" onclick="window.print();"></p>
 	</div>

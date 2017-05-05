@@ -40,7 +40,7 @@ while ($data = fgetcsv ($fp, 1000, ";")) {
 
 fclose ($fp);
 //$sqlInsertFacturas = substr($sqlInsertFacturas, 0, -1);
-$sqlInsertPresentacion = "INSERT INTO presentacion VALUES(DEFAULT, ".$_POST['idCronograma'].", NULL, NULL, NULL,$cantFacturas,$impCompTotal,$impPedido,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL)";
+$sqlInsertPresentacion = "INSERT INTO presentacion VALUES(DEFAULT, ".$_POST['idCronograma'].", NULL, NULL, NULL,$cantFacturas,$impCompTotal,$impPedido,NULL,NULL)";
 
 $anio = substr($_POST['carpeta'],0,4);
 $carpetaanio = "archivos/$anio";
@@ -83,10 +83,10 @@ try {
 	
 	Header("Location: presentacion.detalle.php?id=$lastId");
 } catch (PDOException $e) {
-	echo $sqlinsert."<br>";
-	echo $e->getMessage();
 	$dbh->rollback();
-	exit -1;
+	$error = $e->getMessage()." (INSERT: ".$sqlinsert.")";
+	$redire = "Location: presentacion.error.php?id=$idPresentacion&page='Nueva Presentacion'&error=$error";
+	Header($redire);
 }
 
 

@@ -17,7 +17,8 @@ try {
 	copy($archivook, $archivodestinook);
 	copy($archivoerror, $archivodestinoerr);
 } catch (Exception $e) {
-	echo $e->getMessage();
+	$redire = "Location: presentacion.error.php?id=$idPresentacion&page='Dev. Integral'&error=".$e->getMessage();
+	Header($redire);
 	exit -1;
 }
 
@@ -73,16 +74,7 @@ if ($archivoerror != null) {
 	fclose($fpnok);
 }
 $contadornok = sizeof($arrayUpdate) - $contadorok;
-$sqlUpdatePresentacion = "UPDATE presentacion 
-							SET fechaintegral = CURDATE(), 
-								cantintegralok = $contadorok, 
-								impcomprobantesintegralok = $sumcompok,
-								impsolicitadointegranlok = $sumsoliok,
-								cantintegralnok = $contadornok,
-								impcomprobantesintegralnok = $sumcompnok,
-								impsolicitadointegranlnok = $sumsolinok
-							WHERE id = $idPresentacion";
-
+$sqlInsertPresentacionIntegral= "INSERT INTO presentacionintegral VALUES($idPresentacion,CURDATE(),$contadorok,$sumcompok,$sumsoliok,$contadornok,$sumcompnok,$sumsolinok)"; 
 $total = $contadorok + $contadornok;
 if ($total == $rowPresentacion['cantformatook']) {
 	try {
@@ -95,16 +87,18 @@ if ($total == $rowPresentacion['cantformatook']) {
 			$dbh->exec($sqlUpdate);
 		}
 		
-		//echo $sqlUpdatePresentacion."<br>";
-		$dbh->exec($sqlUpdatePresentacion);
+		//echo $sqlInsertPresentacionIntegral."<br>";
+		$dbh->exec($sqlInsertPresentacionIntegral);
 		$dbh->commit();
 		Header("Location: presentacion.detalle.php?id=$idPresentacion");
 	} catch (PDOException $e) {
-		echo $e->getMessage();
 		$dbh->rollback();
+		$redire = "Location: presentacion.error.php?id=$idPresentacion&page='Dev. Integral'&error=".$e->getMessage();
+		Header($redire);
 	}
 } else {
-	echo "NO CUADRA";
+	$redire = "Location: presentacion.error.php?id=$idPresentacion&page='Dev. Integral'&error='No coninciden la cantidad de facturas'";
+	Header($redire);
 }
 
 ?>

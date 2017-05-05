@@ -1,22 +1,41 @@
 <?php 
 include_once 'include/conector.php';
 
-$sqlPresentacion = "SELECT p.*, c.periodo, c.carpeta, 
-						DATE_FORMAT(p.fechapresentacion, '%d-%m-%Y') as fechapresentacion, 
+$sqlPresentacion = "SELECT 
+						p.id,
+						DATE_FORMAT(p.fechapresentacion, '%d-%m-%Y') as fechapresentacion,
 						DATE_FORMAT(p.fechacancelacion, '%d-%m-%Y') as fechacancelacion,
-						DATE_FORMAT(p.fechadevformato, '%d-%m-%Y') as fechadevformato,
-						DATE_FORMAT(p.fechaintegral, '%d-%m-%Y') as fechaintegral,
-						DATE_FORMAT(p.fechasubsidio, '%d-%m-%Y') as fechasubsidio,
+						p.cantfactura, 
+						p.impcomprobantes, 
+						p.impsolicitado , 
+						cronograma.periodo, 
+						cronograma.carpeta,
+						DATE_FORMAT(presentacionformato.fechadevformato, '%d-%m-%Y') as fechadevformato,
+						presentacionformato.cantformatonok,
+						DATE_FORMAT(presentacionintegral.fechaintegral, '%d-%m-%Y') as fechaintegral,
+						presentacionintegral.cantintegralnok,
+						DATE_FORMAT(presentacionsubsidio.fechasubsidio, '%d-%m-%Y') as fechasubsidio,
 						DATE_FORMAT(p.fechadeposito, '%d-%m-%Y') as fechadeposito
-					FROM presentacion p, cronograma c WHERE p.idcronograma = c.id ORDER BY p.id";
+					FROM presentacion p
+          			INNER JOIN cronograma on p.idcronograma = cronograma.id
+				  	LEFT JOIN presentacionformato on p.id = presentacionformato.id
+          			LEFT JOIN presentacionintegral on p.id = presentacionintegral.id
+          			LEFT JOIN presentacionsubsidio on p.id = presentacionsubsidio.id
+					ORDER BY p.id";
 $resPresentacion = mysql_query($sqlPresentacion);
 $canPresentacion = mysql_num_rows($resPresentacion);
 
-$sqlAPresentar = "SELECT c.*,DATE_FORMAT(c.fechacierre,'%d/%m/%Y') as fechacierre FROM cronograma c WHERE fechacierre >=  CURDATE() LIMIT 1";
+$sqlAPresentar = "SELECT c.*,DATE_FORMAT(c.fechacierre,'%d/%m/%Y') as fechacierre 
+					FROM cronograma c 
+					WHERE fechacierre >=  CURDATE() LIMIT 1";
 $resAPresentar = mysql_query($sqlAPresentar);
 $rowAPresentar = mysql_fetch_array($resAPresentar);
 
-$sqlPresentacionPeriodo = "SELECT * FROM presentacion c WHERE (fechasubsidio is null and fechacancelacion is null) or (fechasubsidio is not null and idcronograma = ".$rowAPresentar['id'].")";
+$sqlPresentacionPeriodo = "SELECT * FROM presentacion c, presentacionsubsidio s
+							WHERE 
+								c.id = s.id and
+								((fechasubsidio is null and fechacancelacion is null) or 
+								(fechasubsidio is not null and idcronograma = ".$rowAPresentar['id']."))";
 $resPresentacionPeriodo  = mysql_query($sqlPresentacionPeriodo);
 $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 
@@ -52,8 +71,8 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 			 			<th style="font-size: 11px">Periodo</th>
 			 			<th style="font-size: 11px">Carpeta</th>
 			 			<th style="font-size: 11px">Facturas</th>
-			 			<th style="font-size: 11px">Monto Comprobante</th>
-			 			<th style="font-size: 11px">Monto Pedido</th>
+			 			<th style="font-size: 11px" colspan="2">Credito</th>
+			 			<th style="font-size: 11px" colspan="2">Debito</th>
 			 			<th style="font-size: 11px">Fecha Presentacion</th>
 			 			<th style="font-size: 11px">Fecha Cancelacion</th>
 			 			<th style="font-size: 11px">Fecha Dev. Formato</th>
@@ -62,6 +81,14 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 			 			<th style="font-size: 11px">Fecha Deposito</th>
 			 			<th style="font-size: 11px">Informacion</th>
 			 			<th style="font-size: 11px">Acciones</th>
+			 		</tr>
+			 		<tr>
+			 			<th style="font-size: 11px" colspan="4"></th>
+			 			<th style="font-size: 11px">$ Comprobante</th>
+			 			<th style="font-size: 11px">$ Solicitado</th>
+			 			<th style="font-size: 11px">$ Comprobante</th>
+			 			<th style="font-size: 11px">$ Solicitado</th>
+			 			<th style="font-size: 11px" colspan="8"></th>
 			 		</tr>
 			 	</thead>
 			 	<tbody>
@@ -73,6 +100,8 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 						<td style="font-size: 11px"><?php echo $rowPresentacion['cantfactura'] ?></td>
 						<td style="font-size: 11px"><?php echo number_format($rowPresentacion['impcomprobantes'],2,",",".") ?></td>
 						<td style="font-size: 11px"><?php echo number_format($rowPresentacion['impsolicitado'],2,",",".") ?></td>
+						<td style="font-size: 11px"></td>
+						<td style="font-size: 11px"></td>
 						<td style="font-size: 11px"><?php echo $rowPresentacion['fechapresentacion'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowPresentacion['fechacancelacion'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowPresentacion['fechadevformato'] ?></td>
@@ -110,14 +139,14 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 				     			 		  				if ($rowPresentacion['fechadeposito'] == NULL) {?>
 				     										<input type="button" value="Deposito" onClick="location.href = 'presentacion.deposito.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 				     							<?php 	} else {  ?>
-				     										<font color="blue">FINALIZADA</font>	
+				     										<font color="blue" size="2px">FINALIZADA</font>	
 				     			 		  		<?php	} 
 				     			 		 			}
 					  			  	  	  		}
 					  			  	  		}
 					  			  	  	}	
 				      				} else { ?>
-				      					<font color="red">CANCELADA</font>	
+				      					<font color="red" size="2px">CANCELADA</font>	
 				     			<?php  } ?>
 						</td>
 					</tr>

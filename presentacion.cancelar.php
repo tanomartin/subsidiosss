@@ -2,7 +2,19 @@
 include_once 'include/conector.php';
 
 $idPresentacion = $_GET['id'];
-$sqlPresentacion = "SELECT p.*, c.periodo, c.carpeta FROM presentacion p, cronograma c WHERE p.id = $idPresentacion and p.idcronograma = c.id";
+$sqlPresentacion = "SELECT
+p.id,
+DATE_FORMAT(p.fechapresentacion, '%d-%m-%Y') as fechapresentacion,
+DATE_FORMAT(p.fechacancelacion, '%d-%m-%Y') as fechacancelacion,
+p.motivocancelacion,
+p.cantfactura,
+p.impcomprobantes,
+p.impsolicitado ,
+cronograma.periodo,
+cronograma.carpeta
+FROM presentacion p
+INNER JOIN cronograma on p.idcronograma = cronograma.id
+WHERE p.id = $idPresentacion";
 $resPresentacion = mysql_query($sqlPresentacion);
 $rowPresentacion = mysql_fetch_array($resPresentacion);
 ?>
@@ -18,11 +30,8 @@ $rowPresentacion = mysql_fetch_array($resPresentacion);
 	<div align="center">
 	 	<p><input type="button" name="volver" value="Volver" onClick="location.href = 'presentacion.php'" /></p>
 	 	<h2>Confirmación de Cancelación de Presentacion</h2>
-	 	<h2>Detalle Presentacion</h2>
-	 	<h3>ID: <?php echo $rowPresentacion['id']?> - PERIODO: <?php echo $rowPresentacion['periodo'] ?> - CARPETA: <?php echo $rowPresentacion['carpeta'] ?></h3>
-	 	<h2>Facturas</h2>
-	 	<h3>Cantidad: <?php echo $rowPresentacion['cantfactura']?> - Total Importe Comprobantes: <?php echo number_format($rowPresentacion['impcomprobantes'],"2",",",".") ?> - Total Imporate Solicitado: <?php echo number_format($rowPresentacion['impsolicitado'],"2",",",".") ?></h3>
-		<form action="presentacion.cancelar.guardar.php?id=<?php echo $rowPresentacion['id']?>" method="post">
+	 		<?php include_once("include/detallePresentacion.php")?>
+	 		<form action="presentacion.cancelar.guardar.php?id=<?php echo $rowPresentacion['id']?>" method="post">
 			<p><h3>Montivo</h3><textarea id="motivo" name="motivo" rows="8" cols="70"></textarea></p>
 			<p><input type="submit" name="cancelar" value="Cancelar Presentación" /></p>
 		</form>

@@ -14,7 +14,8 @@ try {
 	$archivodestino = $carpetaResultados."/".$_FILES['archivo']['name'];
 	copy($archivo, $archivodestino);
 } catch (Exception $e) {
-	echo $e->getMessage();
+	$redire = "Location: presentacion.error.php?id=$idPresentacion&page='Dev. Subsidio'&error=".$e->getMessage();
+	Header($redire);
 	exit -1;
 }
 
@@ -60,12 +61,15 @@ while(!feof($fpok)) {
 					} else {
 						$montoNuevo = (float) $rowSelectFactura['impsolicitadointegral'] + $montoSubsidioRestante;
 						$montoNuevo = round($montoNuevo, 2);
+						if ($montoNuevo < 0) { $montoNuevo = 0; }
 						$arrayUpdate[$indexUpdate] = "UPDATE facturas SET impsolicitadosubsidio = ".(float) $rowSelectFactura['impsolicitadointegral'].", impmontosubsidio = ".(float) $montoNuevo." WHERE nrocominterno = ".$rowSelectFactura['nrocominterno']. " and idpresentacion = $idPresentacion and deverrorformato is null and deverrorintegral is null";;
 						$indexUpdate++;
 					}
 				}
 			} else {
-				echo "PROBLEMAS<br>";
+				$error = "No se encontro la facutra. CONSULTA: $sqlSelectFactura";
+				$redire = "Location: presentacion.error.php?id=$idPresentacion&page='Dev. Subsidio'&error=$error";
+				Header($redire);
 				exit -1;
 			}
 		}
@@ -73,12 +77,7 @@ while(!feof($fpok)) {
 }
 fclose($fpok);
 
-$sqlUpdatePresentacion = "UPDATE presentacion
-							SET fechasubsidio = CURDATE(),
-								numliquidacion = '$numliqui',
-								impsolicitadosubsidio = $sumsoli,
-								montosubsidio = $summonto
-							WHERE id = $idPresentacion";
+$sqlInsertPresentacionSubsidio = "INSERT INTO presentacionsubsidio VALUES($idPresentacion, CURDATE(),'$numliqui',$sumsoli,$summonto)";
 
 try {
 	$dbh = new PDO("mysql:host=$hostLocal;dbname=$dbname",$usuarioLocal,$claveLocal);
@@ -90,12 +89,13 @@ try {
 		$dbh->exec($sqlUpdate);
 	}
 
-	//echo $sqlUpdatePresentacion."<br>";
-	$dbh->exec($sqlUpdatePresentacion);
+	//echo $sqlInsertPresentacionSubsidio."<br>";
+	$dbh->exec($sqlInsertPresentacionSubsidio);
 	$dbh->commit();
 	Header("Location: presentacion.detalle.php?id=$idPresentacion");
 } catch (PDOException $e) {
-	echo $e->getMessage();
 	$dbh->rollback();
+	$redire = "Location: presentacion.error.php?id=$idPresentacion&page='Dev. Subsidio'&error=".$e->getMessage();
+	Header($redire);
 }
 ?>
