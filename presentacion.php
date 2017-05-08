@@ -21,7 +21,7 @@ $sqlPresentacion = "SELECT
 				  	LEFT JOIN presentacionformato on p.id = presentacionformato.id
           			LEFT JOIN presentacionintegral on p.id = presentacionintegral.id
           			LEFT JOIN presentacionsubsidio on p.id = presentacionsubsidio.id
-					ORDER BY p.id";
+					ORDER BY p.id DESC";
 $resPresentacion = mysql_query($sqlPresentacion);
 $canPresentacion = mysql_num_rows($resPresentacion);
 
@@ -52,12 +52,6 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 	<div align="center">
 	 	<p><input type="button" name="volver" value="Volver" onClick="location.href = 'menu.php'" /></p>
 	 	<h2>Presentaciones S.S.S.</h2>
-	 	<table border="1" style="text-align: center; margin-bottom: 15px">
-	 		<tr><td><p><b>Periodo:</b> <?php echo $rowAPresentar['periodo']?></p></td></tr>
-	 		<tr><td><p><b>Carpeta:</b> <?php echo $rowAPresentar['carpeta']?></p></td></tr>
-	 		<tr><td><p><b>Fecha de Cierre:</b> <?php echo $rowAPresentar['fechacierre']?></p></td></tr>
-	 		<tr><td><p><b>Periodos Incluidos:</b> <?php echo $rowAPresentar['periodosincluidos']?></p></td></tr>
-	 	</table>
   <?php if ($canPresentacionPeriodo == 0) {?>
 	 		<p><input type="button" name="nueva" value="Nueva Presentacion" onClick="location.href = 'presentacion.nueva.php'" /></p>
   <?php } 
@@ -71,7 +65,6 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 			 			<th style="font-size: 11px">Carpeta</th>
 			 			<th style="font-size: 11px">Facturas</th>
 			 			<th style="font-size: 11px" colspan="2">Credito</th>
-			 			<th style="font-size: 11px" colspan="2">Debito</th>
 			 			<th style="font-size: 11px">Fecha Presentacion</th>
 			 			<th style="font-size: 11px">Fecha Cancelacion</th>
 			 			<th style="font-size: 11px">Fecha Dev. Formato</th>
@@ -79,15 +72,14 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 			 			<th style="font-size: 11px">Fecha Dev. Subsidio</th>
 			 			<th style="font-size: 11px">Fecha Deposito</th>
 			 			<th style="font-size: 11px">Informacion</th>
+			 			<th style="font-size: 11px">Errores</th>
 			 			<th style="font-size: 11px">Acciones</th>
 			 		</tr>
 			 		<tr>
 			 			<th style="font-size: 11px" colspan="4"></th>
 			 			<th style="font-size: 11px">$ Comprobante</th>
 			 			<th style="font-size: 11px">$ Solicitado</th>
-			 			<th style="font-size: 11px">$ Comprobante</th>
-			 			<th style="font-size: 11px">$ Solicitado</th>
-			 			<th style="font-size: 11px" colspan="8"></th>
+			 			<th style="font-size: 11px" colspan="9"></th>
 			 		</tr>
 			 	</thead>
 			 	<tbody>
@@ -99,8 +91,6 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 						<td style="font-size: 11px"><?php echo $rowPresentacion['cantfactura'] ?></td>
 						<td style="font-size: 11px"><?php echo number_format($rowPresentacion['impcomprobantes'],2,",",".") ?></td>
 						<td style="font-size: 11px"><?php echo number_format($rowPresentacion['impsolicitado'],2,",",".") ?></td>
-						<td style="font-size: 11px"></td>
-						<td style="font-size: 11px"></td>
 						<td style="font-size: 11px"><?php echo $rowPresentacion['fechapresentacion'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowPresentacion['fechacancelacion'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowPresentacion['fechadevformato'] ?></td>
@@ -110,6 +100,8 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 						<td style="font-size: 11px">
 							<input type="button" value="Facturas" onClick="location.href = 'presentacion.facturas.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 							<input type="button" value="Detalle" onClick="location.href = 'presentacion.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+						</td>
+						<td style="font-size: 11px">
 					<?php	if ($rowPresentacion['fechadevformato'] != NULL && $rowPresentacion['cantformatonok'] != 0) { ?>
 								<input type="button" value="Err. Formato" onClick="location.href = 'presentacion.erroresformato.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 					<?php   } ?>
