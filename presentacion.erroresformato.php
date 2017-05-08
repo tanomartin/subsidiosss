@@ -3,22 +3,6 @@ include_once 'include/conector.php';
 
 $idPresentacion = $_GET['id'];
 
-$sqlPresentacion = "SELECT 
-						p.id,
-						DATE_FORMAT(p.fechapresentacion, '%d-%m-%Y') as fechapresentacion,
-						DATE_FORMAT(p.fechacancelacion, '%d-%m-%Y') as fechacancelacion,
-						p.motivocancelacion,
-						p.cantfactura, 
-						p.impcomprobantes, 
-						p.impsolicitado , 
-						cronograma.periodo, 
-						cronograma.carpeta
-					FROM presentacion p
-          			INNER JOIN cronograma on p.idcronograma = cronograma.id
-					WHERE p.id = $idPresentacion";
-$resPresentacion = mysql_query($sqlPresentacion);
-$rowPresentacion = mysql_fetch_array($resPresentacion);
-
 $sqlFactura = "SELECT * FROM facturas WHERE idpresentacion = $idPresentacion and deverrorformato is not null";
 $resFactura = mysql_query($sqlFactura);
 
@@ -48,7 +32,7 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 	<div align="center">
 	 	<p><input class="nover" type="button" name="volver" value="Volver" onClick="location.href = 'presentacion.php'" /></p>
 	 	
-	 	<?php include_once("include/detallePresentacion.php")?>
+	 	<?php include_once("include/detalle.php")?>
 	 	
 	 	<h2>Errores Formato</h2>
 	 	
@@ -69,7 +53,12 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 			 		</tr>
 			 	</thead>
 			 	<tbody>
-			<?php while ($rowFactura = mysql_fetch_array($resFactura)) { ?>
+			<?php 
+				$totCom = 0;
+				$totSol = 0;
+				while ($rowFactura = mysql_fetch_array($resFactura)) { 
+					$totCom += $rowFactura['impcomprobante'];
+					$totSol += $rowFactura['impsolicitado'];?>
 					<tr>
 						<td style="font-size: 11px"><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['cuil'] ?></td>
@@ -91,6 +80,12 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 				  		</td>
 					</tr>
 			<?php } ?>
+					<tr>
+						<td colspan="7">TOTALES</td>
+						<td><?php echo number_format($totCom,2,",",".") ?></td>
+						<td><?php echo number_format($totSol,2,",",".") ?></td>
+						<td></td>
+					</tr>
 			  	</tbody>
 			</table>
 			</div>

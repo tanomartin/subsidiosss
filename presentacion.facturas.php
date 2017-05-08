@@ -2,22 +2,6 @@
 include_once 'include/conector.php';
 
 $idPresentacion = $_GET['id'];
-$sqlPresentacion = "SELECT 
-						p.id,
-						DATE_FORMAT(p.fechapresentacion, '%d-%m-%Y') as fechapresentacion,
-						DATE_FORMAT(p.fechacancelacion, '%d-%m-%Y') as fechacancelacion,
-						p.motivocancelacion,
-						p.cantfactura, 
-						p.impcomprobantes, 
-						p.impsolicitado , 
-						cronograma.periodo, 
-						cronograma.carpeta
-					FROM presentacion p
-          			INNER JOIN cronograma on p.idcronograma = cronograma.id
-					WHERE p.id = $idPresentacion";
-$resPresentacion = mysql_query($sqlPresentacion);
-$rowPresentacion = mysql_fetch_array($resPresentacion);
-
 $sqlFactura = "SELECT * FROM facturas WHERE idpresentacion = $idPresentacion";
 $resFactura = mysql_query($sqlFactura);
 ?>
@@ -39,7 +23,7 @@ $resFactura = mysql_query($sqlFactura);
 	<div align="center">
 	 	<p><input class="nover" type="button" name="volver" value="Volver" onClick="location.href = 'presentacion.php'" /></p>
 	 	
-		<?php include_once("include/detallePresentacion.php")?>
+		<?php include_once("include/detalle.php")?>
 		
 		<h2>Facturas</h2>
 	 	

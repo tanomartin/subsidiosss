@@ -2,45 +2,6 @@
 include_once 'include/conector.php';
 
 $idPresentacion = $_GET['id'];
-$sqlPresentacion = "SELECT 
-						p.id,
-						DATE_FORMAT(p.fechapresentacion, '%d-%m-%Y') as fechapresentacion,
-						DATE_FORMAT(p.fechacancelacion, '%d-%m-%Y') as fechacancelacion,
-						p.motivocancelacion,
-						p.cantfactura, 
-						p.impcomprobantes, 
-						p.impsolicitado , 
-						cronograma.periodo, 
-						cronograma.carpeta,
-						DATE_FORMAT(presentacionformato.fechadevformato, '%d-%m-%Y') as fechadevformato,
-						presentacionformato.cantformatook,
-						presentacionformato.impcomprobantesformatook,
-						presentacionformato.impsolicitadoformatook,
-						presentacionformato.cantformatonok,
-						presentacionformato.impcomprobantesformatonok,
-						presentacionformato.impsolicitadoformatonok,
-						DATE_FORMAT(presentacionintegral.fechaintegral, '%d-%m-%Y') as fechaintegral,
-						presentacionintegral.cantintegralok,
-						presentacionintegral.impcomprobantesintegralok,
-						presentacionintegral.impsolicitadointegranlok,
-						presentacionintegral.cantintegralnok,
-						presentacionintegral.impcomprobantesintegralnok,
-						presentacionintegral.impsolicitadointegranlnok,
-						DATE_FORMAT(presentacionsubsidio.fechasubsidio, '%d-%m-%Y') as fechasubsidio,
-						presentacionsubsidio.numliquidacion,
-						presentacionsubsidio.impsolicitadosubsidio,
-						presentacionsubsidio.montosubsidio,
-						DATE_FORMAT(p.fechadeposito, '%d-%m-%Y') as fechadeposito,
-						p.montodepositado
-					FROM presentacion p
-          			INNER JOIN cronograma on p.idcronograma = cronograma.id
-				  	LEFT JOIN presentacionformato on p.id = presentacionformato.id
-          			LEFT JOIN presentacionintegral on p.id = presentacionintegral.id
-          			LEFT JOIN presentacionsubsidio on p.id = presentacionsubsidio.id
-					WHERE p.id = $idPresentacion";
-$resPresentacion = mysql_query($sqlPresentacion);
-$rowPresentacion = mysql_fetch_array($resPresentacion);
-
 $sqlFactura = "SELECT * FROM facturas WHERE idpresentacion = $idPresentacion order by cuil, periodo, codpractica";
 $resFactura = mysql_query($sqlFactura);
 ?>
@@ -62,8 +23,7 @@ $resFactura = mysql_query($sqlFactura);
 	<div align="center">
 	 	<p><input class="nover" type="button" name="volver" value="Volver" onClick="location.href = 'presentacion.php'" /></p>
 	 	
-	 	<?php include_once("include/detallePresentacion.php")?>
-	 	<?php include_once("include/detalleDevolucion.php")?>
+	 	<?php include_once("include/detalle.php")?>
 	 	
 	 	<h2>Facturas</h2>
 	 	
@@ -97,7 +57,19 @@ $resFactura = mysql_query($sqlFactura);
 			 		</tr>
 			 	</thead>
 			 	<tbody>
-			<?php while ($rowFactura = mysql_fetch_array($resFactura)) { ?>
+			<?php 
+				$totCom = 0;
+				$totSol = 0;
+				$totComFor = 0;
+				$totSolFor = 0;
+				$totComInt = 0;
+				$totSolInt = 0;
+				$totSolSub = 0;
+				$totMonSub = 0;
+				while ($rowFactura = mysql_fetch_array($resFactura)) { 
+					$totCom += $rowFactura['impcomprobante'];
+					$totSol += $rowFactura['impsolicitado'];
+					?>
 					<tr>
 						<td style="font-size: 11px"><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['tipoarchivo'] ?></td>
@@ -117,7 +89,10 @@ $resFactura = mysql_query($sqlFactura);
 									$controlComp = $rowFactura['impcomprobanteformato'] - $rowFactura['impcomprobante']; 
 									$controlSoli = $rowFactura['impsolicitadoformato'] - $rowFactura['impsolicitado'];
 									if ($controlComp != 0) $colorComp = 'red'; else $colorComp = '';
-									if ($controlSoli != 0) $colorSoli = 'red'; else $colorSoli = ''; ?>
+									if ($controlSoli != 0) $colorSoli = 'red'; else $colorSoli = ''; 
+									$totComFor += $rowFactura['impcomprobanteformato'];
+									$totSolFor += $rowFactura['impsolicitadoformato'];
+									?>
 									<td style="font-size: 11px; color: <?php echo $colorComp ?>"><?php echo number_format($rowFactura['impcomprobanteformato'],2,",",".") ?></td>
 									<td style="font-size: 11px; color: <?php echo $colorSoli ?>"><?php echo number_format($rowFactura['impsolicitadoformato'],2,",",".") ?></td>
 					<?php 		} else {  ?>
@@ -132,7 +107,10 @@ $resFactura = mysql_query($sqlFactura);
 									$controlCompInt = $rowFactura['impcomprobanteintegral'] - $rowFactura['impcomprobanteformato']; 
 									$controlSoliInt = $rowFactura['impsolicitadointegral'] - $rowFactura['impsolicitadoformato'];
 									if ($controlCompInt != 0) $colorCompInt = 'red'; else $colorCompInt = '';
-									if ($controlSoliInt != 0) $colorSoliInt = 'red'; else $colorSoliInt = ''; ?>
+									if ($controlSoliInt != 0) $colorSoliInt = 'red'; else $colorSoliInt = ''; 
+									$totComInt += $rowFactura['impcomprobanteintegral'];
+									$totSolInt += $rowFactura['impsolicitadointegral'];
+									?>
 									<td style="font-size: 11px; color: <?php echo $colorCompInt ?>"><?php if ($rowFactura['impcomprobanteintegral'] != null) echo number_format($rowFactura['impcomprobanteintegral'],2,",","."); else echo "-";  ?></td>
 									<td style="font-size: 11px; color: <?php echo $colorSoliInt ?>"><?php if ($rowFactura['impsolicitadointegral'] != null) echo number_format($rowFactura['impsolicitadointegral'],2,",","."); else echo "-";  ?></td>
 					<?php		} else { ?>
@@ -143,7 +121,10 @@ $resFactura = mysql_query($sqlFactura);
 						  if ($rowPresentacion['fechasubsidio'] != null) { 
 								if ($rowFactura['impsolicitadosubsidio'] != null && $rowFactura['impmontosubsidio'] != null) { 
 									$controlMontoSub = $rowFactura['impsolicitadosubsidio'] - $rowFactura['impmontosubsidio'];
-									if ($controlMontoSub != 0) $colorMontInt = 'red'; else $colorMontInt = ''; ?>
+									if ($controlMontoSub != 0) $colorMontInt = 'red'; else $colorMontInt = ''; 
+									$totSolSub += $rowFactura['impsolicitadosubsidio'];
+									$totMonSub += $rowFactura['impmontosubsidio'];
+									?>
 									<td style="font-size: 11px"><?php if ($rowFactura['impsolicitadosubsidio'] != null) echo number_format($rowFactura['impsolicitadosubsidio'],2,",","."); else echo "-";  ?></td>
 									<td style="font-size: 11px; color: <?php echo $colorMontInt ?>""><?php if ($rowFactura['impmontosubsidio'] != null) echo number_format($rowFactura['impmontosubsidio'],2,",","."); else echo "-";  ?></td>
 					<?php 		} else { ?>
@@ -156,6 +137,17 @@ $resFactura = mysql_query($sqlFactura);
 					<?php }?>
 					</tr>
 			<?php } ?>
+					<tr>
+						<td colspan="9">TOTALES</td>
+						<td style="font-size: 11px"><?php echo number_format($totCom,2,",",".") ?></td>
+						<td style="font-size: 11px"><?php echo number_format($totSol,2,",",".") ?></td>
+						<td style="font-size: 11px"><?php echo number_format($totComFor,2,",",".") ?></td>
+						<td style="font-size: 11px"><?php echo number_format($totSolFor,2,",",".") ?></td>
+						<td style="font-size: 11px"><?php echo number_format($totComInt,2,",",".") ?></td>
+						<td style="font-size: 11px"><?php echo number_format($totSolInt,2,",",".") ?></td>
+						<td style="font-size: 11px"><?php echo number_format($totSolSub,2,",",".") ?></td>
+						<td style="font-size: 11px"><?php echo number_format($totMonSub,2,",",".") ?></td>
+					</tr>
 			  	</tbody>
 			</table>
 		</div>
