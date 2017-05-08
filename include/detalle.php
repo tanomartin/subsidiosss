@@ -1,5 +1,4 @@
-<?php 
-$sqlPresentacion = "SELECT
+<?php $sqlPresentacion = "SELECT
 p.id,
 DATE_FORMAT(p.fechapresentacion, '%d-%m-%Y') as fechapresentacion,
 DATE_FORMAT(p.fechacancelacion, '%d-%m-%Y') as fechacancelacion,
@@ -52,7 +51,7 @@ $rowPresentacion = mysql_fetch_array($resPresentacion);
 		<thead>
 		  <tr>
 		    <th colspan="3" style="font-size: 11px">Presentacion</th>
-		    <th rowspan="3" style="font-size: 11px"></th>
+		    <th rowspan="2" style="font-size: 11px"></th>
 		    <th colspan="3" style="font-size: 11px">Dev. Formato</th>
 		    <th colspan="3" style="font-size: 11px">Dev. Integral</th>
 		    <th colspan="3" style="font-size: 11px">Dev. Subsidio</th>
@@ -74,7 +73,7 @@ $rowPresentacion = mysql_fetch_array($resPresentacion);
 		    <th style="font-size: 11px">$ Monto</th>
 		  </tr>
 		</thead>
-		<body>
+		<tbody>
 			<tr>
 				
 				<td rowspan="3" style="font-size: 11px"><?php echo number_format($rowPresentacion['cantfactura'],"0","",".") ?></td>
@@ -120,7 +119,7 @@ $rowPresentacion = mysql_fetch_array($resPresentacion);
 				<td style="font-size: 11px"><?php echo number_format($rowPresentacion['impcomprobantesintegralok'] + $rowPresentacion['impcomprobantesintegralnok'],"2",",",".") ?> </td>
 				<td style="font-size: 11px"><?php echo number_format($rowPresentacion['impsolicitadointegranlok'] + $rowPresentacion['impsolicitadointegranlnok'],"2",",",".") ?></td>
 			</tr>
-		</body>
+		</tbody>
 	</table>
 </div>
 

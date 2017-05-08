@@ -100,6 +100,7 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 						<td style="font-size: 11px">
 							<input type="button" value="Facturas" onClick="location.href = 'presentacion.facturas.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 							<input type="button" value="Detalle" onClick="location.href = 'presentacion.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+							<input type="button" value="Detalle Excel" onClick="location.href = 'presentacion.detalleExcel.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 						</td>
 						<td style="font-size: 11px">
 					<?php	if ($rowPresentacion['fechadevformato'] != NULL && $rowPresentacion['cantformatonok'] != 0) { ?>
