@@ -66,10 +66,7 @@ $resFactura = mysql_query($sqlFactura);
 				$totSolInt = 0;
 				$totSolSub = 0;
 				$totMonSub = 0;
-				while ($rowFactura = mysql_fetch_array($resFactura)) { 
-					$totCom += $rowFactura['impcomprobante'];
-					$totSol += $rowFactura['impsolicitado'];
-					?>
+				while ($rowFactura = mysql_fetch_array($resFactura)) {  ?>
 					<tr>
 						<td style="font-size: 11px"><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['tipoarchivo'] ?></td>
@@ -80,9 +77,20 @@ $resFactura = mysql_query($sqlFactura);
 						<td style="font-size: 11px"><?php echo $rowFactura['fechacomprobante'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['nrocomprobante'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['codpractica'] ?></td>
-						<td style="font-size: 11px"><?php echo number_format($rowFactura['impcomprobante'],2,",",".") ?></td>
-						<td style="font-size: 11px"><?php echo number_format($rowFactura['impsolicitado'],2,",",".") ?></td>
-					<?php if ($rowFactura['deverrorformato'] != null ) { ?>
+				 
+				  <?php if ($rowFactura['tipoarchivo'] == 'DB') { 
+				  			$totCom -= $rowFactura['impcomprobante'];
+				  			$totSol -= $rowFactura['impsolicitado']; ?>
+						    <td style="font-size: 11px"><?php echo "(".number_format($rowFactura['impcomprobante'],2,",",".").")" ?></td>
+						    <td style="font-size: 11px"><?php echo "(".number_format($rowFactura['impsolicitado'],2,",",".").")" ?></td>
+				   <?php } else { 
+							$totCom += $rowFactura['impcomprobante'];
+				  			$totSol += $rowFactura['impsolicitado']; ?>
+						    <td style="font-size: 11px"><?php echo number_format($rowFactura['impcomprobante'],2,",",".") ?></td>
+						    <td style="font-size: 11px"><?php echo number_format($rowFactura['impsolicitado'],2,",",".") ?></td>
+					<?php } 
+					   
+						  if ($rowFactura['deverrorformato'] != null ) { ?>
 							<td colspan="2" style="font-size: 11px; color: red"><?php  echo "ERROR: ".$rowFactura['deverrorformato'] ?></td>
 					<?php } else { 
 								if ($rowFactura['impcomprobanteformato'] != null && $rowFactura['impsolicitadoformato'] != null) { 

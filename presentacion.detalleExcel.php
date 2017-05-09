@@ -53,10 +53,7 @@ header("Content-Disposition: attachment; filename=$file");
 				$totSolInt = 0;
 				$totSolSub = 0;
 				$totMonSub = 0;
-				while ($rowFactura = mysql_fetch_array($resFactura)) { 
-					$totCom += $rowFactura['impcomprobante'];
-					$totSol += $rowFactura['impsolicitado'];
-					?>
+				while ($rowFactura = mysql_fetch_array($resFactura)) { ?>
 					<tr>
 						<td><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
 						<td><?php echo $rowFactura['tipoarchivo'] ?></td>
@@ -67,9 +64,19 @@ header("Content-Disposition: attachment; filename=$file");
 						<td><?php echo $rowFactura['fechacomprobante'] ?></td>
 						<td><?php echo $rowFactura['nrocomprobante'] ?></td>
 						<td><?php echo $rowFactura['codpractica'] ?></td>
-						<td><?php echo number_format($rowFactura['impcomprobante'],2,",",".") ?></td>
-						<td><?php echo number_format($rowFactura['impsolicitado'],2,",",".") ?></td>
-					<?php if ($rowFactura['deverrorformato'] != null ) { ?>
+						
+					<?php if ($rowFactura['tipoarchivo'] == 'DB') { 
+				  			$totCom -= $rowFactura['impcomprobante'];
+				  			$totSol -= $rowFactura['impsolicitado']; ?>
+							<td><?php echo number_format(-$rowFactura['impcomprobante'],2,",",".") ?></td>
+							<td><?php echo number_format(-$rowFactura['impsolicitado'],2,",",".") ?></td>
+					<?php } else { 
+							$totCom += $rowFactura['impcomprobante'];
+				  			$totSol += $rowFactura['impsolicitado']; ?>
+						    <td><?php echo number_format($rowFactura['impcomprobante'],2,",",".") ?></td>
+						    <td><?php echo number_format($rowFactura['impsolicitado'],2,",",".") ?></td>
+					<?php } 
+					      if ($rowFactura['deverrorformato'] != null ) { ?>
 							<td colspan="2" style="color: red"><?php  echo "ERROR: ".$rowFactura['deverrorformato'] ?></td>
 					<?php } else { 
 								if ($rowFactura['impcomprobanteformato'] != null && $rowFactura['impsolicitadoformato'] != null) { 

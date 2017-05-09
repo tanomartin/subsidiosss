@@ -7,11 +7,19 @@ $fp = fopen ($archivo,"r");
 
 $impCompTotal = 0;
 $impPedido = 0;
+$impCompTotalD = 0;
+$impPedidoD = 0;
 $cantFacturas = 0;
 $sqlInsertFacturas = array();
 while ($data = fgetcsv ($fp, 1000, ";")) { 
-	$impCompTotal += str_replace(',','.',$data['15']);
-	$impPedido += str_replace(',','.',$data['16']);
+	if ($data['1'] == 'DS' || $data['1'] == 'DC') {
+		$impCompTotal += str_replace(',','.',$data['15']);
+		$impPedido += str_replace(',','.',$data['16']);
+	}
+	if ($data['1'] == 'DB') {
+		$impCompTotalD += str_replace(',','.',$data['15']);
+		$impPedidoD += str_replace(',','.',$data['16']);
+	}
     $linea = "INSERT INTO facturas VALUES (".str_replace('.','',$data['0']).",idpres,
     		'".$data['1']."',
     		".$data['2'].",
@@ -40,7 +48,7 @@ while ($data = fgetcsv ($fp, 1000, ";")) {
 
 fclose ($fp);
 //$sqlInsertFacturas = substr($sqlInsertFacturas, 0, -1);
-$sqlInsertPresentacion = "INSERT INTO presentacion VALUES(DEFAULT, ".$_POST['idCronograma'].", NULL, NULL, NULL,$cantFacturas,$impCompTotal,$impPedido,NULL,NULL)";
+$sqlInsertPresentacion = "INSERT INTO presentacion VALUES(DEFAULT, ".$_POST['idCronograma'].", NULL, NULL, NULL,$cantFacturas,$impCompTotal,$impPedido,$impCompTotalD,$impPedidoD,NULL,NULL)";
 
 $anio = substr($_POST['carpeta'],0,4);
 $carpetaanio = "archivos/$anio";

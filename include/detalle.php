@@ -5,7 +5,9 @@ DATE_FORMAT(p.fechacancelacion, '%d-%m-%Y') as fechacancelacion,
 p.motivocancelacion,
 p.cantfactura,
 p.impcomprobantes,
-p.impsolicitado ,
+p.impsolicitado,
+p.impcomprobantesd,
+p.impsolicitadod,
 cronograma.periodo,
 cronograma.carpeta,
 DATE_FORMAT(presentacionformato.fechadevformato, '%d-%m-%Y') as fechadevformato,
@@ -50,8 +52,8 @@ $rowPresentacion = mysql_fetch_array($resPresentacion);
 	<table>
 		<thead>
 		  <tr>
-		    <th colspan="3" style="font-size: 11px">Presentacion</th>
-		    <th rowspan="2" style="font-size: 11px"></th>
+		    <th colspan="4" style="font-size: 11px">Presentacion</th>
+		    <th rowspan="2" style="font-size: 11px">Estado</th>
 		    <th colspan="3" style="font-size: 11px">Dev. Formato</th>
 		    <th colspan="3" style="font-size: 11px">Dev. Integral</th>
 		    <th colspan="3" style="font-size: 11px">Dev. Subsidio</th>
@@ -59,6 +61,7 @@ $rowPresentacion = mysql_fetch_array($resPresentacion);
 		  </tr>
 		  <tr>	  
 		  	<th style="font-size: 11px">Cantidad</th>
+		    <th style="font-size: 11px">Tipo</th>
 		    <th style="font-size: 11px">$ Comprobante</th>
 		    <th style="font-size: 11px">$ Solicitado</th>
 		    <th style="font-size: 11px">Cantidad</th>
@@ -77,8 +80,10 @@ $rowPresentacion = mysql_fetch_array($resPresentacion);
 			<tr>
 				
 				<td rowspan="3" style="font-size: 11px"><?php echo number_format($rowPresentacion['cantfactura'],"0","",".") ?></td>
-				<td rowspan="3" style="font-size: 11px"><?php echo number_format($rowPresentacion['impcomprobantes'],"2",",",".") ?> </td>
-				<td rowspan="3" style="font-size: 11px"><?php echo number_format($rowPresentacion['impsolicitado'],"2",",",".") ?></td>
+				
+				<td style="font-size: 11px">Credito</td>
+				<td style="font-size: 11px"><?php echo number_format($rowPresentacion['impcomprobantes'],"2",",",".") ?> </td>
+				<td style="font-size: 11px"><?php echo number_format($rowPresentacion['impsolicitado'],"2",",",".") ?></td>
 				
 				<td style="color: blue; font-size: 11px">OK</td>
 				
@@ -97,6 +102,10 @@ $rowPresentacion = mysql_fetch_array($resPresentacion);
 				<td rowspan="3" style="font-size: 11px"> <?php echo number_format($rowPresentacion['montodepositado'],"2",",",".") ?> </td>
 			</tr>
 			<tr>
+				<td style="font-size: 11px">Debito</td>
+				<td style="font-size: 11px"><?php echo "(".number_format($rowPresentacion['impcomprobantesd'],"2",",",".").")"; ?> </td>
+				<td style="font-size: 11px"><?php echo "(".number_format($rowPresentacion['impsolicitadod'],"2",",",".").")" ?></td>
+			
 				<td style="color: red; font-size: 11px">RECH</td>
 				
 				<td style="color: red; font-size: 11px"><?php echo number_format($rowPresentacion['cantformatonok'],"0","",".")?></td>
@@ -109,6 +118,10 @@ $rowPresentacion = mysql_fetch_array($resPresentacion);
 
 			</tr>
 			<tr>
+				<td style="font-size: 11px">TOTAL</td>
+				<td style="font-size: 11px"><?php echo number_format($rowPresentacion['impcomprobantes'] - $rowPresentacion['impcomprobantesd'],"2",",",".")?></td>
+				<td style="font-size: 11px"><?php echo number_format($rowPresentacion['impsolicitado'] - $rowPresentacion['impsolicitadod'],"2",",",".")?></td>
+				
 				<td style="font-size: 11px">TOTAL</td>
 				
 				<td style="font-size: 11px"><?php echo number_format($rowPresentacion['cantformatook'] + $rowPresentacion['cantformatonok'],"0","",".") ?></td>

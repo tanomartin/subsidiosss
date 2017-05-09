@@ -2,7 +2,7 @@
 include_once 'include/conector.php';
 
 $idPresentacion = $_GET['id'];
-$sqlFactura = "SELECT * FROM facturas WHERE idpresentacion = $idPresentacion";
+$sqlFactura = "SELECT * FROM facturas WHERE idpresentacion = $idPresentacion order by cuit, cuil, nrocomprobante ";
 $resFactura = mysql_query($sqlFactura);
 ?>
 
@@ -54,7 +54,10 @@ $resFactura = mysql_query($sqlFactura);
 			 		</tr>
 			 	</thead>
 			 	<tbody>
-			<?php while ($rowFactura = mysql_fetch_array($resFactura)) { ?>
+			<?php 
+				$totComp = 0;
+				$totSoli = 0;
+				while ($rowFactura = mysql_fetch_array($resFactura)) { ?>
 					<tr>
 						<td style="font-size: 11px"><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['tipoarchivo'] ?></td>
@@ -70,14 +73,30 @@ $resFactura = mysql_query($sqlFactura);
 						<td style="font-size: 11px"><?php echo $rowFactura['cae'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['puntoventa'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['nrocomprobante'] ?></td>
-						<td style="font-size: 11px"><?php echo number_format($rowFactura['impcomprobante'],2,",",".") ?></td>
-						<td style="font-size: 11px"><?php echo number_format($rowFactura['impsolicitado'],2,",",".") ?></td>
+						
+				  <?php if ($rowFactura['tipoarchivo'] == 'DB') { 
+				  			$totComp -= $rowFactura['impcomprobante']; 
+				  			$totSoli -= $rowFactura['impsolicitado']; ?>
+							<td style="font-size: 11px"><?php echo "(".number_format($rowFactura['impcomprobante'],2,",",".").")" ?></td>
+							<td style="font-size: 11px"><?php echo "(".number_format($rowFactura['impsolicitado'],2,",",".").")" ?></td>
+				  <?php } else { 
+				  			$totComp += $rowFactura['impcomprobante']; 
+				  			$totSoli += $rowFactura['impsolicitado']; ?>
+							<td style="font-size: 11px"><?php echo number_format($rowFactura['impcomprobante'],2,",",".") ?></td>
+							<td style="font-size: 11px"><?php echo number_format($rowFactura['impsolicitado'],2,",",".")  ?></td>
+				  <?php }?>
 						<td style="font-size: 11px"><?php echo $rowFactura['codpractica'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['cantidad'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['provincia'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['dependencia'] ?></td>
 					</tr>
 			<?php } ?>
+					<tr>
+						<td colspan="14" style="font-size: 11px">TOTAL</td>
+						<td style="font-size: 11px"><?php echo number_format($totComp,2,",",".") ?></td>
+						<td style="font-size: 11px"><?php echo number_format($totSoli,2,",",".") ?></td>
+						<td colspan="4"></td>
+					</tr>
 			  	</tbody>
 			</table>
 		</div>

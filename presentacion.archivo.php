@@ -6,7 +6,7 @@ $sqlPresentacion = "SELECT p.*, c.periodo, c.carpeta FROM presentacion p, cronog
 $resPresentacion = mysql_query($sqlPresentacion);
 $rowPresentacion = mysql_fetch_array($resPresentacion);
 
-$sqlFactura = "SELECT * FROM facturas WHERE idpresentacion = $idPresentacion";
+$sqlFactura = "SELECT * FROM facturas WHERE idpresentacion = $idPresentacion order by tipoarchivo";
 $resFactura = mysql_query($sqlFactura);
 
 $anio = substr($rowPresentacion['carpeta'],0,4);

@@ -7,7 +7,9 @@ $sqlPresentacion = "SELECT
 						DATE_FORMAT(p.fechacancelacion, '%d-%m-%Y') as fechacancelacion,
 						p.cantfactura, 
 						p.impcomprobantes, 
-						p.impsolicitado , 
+						p.impsolicitado,
+						p.impcomprobantesd, 
+						p.impsolicitadod, 
 						cronograma.periodo, 
 						cronograma.carpeta,
 						DATE_FORMAT(presentacionformato.fechadevformato, '%d-%m-%Y') as fechadevformato,
@@ -65,6 +67,7 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 			 			<th style="font-size: 11px">Carpeta</th>
 			 			<th style="font-size: 11px">Facturas</th>
 			 			<th style="font-size: 11px" colspan="2">Credito</th>
+			 			<th style="font-size: 11px" colspan="2">Debito</th>
 			 			<th style="font-size: 11px">Fecha Presentacion</th>
 			 			<th style="font-size: 11px">Fecha Cancelacion</th>
 			 			<th style="font-size: 11px">Fecha Dev. Formato</th>
@@ -77,8 +80,10 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 			 		</tr>
 			 		<tr>
 			 			<th style="font-size: 11px" colspan="4"></th>
-			 			<th style="font-size: 11px">$ Comprobante</th>
-			 			<th style="font-size: 11px">$ Solicitado</th>
+			 			<th style="font-size: 11px">$ Comp</th>
+			 			<th style="font-size: 11px">$ Soli</th>
+			 			<th style="font-size: 11px">$ Comp</th>
+			 			<th style="font-size: 11px">$ Soli</th>
 			 			<th style="font-size: 11px" colspan="9"></th>
 			 		</tr>
 			 	</thead>
@@ -91,6 +96,8 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 						<td style="font-size: 11px"><?php echo $rowPresentacion['cantfactura'] ?></td>
 						<td style="font-size: 11px"><?php echo number_format($rowPresentacion['impcomprobantes'],2,",",".") ?></td>
 						<td style="font-size: 11px"><?php echo number_format($rowPresentacion['impsolicitado'],2,",",".") ?></td>
+						<td style="font-size: 11px"><?php echo number_format($rowPresentacion['impcomprobantesd'],2,",",".") ?></td>
+						<td style="font-size: 11px"><?php echo number_format($rowPresentacion['impsolicitadod'],2,",",".") ?></td>
 						<td style="font-size: 11px"><?php echo $rowPresentacion['fechapresentacion'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowPresentacion['fechacancelacion'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowPresentacion['fechadevformato'] ?></td>
@@ -100,7 +107,7 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 						<td style="font-size: 11px">
 							<input type="button" value="Facturas" onClick="location.href = 'presentacion.facturas.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 							<input type="button" value="Detalle" onClick="location.href = 'presentacion.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-							<input type="button" value="Detalle Excel" onClick="location.href = 'presentacion.detalleExcel.php?id=<?php echo $rowPresentacion['id'] ?>&carpeta=<?php echo $rowPresentacion['carpeta'] ?>'"/>
+							<input type="button" value="Excel" onClick="location.href = 'presentacion.detalleExcel.php?id=<?php echo $rowPresentacion['id'] ?>&carpeta=<?php echo $rowPresentacion['carpeta'] ?>'"/>
 						</td>
 						<td style="font-size: 11px">
 					<?php	if ($rowPresentacion['fechadevformato'] != NULL && $rowPresentacion['cantformatonok'] != 0) { ?>

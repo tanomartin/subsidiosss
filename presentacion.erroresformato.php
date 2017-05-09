@@ -41,6 +41,7 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 			 	<thead>
 			 		<tr>
 			 			<th style="font-size: 11px">Comp. Interno</th>
+			 			<th style="font-size: 11px">Tipo</th>
 			 			<th style="font-size: 11px">C.U.I.L.</th>
 			 			<th style="font-size: 11px">Periodo</th>
 			 			<th style="font-size: 11px">C.U.I.T.</th>
@@ -61,6 +62,7 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 					$totSol += $rowFactura['impsolicitado'];?>
 					<tr>
 						<td style="font-size: 11px"><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
+						<td style="font-size: 11px"><?php echo $rowFactura['tipoarchivo'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['cuil'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['periodo'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['cuit'] ?></td>
@@ -81,7 +83,7 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 					</tr>
 			<?php } ?>
 					<tr>
-						<td colspan="7">TOTALES</td>
+						<td colspan="8">TOTALES</td>
 						<td><?php echo number_format($totCom,2,",",".") ?></td>
 						<td><?php echo number_format($totSol,2,",",".") ?></td>
 						<td></td>

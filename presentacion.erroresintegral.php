@@ -41,19 +41,21 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 			 	<thead>
 			 		<tr>
 			 			<th style="font-size: 11px">Comp. Interno</th>
+			 			<th style="font-size: 11px">Tipo</th>
 			 			<th style="font-size: 11px">C.U.I.L.</th>
 			 			<th style="font-size: 11px">Periodo</th>
 			 			<th style="font-size: 11px">C.U.I.T.</th>
 			 			<th style="font-size: 11px">C.A.E.</th>
 			 			<th style="font-size: 11px">Fec. Comp.</th>
 			 			<th style="font-size: 11px">Num. Comp.</th>
-			 			<th style="font-size: 11px">$ Comprobante</th>
-			 			<th style="font-size: 11px">$ Solicitado</th>
+			 			<th style="font-size: 11px" colspan="2">Presentacion</th>
 			 			<th style="font-size: 11px" colspan="2">Resultado Formato</th>
-			 			<th style="font-size: 11px">INTEGRAL ERROR</th>
+			 			<th style="font-size: 11px">ERROR INTEGRAL</th>
 			 		</tr>
 			 		<tr>
-			 			<th style="font-size: 11px" colspan="9"></th>
+			 			<th style="font-size: 11px" colspan="8"></th>
+			 			<th style="font-size: 11px">$ Comprobante</th>
+			 			<th style="font-size: 11px">$ Solicitado</th>
 			 			<th style="font-size: 11px">$ Comprobante</th>
 			 			<th style="font-size: 11px">$ Solicitado</th>
 			 			<th></th>
@@ -72,6 +74,7 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 					$totSolFor += $rowFactura['impsolicitadoformato'];	?>
 					<tr>
 						<td style="font-size: 11px"><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
+						<td style="font-size: 11px"><?php echo $rowFactura['tipoarchivo'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['cuil'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['periodo'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['cuit'] ?></td>
@@ -94,7 +97,7 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 					</tr>
 			<?php } ?>
 					<tr>
-						<td colspan="7">TOTALES</td>
+						<td colspan="8">TOTALES</td>
 						<td><?php echo number_format($totCom,2,",",".") ?></td>
 						<td><?php echo number_format($totSol,2,",",".") ?></td>
 						<td><?php echo number_format($totComFor,2,",",".") ?></td>
