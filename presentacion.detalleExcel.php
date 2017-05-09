@@ -2,12 +2,15 @@
 include_once 'include/conector.php';
 
 $idPresentacion = $_GET['id'];
-$sqlFactura = "SELECT * FROM facturas WHERE idpresentacion = $idPresentacion order by cuil, periodo, codpractica";
+$carpeta = $_GET['carpeta'];
+$sqlFactura = "SELECT * FROM facturas WHERE idpresentacion = $idPresentacion order by cuit, cuil, nrocomprobante";
 $resFactura = mysql_query($sqlFactura);
 
-$file="demo.xls";
+
+$file= $carpeta."-".$idPresentacion.".xls";
 header("Content-type: application/vnd.ms-excel");
 header("Content-Disposition: attachment; filename=$file");
+
 ?>
 <body>
 	<div align="center">
