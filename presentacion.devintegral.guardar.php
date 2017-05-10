@@ -41,6 +41,8 @@ $indexUpdate = 0;
 
 $sumcompok = 0;
 $sumsoliok = 0;
+$sumcompdok = 0;
+$sumsolidok = 0;
 if ($archivook != null) {
 	$fpok = fopen($archivook, "r");
 	while(!feof($fpok)) {
@@ -48,12 +50,18 @@ if ($archivook != null) {
 		if ($linea != '') {
 			$arraylinea = explode("|", $linea);	
 			$importeComprobante = $arraylinea[13];
-			$sumcompok += $importeComprobante;
 			$importeSolicitado =$arraylinea[14];
-			$sumsoliok += $importeSolicitado;
+			
+			if ($arraylinea[0] == 'DB') {
+				$sumcompdok += $importeComprobante;
+				$sumsolidok += $importeSolicitado;
+			} else {
+				$sumcompok += $importeComprobante;
+				$sumsoliok += $importeSolicitado;
+			}
 			
 			$arrayUpdate[$indexUpdate] = "UPDATE facturas SET impcomprobanteintegral = $importeComprobante, impsolicitadointegral = $importeSolicitado
-												WHERE idpresentacion = $idPresentacion and cuil = '".$arraylinea[2]."' and periodo =  '".$arraylinea[5]."' and
+												WHERE idpresentacion = $idPresentacion and tipoarchivo = '".$arraylinea[0]."' and cuil = '".$arraylinea[2]."' and periodo =  '".$arraylinea[5]."' and
 													  cuit = '".$arraylinea[6]."' and tipocomprobante = ".(int)$arraylinea[7]." and tipoemision = '".$arraylinea[8]."' and
 													  fechacomprobante = '".$arraylinea[9]."' and cae = '".trim($arraylinea[10])."' and puntoventa = ".(int)$arraylinea[11]." and
 													  nrocomprobante = '".(int)$arraylinea[12]."'";
@@ -66,6 +74,8 @@ $contadorok = sizeof($arrayUpdate);
 
 $sumcompnok = 0;
 $sumsolinok = 0;
+$sumcompdnok = 0;
+$sumsolidnok = 0;
 if ($archivoerror != null) {
 	$fpnok = fopen($archivoerror, "r");
 	while(!feof($fpnok)) {
@@ -73,12 +83,17 @@ if ($archivoerror != null) {
 		if ($linea != '') {
 			$arraylinea = explode("|", $linea);	
 			$importeComprobante = substr($arraylinea[13],0,8).".".substr($arraylinea[13],-2);
-			$sumcompnok += $importeComprobante;
 			$importeSolicitado = substr($arraylinea[14],0,8).".".substr($arraylinea[14],-2);
-			$sumsolinok += $importeSolicitado;
 			
+			if ($arraylinea[0] == 'DB') {
+				$sumcompdnok += $importeComprobante;
+				$sumsolidnok += $importeSolicitado;
+			} else {
+				$sumcompnok += $importeComprobante;
+				$sumsolinok += $importeSolicitado;
+			}
 			$arrayUpdate[$indexUpdate] = "UPDATE facturas SET deverrorintegral = '".$arraylinea[19]."'
-												WHERE idpresentacion = $idPresentacion and cuil = '".$arraylinea[2]."' and periodo =  '".$arraylinea[5]."' and
+												WHERE idpresentacion = $idPresentacion and tipoarchivo = '".$arraylinea[0]."' and cuil = '".$arraylinea[2]."' and periodo =  '".$arraylinea[5]."' and
 													  cuit = '".$arraylinea[6]."' and tipocomprobante = ".(int)$arraylinea[7]." and tipoemision = '".$arraylinea[8]."' and
 													  fechacomprobante = '".$arraylinea[9]."' and cae = '".trim($arraylinea[10])."' and puntoventa = ".(int)$arraylinea[11]." and
 													  nrocomprobante = '".(int)$arraylinea[12]."'";
@@ -88,7 +103,8 @@ if ($archivoerror != null) {
 	fclose($fpnok);
 }
 $contadornok = sizeof($arrayUpdate) - $contadorok;
-$sqlInsertPresentacionIntegral= "INSERT INTO presentacionintegral VALUES($idPresentacion,CURDATE(),$contadorok,$sumcompok,$sumsoliok,$contadornok,$sumcompnok,$sumsolinok)"; 
+
+$sqlInsertPresentacionIntegral= "INSERT INTO presentacionintegral VALUES($idPresentacion,CURDATE(),$contadorok,$sumcompok,$sumsoliok,$sumcompdok,$sumsolidok,$contadornok,$sumcompnok,$sumsolinok,$sumcompdnok,$sumsolidnok)"; 
 $total = $contadorok + $contadornok;
 if ($total == $rowPresentacion['cantformatook']) {
 	try {
@@ -114,5 +130,4 @@ if ($total == $rowPresentacion['cantformatook']) {
 	$redire = "Location: presentacion.error.php?id=$idPresentacion&page='Dev. Integral'&error='No coninciden la cantidad de facturas'";
 	Header($redire);
 }
-
 ?>

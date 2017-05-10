@@ -98,12 +98,19 @@ $resFactura = mysql_query($sqlFactura);
 									$controlSoli = $rowFactura['impsolicitadoformato'] - $rowFactura['impsolicitado'];
 									if ($controlComp != 0) $colorComp = 'red'; else $colorComp = '';
 									if ($controlSoli != 0) $colorSoli = 'red'; else $colorSoli = ''; 
-									$totComFor += $rowFactura['impcomprobanteformato'];
-									$totSolFor += $rowFactura['impsolicitadoformato'];
-									?>
-									<td style="font-size: 11px; color: <?php echo $colorComp ?>"><?php echo number_format($rowFactura['impcomprobanteformato'],2,",",".") ?></td>
-									<td style="font-size: 11px; color: <?php echo $colorSoli ?>"><?php echo number_format($rowFactura['impsolicitadoformato'],2,",",".") ?></td>
-					<?php 		} else {  ?>
+									if ($rowFactura['tipoarchivo'] == 'DB') {
+										$totComFor -= $rowFactura['impcomprobanteformato'];
+										$totSolFor -= $rowFactura['impsolicitadoformato']; ?>
+										<td style="font-size: 11px; color: <?php echo $colorComp ?>"><?php echo "(".number_format($rowFactura['impcomprobanteformato'],2,",",".").")" ?></td>
+										<td style="font-size: 11px; color: <?php echo $colorSoli ?>"><?php echo "(".number_format($rowFactura['impsolicitadoformato'],2,",",".").")" ?></td>
+							  <?php } else { 
+							  			$totComFor += $rowFactura['impcomprobanteformato'];
+							  			$totSolFor += $rowFactura['impsolicitadoformato']; ?>
+							  			<td style="font-size: 11px; color: <?php echo $colorComp ?>"><?php echo number_format($rowFactura['impcomprobanteformato'],2,",",".") ?></td>
+							  			<td style="font-size: 11px; color: <?php echo $colorSoli ?>"><?php echo number_format($rowFactura['impsolicitadoformato'],2,",",".") ?></td>
+						
+							  <?php }
+								} else {  ?>
 									<td style="font-size: 11px">-</td>
 									<td style="font-size: 11px">-</td>
 					<?php 		}

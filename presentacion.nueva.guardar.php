@@ -93,7 +93,7 @@ try {
 } catch (PDOException $e) {
 	$dbh->rollback();
 	$error = $e->getMessage()." (INSERT: ".$sqlinsert.")";
-	$redire = "Location: presentacion.error.php?id=$idPresentacion&page='Nueva Presentacion'&error=$error";
+	$redire = "Location: presentacion.error.php?page='Nueva Presentacion'&error=$error";
 	Header($redire);
 }
 
