@@ -84,12 +84,18 @@ header("Content-Disposition: attachment; filename=$file");
 									$controlSoli = $rowFactura['impsolicitadoformato'] - $rowFactura['impsolicitado'];
 									if ($controlComp != 0) $colorComp = 'red'; else $colorComp = '';
 									if ($controlSoli != 0) $colorSoli = 'red'; else $colorSoli = ''; 
-									$totComFor += $rowFactura['impcomprobanteformato'];
-									$totSolFor += $rowFactura['impsolicitadoformato'];
-									?>
-									<td style="color: <?php echo $colorComp ?>"><?php echo number_format($rowFactura['impcomprobanteformato'],2,",",".") ?></td>
-									<td style="color: <?php echo $colorSoli ?>"><?php echo number_format($rowFactura['impsolicitadoformato'],2,",",".") ?></td>
-					<?php 		} else {  ?>
+									if ($rowFactura['tipoarchivo'] == 'DB') {
+										$totComFor -= $rowFactura['impcomprobanteformato'];
+										$totSolFor -= $rowFactura['impsolicitadoformato'];?>
+										<td style="color: <?php echo $colorComp ?>"><?php echo number_format(-$rowFactura['impcomprobanteformato'],2,",",".") ?></td>
+										<td style="color: <?php echo $colorSoli ?>"><?php echo number_format(-$rowFactura['impsolicitadoformato'],2,",",".") ?></td>
+					<?php 			} else {
+										$totComFor += $rowFactura['impcomprobanteformato'];
+										$totSolFor += $rowFactura['impsolicitadoformato'];?>
+										<td style="color: <?php echo $colorComp ?>"><?php echo number_format($rowFactura['impcomprobanteformato'],2,",",".") ?></td>
+										<td style="color: <?php echo $colorSoli ?>"><?php echo number_format($rowFactura['impsolicitadoformato'],2,",",".") ?></td>
+					<?php 			}
+								} else {  ?>
 									<td>-</td>
 									<td>-</td>
 					<?php 		}
@@ -102,12 +108,19 @@ header("Content-Disposition: attachment; filename=$file");
 									$controlSoliInt = $rowFactura['impsolicitadointegral'] - $rowFactura['impsolicitadoformato'];
 									if ($controlCompInt != 0) $colorCompInt = 'red'; else $colorCompInt = '';
 									if ($controlSoliInt != 0) $colorSoliInt = 'red'; else $colorSoliInt = ''; 
-									$totComInt += $rowFactura['impcomprobanteintegral'];
-									$totSolInt += $rowFactura['impsolicitadointegral'];
-									?>
-									<td style="color: <?php echo $colorCompInt ?>"><?php if ($rowFactura['impcomprobanteintegral'] != null) echo number_format($rowFactura['impcomprobanteintegral'],2,",","."); else echo "-";  ?></td>
-									<td style="color: <?php echo $colorSoliInt ?>"><?php if ($rowFactura['impsolicitadointegral'] != null) echo number_format($rowFactura['impsolicitadointegral'],2,",","."); else echo "-";  ?></td>
-					<?php		} else { ?>
+									if ($rowFactura['tipoarchivo'] == 'DB') {
+										$totComInt -= $rowFactura['impcomprobanteintegral'];
+										$totSolInt -= $rowFactura['impsolicitadointegral']; ?>
+										<td style="color: <?php echo $colorCompInt ?>"><?php if ($rowFactura['impcomprobanteintegral'] != null) echo number_format(-$rowFactura['impcomprobanteintegral'],2,",","."); else echo "-";  ?></td>
+										<td style="color: <?php echo $colorSoliInt ?>"><?php if ($rowFactura['impsolicitadointegral'] != null) echo number_format(-$rowFactura['impsolicitadointegral'],2,",","."); else echo "-";  ?></td>
+					<?php 			} else {
+										$totComInt += $rowFactura['impcomprobanteintegral'];
+										$totSolInt += $rowFactura['impsolicitadointegral']; ?>
+										<td style="color: <?php echo $colorCompInt ?>"><?php if ($rowFactura['impcomprobanteintegral'] != null) echo number_format($rowFactura['impcomprobanteintegral'],2,",","."); else echo "-";  ?></td>
+										<td style="color: <?php echo $colorSoliInt ?>"><?php if ($rowFactura['impsolicitadointegral'] != null) echo number_format($rowFactura['impsolicitadointegral'],2,",","."); else echo "-";  ?></td>
+						
+						<?php		}	
+								} else { ?>
 									<td>-</td>
 									<td>-</td>
 					<?php		} 	
