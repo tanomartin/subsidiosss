@@ -60,7 +60,7 @@ header("Content-Disposition: attachment; filename=$file");
 						<td><?php echo $rowFactura['cuil'] ?></td>
 						<td><?php echo $rowFactura['periodo'] ?></td>
 						<td><?php echo $rowFactura['cuit'] ?></td>
-						<td><?php echo $rowFactura['cae'] ?></td>
+						<td><?php echo '"'.$rowFactura['cae'].'"' ?></td>
 						<td><?php echo $rowFactura['fechacomprobante'] ?></td>
 						<td><?php echo $rowFactura['nrocomprobante'] ?></td>
 						<td><?php echo $rowFactura['codpractica'] ?></td>

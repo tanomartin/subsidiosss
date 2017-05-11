@@ -123,12 +123,19 @@ $resFactura = mysql_query($sqlFactura);
 									$controlSoliInt = $rowFactura['impsolicitadointegral'] - $rowFactura['impsolicitadoformato'];
 									if ($controlCompInt != 0) $colorCompInt = 'red'; else $colorCompInt = '';
 									if ($controlSoliInt != 0) $colorSoliInt = 'red'; else $colorSoliInt = ''; 
-									$totComInt += $rowFactura['impcomprobanteintegral'];
-									$totSolInt += $rowFactura['impsolicitadointegral'];
-									?>
-									<td style="font-size: 11px; color: <?php echo $colorCompInt ?>"><?php if ($rowFactura['impcomprobanteintegral'] != null) echo number_format($rowFactura['impcomprobanteintegral'],2,",","."); else echo "-";  ?></td>
-									<td style="font-size: 11px; color: <?php echo $colorSoliInt ?>"><?php if ($rowFactura['impsolicitadointegral'] != null) echo number_format($rowFactura['impsolicitadointegral'],2,",","."); else echo "-";  ?></td>
-					<?php		} else { ?>
+									
+									if ($rowFactura['tipoarchivo'] == 'DB') {
+										$totComInt -= $rowFactura['impcomprobanteintegral'];
+										$totSolInt -= $rowFactura['impsolicitadointegral']; ?>
+										<td style="font-size: 11px; color: <?php echo $colorCompInt ?>"><?php if ($rowFactura['impcomprobanteintegral'] != null) echo "(".number_format($rowFactura['impcomprobanteintegral'],2,",",".").")"; else echo "-";  ?></td>
+										<td style="font-size: 11px; color: <?php echo $colorSoliInt ?>"><?php if ($rowFactura['impsolicitadointegral'] != null) echo "(".number_format($rowFactura['impsolicitadointegral'],2,",",".").")"; else echo "-";  ?></td>
+					<?php			} else { 
+										$totComInt += $rowFactura['impcomprobanteintegral'];
+										$totSolInt += $rowFactura['impsolicitadointegral'];  ?>
+										<td style="font-size: 11px; color: <?php echo $colorCompInt ?>"><?php if ($rowFactura['impcomprobanteintegral'] != null) echo number_format($rowFactura['impcomprobanteintegral'],2,",","."); else echo "-";  ?></td>
+										<td style="font-size: 11px; color: <?php echo $colorSoliInt ?>"><?php if ($rowFactura['impsolicitadointegral'] != null) echo number_format($rowFactura['impsolicitadointegral'],2,",","."); else echo "-";  ?></td>
+							  <?php }
+								} else { ?>
 									<td style="font-size: 11px">-</td>
 									<td style="font-size: 11px">-</td>
 					<?php		} 	

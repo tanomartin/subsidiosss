@@ -49,8 +49,9 @@ if ($archivook != null) {
 		$linea = fgets($fpok);
 		if ($linea != '') {
 			$arraylinea = explode("|", $linea);	
-			$importeComprobante = $arraylinea[13];
-			$importeSolicitado =$arraylinea[14];
+			$importeComprobante = (float) str_replace(",",".",$arraylinea[13]);
+			$importeSolicitado = (float) str_replace(",",".",$arraylinea[14]);
+		
 			
 			if ($arraylinea[0] == 'DB') {
 				$sumcompdok += $importeComprobante;
