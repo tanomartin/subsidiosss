@@ -1,5 +1,5 @@
 <?php $sqlPresentacion = "SELECT
-p.id,
+p.id as idpres,
 DATE_FORMAT(p.fechapresentacion, '%d-%m-%Y') as fechapresentacion,
 DATE_FORMAT(p.fechacancelacion, '%d-%m-%Y') as fechacancelacion,
 p.motivocancelacion,
@@ -31,7 +31,7 @@ $rowPresentacion = mysql_fetch_array($resPresentacion);
 ?>
 
 	<h2>Detalle Presentacion</h2>
-	 	<h3>ID: <?php echo $rowPresentacion['id']?> - PERIODO: <?php echo $rowPresentacion['periodo'] ?> - CARPETA: <?php echo $rowPresentacion['carpeta'] ?></h3>
+	 	<h3>ID: <?php echo $rowPresentacion['idpres']?> - PERIODO: <?php echo $rowPresentacion['periodo'] ?> - CARPETA: <?php echo $rowPresentacion['carpeta'] ?></h3>
 	 	 	
 	 	<?php if ($rowPresentacion['fechacancelacion'] != null) {  ?>
 	 		<h3 style="color: red">PRESENTACION CANCELADA</h3>
