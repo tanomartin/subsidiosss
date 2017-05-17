@@ -6,7 +6,7 @@ $idPresentacion = $_GET['id'];
 $sqlFactura = "SELECT * FROM facturas WHERE idpresentacion = $idPresentacion and deverrorformato is not null";
 $resFactura = mysql_query($sqlFactura);
 
-$sqlErrores = "SELECT * FROM errorsss WHERE id < 400";
+$sqlErrores = "SELECT * FROM errorsss";
 $resErrores = mysql_query($sqlErrores);
 $arrayErrores = array();
 while ($rowErrores = mysql_fetch_array($resErrores)) {

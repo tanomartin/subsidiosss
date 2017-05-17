@@ -32,7 +32,7 @@ $rowPresentacion = mysql_fetch_array($resPresentacion);
 	 	<p><input type="button" name="volver" value="Volver" onClick="location.href = 'presentacion.php'" /></p>
 	 	<h2>Confirmación de Cancelación de Presentacion</h2>
 	 		<?php include_once("include/detalle.php")?>
-	 		<form action="presentacion.cancelar.guardar.php?id=<?php echo $rowPresentacion['id']?>" method="post">
+	 		<form action="presentacion.cancelar.guardar.php?id=<?php echo $idPresentacion?>" method="post">
 			<p><h3>Montivo</h3><textarea id="motivo" name="motivo" rows="8" cols="70"></textarea></p>
 			<p><input type="submit" name="cancelar" value="Cancelar Presentación" /></p>
 		</form>
