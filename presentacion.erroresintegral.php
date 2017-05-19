@@ -45,7 +45,8 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 			 			<th style="font-size: 11px">C.U.I.L.</th>
 			 			<th style="font-size: 11px">Periodo</th>
 			 			<th style="font-size: 11px">C.U.I.T.</th>
-			 			<th style="font-size: 11px">C.A.E.</th>
+			 			<th style="font-size: 11px">Practica</th>
+			 			<th style="font-size: 11px">Dep</th>
 			 			<th style="font-size: 11px">Fec. Comp.</th>
 			 			<th style="font-size: 11px">Num. Comp.</th>
 			 			<th style="font-size: 11px" colspan="2">Presentacion</th>
@@ -53,7 +54,7 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 			 			<th style="font-size: 11px">ERROR INTEGRAL</th>
 			 		</tr>
 			 		<tr>
-			 			<th style="font-size: 11px" colspan="8"></th>
+			 			<th style="font-size: 11px" colspan="9"></th>
 			 			<th style="font-size: 11px">$ Comprobante</th>
 			 			<th style="font-size: 11px">$ Solicitado</th>
 			 			<th style="font-size: 11px">$ Comprobante</th>
@@ -78,7 +79,8 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 						<td style="font-size: 11px"><?php echo $rowFactura['cuil'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['periodo'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['cuit'] ?></td>
-						<td style="font-size: 11px"><?php echo $rowFactura['cae'] ?></td>
+						<td style="font-size: 11px"><?php echo $rowFactura['codpractica'] ?></td>
+						<td style="font-size: 11px"><?php echo $rowFactura['dependencia'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['fechacomprobante'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['nrocomprobante'] ?></td>
 						<td style="font-size: 11px"><?php echo number_format($rowFactura['impcomprobante'],2,",",".") ?></td>
@@ -97,7 +99,7 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 					</tr>
 			<?php } ?>
 					<tr>
-						<td colspan="8">TOTALES</td>
+						<td colspan="9">TOTALES</td>
 						<td><?php echo number_format($totCom,2,",",".") ?></td>
 						<td><?php echo number_format($totSol,2,",",".") ?></td>
 						<td><?php echo number_format($totComFor,2,",",".") ?></td>
