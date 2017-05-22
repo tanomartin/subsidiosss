@@ -187,7 +187,7 @@ $(function() {
 				      									<input <?php echo $display ?> type="button" value="Subsidio" onClick="location.href = 'presentacion.devsubsidio.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 				     			 		  	 			<font <?php echo $displayp ?> size="2px">EN PROCESO</font>	
 				     			 		  	  <?php } else { 
-				     			 		  				if ($rowPresentacion['fechadeposito'] == NULL && $host == 'localhost') {?>
+				     			 		  				if ($rowPresentacion['fechadeposito'] == NULL) {?>
 				     										<input <?php echo $display ?> type="button" value="Deposito" onClick="location.href = 'presentacion.deposito.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 				     										<font <?php echo $displayp ?> size="2px">EN PROCESO</font>	
 				     							<?php 	} else {  ?>
