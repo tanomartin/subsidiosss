@@ -11,6 +11,48 @@ $resFactura = mysql_query($sqlFactura);
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link rel="stylesheet" href="css/tablas.css"/>
+<title>.: Facturas Presentaciones S.S.S. :.</title>
+<script src="include/jquery.js"></script>
+<link rel="stylesheet" href="include/jquery.tablesorter/themes/theme.blue.css"/>
+<script src="include/jquery.tablesorter/jquery.tablesorter.js"></script>
+<script src="include/jquery.tablesorter/jquery.tablesorter.widgets.js"></script>
+<script src="include/jquery.tablesorter/addons/pager/jquery.tablesorter.pager.js"></script> 
+<script src="include/funcionControl.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+$(function() {
+	$("#listaResultado")
+		.tablesorter({
+			theme: 'blue', 
+			widthFixed: true, 
+			widgets: ["zebra", "filter"],
+			headers:{6:{sorter:false},
+					11:{sorter:false, filter:false},
+					12:{sorter:false, filter:false},
+					13:{sorter:false, filter:false},
+					14:{sorter:false, filter:false},
+					15:{sorter:false, filter:false},
+					16:{sorter:false, filter:false},
+					17:{sorter:false, filter:false},
+					18:{sorter:false, filter:false},
+					19:{sorter:false, filter:false},
+					20:{sorter:false, filter:false}},
+			widgetOptions : { 
+				filter_cssFilter   : '',
+				filter_childRows   : false,
+				filter_hideFilters : false,
+				filter_ignoreCase  : true,
+				filter_searchDelay : 300,
+				filter_startsWith  : false,
+				filter_hideFilters : false,
+			}
+		});
+});
+
+
+</script>
+
 <title>.: Detalle Presentaciones S.S.S. :.</title>
 
 <style type="text/css" media="print">
@@ -27,8 +69,7 @@ $resFactura = mysql_query($sqlFactura);
 	 	
 	 	<h2>Facturas</h2>
 	 	
-	 	<div class="grilla">
-			 <table>
+			 <table id="listaResultado" class="tablesorter" style="text-align: center;">
 			 	<thead>
 			 		<tr>
 			 			<th style="font-size: 11px">Comp. Interno</th>
@@ -155,19 +196,18 @@ $resFactura = mysql_query($sqlFactura);
 					</tr>
 			<?php } ?>
 					<tr>
-						<td colspan="9">TOTALES</td>
-						<td style="font-size: 11px"><?php echo number_format($totCom,2,",",".") ?></td>
-						<td style="font-size: 11px"><?php echo number_format($totSol,2,",",".") ?></td>
-						<td style="font-size: 11px"><?php echo number_format($totComFor,2,",",".") ?></td>
-						<td style="font-size: 11px"><?php echo number_format($totSolFor,2,",",".") ?></td>
-						<td style="font-size: 11px"><?php echo number_format($totComInt,2,",",".") ?></td>
-						<td style="font-size: 11px"><?php echo number_format($totSolInt,2,",",".") ?></td>
-						<td style="font-size: 11px"><?php echo number_format($totSolSub,2,",",".") ?></td>
-						<td style="font-size: 11px"><?php echo number_format($totMonSub,2,",",".") ?></td>
+						<th colspan="9">TOTALES</td>
+						<th style="font-size: 11px"><?php echo number_format($totCom,2,",",".") ?></td>
+						<th style="font-size: 11px"><?php echo number_format($totSol,2,",",".") ?></td>
+						<th style="font-size: 11px"><?php echo number_format($totComFor,2,",",".") ?></td>
+						<th style="font-size: 11px"><?php echo number_format($totSolFor,2,",",".") ?></td>
+						<th style="font-size: 11px"><?php echo number_format($totComInt,2,",",".") ?></td>
+						<th style="font-size: 11px"><?php echo number_format($totSolInt,2,",",".") ?></td>
+						<th style="font-size: 11px"><?php echo number_format($totSolSub,2,",",".") ?></td>
+						<th style="font-size: 11px"><?php echo number_format($totMonSub,2,",",".") ?></td>
 					</tr>
 			  	</tbody>
 			</table>
-		</div>
 		<p><input class="nover" type="button" name="imprimir" value="Imprimir" onclick="window.print();"></p>
 	</div>
 </body>
