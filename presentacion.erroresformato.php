@@ -19,8 +19,37 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link rel="stylesheet" href="css/tablas.css"/>
 <title>.: Detalle Errores Formato S.S.S. :.</title>
+<script src="include/jquery.js"></script>
+<link rel="stylesheet" href="css/tablas.css"/>
+<link rel="stylesheet" href="include/jquery.tablesorter/themes/theme.blue.css"/>
+<script src="include/jquery.tablesorter/jquery.tablesorter.js"></script>
+<script src="include/jquery.tablesorter/jquery.tablesorter.widgets.js"></script>
+<script src="include/jquery.tablesorter/addons/pager/jquery.tablesorter.pager.js"></script> 
+<script src="include/funcionControl.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+$(function() {
+	$("#listaResultado")
+		.tablesorter({
+			theme: 'blue', 
+			widthFixed: true, 
+			widgets: ["zebra", "filter"], 
+			widgetOptions : { 
+				filter_cssFilter   : '',
+				filter_childRows   : false,
+				filter_hideFilters : false,
+				filter_ignoreCase  : true,
+				filter_searchDelay : 300,
+				filter_startsWith  : false,
+				filter_hideFilters : false,
+			}
+		});
+});
+
+
+</script>
 
 <style type="text/css" media="print">
 .nover {display:none}
@@ -36,8 +65,7 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 	 	
 	 	<h2>Errores Formato</h2>
 	 	
-	 	<div class="grilla">
-			 <table>
+			 <table id="listaResultado" class="tablesorter" style="text-align: center;">
 			 	<thead>
 			 		<tr>
 			 			<th style="font-size: 11px">Comp. Interno</th>
@@ -62,18 +90,18 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 					$totCom += $rowFactura['impcomprobante'];
 					$totSol += $rowFactura['impsolicitado'];?>
 					<tr>
-						<td style="font-size: 11px"><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
-						<td style="font-size: 11px"><?php echo $rowFactura['tipoarchivo'] ?></td>
-						<td style="font-size: 11px"><?php echo $rowFactura['cuil'] ?></td>
-						<td style="font-size: 11px"><?php echo $rowFactura['periodo'] ?></td>
-						<td style="font-size: 11px"><?php echo $rowFactura['cuit'] ?></td>
-						<td style="font-size: 11px"><?php echo $rowFactura['codpractica'] ?></td>
-						<td style="font-size: 11px"><?php echo $rowFactura['dependencia'] ?></td>
-						<td style="font-size: 11px"><?php echo $rowFactura['fechacomprobante'] ?></td>
-						<td style="font-size: 11px"><?php echo $rowFactura['nrocomprobante'] ?></td>
-						<td style="font-size: 11px"><?php echo number_format($rowFactura['impcomprobante'],2,",",".") ?></td>
-						<td style="font-size: 11px"><?php echo number_format($rowFactura['impsolicitado'],2,",",".") ?></td>
-				 		<td style="font-size: 11px; color: red">
+						<td style="font-size: 12px"><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
+						<td style="font-size: 12px"><?php echo $rowFactura['tipoarchivo'] ?></td>
+						<td style="font-size: 12px"><?php echo $rowFactura['cuil'] ?></td>
+						<td style="font-size: 12px"><?php echo $rowFactura['periodo'] ?></td>
+						<td style="font-size: 12px"><?php echo $rowFactura['cuit'] ?></td>
+						<td style="font-size: 12px"><?php echo $rowFactura['codpractica'] ?></td>
+						<td style="font-size: 12px"><?php echo $rowFactura['dependencia'] ?></td>
+						<td style="font-size: 12px"><?php echo $rowFactura['fechacomprobante'] ?></td>
+						<td style="font-size: 12px"><?php echo $rowFactura['nrocomprobante'] ?></td>
+						<td style="font-size: 12px"><?php echo number_format($rowFactura['impcomprobante'],2,",",".") ?></td>
+						<td style="font-size: 12px"><?php echo number_format($rowFactura['impsolicitado'],2,",",".") ?></td>
+				 		<td style="font-size: 12px; color: red">
 				  <?php $explodeErrores = explode("-",$rowFactura['deverrorformato']);
 						foreach ($explodeErrores as $error) {
 							if ($error != "") {
@@ -85,14 +113,13 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 					</tr>
 			<?php } ?>
 					<tr>
-						<td colspan="9">TOTALES</td>
-						<td><?php echo number_format($totCom,2,",",".") ?></td>
-						<td><?php echo number_format($totSol,2,",",".") ?></td>
-						<td></td>
+						<th colspan="9">TOTALES</th>
+						<th><?php echo number_format($totCom,2,",",".") ?></th>
+						<th><?php echo number_format($totSol,2,",",".") ?></th>
+						<th></th>
 					</tr>
 			  	</tbody>
 			</table>
-			</div>
 		<p><input class="nover" type="button" name="imprimir" value="Imprimir" onclick="window.print();"></p>
 	</div>
 </body>

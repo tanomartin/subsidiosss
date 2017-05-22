@@ -19,8 +19,46 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link rel="stylesheet" href="css/tablas.css"/>
 <title>.: Detalle Errores Integral S.S.S. :.</title>
+<script src="include/jquery.js"></script>
+<link rel="stylesheet" href="css/tablas.css"/>
+<link rel="stylesheet" href="include/jquery.tablesorter/themes/theme.blue.css"/>
+<script src="include/jquery.tablesorter/jquery.tablesorter.js"></script>
+<script src="include/jquery.tablesorter/jquery.tablesorter.widgets.js"></script>
+<script src="include/jquery.tablesorter/addons/pager/jquery.tablesorter.pager.js"></script> 
+<script src="include/funcionControl.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+$(function() {
+	$("#listaResultado")
+		.tablesorter({
+			theme: 'blue', 
+			widthFixed: true, 
+			headers:{9:{sorter:false, filter:false},
+					 10:{sorter:false, filter:false},
+					 11:{filter:false},
+					 12:{sorter:false, filter:false},
+					 13:{sorter:false},
+					 14:{sorter:false, filter:false},
+					 15:{sorter:false, filter:false},
+					 16:{sorter:false, filter:false},
+					 17:{sorter:false, filter:false}},
+			widgets: ["zebra", "filter"], 
+			widgetOptions : { 
+				filter_cssFilter   : '',
+				filter_childRows   : false,
+				filter_hideFilters : false,
+				filter_ignoreCase  : true,
+				filter_searchDelay : 300,
+				filter_startsWith  : false,
+				filter_hideFilters : false,
+			}
+		});
+});
+
+
+</script>
 
 <style type="text/css" media="print">
 .nover {display:none}
@@ -36,30 +74,27 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 	 	
 	 	<h2>Errores Integrales</h2>
 	 	
-	 	<div class="grilla">
-			 <table>
+			 <table id="listaResultado" class="tablesorter" style="text-align: center;">
 			 	<thead>
 			 		<tr>
-			 			<th style="font-size: 11px">Comp. Interno</th>
-			 			<th style="font-size: 11px">Tipo</th>
-			 			<th style="font-size: 11px">C.U.I.L.</th>
-			 			<th style="font-size: 11px">Periodo</th>
-			 			<th style="font-size: 11px">C.U.I.T.</th>
-			 			<th style="font-size: 11px">Practica</th>
-			 			<th style="font-size: 11px">Dep</th>
-			 			<th style="font-size: 11px">Fec. Comp.</th>
-			 			<th style="font-size: 11px">Num. Comp.</th>
+			 			<th style="font-size: 11px" rowspan="2">Comp. Interno</th>
+			 			<th style="font-size: 11px" rowspan="2">Tipo</th>
+			 			<th style="font-size: 11px" rowspan="2">C.U.I.L.</th>
+			 			<th style="font-size: 11px" rowspan="2">Periodo</th>
+			 			<th style="font-size: 11px" rowspan="2">C.U.I.T.</th>
+			 			<th style="font-size: 11px" rowspan="2">Practica</th>
+			 			<th style="font-size: 11px" rowspan="2">Dep</th>
+			 			<th style="font-size: 11px" rowspan="2">Fec. Comp.</th>
+			 			<th style="font-size: 11px" rowspan="2">Num. Comp.</th>
 			 			<th style="font-size: 11px" colspan="2">Presentacion</th>
 			 			<th style="font-size: 11px" colspan="2">Resultado Formato</th>
-			 			<th style="font-size: 11px">ERROR INTEGRAL</th>
+			 			<th style="font-size: 11px" rowspan="2">ERROR INTEGRAL</th>
 			 		</tr>
 			 		<tr>
-			 			<th style="font-size: 11px" colspan="9"></th>
 			 			<th style="font-size: 11px">$ Comprobante</th>
 			 			<th style="font-size: 11px">$ Solicitado</th>
 			 			<th style="font-size: 11px">$ Comprobante</th>
 			 			<th style="font-size: 11px">$ Solicitado</th>
-			 			<th></th>
 			 		</tr>
 			 	</thead>
 			 	<tbody>
@@ -74,20 +109,20 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 					$totComFor += $rowFactura['impcomprobanteformato'];
 					$totSolFor += $rowFactura['impsolicitadoformato'];	?>
 					<tr>
-						<td style="font-size: 11px"><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
-						<td style="font-size: 11px"><?php echo $rowFactura['tipoarchivo'] ?></td>
-						<td style="font-size: 11px"><?php echo $rowFactura['cuil'] ?></td>
-						<td style="font-size: 11px"><?php echo $rowFactura['periodo'] ?></td>
-						<td style="font-size: 11px"><?php echo $rowFactura['cuit'] ?></td>
-						<td style="font-size: 11px"><?php echo $rowFactura['codpractica'] ?></td>
-						<td style="font-size: 11px"><?php echo $rowFactura['dependencia'] ?></td>
-						<td style="font-size: 11px"><?php echo $rowFactura['fechacomprobante'] ?></td>
-						<td style="font-size: 11px"><?php echo $rowFactura['nrocomprobante'] ?></td>
-						<td style="font-size: 11px"><?php echo number_format($rowFactura['impcomprobante'],2,",",".") ?></td>
-						<td style="font-size: 11px"><?php echo number_format($rowFactura['impsolicitado'],2,",",".") ?></td>
-						<td style="font-size: 11px"><?php echo number_format($rowFactura['impcomprobanteformato'],2,",",".") ?></td>
-						<td style="font-size: 11px"><?php echo number_format($rowFactura['impsolicitadoformato'],2,",",".") ?></td>
-				 		<td style="font-size: 11px; color: red">
+						<td style="font-size: 12px"><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
+						<td style="font-size: 12px"><?php echo $rowFactura['tipoarchivo'] ?></td>
+						<td style="font-size: 12px"><?php echo $rowFactura['cuil'] ?></td>
+						<td style="font-size: 12px"><?php echo $rowFactura['periodo'] ?></td>
+						<td style="font-size: 12px"><?php echo $rowFactura['cuit'] ?></td>
+						<td style="font-size: 12px"><?php echo $rowFactura['codpractica'] ?></td>
+						<td style="font-size: 12px"><?php echo $rowFactura['dependencia'] ?></td>
+						<td style="font-size: 12px"><?php echo $rowFactura['fechacomprobante'] ?></td>
+						<td style="font-size: 12px"><?php echo $rowFactura['nrocomprobante'] ?></td>
+						<td style="font-size: 12px"><?php echo number_format($rowFactura['impcomprobante'],2,",",".") ?></td>
+						<td style="font-size: 12px"><?php echo number_format($rowFactura['impsolicitado'],2,",",".") ?></td>
+						<td style="font-size: 12px"><?php echo number_format($rowFactura['impcomprobanteformato'],2,",",".") ?></td>
+						<td style="font-size: 12px"><?php echo number_format($rowFactura['impsolicitadoformato'],2,",",".") ?></td>
+				 		<td style="font-size: 12px; color: red">
 				  <?php $explodeErrores = explode("-",$rowFactura['deverrorintegral']);
 						foreach ($explodeErrores as $error) {
 							if ($error != "") {
@@ -99,16 +134,15 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 					</tr>
 			<?php } ?>
 					<tr>
-						<td colspan="9">TOTALES</td>
-						<td><?php echo number_format($totCom,2,",",".") ?></td>
-						<td><?php echo number_format($totSol,2,",",".") ?></td>
-						<td><?php echo number_format($totComFor,2,",",".") ?></td>
-						<td><?php echo number_format($totSolFor,2,",",".") ?></td>
-						<td></td>
+						<th colspan="9">TOTALES</td>
+						<th><?php echo number_format($totCom,2,",",".") ?></th>
+						<th><?php echo number_format($totSol,2,",",".") ?></th>
+						<th><?php echo number_format($totComFor,2,",",".") ?></th>
+						<th><?php echo number_format($totSolFor,2,",",".") ?></th>
+						<th></th>
 					</tr>
 			  	</tbody>
 			</table>
-			</div>
 		
 		<p><input class="nover" type="button" name="imprimir" value="Imprimir" onclick="window.print();"></p>
 	</div>

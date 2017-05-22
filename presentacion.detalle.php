@@ -72,23 +72,22 @@ $(function() {
 			 <table id="listaResultado" class="tablesorter" style="text-align: center;">
 			 	<thead>
 			 		<tr>
-			 			<th style="font-size: 11px">Comp. Interno</th>
-			 			<th style="font-size: 11px">Tipo</th>
-			 			<th style="font-size: 11px">C.U.I.L.</th>
-			 			<th style="font-size: 11px">Periodo</th>
-			 			<th style="font-size: 11px">C.U.I.T.</th>
-			 			<th style="font-size: 11px">C.A.E.</th>
-			 			<th style="font-size: 11px">Fec. Comp.</th>
-			 			<th style="font-size: 11px">Num. Comp.</th>
-			 			<th style="font-size: 11px">Cod. Prac.</th>
-			 			<th style="font-size: 11px">$ Comprobante</th>
-			 			<th style="font-size: 11px">$ Solicitado</th>
+			 			<th rowspan="2" style="font-size: 11px">Comp. Interno</th>
+			 			<th rowspan="2" style="font-size: 11px">Tipo</th>
+			 			<th rowspan="2" style="font-size: 11px">C.U.I.L.</th>
+			 			<th rowspan="2" style="font-size: 11px">Periodo</th>
+			 			<th rowspan="2" style="font-size: 11px">C.U.I.T.</th>
+			 			<th rowspan="2" style="font-size: 11px">C.A.E.</th>
+			 			<th rowspan="2" style="font-size: 11px">Fec. Comp.</th>
+			 			<th rowspan="2" style="font-size: 11px">Num. Comp.</th>
+			 			<th rowspan="2" style="font-size: 11px">Cod. Prac.</th>
+			 			<th rowspan="2" style="font-size: 11px">$ Comprobante</th>
+			 			<th rowspan="2" style="font-size: 11px">$ Solicitado</th>
 			 			<th style="font-size: 11px" colspan="2">Resultado Formato</th>
 			 			<th style="font-size: 11px" colspan="2">Resultado Integral</th>
 			 			<th style="font-size: 11px" colspan="2">Resultado Subsidio</th>
 			 		</tr>
 			 		<tr>
-			 			<th style="font-size: 11px" colspan="11"></th>
 			 			<th style="font-size: 11px">$ Comprobante</th>
 			 			<th style="font-size: 11px">$ Solicitado</th>
 			 			<th style="font-size: 11px">$ Comprobante</th>

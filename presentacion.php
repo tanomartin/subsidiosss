@@ -109,29 +109,27 @@ $(function() {
 			 <table id="listaResultado" class="tablesorter" style="text-align: center;">
 			 	<thead>
 			 		<tr>
-			 			<th style="font-size: 11px">Id</th>
-			 			<th class="filter-select" data-placeholder="Selccione" style="font-size: 11px">Periodo</th>
-			 			<th class="filter-select" data-placeholder="Selccione" style="font-size: 11px">Carpeta</th>
-			 			<th style="font-size: 11px">Cant. Fac.</th>
+			 			<th style="font-size: 11px" rowspan="2">Id</th>
+			 			<th rowspan="2" class="filter-select" data-placeholder="Selccione" style="font-size: 11px">Periodo</th>
+			 			<th rowspan="2" class="filter-select" data-placeholder="Selccione" style="font-size: 11px">Carpeta</th>
+			 			<th rowspan="2" style="font-size: 11px" rowspan="2">Cant. Fac.</th>
 			 			<th style="font-size: 11px" colspan="2">Credito</th>
 			 			<th style="font-size: 11px" colspan="2">Debito</th>
-			 			<th style="font-size: 11px">Fecha Presentacion</th>
-			 			<th style="font-size: 11px">Fecha Cancelacion</th>
-			 			<th style="font-size: 11px">Fecha Dev. Formato</th>
-			 			<th style="font-size: 11px">Fecha Dev. Integral</th>
-			 			<th style="font-size: 11px">Fecha Dev. Subsidio</th>
-			 			<th style="font-size: 11px">Fecha Deposito</th>
-			 			<th style="font-size: 11px">Informacion</th>
-			 			<th style="font-size: 11px">Errores</th>
-			 			<th class="filter-select" data-placeholder="Selccione" style="font-size: 11px">Acciones</th>
+			 			<th rowspan="2" style="font-size: 11px">Fecha Presentacion</th>
+			 			<th rowspan="2" style="font-size: 11px">Fecha Cancelacion</th>
+			 			<th rowspan="2" style="font-size: 11px">Fecha Dev. Formato</th>
+			 			<th rowspan="2" style="font-size: 11px">Fecha Dev. Integral</th>
+			 			<th rowspan="2" style="font-size: 11px">Fecha Dev. Subsidio</th>
+			 			<th rowspan="2" style="font-size: 11px">Fecha Deposito</th>
+			 			<th rowspan="2" style="font-size: 11px">Informacion</th>
+			 			<th rowspan="2" style="font-size: 11px">Errores</th>
+			 			<th rowspan="2" class="filter-select" data-placeholder="Selccione" style="font-size: 11px">Acciones</th>
 			 		</tr>
 			 		<tr>
-			 			<th style="font-size: 11px" colspan="4"></th>
 			 			<th style="font-size: 11px">$ Comp</th>
 			 			<th style="font-size: 11px">$ Soli</th>
 			 			<th style="font-size: 11px">$ Comp</th>
 			 			<th style="font-size: 11px">$ Soli</th>
-			 			<th style="font-size: 11px" colspan="9"></th>
 			 		</tr>
 			 	</thead>
 			 	<tbody>
