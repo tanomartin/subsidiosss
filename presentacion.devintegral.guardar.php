@@ -83,8 +83,8 @@ if ($archivoerror != null) {
 		$linea = fgets($fpnok);
 		if ($linea != '') {
 			$arraylinea = explode("|", $linea);	
-			$importeComprobante = substr($arraylinea[13],0,8).".".substr($arraylinea[13],-2);
-			$importeSolicitado = substr($arraylinea[14],0,8).".".substr($arraylinea[14],-2);
+			$importeComprobante = (float) str_replace(",",".",$arraylinea[13]);
+			$importeSolicitado = (float) str_replace(",",".",$arraylinea[14]);
 			
 			if ($arraylinea[0] == 'DB') {
 				$sumcompdnok += $importeComprobante;
