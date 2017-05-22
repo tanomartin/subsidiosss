@@ -72,7 +72,7 @@ $(function() {
 			theme: 'blue', 
 			widthFixed: true, 
 			widgets: ["zebra", "filter"], 
-			headers:{20:{sorter:false, filter:false}},
+			headers:{21:{sorter:false, filter:false}},
 			widgetOptions : { 
 				filter_cssFilter   : '',
 				filter_childRows   : false,
