@@ -1,6 +1,6 @@
 <?php 
 include_once 'include/conector.php';
-
+$host = $_SERVER['SERVER_NAME'];
 $sqlPresentacion = "SELECT 
 						p.id,
 						DATE_FORMAT(p.fechapresentacion, '%d-%m-%Y') as fechapresentacion,
@@ -46,7 +46,54 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link rel="stylesheet" href="css/tablas.css"/>
+<script src="include/jquery.js"></script>
+<link rel="stylesheet" href="include/jquery.tablesorter/themes/theme.blue.css"/>
+<script src="include/jquery.tablesorter/jquery.tablesorter.js"></script>
+<script src="include/jquery.tablesorter/jquery.tablesorter.widgets.js"></script>
+<script src="include/jquery.tablesorter/addons/pager/jquery.tablesorter.pager.js"></script> 
+<script src="include/funcionControl.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+$(function() {
+	$("#listaResultado")
+		.tablesorter({
+			theme: 'blue', 
+			widthFixed: true, 
+			widgets: ["zebra", "filter"], 
+			headers:{3:{sorter:false, filter:false},
+					 4:{sorter:false, filter:false},
+				 	 5:{sorter:false, filter:false},
+				 	 6:{sorter:false, filter:false},
+				 	 7:{sorter:false, filter:false},
+				 	 8:{sorter:false, filter:false},
+				 	 9:{sorter:false, filter:false},
+				 	 10:{sorter:false, filter:false},
+				 	 11:{sorter:false, filter:false},
+				 	 12:{sorter:false, filter:false},
+				 	 13:{sorter:false, filter:false},
+				 	 14:{sorter:false, filter:false},
+				 	 15:{sorter:false, filter:false},
+				 	 16:{sorter:false},
+				 	 17:{sorter:false, filter:false},
+				 	 18:{sorter:false, filter:false},
+				 	 19:{sorter:false, filter:false},
+				 	 20:{sorter:false, filter:false}},
+			widgetOptions : { 
+				filter_cssFilter   : '',
+				filter_childRows   : false,
+				filter_hideFilters : false,
+				filter_ignoreCase  : true,
+				filter_searchDelay : 300,
+				filter_startsWith  : false,
+				filter_hideFilters : false,
+			}
+		});
+});
+
+
+</script>
+
 <title>.: Presentaciones S.S.S. :.</title>
 </head>
 
@@ -54,18 +101,18 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 	<div align="center">
 	 	<p><input type="button" name="volver" value="Volver" onClick="location.href = 'menu.php'" /></p>
 	 	<h2>Presentaciones S.S.S.</h2>
-  <?php if ($canPresentacionPeriodo == 0) {?>
+  <?php if ($canPresentacionPeriodo == 0 && $host == 'localhost') {?>
 	 		<p><input type="button" name="nueva" value="Nueva Presentacion" onClick="location.href = 'presentacion.nueva.php'" /></p>
   <?php } 
         if ($canPresentacion > 0) {?>
-		 <div class="grilla">
-			 <table>
+
+			 <table id="listaResultado" class="tablesorter" style="text-align: center;">
 			 	<thead>
 			 		<tr>
 			 			<th style="font-size: 11px">Id</th>
-			 			<th style="font-size: 11px">Periodo</th>
-			 			<th style="font-size: 11px">Carpeta</th>
-			 			<th style="font-size: 11px">Facturas</th>
+			 			<th class="filter-select" data-placeholder="Selccione" style="font-size: 11px">Periodo</th>
+			 			<th class="filter-select" data-placeholder="Selccione" style="font-size: 11px">Carpeta</th>
+			 			<th style="font-size: 11px">Cant. Fac.</th>
 			 			<th style="font-size: 11px" colspan="2">Credito</th>
 			 			<th style="font-size: 11px" colspan="2">Debito</th>
 			 			<th style="font-size: 11px">Fecha Presentacion</th>
@@ -76,7 +123,7 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 			 			<th style="font-size: 11px">Fecha Deposito</th>
 			 			<th style="font-size: 11px">Informacion</th>
 			 			<th style="font-size: 11px">Errores</th>
-			 			<th style="font-size: 11px">Acciones</th>
+			 			<th class="filter-select" data-placeholder="Selccione" style="font-size: 11px">Acciones</th>
 			 		</tr>
 			 		<tr>
 			 			<th style="font-size: 11px" colspan="4"></th>
@@ -90,26 +137,26 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 			 	<tbody>
 			<?php while ($rowPresentacion = mysql_fetch_array($resPresentacion)) { ?>
 					<tr>
-						<td style="font-size: 11px"><?php echo $rowPresentacion['id'] ?></td>
-						<td style="font-size: 11px"><?php echo $rowPresentacion['periodo'] ?></td>
-						<td style="font-size: 11px"><?php echo $rowPresentacion['carpeta'] ?></td>
-						<td style="font-size: 11px"><?php echo $rowPresentacion['cantfactura'] ?></td>
-						<td style="font-size: 11px"><?php echo number_format($rowPresentacion['impcomprobantes'],2,",",".") ?></td>
-						<td style="font-size: 11px"><?php echo number_format($rowPresentacion['impsolicitado'],2,",",".") ?></td>
-						<td style="font-size: 11px"><?php echo number_format($rowPresentacion['impcomprobantesd'],2,",",".") ?></td>
-						<td style="font-size: 11px"><?php echo number_format($rowPresentacion['impsolicitadod'],2,",",".") ?></td>
-						<td style="font-size: 11px"><?php echo $rowPresentacion['fechapresentacion'] ?></td>
-						<td style="font-size: 11px"><?php echo $rowPresentacion['fechacancelacion'] ?></td>
-						<td style="font-size: 11px"><?php echo $rowPresentacion['fechadevformato'] ?></td>
-						<td style="font-size: 11px"><?php echo $rowPresentacion['fechaintegral'] ?></td>
-						<td style="font-size: 11px"><?php echo $rowPresentacion['fechasubsidio'] ?></td>
-						<td style="font-size: 11px"><?php echo $rowPresentacion['fechadeposito'] ?></td>
-						<td style="font-size: 11px">
+						<td style="font-size: 12px"><?php echo $rowPresentacion['id'] ?></td>
+						<td style="font-size: 12px"><?php echo $rowPresentacion['periodo'] ?></td>
+						<td style="font-size: 12px"><?php echo $rowPresentacion['carpeta'] ?></td>
+						<td style="font-size: 12px"><?php echo $rowPresentacion['cantfactura'] ?></td>
+						<td style="font-size: 12px"><?php echo number_format($rowPresentacion['impcomprobantes'],2,",",".") ?></td>
+						<td style="font-size: 12px"><?php echo number_format($rowPresentacion['impsolicitado'],2,",",".") ?></td>
+						<td style="font-size: 12px"><?php echo number_format($rowPresentacion['impcomprobantesd'],2,",",".") ?></td>
+						<td style="font-size: 12px"><?php echo number_format($rowPresentacion['impsolicitadod'],2,",",".") ?></td>
+						<td style="font-size: 12px"><?php echo $rowPresentacion['fechapresentacion'] ?></td>
+						<td style="font-size: 12px"><?php echo $rowPresentacion['fechacancelacion'] ?></td>
+						<td style="font-size: 12px"><?php echo $rowPresentacion['fechadevformato'] ?></td>
+						<td style="font-size: 12px"><?php echo $rowPresentacion['fechaintegral'] ?></td>
+						<td style="font-size: 12px"><?php echo $rowPresentacion['fechasubsidio'] ?></td>
+						<td style="font-size: 12px"><?php echo $rowPresentacion['fechadeposito'] ?></td>
+						<td>
 							<input type="button" value="Facturas" onClick="location.href = 'presentacion.facturas.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 							<input type="button" value="Detalle" onClick="location.href = 'presentacion.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 							<input type="button" value="Excel" onClick="location.href = 'presentacion.detalleExcel.php?id=<?php echo $rowPresentacion['id'] ?>&carpeta=<?php echo $rowPresentacion['carpeta'] ?>'"/>
 						</td>
-						<td style="font-size: 11px">
+						<td>
 					<?php	if ($rowPresentacion['fechadevformato'] != NULL && $rowPresentacion['cantformatonok'] != 0) { ?>
 								<input type="button" value="Err. Formato" onClick="location.href = 'presentacion.erroresformato.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 					<?php   } ?>
@@ -119,24 +166,30 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 						</td>
 						<td>
 				    		 <?php 	if ($rowPresentacion['fechacancelacion'] == NULL) { 
+				    		 			if ($host != 'localhost') { $display = 'style="display: none"'; $displayp = ''; } else { $display = ''; $displayp = 'style="display: none"'; };
 				    					if ($rowPresentacion['fechapresentacion'] == NULL) { ?>
-											<input type="button" value="Cancelar" onClick="location.href = 'presentacion.cancelar.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-											<input type="button" value="Generar Archivo" onClick="location.href = 'presentacion.archivo.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+											<input <?php echo $display ?> type="button" value="Cancelar" onClick="location.href = 'presentacion.cancelar.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+											<input <?php echo $display ?> type="button" value="Generar Archivo" onClick="location.href = 'presentacion.archivo.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+											<font <?php echo $displayp ?> size="2px">EN PROCESO</font>	
 					  		   	  <?php } else { 
 											if ($rowPresentacion['fechadevformato'] == NULL) { ?>
-												<input type="button" value="Cancelar" onClick="location.href = 'presentacion.cancelar.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-												<input type="button" value="Formato" onClick="location.href = 'presentacion.devformato.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+												<input <?php echo $display ?> type="button" value="Cancelar" onClick="location.href = 'presentacion.cancelar.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+												<input <?php echo $display ?> type="button" value="Formato" onClick="location.href = 'presentacion.devformato.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+					  			  	  			<font <?php echo $displayp ?> size="2px">EN PROCESO</font>	
 					  			  	  <?php } else { 
 					  			  	  			if ($rowPresentacion['fechaintegral'] == NULL) { ?>
-					  			  	  				<input type="button" value="Cancelar" onClick="location.href = 'presentacion.cancelar.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-													<input type="button" value="Integral" onClick="location.href = 'presentacion.devintegral.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+					  			  	  				<input <?php echo $display ?> type="button" value="Cancelar" onClick="location.href = 'presentacion.cancelar.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+													<input <?php echo $display ?> type="button" value="Integral" onClick="location.href = 'presentacion.devintegral.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+					  			  	  				<font <?php echo $displayp ?> size="2px">EN PROCESO</font>	
 					  			  	  	  <?php } else { 	
 				      								if ($rowPresentacion['fechasubsidio'] == NULL) { ?>
-				      									<input type="button" value="Cancelar" onClick="location.href = 'presentacion.cancelar.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-				      									<input type="button" value="Subsidio" onClick="location.href = 'presentacion.devsubsidio.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+				      									<input <?php echo $display ?> type="button" value="Cancelar" onClick="location.href = 'presentacion.cancelar.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+				      									<input <?php echo $display ?> type="button" value="Subsidio" onClick="location.href = 'presentacion.devsubsidio.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+				     			 		  	 			<font <?php echo $displayp ?> size="2px">EN PROCESO</font>	
 				     			 		  	  <?php } else { 
-				     			 		  				if ($rowPresentacion['fechadeposito'] == NULL) {?>
-				     										<input type="button" value="Deposito" onClick="location.href = 'presentacion.deposito.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+				     			 		  				if ($rowPresentacion['fechadeposito'] == NULL && $host == 'localhost') {?>
+				     										<input <?php echo $display ?> type="button" value="Deposito" onClick="location.href = 'presentacion.deposito.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+				     										<font <?php echo $displayp ?> size="2px">EN PROCESO</font>	
 				     							<?php 	} else {  ?>
 				     										<font color="blue" size="2px">FINALIZADA</font>	
 				     			 		  		<?php	} 
@@ -152,7 +205,7 @@ $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 			 <?php 	}  ?>
 			  	</tbody>
 			</table>
-		</div>
+
   <?php } else { ?>
 			<p style="color: blue"><b>NO HAY PRESENTACIONES HASTA EL MOMENTO</b></p>
   <?php } ?>
