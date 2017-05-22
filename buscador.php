@@ -32,6 +32,7 @@ if (isset($_POST['dato']) && isset($_POST['filtro'])) {
 			if ($pres == 'CANCELADAS') {
 				$sqlFactura .= " and p.fechacancelacion is not null";
 			} else {
+				$sqlFactura .= " and p.fechacancelacion is null";
 				if ($pres == 'EN PROCESO') {
 					$sqlFactura .= " and p.fechadeposito is null";
 				} else {
@@ -54,6 +55,9 @@ if (isset($_POST['dato']) && isset($_POST['filtro'])) {
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>.: Subsidios Buscador :.</title>
+<style type="text/css" media="print">
+.nover {display:none}
+</style>
 <script src="include/jquery.js"></script>
 <link rel="stylesheet" href="include/jquery.tablesorter/themes/theme.blue.css"/>
 <script src="include/jquery.tablesorter/jquery.tablesorter.js"></script>
@@ -130,18 +134,18 @@ function validar(formulario) {
 <body bgcolor="#CCCCCC">
 <form id="form1" name="form1" method="post" onSubmit="return validar(this)" action="buscador.php">
   <div align="center" >
-  <p><input type="reset" name="volver" value="Volver" onClick="location.href = 'menu.php'"/></p>
+  <p><input class="nover" type="reset" name="volver" value="Volver" onClick="location.href = 'menu.php'"/></p>
   <h2>Buscador Reintegro S.S.S.</h2>
   </div>
   <div align="center"> 
-    <table>
+    <table class="nover">
       <tr>
 	     <td><strong>Estado Presentacion </strong> </td>
 	     <td>
 	    	<select name="presentacion">
 	    		<option value="TODAS" selected="selected">TODAS</option>
 	    		<option value="FINALIZADAS">FINALIZADAS</option>
-	    		<option value="EN PREOCESO">EN PROCESO</option>
+	    		<option value="EN PROCESO">EN PROCESO</option>
 	    		<option value="CANCELADAS">CANCELADAS</option>
 	    	</select>
 	     </td>
@@ -167,7 +171,7 @@ function validar(formulario) {
     </table>
   </div>
   <p align="center">
-    <label>
+    <label class="nover">
     <input type="submit" name="Buscar" value="Buscar" />
     </label>
   </p>
@@ -181,9 +185,9 @@ function validar(formulario) {
 		  <table id="listaResultado" class="tablesorter" style="text-align: center;">
 			<thead>
 					<tr>
-						<th style="font-size: 12px">Id. Pres.</th>
+						<th style="font-size: 12px">Id</th>
 						<th style="font-size: 12px" class="filter-select" data-placeholder="Selccione">Per. Pres.</th>
-			 			<th style="font-size: 12px" class="filter-select" data-placeholder="Selccione">Estado</th>
+			 			<th style="font-size: 12px" class="filter-select" data-placeholder="Selccione">Est.</th>
 			 			<th style="font-size: 12px">Comp. Interno</th>
 			 			<th style="font-size: 12px" class="filter-select" data-placeholder="Selccione">T.</th>
 			 			<th style="font-size: 12px">C.U.I.L.</th>
@@ -252,6 +256,7 @@ function validar(formulario) {
 			<?php } ?>
 			</tbody>
 		</table>
+		<p><input class="nover" type="button" name="imprimir" value="Imprimir" onclick="window.print();"></p>
  	 <?php } 
 		} ?>
   </div>
