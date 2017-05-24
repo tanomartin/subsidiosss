@@ -2,25 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<style>
-
-A:link {text-decoration: none}
-A:visited {text-decoration: none}
-A:hover {text-decoration:underline; color:FCF63C}
-
-.Estilo1 {
-	font-size: 24px;
-	font-weight: bold;
-}
-</style>
-
 <title>.: Integración SSS :.</title>
 </head>
 
 <body bgcolor="#CCCCCC" link="#D5913A" vlink="#CF8B34" alink="#D18C35">
 <form method="post" action="verificador.php">
   <div align="center">
-    <p class="Estilo1">Ingreso Sistema de Reintegro SSS</p>
+    <h2>Ingreso Sistema de Reintegro SSS</h2>
     <p><img src="img/logosss.png" width="407" height="350" /> </p>
     <p><?php  
     	if (isset($_GET['error'])) {

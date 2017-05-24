@@ -189,7 +189,8 @@ $(function() {
 				     										<input <?php echo $display ?> type="button" value="Deposito" onClick="location.href = 'presentacion.deposito.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 				     										<font <?php echo $displayp ?> size="2px">EN PROCESO</font>	
 				     							<?php 	} else {  ?>
-				     										<font color="blue" size="2px">FINALIZADA</font>	
+				     										<font color="blue" size="2px" style="margin-bottom: 5px">FINALIZADA</font>	
+				     										<input type="button" value="Info. Pagos" onClick="location.href = 'presentacion.pagos.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 				     			 		  		<?php	} 
 				     			 		 			}
 					  			  	  	  		}
