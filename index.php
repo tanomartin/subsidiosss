@@ -21,7 +21,7 @@ A:hover {text-decoration:underline; color:FCF63C}
 <form method="post" action="verificador.php">
   <div align="center">
     <p class="Estilo1">Ingreso Sistema de Reintegro SSS</p>
-    <p><img src="img/logoSSS.png" width="407" height="350" /> </p>
+    <p><img src="img/logosss.png" width="407" height="350" /> </p>
     <p><?php  
     	if (isset($_GET['error'])) {
 			$error = $_GET['error'];
