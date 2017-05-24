@@ -1,3 +1,6 @@
+<?php 
+include_once 'include/conector.php';
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -31,6 +34,7 @@
 	  </tr>
     </tr>
   </table>
+   <p><input type="button" name="salir" value="SALIR" onclick="location.href='logout.php'" /></p>
 </div>
 </body>
 </html>
