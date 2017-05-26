@@ -40,6 +40,15 @@ $sqlPresentacionPeriodo = "SELECT *
 $resPresentacionPeriodo  = mysql_query($sqlPresentacionPeriodo);
 $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 
+$sqlPagos = "SELECT idpresentacion from pagos group by idpresentacion";
+$resPagos  = mysql_query($sqlPagos);
+$canPagos = mysql_num_rows($resPagos);
+$arrayPagos = array();
+if ($canPagos > 0) {
+	while ($rowPagos = mysql_fetch_array($resPagos)) {
+		$arrayPagos[$rowPagos['idpresentacion']] = $rowPagos['idpresentacion'];
+	}
+}
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -190,7 +199,9 @@ $(function() {
 				     										<font <?php echo $displayp ?> size="2px">EN PROCESO</font>	
 				     							<?php 	} else {  ?>
 				     										<font color="blue" size="2px">FINALIZADA</font>	
-				     										<input style="margin-top: 5px" type="button" value="Info. Pagos" onClick="location.href = 'presentacion.pagos.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+				     										<?php if (in_array($rowPresentacion['id'],$arrayPagos)) {?>
+				     												<input style="margin-top: 5px" type="button" value="Info. Pagos" onClick="location.href = 'presentacion.pagos.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+				     										<?php }?>
 				     			 		  		<?php	} 
 				     			 		 			}
 					  			  	  	  		}
