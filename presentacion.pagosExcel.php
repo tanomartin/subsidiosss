@@ -125,7 +125,7 @@ $lineaTotales = "<tr>
 				</tr>";
 $lineas[$indexLinea] = $lineaTotales;
 
-$file= "INFORME-".$idPresentacion.".xls";
+$file= "INFORME DE APLICACIÓN DE FONDOS Y AUDITORIA-PRESENTACION ".$idPresentacion.".xls";
 header("Content-type: application/vnd.ms-excel");
 header("Content-Disposition: attachment; filename=$file");
 ?>
