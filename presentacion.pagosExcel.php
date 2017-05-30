@@ -72,7 +72,17 @@ foreach ($arrayCompleto as $key => $subsidio) {
 		
 		$contadorPagos = 0;
 		foreach ($subsidio['f'][$nrointerno]['p'] as $nropago => $pago) {
-			$totalPagoS += (float) $pago['importepagado']; 
+			$nrotran = $pago['nrotransferencia'];
+			$tipo = substr($nrotran, 0, 2);
+			if ($tipo == 'TS') {
+				$totalPagoS += (float) $pago['importepagado'];
+				$imporPagoS = (float) $pago['importepagado'];
+				$imporPagoO = 0;
+			} else {
+				$totalPagoO += (float) $pago['importepagado'];
+				$imporPagoO = (float) $pago['importepagado'];
+				$imporPagoS = 0;
+			}
 			if ($contadorPagos != 0) {
 				$linea .= "<tr>";
 				$linea .= "<td colspan='12'></td>";
@@ -83,8 +93,8 @@ foreach ($arrayCompleto as $key => $subsidio) {
 				$linea .= "<td style='font-size: 7px'>".number_format($pago['retganancias'],"2",",",".")."</td>";
 				$linea .= "<td style='font-size: 7px'>".number_format($pago['retingresosbrutos'],"2",",",".")."</td>";
 				$linea .= "<td style='font-size: 7px'>".number_format("0","2",",",".")."</td>";
-				$linea .= "<td style='font-size: 7px'>".number_format($pago['importepagado'],"2",",",".")."</td>";
-				$linea .= "<td style='font-size: 7px'></td>";
+				$linea .= "<td style='font-size: 9px'>".number_format($imporPagoS,"2",",",".")."</td>";
+				$linea .= "<td style='font-size: 9px'>".number_format($imporPagoO,"2",",",".")."</td>";
 				$linea .= "<td style='font-size: 7px'>".$pago['recibo']."</td>";
 				$linea .= "<td style='font-size: 7px'>".$pago['asiento']."</td>";
 				$linea .= "<td style='font-size: 7px'>".$pago['folio']."</td>";		
@@ -96,8 +106,8 @@ foreach ($arrayCompleto as $key => $subsidio) {
 				$linea .= "<td style='font-size: 7px'>".number_format($pago['importepagado'],'2',',','.')."</td>";
 				$linea .= "<td style='font-size: 7px'>".number_format($pago['retganancias'],"2",",",".")."</td>";
 				$linea .= "<td style='font-size: 7px'>".number_format($pago['retingresosbrutos'],"2",",",".")."</td>";
-				$linea .= "<td style='font-size: 7px'>".number_format("0","2",",",".")."</td>";
-				$linea .= "<td style='font-size: 7px'>".number_format($pago['importepagado'],"2",",",".")."</td>";
+				$linea .= "<td style='font-size: 9px'>".number_format($imporPagoS,"2",",",".")."</td>";
+				$linea .= "<td style='font-size: 9px'>".number_format($imporPagoO,"2",",",".")."</td>";
 				$linea .= "<td style='font-size: 7px'></td>";
 				$linea .= "<td style='font-size: 7px'>".$pago['recibo']."</td>";
 				$linea .= "<td style='font-size: 7px'>".$pago['asiento']."</td>";
