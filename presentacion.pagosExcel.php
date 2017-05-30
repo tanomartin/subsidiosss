@@ -93,8 +93,8 @@ foreach ($arrayCompleto as $key => $subsidio) {
 				$linea .= "<td style='font-size: 7px'>".number_format($pago['retganancias'],"2",",",".")."</td>";
 				$linea .= "<td style='font-size: 7px'>".number_format($pago['retingresosbrutos'],"2",",",".")."</td>";
 				$linea .= "<td style='font-size: 7px'>".number_format("0","2",",",".")."</td>";
-				$linea .= "<td style='font-size: 9px'>".number_format($imporPagoS,"2",",",".")."</td>";
-				$linea .= "<td style='font-size: 9px'>".number_format($imporPagoO,"2",",",".")."</td>";
+				$linea .= "<td style='font-size: 7px'>".number_format($imporPagoS,"2",",",".")."</td>";
+				$linea .= "<td style='font-size: 7px'>".number_format($imporPagoO,"2",",",".")."</td>";
 				$linea .= "<td style='font-size: 7px'>".$pago['recibo']."</td>";
 				$linea .= "<td style='font-size: 7px'>".$pago['asiento']."</td>";
 				$linea .= "<td style='font-size: 7px'>".$pago['folio']."</td>";		
@@ -106,9 +106,9 @@ foreach ($arrayCompleto as $key => $subsidio) {
 				$linea .= "<td style='font-size: 7px'>".number_format($pago['importepagado'],'2',',','.')."</td>";
 				$linea .= "<td style='font-size: 7px'>".number_format($pago['retganancias'],"2",",",".")."</td>";
 				$linea .= "<td style='font-size: 7px'>".number_format($pago['retingresosbrutos'],"2",",",".")."</td>";
-				$linea .= "<td style='font-size: 9px'>".number_format($imporPagoS,"2",",",".")."</td>";
-				$linea .= "<td style='font-size: 9px'>".number_format($imporPagoO,"2",",",".")."</td>";
-				$linea .= "<td style='font-size: 7px'></td>";
+				$linea .= "<td style='font-size: 7px'>".number_format("0","2",",",".")."</td>";
+				$linea .= "<td style='font-size: 7px'>".number_format($imporPagoS,"2",",",".")."</td>";
+				$linea .= "<td style='font-size: 7px'>".number_format($imporPagoO,"2",",",".")."</td>";
 				$linea .= "<td style='font-size: 7px'>".$pago['recibo']."</td>";
 				$linea .= "<td style='font-size: 7px'>".$pago['asiento']."</td>";
 				$linea .= "<td style='font-size: 7px'>".$pago['folio']."</td>";
