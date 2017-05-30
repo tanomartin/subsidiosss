@@ -18,7 +18,7 @@ while ($rowSubsidio = mysql_fetch_array($resSubsidio)) {
 	$resSelectFactura = mysql_query($sqlSelectFactura);
 	while($rowfactura = mysql_fetch_array($resSelectFactura)) {
 		$arrayCompleto[$index]['f'][$rowfactura['nrocominterno']] = $rowfactura;
-		$sqlPagos = "SELECT * FROM pagos WHERE idpresentacion = $idPresentacion and nrocominterno = ".$rowfactura['nrocominterno'];
+		$sqlPagos = "SELECT p.*, DATE_FORMAT(p.fechatransferencia, '%d-%m-%Y') as fechatransferencia FROM pagos p WHERE idpresentacion = $idPresentacion and nrocominterno = ".$rowfactura['nrocominterno'];
 		$resPagos = mysql_query($sqlPagos);
 		$control = 0;
 		while($rowPagos = mysql_fetch_array($resPagos)) {
