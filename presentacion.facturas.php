@@ -99,14 +99,18 @@ $(function() {
 						<td style="font-size: 12px"><?php echo $rowFactura['fechacomprobante'] ?></td>
 						<td style="font-size: 12px"><?php echo $rowFactura['cae'] ?></td>
 						<td style="font-size: 12px"><?php echo $rowFactura['puntoventa'] ?></td>
-						<td style="font-size: 12px"><?php echo $rowFactura['nrocomprobante'] ?></td>
-						
-				  <?php if ($rowFactura['tipoarchivo'] == 'DB') { ?>
-							<td style="font-size: 12px"><?php echo "(".number_format($rowFactura['impcomprobante'],2,",",".").")" ?></td>
-							<td style="font-size: 12px"><?php echo "(".number_format($rowFactura['impsolicitado'],2,",",".").")" ?></td>
+						<td style="font-size: 12px"><?php echo $rowFactura['nrocomprobante'] ?></td>					
+				  <?php if ($rowFactura['impcomprobante'] != $rowFactura['impsolicitado']) {
+				  			$fontcolor = "Blue";
+				  		} else {
+				  			$fontcolor = "";
+				  		}
+				  		if ($rowFactura['tipoarchivo'] == 'DB') { ?>
+							<td style="font-size: 12px;"><?php echo "(".number_format($rowFactura['impcomprobante'],2,",",".").")" ?></td>
+							<td style="font-size: 12px; color: <?php echo $fontcolor ?>"><?php echo "(".number_format($rowFactura['impsolicitado'],2,",",".").")" ?></td>
 				  <?php } else { ?>
-							<td style="font-size: 12px"><?php echo number_format($rowFactura['impcomprobante'],2,",",".") ?></td>
-							<td style="font-size: 12px"><?php echo number_format($rowFactura['impsolicitado'],2,",",".")  ?></td>
+							<td style="font-size: 12px;"><?php echo number_format($rowFactura['impcomprobante'],2,",",".") ?></td>
+							<td style="font-size: 12px; color: <?php echo $fontcolor ?>"><?php echo number_format($rowFactura['impsolicitado'],2,",",".")  ?></td>
 				  <?php }?>
 						<td style="font-size: 12px"><?php echo $rowFactura['codpractica'] ?></td>
 						<td style="font-size: 12px"><?php echo $rowFactura['cantidad'] ?></td>

@@ -65,7 +65,8 @@ $rowPago = mysql_fetch_array($resPago);
 			 		<thead>
 			 			<th>CUIT</th>
 			 			<th>Nro. Orden Pago</th>
-			 			<th>Nro. Comprobante</th>
+			 			<th>Nro. Comp. Interno</th>
+			 			<th>Nro. Factura</th>
 			 			<th>Imp. Comprobante</th>
 			 			<th>Imp. Pagado</th>
 			 		</thead>
@@ -73,6 +74,7 @@ $rowPago = mysql_fetch_array($resPago);
 			 			<td><?php echo $rowPago['cuit'] ?></td>
 			 			<td><?php echo $rowPago['nroordenpago'] ?></td>
 			 			<td><?php echo $rowPago['nrocominterno'] ?></td>
+			 			<td><?php echo $rowPago['nrocomprobante'] ?></td>
 			 			<td><?php echo number_format($rowPago['impcomprobante'],"2",",","."); ?></td>
 			 			<td><?php echo number_format($rowPago['importepagado'],"2",",","."); ?></td>
 			 		</tbody>
