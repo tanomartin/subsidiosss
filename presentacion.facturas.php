@@ -84,6 +84,8 @@ $(function() {
 			 	</thead>
 			 	<tbody>
 			<?php 
+				$totalComprobante = 0;
+				$totalSolicitado = 0;
 				while ($rowFactura = mysql_fetch_array($resFactura)) { ?>
 					<tr>
 						<td style="font-size: 12px"><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
@@ -105,10 +107,14 @@ $(function() {
 				  		} else {
 				  			$fontcolor = "";
 				  		}
-				  		if ($rowFactura['tipoarchivo'] == 'DB') { ?>
+				  		if ($rowFactura['tipoarchivo'] == 'DB') { 
+				  			$totalComprobante -= (float) $rowFactura['impcomprobante'];
+				  			$totalSolicitado -= (float) $rowFactura['impsolicitado']; ?>
 							<td style="font-size: 12px;"><?php echo "(".number_format($rowFactura['impcomprobante'],2,",",".").")" ?></td>
 							<td style="font-size: 12px; color: <?php echo $fontcolor ?>"><?php echo "(".number_format($rowFactura['impsolicitado'],2,",",".").")" ?></td>
-				  <?php } else { ?>
+				  <?php } else { 
+				  			$totalComprobante += (float) $rowFactura['impcomprobante'];
+				  			$totalSolicitado += (float) $rowFactura['impsolicitado']; ?>
 							<td style="font-size: 12px;"><?php echo number_format($rowFactura['impcomprobante'],2,",",".") ?></td>
 							<td style="font-size: 12px; color: <?php echo $fontcolor ?>"><?php echo number_format($rowFactura['impsolicitado'],2,",",".")  ?></td>
 				  <?php }?>
@@ -118,6 +124,12 @@ $(function() {
 						<td style="font-size: 12px"><?php echo $rowFactura['dependencia'] ?></td>
 					</tr>
 			<?php } ?>
+					<tr>
+						<th colspan="14">TOTALES</td>
+						<th style="font-size: 12px"><?php echo number_format($totalComprobante,2,",",".") ?></td>
+						<th style="font-size: 12px"><?php echo number_format($totalSolicitado,2,",",".") ?></td>
+						<th colspan="4"></td>
+					</tr>
 			  	</tbody>
 			</table>
 		<p><input class="nover" type="button" name="imprimir" value="Imprimir" onclick="window.print();"></p>
