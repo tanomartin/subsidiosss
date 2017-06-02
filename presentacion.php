@@ -1,6 +1,6 @@
 <?php 
 include_once 'include/conector.php';
-$host = $_SERVER['SERVER_NAME'];
+$usuario = $_SESSION['usuario'];
 $sqlPresentacion = "SELECT 
 						p.id,
 						DATE_FORMAT(p.fechapresentacion, '%d-%m-%Y') as fechapresentacion,
@@ -110,7 +110,7 @@ $(function() {
 	<div align="center">
 	 	<p><input type="button" name="volver" value="Volver" onClick="location.href = 'menu.php'" /></p>
 	 	<h2>Presentaciones S.S.S.</h2>
-  <?php if ($canPresentacionPeriodo == 0 && $host == 'localhost') {?>
+  <?php if ($canPresentacionPeriodo == 0 && $usuario == 'sistemas') {?>
 	 		<p><input type="button" name="nueva" value="Nueva Presentacion" onClick="location.href = 'presentacion.nueva.php'" /></p>
   <?php } 
         if ($canPresentacion > 0) {?>
@@ -173,7 +173,7 @@ $(function() {
 						</td>
 						<td>
 				    		 <?php 	if ($rowPresentacion['fechacancelacion'] == NULL) { 
-				    		 			if ($host != 'localhost') { $display = 'style="display: none; margin-bottom: 5px"'; $displayp = ''; } else { $display = 'style="margin-bottom: 5px"'; $displayp = 'style="display: none"'; };
+				    		 			if ($usuario != 'sistemas') { $display = 'style="display: none; margin-bottom: 5px"'; $displayp = ''; } else { $display = 'style="margin-bottom: 5px"'; $displayp = 'style="display: none"'; };
 				    					if ($rowPresentacion['fechapresentacion'] == NULL) { ?>
 											<input <?php echo $display ?> type="button" value="Cancelar" onClick="location.href = 'presentacion.cancelar.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
 											<input <?php echo $display ?> type="button" value="Generar Archivo" onClick="location.href = 'presentacion.archivo.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
