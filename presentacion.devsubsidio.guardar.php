@@ -2,7 +2,7 @@
 include_once 'include/conector.php';
 
 $idPresentacion = $_POST['id'];
-$sqlPresentacion = "SELECT p.*, c.periodo, c.carpeta FROM presentacion p, cronograma c WHERE p.id = $idPresentacion and p.idcronograma = c.id";
+$sqlPresentacion = "SELECT p.*, pi.impsolicitadointegraldok as totdebito, c.periodo, c.carpeta FROM presentacion p, presentacionintegral pi, cronograma c WHERE p.id = $idPresentacion and p.idcronograma = c.id and p.id = pi.id";
 $resPresentacion = mysql_query($sqlPresentacion);
 $rowPresentacion = mysql_fetch_array($resPresentacion);
 
@@ -35,48 +35,41 @@ while(!feof($fpok)) {
 		$sumsoli += $importeSolicitado;
 		$montoSubsidio = (float) str_replace(",",".",$arraylinea[7]);
 		$summonto += $montoSubsidio;
-		
-		$sqlSelectFactura = "SELECT nrocominterno,impcomprobanteintegral,impsolicitadointegral FROM facturas WHERE idpresentacion = $idPresentacion and deverrorformato is null and deverrorintegral is null and  cuil = '".$arraylinea[3]."' and periodo = '".$arraylinea[4]."' and impsolicitadointegral = $importeSolicitado and codpractica = ".(int) $arraylinea[6];
+
+		$sqlSelectFactura = "SELECT nrocominterno,impcomprobanteintegral,impsolicitadointegral FROM facturas WHERE idpresentacion = $idPresentacion and deverrorformato is null and deverrorintegral is null and cuil = '".$arraylinea[3]."' and periodo = '".$arraylinea[4]."' and codpractica = ".(int) $arraylinea[6]." and tipoarchivo != 'DB'";
 		$resSelectFactura = mysql_query($sqlSelectFactura);
 		$canSelectFactura = mysql_num_rows($resSelectFactura);
-		if ($canSelectFactura == 1) {
-			$rowSelectFactura = mysql_fetch_array($resSelectFactura);
-			$arrayUpdate[$indexUpdate] = "UPDATE facturas SET impsolicitadosubsidio = ".(float) $importeSolicitado.", impmontosubsidio = ".(float) $montoSubsidio." WHERE nrocominterno = ".$rowSelectFactura['nrocominterno']." and idpresentacion = $idPresentacion and deverrorformato is null and deverrorintegral is null";
-			$indexUpdate++;
-		} else {
-			$sqlSelectFactura = "SELECT nrocominterno,impcomprobanteintegral,impsolicitadointegral FROM facturas WHERE idpresentacion = $idPresentacion and deverrorformato is null and deverrorintegral is null and cuil = '".$arraylinea[3]."' and periodo = '".$arraylinea[4]."' and codpractica = ".(int) $arraylinea[6];
-			$resSelectFactura = mysql_query($sqlSelectFactura);
-			$canSelectFactura = mysql_num_rows($resSelectFactura);
-			if ($canSelectFactura > 0) {
-				$importeSolicitadoRestante = $importeSolicitado;
-				$montoSubsidioRestante = $montoSubsidio;
-				while ($rowSelectFactura = mysql_fetch_array($resSelectFactura)) {
-					$importeSolicitadoRestante -= (float) $rowSelectFactura['impsolicitadointegral'];
-					$montoSubsidioRestante -= (float) $rowSelectFactura['impsolicitadointegral'];
-					$importeSolicitadoRestante = round($importeSolicitadoRestante, 2);
-					$montoSubsidioRestante = round($montoSubsidioRestante, 2);		
-					if ($importeSolicitadoRestante >= 0 and $montoSubsidioRestante >= 0) {
-						$arrayUpdate[$indexUpdate] = "UPDATE facturas SET impsolicitadosubsidio = ".(float) $rowSelectFactura['impsolicitadointegral'].", impmontosubsidio = ".(float) $rowSelectFactura['impsolicitadointegral']." WHERE nrocominterno = ".$rowSelectFactura['nrocominterno']. " and idpresentacion = $idPresentacion and deverrorformato is null and deverrorintegral is null";
-						$indexUpdate++;
-					} else {
-						$montoNuevo = (float) $rowSelectFactura['impsolicitadointegral'] + $montoSubsidioRestante;
-						$montoNuevo = round($montoNuevo, 2);
-						if ($montoNuevo < 0) { $montoNuevo = 0; }
-						$arrayUpdate[$indexUpdate] = "UPDATE facturas SET impsolicitadosubsidio = ".(float) $rowSelectFactura['impsolicitadointegral'].", impmontosubsidio = ".(float) $montoNuevo." WHERE nrocominterno = ".$rowSelectFactura['nrocominterno']. " and idpresentacion = $idPresentacion and deverrorformato is null and deverrorintegral is null";;
-						$indexUpdate++;
-					}
+		if ($canSelectFactura > 0) {
+			$importeSolicitadoRestante = $importeSolicitado;
+			$montoSubsidioRestante = $montoSubsidio;
+			while ($rowSelectFactura = mysql_fetch_array($resSelectFactura)) {
+				$importeSolicitadoRestante -= (float) $rowSelectFactura['impsolicitadointegral'];
+				$montoSubsidioRestante -= (float) $rowSelectFactura['impsolicitadointegral'];
+				$importeSolicitadoRestante = round($importeSolicitadoRestante, 2);
+				$montoSubsidioRestante = round($montoSubsidioRestante, 2);		
+				if ($importeSolicitadoRestante >= 0 and $montoSubsidioRestante >= 0) {
+					$arrayUpdate[$indexUpdate] = "UPDATE facturas SET impsolicitadosubsidio = ".(float) $rowSelectFactura['impsolicitadointegral'].", impmontosubsidio = ".(float) $rowSelectFactura['impsolicitadointegral']." WHERE nrocominterno = ".$rowSelectFactura['nrocominterno']. " and idpresentacion = $idPresentacion and deverrorformato is null and deverrorintegral is null and tipoarchivo != 'DB'";
+					$indexUpdate++;
+				} else {
+					$montoNuevo = (float) $rowSelectFactura['impsolicitadointegral'] + $montoSubsidioRestante;
+					$montoNuevo = round($montoNuevo, 2);
+					if ($montoNuevo < 0) { $montoNuevo = 0; }
+					$arrayUpdate[$indexUpdate] = "UPDATE facturas SET impsolicitadosubsidio = ".(float) $rowSelectFactura['impsolicitadointegral'].", impmontosubsidio = ".(float) $montoNuevo." WHERE nrocominterno = ".$rowSelectFactura['nrocominterno']. " and idpresentacion = $idPresentacion and deverrorformato is null and deverrorintegral is null and tipoarchivo != 'DB'";;
+					$indexUpdate++;
 				}
-			} else {
-				$error = "No se encontro la facutra. CONSULTA: $sqlSelectFactura";
-				$redire = "Location: presentacion.error.php?id=$idPresentacion&page='Dev. Subsidio'&error=$error";
-				Header($redire);
-				exit -1;
 			}
+		} else {
+			$error = "No se encontro la facutra. CONSULTA: $sqlSelectFactura";
+			$redire = "Location: presentacion.error.php?id=$idPresentacion&page='Dev. Subsidio'&error=$error";
+			Header($redire);
+			exit -1;
 		}
 	}
 }
+
 fclose($fpok);
 
+$sumsoli -= $rowPresentacion['totdebito'];
 $sqlInsertPresentacionSubsidio = "INSERT INTO presentacionsubsidio VALUES($idPresentacion, CURDATE(),'$numliqui',$sumsoli,$summonto)";
 
 try {
