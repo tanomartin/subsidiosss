@@ -41,40 +41,9 @@ $totalPagoS = 0;
 $totalPagoO = 0;
 foreach ($arrayCompleto as $key => $subsidio) {
 	$totalSubsidio += (float) $subsidio['impsubsidiado'];
-	$linea = "<tr>";
-	$linea .= "<td style='font-size: 9px'>".$subsidio['periodopresentacion']."</td>";
-	$linea .= "<td style='font-size: 9px'>".$subsidio['periodoprestacion']."</td>";
-	$linea .= "<td style='font-size: 9px'>".$subsidio['cuil']."</td>";
-	$linea .= "<td style='font-size: 9px'>".$subsidio['codigopractica']."</td>";
-	$linea .= "<td style='font-size: 9px'>".$subsidio['descripcion']."</td>";
-	$linea .= "<td style='font-size: 9px'>".number_format($subsidio['impsubsidiado'],"2",",",".")."</td>";
-	$contadorFacturas = 0;
 	foreach ($subsidio['f'] as $nrointerno => $factura) {
 		$totalSolicitado += (float) $factura['impsolicitado'];
-		if ($contadorFacturas != 0) {
-			$linea .= "<tr>";
-			$linea .= "<td colspan='6'></td>";
-			$linea .= "<td style='font-size: 9px'>".$factura['nrocominterno']."</td>";
-			$linea .= "<td style='font-size: 9px'>".$factura['periodo']."</td>";
-			$linea .= "<td style='font-size: 9px'>".$factura['cuit']."</td>";
-			$linea .= "<td style='font-size: 9px'>".$factura['comprobante']."</td>";
-			$linea .= "<td style='font-size: 9px'>".$factura['puntoventa']."</td>";
-			$linea .= "<td style='font-size: 9px'>".$factura['nrocomprobante']."</td>";
-			$linea .= "<td style='font-size: 9px'>".number_format($factura['impsolicitado'],"2",",",".")."</td>";
-		} else {
-			$linea .= "<td style='font-size: 9px'>".$factura['nrocominterno']."</td>";
-			$linea .= "<td style='font-size: 9px'>".$factura['periodo']."</td>";
-			$linea .= "<td style='font-size: 9px'>".$factura['cuit']."</td>";
-			$linea .= "<td style='font-size: 9px'>".$factura['comprobante']."</td>";
-			$linea .= "<td style='font-size: 9px'>".$factura['puntoventa']."</td>";
-			$linea .= "<td style='font-size: 9px'>".$factura['nrocomprobante']."</td>";
-			$linea .= "<td style='font-size: 9px'>".number_format($factura['impsolicitado'],"2",",",".")."</td>";
-		}
-		$contadorFacturas++;
-		
-		$contadorPagos = 0;
 		foreach ($subsidio['f'][$nrointerno]['p'] as $nropago => $pago) {
-			
 			$nrotran = $pago['nrotransferencia'];
 			$tipo = substr($nrotran, 0, 2);
 			if ($tipo == 'TS') {
@@ -86,57 +55,52 @@ foreach ($arrayCompleto as $key => $subsidio) {
 				$imporPagoO = (float) $pago['importepagado'];
 				$imporPagoS = 0;
 			}
-			
-			if ($contadorPagos != 0) {
-				$linea .= "<tr>";
-				$linea .= "<td colspan='13'></td>";
-				$linea .= "<td style='font-size: 9px'>".$pago['nroordenpago']."</td>";
-				$linea .= "<td style='font-size: 9px'>".$pago['fechatransferencia']."</td>";
-				$linea .= "<td style='font-size: 9px'>".$factura['cbu']."</td>";
-				$linea .= "<td style='font-size: 9px'>".number_format($pago['importepagado'],"2",",",".")."</td>";
-				$linea .= "<td style='font-size: 9px'>".number_format($pago['retganancias'],"2",",",".")."</td>";
-				$linea .= "<td style='font-size: 9px'>".number_format($pago['retingresosbrutos'],"2",",",".")."</td>";
-				$linea .= "<td style='font-size: 9px'>".number_format("0","2",",",".")."</td>";
-				$linea .= "<td style='font-size: 9px'>".number_format($imporPagoS,"2",",",".")."</td>";
-				$linea .= "<td style='font-size: 9px'>".number_format($imporPagoO,"2",",",".")."</td>";
-				$linea .= "<td style='font-size: 9px'>".$pago['recibo']."</td>";
-				$linea .= "<td style='font-size: 9px'>".$pago['asiento']."</td>";
-				$linea .= "<td style='font-size: 9px'>".$pago['folio']."</td>";	
-				$linea .= "<td style='font-size: 9px'><input type='button' value='Cargar' onclick='location=\"presentacion.pagos.carga.php?idpresentacion=$idPresentacion&nrocomint=".$factura['nrocominterno']."&norord=".$pago['nroordenpago']."\"'/></td>";
-				$linea .= "</tr>";
-			} else {
-				$linea .= "<td style='font-size: 9px'>".$pago['nroordenpago']."</td>";
-				$linea .= "<td style='font-size: 9px'>".$pago['fechatransferencia']."</td>";
-				$linea .= "<td style='font-size: 9px'>".$factura['cbu']."</td>";
-				$linea .= "<td style='font-size: 9px'>".number_format($pago['importepagado'],"2",",",".")."</td>";
-				$linea .= "<td style='font-size: 9px'>".number_format($pago['retganancias'],"2",",",".")."</td>";
-				$linea .= "<td style='font-size: 9px'>".number_format($pago['retingresosbrutos'],"2",",",".")."</td>";
-				$linea .= "<td style='font-size: 9px'>".number_format("0","2",",",".")."</td>";
-				$linea .= "<td style='font-size: 9px'>".number_format($imporPagoS,"2",",",".")."</td>";
-				$linea .= "<td style='font-size: 9px'>".number_format($imporPagoO,"2",",",".")."</td>";
-				$linea .= "<td style='font-size: 9px'>".$pago['recibo']."</td>";
-				$linea .= "<td style='font-size: 9px'>".$pago['asiento']."</td>";
-				$linea .= "<td style='font-size: 9px'>".$pago['folio']."</td>";
-				$linea .= "<td style='font-size: 9px'><input type='button' value='Cargar' onclick='location=\"presentacion.pagos.carga.php?idpresentacion=$idPresentacion&nrocomint=".$factura['nrocominterno']."&norord=".$pago['nroordenpago']."\"'/></td>";
-			}
-			$contadorPagos++;
+
+			$linea = "<tr>";
+			$linea .= "<td style='font-size: 11px'>".$subsidio['periodopresentacion']."</td>";
+			$linea .= "<td style='font-size: 11px'>".$subsidio['periodoprestacion']."</td>";
+			$linea .= "<td style='font-size: 11px'>".$subsidio['cuil']."</td>";
+			$linea .= "<td style='font-size: 11px'>".$subsidio['codigopractica']."</td>";
+			$linea .= "<td style='font-size: 11px'>".$subsidio['descripcion']."</td>";
+			$linea .= "<td style='font-size: 11px'>".number_format($subsidio['impsubsidiado'],"2",",",".")."</td>";
+				
+			$linea .= "<td style='font-size: 11px'>".$factura['nrocominterno']."</td>";
+			$linea .= "<td style='font-size: 11px'>".$factura['periodo']."</td>";
+			$linea .= "<td style='font-size: 11px'>".$factura['cuit']."</td>";
+			$linea .= "<td style='font-size: 11px'>".$factura['comprobante']."</td>";
+			$linea .= "<td style='font-size: 11px'>".$factura['puntoventa']."</td>";
+			$linea .= "<td style='font-size: 11px'>".$factura['nrocomprobante']."</td>";
+			$linea .= "<td style='font-size: 11px'>".number_format($factura['impsolicitado'],"2",",",".")."</td>";
+				
+			$linea .= "<td style='font-size: 11px'>".$pago['nroordenpago']."</td>";
+			$linea .= "<td style='font-size: 11px'>".$pago['fechatransferencia']."</td>";
+			$linea .= "<td style='font-size: 11px'>".$factura['cbu']."</td>";
+			$linea .= "<td style='font-size: 11px'>".number_format($pago['importepagado'],"2",",",".")."</td>";
+			$linea .= "<td style='font-size: 11px'>".number_format($pago['retganancias'],"2",",",".")."</td>";
+			$linea .= "<td style='font-size: 11px'>".number_format($pago['retingresosbrutos'],"2",",",".")."</td>";
+			$linea .= "<td style='font-size: 11px'>".number_format("0","2",",",".")."</td>";
+			$linea .= "<td style='font-size: 11px'>".number_format($imporPagoS,"2",",",".")."</td>";
+			$linea .= "<td style='font-size: 11px'>".number_format($imporPagoO,"2",",",".")."</td>";
+			$linea .= "<td style='font-size: 11px'>".$pago['recibo']."</td>";
+			$linea .= "<td style='font-size: 11px'>".$pago['asiento']."</td>";
+			$linea .= "<td style='font-size: 11px'>".$pago['folio']."</td>";	
+			$linea .= "<td style='font-size: 11px'><input type='button' value='Cargar' onclick='location=\"presentacion.pagos.carga.php?idpresentacion=$idPresentacion&nrocomint=".$factura['nrocominterno']."&norord=".$pago['nroordenpago']."\"'/></td>";
+			$linea .= "</tr>";
+				
+			$lineas[$indexLinea] = $linea;
+			$indexLinea++;
 		}
 	}	
-	$totalFilas = $contadorFacturas + $contadorPagos - 1;
-	$linea .= "</tr>";
-	$linea = str_replace("cantFilas", (string) $totalFilas, $linea);
-	$lineas[$indexLinea] = $linea;
-	$indexLinea++;
 }
 
 $lineaTotales = "<tr>
 					 <td colspan='5'></td>
-					 <td>".number_format($totalSubsidio,"2",",",".")."</td>
+					 <td style='font-size: 11px'>".number_format($totalSubsidio,"2",",",".")."</td>
 					 <td colspan='6'></td>
-					 <td>".number_format($totalSolicitado,"2",",",".")."</td>
+					 <td style='font-size: 11px'>".number_format($totalSolicitado,"2",",",".")."</td>
 					 <td colspan='7'></td>
-					 <td>".number_format($totalPagoS,"2",",",".")."</td>
-					 <td>".number_format($totalPagoO,"2",",",".")."</td>
+					 <td style='font-size: 11px'>".number_format($totalPagoS,"2",",",".")."</td>
+					 <td style='font-size: 11px'>".number_format($totalPagoO,"2",",",".")."</td>
 					 <td colspan='4'></td>
 				</tr>";
 $lineas[$indexLinea] = $lineaTotales;
@@ -147,6 +111,63 @@ $lineas[$indexLinea] = $lineaTotales;
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link rel="stylesheet" href="css/tablas.css"/>
+<link rel="stylesheet" href="include/jquery.tablesorter/themes/theme.blue.css"/>
+<script src="include/jquery.js"></script>
+<script src="include/jquery.tablesorter/jquery.tablesorter.js"></script>
+<script src="include/jquery.tablesorter/jquery.tablesorter.widgets.js"></script>
+<script src="include/jquery.tablesorter/addons/pager/jquery.tablesorter.pager.js"></script> 
+
+<script type="text/javascript">
+
+$(function() {
+	$("#listaResultado")
+		.tablesorter({
+			theme: 'blue', 
+			widthFixed: true, 
+			widgets: ["zebra", "filter"],
+			headers:{0:{sorter:false, filter:false},
+				1:{sorter:false, filter:false},
+				2:{sorter:false, filter:false},
+				3:{sorter:false, filter:false},
+				4:{sorter:false, filter:false},
+				5:{sorter:false, filter:false},
+				6:{sorter:false, filter:false},
+				7:{sorter:false, filter:false},
+				8:{sorter:false},
+				9:{sorter:false, filter:false},
+				10:{sorter:false, filter:false},
+				12:{sorter:false, filter:false},
+				13:{sorter:false, filter:false},
+				14:{filter:false},
+				15:{sorter:false, filter:false},
+				16:{sorter:false, filter:false},
+				17:{sorter:false, filter:false},
+				18:{sorter:false, filter:false},
+				19:{sorter:false, filter:false},
+				20:{sorter:false, filter:false},
+				21:{sorter:false, filter:false},
+				22:{sorter:false, filter:false},
+				23:{sorter:false, filter:false},
+				24:{sorter:false, filter:false},
+				25:{sorter:false, filter:false},
+				26:{sorter:false},
+				27:{sorter:false},
+				28:{sorter:false}},
+			widgetOptions : { 
+				filter_cssFilter   : '',
+				filter_childRows   : false,
+				filter_hideFilters : false,
+				filter_ignoreCase  : true,
+				filter_searchDelay : 300,
+				filter_startsWith  : false,
+				filter_hideFilters : false,
+			}
+		});
+});
+
+
+</script>
+
 <title>.: Detalle Pagos S.S.S. :.</title>
 
 <style type="text/css" media="print">
@@ -165,43 +186,42 @@ $lineas[$indexLinea] = $lineaTotales;
 	 	
 	 	<p><input type="button" value="Generar Informe" onclick="location='presentacion.pagosExcel.php?id=<?php echo $idPresentacion?>'"/></p>
 	 	
-	 	<div class="grilla">
-		 	<table>
+		 	<table id="listaResultado" class="tablesorter" style="text-align: center;">
 				 <thead>
 				 	<tr>
-				 		<th  style="font-size: 9px" colspan="6">LIQ SSSALUD</th>
-				 		<th  style="font-size: 9px" colspan="7">INF. PRESENTADA POR LA OS EN CADA PERIODO</th>
-				 		<th  style="font-size: 9px" colspan="13">INFORMACION ADICIONAL QUE DEBE COMPLETAR LA OBRA SOCIAL</th>
+				 		<th  style="font-size: 11px" colspan="6">LIQ SSSALUD</th>
+				 		<th  style="font-size: 11px" colspan="7">INF. PRESENTADA POR LA OS EN CADA PERIODO</th>
+				 		<th  style="font-size: 11px" colspan="13">INFORMACION ADICIONAL QUE DEBE COMPLETAR LA OBRA SOCIAL</th>
 				 	</tr>
 				 	<tr>
-				 		<th style="font-size: 9px">MES PROCESO</th>
-				 		<th style="font-size: 9px">MES PRESTAC</th>
-				 		<th style="font-size: 9px">CUIL BENEFIC</th>
-				 		<th style="font-size: 9px">COD PREST</th>
-				 		<th style="font-size: 9px">PRESTACION</th>
-				 		<th style="font-size: 9px">IMPORTE LIQUIDADO</th>
+				 		<th style="font-size: 11px">MES PROCESO</th>
+				 		<th style="font-size: 11px">MES PRESTAC</th>
+				 		<th style="font-size: 11px">CUIL BENEFIC</th>
+				 		<th style="font-size: 11px">COD PREST</th>
+				 		<th style="font-size: 11px">PRESTACION</th>
+				 		<th style="font-size: 11px">IMPORTE LIQUIDADO</th>
 				 		
-				 		<th style="font-size: 9px">NRO INTERNO.</th>
-				 		<th style="font-size: 9px">PERIODO FC</th>
-				 		<th style="font-size: 9px">CUIT</th>
-				 		<th style="font-size: 9px">LETRA</th>
-				 		<th style="font-size: 9px">PV</th>
-				 		<th style="font-size: 9px">Nº FC</th>
-				 		<th style="font-size: 9px">IMPORTE SOLICITADO</th>
+				 		<th style="font-size: 11px">NRO INTERNO.</th>
+				 		<th style="font-size: 11px">PERIODO FC</th>
+				 		<th style="font-size: 11px">CUIT</th>
+				 		<th style="font-size: 11px">LETRA</th>
+				 		<th style="font-size: 11px">PV</th>
+				 		<th style="font-size: 11px">Nº FC</th>
+				 		<th style="font-size: 11px">IMPORTE SOLICITADO</th>
 				 		
-				 		<th style="font-size: 9px">ORDEN DE PAGO</th>
-				 		<th style="font-size: 9px">FECHA DE TRANSF.</th>
-				 		<th style="font-size: 9px">CBU</th>
-				 		<th style="font-size: 9px">IMPORTE TRANSF.</th>
-				 		<th style="font-size: 9px">RETENCION GCIAS.</th>
-				 		<th style="font-size: 9px">RETENCION INGRESOS BRUTOS</th>
-				 		<th style="font-size: 9px">OTRAS RETENC</th>
-				 		<th style="font-size: 9px">IMPORTE APOLICADO SSS</th>
-				 		<th style="font-size: 9px">IMPORTE FONDOS PROPIOS</th>
-				 		<th style="font-size: 9px">NRO. RECIBO</th>
-				 		<th style="font-size: 9px">ASI</th>
-				 		<th style="font-size: 9px">FOL</th>
-				 		<th style="font-size: 9px"></th>
+				 		<th style="font-size: 11px">ORDEN DE PAGO</th>
+				 		<th style="font-size: 11px">FECHA DE TRANSF.</th>
+				 		<th style="font-size: 11px">CBU</th>
+				 		<th style="font-size: 11px">IMPORTE TRANSF.</th>
+				 		<th style="font-size: 11px">RETENCION GCIAS.</th>
+				 		<th style="font-size: 11px">RETENCION INGRESOS BRUTOS</th>
+				 		<th style="font-size: 11px">OTRAS RETENC</th>
+				 		<th style="font-size: 11px">IMPORTE APOLICADO SSS</th>
+				 		<th style="font-size: 11px">IMPORTE FONDOS PROPIOS</th>
+				 		<th style="font-size: 11px">NRO. RECIBO</th>
+				 		<th style="font-size: 11px">ASI</th>
+				 		<th style="font-size: 11px">FOL</th>
+				 		<th style="font-size: 11px"></th>
 				 	</tr>
 				 </thead>
 				 <tbody>
@@ -210,7 +230,6 @@ $lineas[$indexLinea] = $lineaTotales;
 		 			}?>
 		 		 </tbody>
 		 	</table>
-	 	</div>
 		<p><input class="nover" type="button" name="imprimir" value="Imprimir" onclick="window.print();"></p>
 	</div>
 </body>
