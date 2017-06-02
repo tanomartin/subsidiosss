@@ -81,9 +81,24 @@ foreach ($arrayCompleto as $key => $subsidio) {
 			$linea .= "<td style='font-size: 11px'>".number_format("0","2",",",".")."</td>";
 			$linea .= "<td style='font-size: 11px'>".number_format($imporPagoS,"2",",",".")."</td>";
 			$linea .= "<td style='font-size: 11px'>".number_format($imporPagoO,"2",",",".")."</td>";
-			$linea .= "<td style='font-size: 11px'>".$pago['recibo']."</td>";
-			$linea .= "<td style='font-size: 11px'>".$pago['asiento']."</td>";
-			$linea .= "<td style='font-size: 11px'>".$pago['folio']."</td>";	
+			
+			if ($pago['recibo'] == null) {
+				$linea .= "<td style='font-size: 11px'>-</td>";
+			} else {
+				$linea .= "<td style='font-size: 11px'>".$pago['recibo']."</td>";
+			}
+			if ($pago['asiento'] == null) {
+				$linea .= "<td style='font-size: 11px'>-</td>";
+			} else {
+				$linea .= "<td style='font-size: 11px'>".$pago['asiento']."</td>";
+			}
+			
+			if ($pago['folio'] == null) {
+				$linea .= "<td style='font-size: 11px'>-</td>";
+			} else {
+				$linea .= "<td style='font-size: 11px'>".$pago['folio']."</td>";
+			}
+			
 			$linea .= "<td style='font-size: 11px'><input type='button' value='Cargar' onclick='location=\"presentacion.pagos.carga.php?idpresentacion=$idPresentacion&nrocomint=".$factura['nrocominterno']."&norord=".$pago['nroordenpago']."\"'/></td>";
 			$linea .= "</tr>";
 				
@@ -146,9 +161,9 @@ $(function() {
 				19:{sorter:false, filter:false},
 				20:{sorter:false, filter:false},
 				21:{sorter:false, filter:false},
-				22:{sorter:false, filter:false},
-				23:{sorter:false, filter:false},
-				24:{sorter:false, filter:false},
+				22:{sorter:false/*, filter:false*/},
+				23:{sorter:false/*, filter:false*/},
+				24:{sorter:false/*, filter:false*/},
 				25:{sorter:false, filter:false},
 				26:{sorter:false},
 				27:{sorter:false},
