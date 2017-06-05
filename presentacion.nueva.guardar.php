@@ -2,6 +2,28 @@
 include_once 'include/conector.php';
 require_once 'include/phpExcel/Classes/PHPExcel.php';
 
+function esValidoCUIT($cuit) {
+	$aMult = '5432765432';
+    $aMult = str_split($aMult);
+    if (strlen($cuit) == 11) {
+        $aCUIT = str_split($cuit);
+        $iResult = 0;
+        for($i = 0; $i <= 9; $i++) {
+           $iResult += $aCUIT[$i] * $aMult[$i];
+        }
+        $iResult = ($iResult % 11);
+		if ($iResult == 1) $iResult = 0;
+		if ($iResult != 0) $iResult = 11 - $iResult;	
+        if ($iResult == $aCUIT[10]) {
+			return true;	
+        } else {
+			return false;
+		}
+    } else {
+		return false;	
+	}
+}
+
 $archivo = $_FILES['archivo']['tmp_name'];
 $fp = fopen ($archivo,"r");
 
@@ -20,23 +42,49 @@ while ($data = fgetcsv ($fp, 1000, ";")) {
 		$impCompTotalD += str_replace(',','.',$data['15']);
 		$impPedidoD += str_replace(',','.',$data['16']);
 	}
+
+	try {
+		$cuil = $data['3'];
+		if (!esValidoCUIT($cuil)) {
+			$error = "Error en el C.U.I.L. $cuil nro comprobante interno ".$data['0'];
+			throw new Exception($error);
+		}
+		$cuit = $data['7'];
+		if (!esValidoCUIT($cuit)) {
+			$error = "Error en el C.U.I.T. $cuit nro comprobante interno ".$data['0'];
+			throw new Exception($error);
+		}
+		
+		$impFactura = str_replace(',','.',$data['15']);
+		$impSolicit = str_replace(',','.',$data['16']);
+		if ($impFactura < $impSolicit) {
+			$error = "El monto solicitado no puede ser superior al monto de la facutra nor comprobante interno ".$data['0'];
+			throw new Exception($error);
+		}
+	} catch (Exception $e) {
+		$error = $e->getMessage();
+		$redire = "Location: presentacion.error.php?page='Nueva Presentacion'&error=$error";
+		Header($redire);
+		exit -1;
+	}
+	
     $linea = "INSERT INTO facturas VALUES (".str_replace('.','',$data['0']).",idpres,
     		'".$data['1']."',
     		".$data['2'].",
     		'".$data['3']."',
-    		'".$data['4']."',
+    		'".$cuil."',
     		'".$data['5']."',
     		'".$data['6']."',
     		'".$data['7']."',
-    		'".$data['8']."',
+    		'".$cuit."',
     		".$data['9'].",
     		'".strtoupper($data['10'])."',
     		'".$data['11']."',
     		'".$data['12']."',
     		".$data['13'].",
     		'".$data['14']."',
-    		".str_replace(',','.',$data['15']).",
-    		".str_replace(',','.',$data['16']).",
+    		".$impFactura.",
+    		".$impSolicit.",
     		".$data['17'].",
     		".$data['18'].",
     		".$data['19'].",
@@ -47,7 +95,6 @@ while ($data = fgetcsv ($fp, 1000, ";")) {
 }
 
 fclose ($fp);
-//$sqlInsertFacturas = substr($sqlInsertFacturas, 0, -1);
 $sqlInsertPresentacion = "INSERT INTO presentacion VALUES(DEFAULT, ".$_POST['idCronograma'].", NULL, NULL, NULL,$cantFacturas,$impCompTotal,$impPedido,$impCompTotalD,$impPedidoD,NULL,NULL)";
 
 $anio = substr($_POST['carpeta'],0,4);
@@ -68,7 +115,9 @@ try {
 	$archivocsv = $carpetaGeneracion."/mi".$_POST['carpeta'].".csv";
 	copy($archivo, $archivocsv);
 } catch (Exception $e) {
-	echo $e->getMessage();
+	$error = $e->getMessage();
+	$redire = "Location: presentacion.error.php?page='Nueva Presentacion'&error=$error";
+	Header($redire);
 	exit -1;
 }
 	
@@ -95,6 +144,7 @@ try {
 	$error = $e->getMessage()." (INSERT: ".$sqlinsert.")";
 	$redire = "Location: presentacion.error.php?page='Nueva Presentacion'&error=$error";
 	Header($redire);
+	exit -1;
 }
 
 
