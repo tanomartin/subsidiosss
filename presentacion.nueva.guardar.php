@@ -57,9 +57,11 @@ while ($data = fgetcsv ($fp, 1000, ";")) {
 		
 		$impFactura = str_replace(',','.',$data['15']);
 		$impSolicit = str_replace(',','.',$data['16']);
-		if ($impFactura < $impSolicit) {
-			$error = "El monto solicitado no puede ser superior al monto de la facutra nor comprobante interno ".$data['0'];
-			throw new Exception($error);
+		if ($data['1'] == 'DS' || $data['1'] == 'DC') { 
+			if ($impFactura < $impSolicit) {
+				$error = "El monto solicitado no puede ser superior al monto de la facutra nor comprobante interno ".$data['0'];
+				throw new Exception($error);
+			}
 		}
 	} catch (Exception $e) {
 		$error = $e->getMessage();
