@@ -125,11 +125,11 @@ $(function() {
 			 			<th style="font-size: 11px" colspan="2">Credito</th>
 			 			<th style="font-size: 11px" colspan="2">Debito</th>
 			 			<th rowspan="2" style="font-size: 11px">Fecha Presentacion</th>
-			 			<th rowspan="2" style="font-size: 11px">Fecha Cancelacion</th>
 			 			<th rowspan="2" style="font-size: 11px">Fecha Dev. Formato</th>
 			 			<th rowspan="2" style="font-size: 11px">Fecha Dev. Integral</th>
 			 			<th rowspan="2" style="font-size: 11px">Fecha Dev. Subsidio</th>
 			 			<th rowspan="2" style="font-size: 11px">Fecha Deposito</th>
+			 			<th rowspan="2" style="font-size: 11px">Fecha Cancelacion</th>
 			 			<th rowspan="2" style="font-size: 11px">Informacion</th>
 			 			<th rowspan="2" style="font-size: 11px">Errores</th>
 			 			<th rowspan="2" class="filter-select" data-placeholder="Selccione" style="font-size: 11px">Acciones</th>
@@ -153,11 +153,11 @@ $(function() {
 						<td style="font-size: 12px"><?php echo number_format($rowPresentacion['impcomprobantesd'],2,",",".") ?></td>
 						<td style="font-size: 12px"><?php echo number_format($rowPresentacion['impsolicitadod'],2,",",".") ?></td>
 						<td style="font-size: 12px"><?php echo $rowPresentacion['fechapresentacion'] ?></td>
-						<td style="font-size: 12px"><?php echo $rowPresentacion['fechacancelacion'] ?></td>
 						<td style="font-size: 12px"><?php echo $rowPresentacion['fechadevformato'] ?></td>
 						<td style="font-size: 12px"><?php echo $rowPresentacion['fechaintegral'] ?></td>
 						<td style="font-size: 12px"><?php echo $rowPresentacion['fechasubsidio'] ?></td>
 						<td style="font-size: 12px"><?php echo $rowPresentacion['fechadeposito'] ?></td>
+						<td style="font-size: 12px"><?php echo $rowPresentacion['fechacancelacion'] ?></td>
 						<td>
 							<input style="margin-bottom: 5px" type="button" value="Facturas" onClick="location.href = 'presentacion.facturas.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
 							<input style="margin-bottom: 5px" type="button" value="Detalle" onClick="location.href = 'presentacion.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
