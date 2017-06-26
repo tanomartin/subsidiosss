@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 26-06-2017 a las 10:30:52
+-- Tiempo de generación: 26-06-2017 a las 10:47:05
 -- Versión del servidor: 5.5.44-0ubuntu0.14.04.1
 -- Versión de PHP: 5.5.9-1ubuntu4.11
 
@@ -433,7 +433,7 @@ CREATE TABLE IF NOT EXISTS `cronograma` (
   `fechacierre` date NOT NULL,
   `periodosincluidos` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Volcado de datos para la tabla `cronograma`
@@ -447,7 +447,9 @@ INSERT INTO `cronograma` (`id`, `periodo`, `carpeta`, `fechacierre`, `periodosin
 (5, 'marzo-2017', '201703', '2017-04-24', '201609,201610,201611,201612,201701,201702,201703'),
 (6, 'abril-2017', '201704', '2017-05-23', '201610,201611,201612,201701,201702,201703,201704'),
 (7, 'mayo-2017', '201705', '2017-06-26', '201611,201612,201701,201702,201703,201704,201705'),
-(8, 'junio-2017', '201706', '2017-07-25', '201612,201701,201702,201703,201704,201705,201706');
+(8, 'junio-2017', '201706', '2017-07-25', '201612,201701,201702,201703,201704,201705,201706'),
+(9, 'julio-2017', '201707', '2017-08-25', '201701,201702,201703,201704,201705,201706,201707'),
+(10, 'agosto-2017', '201708', '2017-09-25', '201702,201703,201704,201705,201706,201707,201708');
 
 -- --------------------------------------------------------
 
