@@ -187,21 +187,20 @@ function validar(formulario) {
 					<tr>
 						<th style="font-size: 12px">Id</th>
 						<th style="font-size: 12px" class="filter-select" data-placeholder="Selccione">Per. Pres.</th>
-			 			<th style="font-size: 12px" class="filter-select" data-placeholder="Selccione">Est.</th>
+			 			<th style="font-size: 12px">Est.</th>
 			 			<th style="font-size: 12px">Comp. Interno</th>
 			 			<th style="font-size: 12px" class="filter-select" data-placeholder="Selccione">T.</th>
 			 			<th style="font-size: 12px">C.U.I.L.</th>
 			 			<th style="font-size: 12px">V. Cert.</th>
 			 			<th style="font-size: 12px" class="filter-select" data-placeholder="Selccione">Periodo</th>
 			 			<th style="font-size: 12px">C.U.I.T.</th>
-			 			<th style="font-size: 12px">Tipo Comp.</th>
-			 			<th style="font-size: 12px" class="filter-select" data-placeholder="Selccione">T.E.</th>
 			 			<th style="font-size: 12px">Fec. Comp.</th>
 			 			<th style="font-size: 12px">C.A.E.</th>
 			 			<th style="font-size: 12px">Pto. Venta</th>
 			 			<th style="font-size: 12px">Num. Comp.</th>
 			 			<th style="font-size: 12px">$ Comp.</th>
 			 			<th style="font-size: 12px">$ Soli.</th>
+			 			<th style="font-size: 12px">$ Subs.</th>
 			 			<th style="font-size: 12px">Cod. Prac.</th>
 			 			<th style="font-size: 12px">Cant.</th>
 			 			<th style="font-size: 12px">Prov.</th>
@@ -231,8 +230,6 @@ function validar(formulario) {
 						<td style="font-size: 14px"><?php echo $rowFactura['vtocertificado'] ?></td>
 						<td style="font-size: 14px"><?php echo $rowFactura['periodo'] ?></td>
 						<td style="font-size: 14px"><?php echo $rowFactura['cuit'] ?></td>
-						<td style="font-size: 14px"><?php echo $rowFactura['tipocomprobante'] ?></td>
-						<td style="font-size: 14px"><?php echo $rowFactura['tipoemision'] ?></td>
 						<td style="font-size: 14px"><?php echo $rowFactura['fechacomprobante'] ?></td>
 						<td style="font-size: 14px"><?php echo $rowFactura['cae'] ?></td>
 						<td style="font-size: 14px"><?php echo $rowFactura['puntoventa'] ?></td>
@@ -244,7 +241,15 @@ function validar(formulario) {
 				  <?php } else {  ?>
 							<td style="font-size: 14px"><?php echo number_format($rowFactura['impcomprobante'],2,",",".") ?></td>
 							<td style="font-size: 14px"><?php echo number_format($rowFactura['impsolicitado'],2,",",".")  ?></td>
-				  <?php }?>
+				  <?php }
+				  		if ($rowFactura['impmontosubsidio'] < 0) {
+				  			$color = 'red';	
+				  		} else {
+				  			$color = '';	
+				  		}
+				  		?>
+				  		
+				  		<td style="font-size: 14px; color: <?php echo $color ?>;"><?php echo number_format($rowFactura['impmontosubsidio'],2,",",".") ?></td>
 						<td style="font-size: 14px"><?php echo $rowFactura['codpractica'] ?></td>
 						<td style="font-size: 14px"><?php echo $rowFactura['cantidad'] ?></td>
 						<td style="font-size: 14px"><?php echo $rowFactura['provincia'] ?></td>
