@@ -33,7 +33,8 @@ header("Content-Disposition: attachment; filename=$file");
 			 			<th>$ Solicitado</th>
 			 			<th colspan="2">Resultado Formato</th>
 			 			<th colspan="2">Resultado Integral</th>
-			 			<th colspan="2">Resultado Subsidio</th>
+			 			<th colspan="3">Resultado Subsidio</th>
+			 			<th>Ret.</th>
 			 		</tr>
 			 		<tr>
 			 			<th colspan="11"></th>
@@ -43,6 +44,7 @@ header("Content-Disposition: attachment; filename=$file");
 			 			<th>$ Solicitado</th>
 			 			<th>$ Solicitado</th>
 			 			<th>$ Subsidiado</th>
+			 			<th>$ O.S.P.I.M.</th>
 			 		</tr>
 			<?php 
 				$totCom = 0;
@@ -53,6 +55,7 @@ header("Content-Disposition: attachment; filename=$file");
 				$totSolInt = 0;
 				$totSolSub = 0;
 				$totMonSub = 0;
+				$totMonOsp = 0;
 				while ($rowFactura = mysql_fetch_array($resFactura)) { ?>
 					<tr>
 						<td><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
@@ -98,6 +101,7 @@ header("Content-Disposition: attachment; filename=$file");
 								} else {  ?>
 									<td>-</td>
 									<td>-</td>
+									<td>-</td>
 					<?php 		}
 						  }  
 					      if ($rowFactura['deverrorintegral'] != null) { ?>
@@ -123,6 +127,7 @@ header("Content-Disposition: attachment; filename=$file");
 								} else { ?>
 									<td>-</td>
 									<td>-</td>
+									<td>-</td>
 					<?php		} 	
 						  }  
 						if ($rowFactura['impsolicitadosubsidio'] != null && $rowFactura['impmontosubsidio'] != null) { 
@@ -130,10 +135,34 @@ header("Content-Disposition: attachment; filename=$file");
 							if ($controlMontoSub != 0) $colorMontInt = 'red'; else $colorMontInt = ''; 
 							$totSolSub += $rowFactura['impsolicitadosubsidio'];
 							$totMonSub += $rowFactura['impmontosubsidio'];
+							if ($rowFactura['impmontosubsidio'] > 0) {
+								$impOsp = $rowFactura['impcomprobante'] - $rowFactura['impmontosubsidio'];
+								$totMonOsp += $impOsp;
+							} else {
+								$impOsp = $rowFactura['impcomprobante'] + $rowFactura['impmontosubsidio'];
+								$totMonOsp += $impOsp;
+							}
+							
+							$sqlRetiene = "SELECT * FROM prestadores WHERE cuit = ".$rowFactura['cuit'];
+							$resRetiene = mysql_query($sqlRetiene);
+							$canRetiene = mysql_num_rows($resRetiene);
+							$retiene = "-";
+							if ($canRetiene == 1) {
+								$rowRetiene = mysql_fetch_array($resRetiene);
+								if ($rowRetiene['retiene'] == 1) {
+									$retiene = "SI";
+								} else {
+									$retiene = "NO";
+								}
+							}
 							?>
 							<td><?php if ($rowFactura['impsolicitadosubsidio'] != null) echo number_format($rowFactura['impsolicitadosubsidio'],2,",","."); else echo "-";  ?></td>
 							<td style="color: <?php echo $colorMontInt ?>"><?php if ($rowFactura['impmontosubsidio'] != null) echo number_format($rowFactura['impmontosubsidio'],2,",","."); else echo "-";  ?></td>
+							<td><?php if ($rowFactura['impsolicitadosubsidio'] != null) echo number_format($impOsp,2,",","."); else echo "-";  ?></td>
+							<td><?php echo $retiene ?></td>
 				<?php 	} else { ?>
+							<td>-</td>
+							<td>-</td>
 							<td>-</td>
 							<td>-</td>
 				<?php } ?>
@@ -149,6 +178,7 @@ header("Content-Disposition: attachment; filename=$file");
 						<td><?php echo number_format($totSolInt,2,",",".") ?></td>
 						<td><?php echo number_format($totSolSub,2,",",".") ?></td>
 						<td><?php echo number_format($totMonSub,2,",",".") ?></td>
+						<td><?php echo number_format($totMonOsp,2,",",".") ?></td>
 					</tr>
 		</table>
 	</div>
