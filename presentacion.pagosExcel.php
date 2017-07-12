@@ -20,14 +20,8 @@ while ($rowSubsidio = mysql_fetch_array($resSubsidio)) {
 		$arrayCompleto[$index]['f'][$rowfactura['nrocominterno']] = $rowfactura;
 		$sqlPagos = "SELECT p.*, DATE_FORMAT(p.fechatransferencia, '%d-%m-%Y') as fechatransferencia FROM pagos p WHERE idpresentacion = $idPresentacion and nrocominterno = ".$rowfactura['nrocominterno'];
 		$resPagos = mysql_query($sqlPagos);
-		$control = 0;
 		while($rowPagos = mysql_fetch_array($resPagos)) {
-			if ($control != 0) {
-				$rowPagos['retingresosbrutos'] = "0.00";
-				$rowPagos['retganancias'] = "0.00";
-			}
 			$arrayCompleto[$index]['f'][$rowfactura['nrocominterno']]['p'][$rowPagos['nrodepago']] = $rowPagos;
-			$control++;
 		}
 	}
 	$index++;
@@ -75,12 +69,12 @@ foreach ($arrayCompleto as $key => $subsidio) {
 			$nrotran = $pago['nrotransferencia'];
 			$tipo = substr($nrotran, 0, 2);
 			if ($tipo == 'TS') {
-				$totalPagoS += (float) $pago['importepagado'];
-				$imporPagoS = (float) $pago['importepagado'];
+				$totalPagoS += (float) $pago['importepagado'] + $pago['retganancias'];
+				$imporPagoS = (float) $pago['importepagado'] + $pago['retganancias'];
 				$imporPagoO = 0;
 			} else {
-				$totalPagoO += (float) $pago['importepagado'];
-				$imporPagoO = (float) $pago['importepagado'];
+				$totalPagoO += (float) $pago['importepagado'] + $pago['retganancias'];
+				$imporPagoO = (float) $pago['importepagado'] + $pago['retganancias'];
 				$imporPagoS = 0;
 			}
 			if ($contadorPagos != 0) {

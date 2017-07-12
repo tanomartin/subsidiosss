@@ -20,14 +20,8 @@ while ($rowSubsidio = mysql_fetch_array($resSubsidio)) {
 		$arrayCompleto[$index]['f'][$rowfactura['nrocominterno']] = $rowfactura;
 		$sqlPagos = "SELECT p.*, DATE_FORMAT(p.fechatransferencia, '%d-%m-%Y') as fechatransferencia FROM pagos p WHERE idpresentacion = $idPresentacion and nrocominterno = ".$rowfactura['nrocominterno'];
 		$resPagos = mysql_query($sqlPagos);
-		$control = 0;
 		while($rowPagos = mysql_fetch_array($resPagos)) {
-			if ($control != 0) {
-				$rowPagos['retingresosbrutos'] = "0.00";
-				$rowPagos['retganancias'] = "0.00";
-			}
 			$arrayCompleto[$index]['f'][$rowfactura['nrocominterno']]['p'][$rowPagos['nrodepago']] = $rowPagos;
-			$control++;
 		}
 	}
 	$index++;
@@ -39,6 +33,13 @@ $totalSubsidio = 0;
 $totalSolicitado = 0;
 $totalPagoS = 0;
 $totalPagoO = 0;
+
+$totTransferido = 0;
+$totRetGanancia = 0;
+$totRetIngBrutos = 0;
+$totOtrasRete = 0;
+
+
 foreach ($arrayCompleto as $key => $subsidio) {
 	$totalSubsidio += (float) $subsidio['impsubsidiado'];
 	foreach ($subsidio['f'] as $nrointerno => $factura) {
@@ -47,15 +48,15 @@ foreach ($arrayCompleto as $key => $subsidio) {
 			$nrotran = $pago['nrotransferencia'];
 			$tipo = substr($nrotran, 0, 2);
 			if ($tipo == 'TS') {
-				$totalPagoS += (float) $pago['importepagado'];
-				$imporPagoS = (float) $pago['importepagado'];
+				$totalPagoS += (float) $pago['importepagado'] + $pago['retganancias'];
+				$imporPagoS = (float) $pago['importepagado'] + $pago['retganancias'];
 				$imporPagoO = 0;
 			} else {
-				$totalPagoO += (float) $pago['importepagado'];
-				$imporPagoO = (float) $pago['importepagado'];
+				$totalPagoO += (float) $pago['importepagado'] + $pago['retganancias'];
+				$imporPagoO = (float) $pago['importepagado'] + $pago['retganancias'];
 				$imporPagoS = 0;
 			}
-
+			
 			$linea = "<tr>";
 			$linea .= "<td style='font-size: 11px'>".$subsidio['periodopresentacion']."</td>";
 			$linea .= "<td style='font-size: 11px'>".$subsidio['periodoprestacion']."</td>";
@@ -72,6 +73,10 @@ foreach ($arrayCompleto as $key => $subsidio) {
 			$linea .= "<td style='font-size: 11px'>".$factura['nrocomprobante']."</td>";
 			$linea .= "<td style='font-size: 11px'>".number_format($factura['impsolicitado'],"2",",",".")."</td>";
 				
+			$totTransferido += (float) $pago['importepagado'];
+			$totRetGanancia += (float) $pago['retganancias'];
+			$totRetIngBrutos += (float) $pago['retingresosbrutos'];
+			
 			$linea .= "<td style='font-size: 11px'>".$pago['nroordenpago']."</td>";
 			$linea .= "<td style='font-size: 11px'>".$pago['fechatransferencia']."</td>";
 			$linea .= "<td style='font-size: 11px'>".$factura['cbu']."</td>";
@@ -113,7 +118,11 @@ $lineaTotales = "<tr>
 					 <td style='font-size: 11px'>".number_format($totalSubsidio,"2",",",".")."</td>
 					 <td colspan='6'></td>
 					 <td style='font-size: 11px'>".number_format($totalSolicitado,"2",",",".")."</td>
-					 <td colspan='7'></td>
+					 <td colspan='3'></td>
+					 <td style='font-size: 11px'>".number_format($totTransferido,"2",",",".")."</td>
+					 <td style='font-size: 11px'>".number_format($totRetGanancia,"2",",",".")."</td>
+					 <td style='font-size: 11px'>".number_format($totRetIngBrutos,"2",",",".")."</td>
+					 <td style='font-size: 11px'>".number_format($totOtrasRete,"2",",",".")."</td>
 					 <td style='font-size: 11px'>".number_format($totalPagoS,"2",",",".")."</td>
 					 <td style='font-size: 11px'>".number_format($totalPagoO,"2",",",".")."</td>
 					 <td colspan='4'></td>
