@@ -74,7 +74,7 @@ $(function() {
 			 			<th rowspan="2" style="font-size: 11px">$ Soli.</th>
 			 			<th style="font-size: 11px" colspan="2">Resultado Formato</th>
 			 			<th style="font-size: 11px" colspan="2">Resultado Integral</th>
-			 			<th style="font-size: 11px" colspan="3">Resultado Subsidio</th>
+			 			<th style="font-size: 11px" colspan="4">Resultado Subsidio</th>
 			 			<th rowspan="2" style="font-size: 11px">Ret.</th>
 			 		</tr>
 			 		<tr>
@@ -82,8 +82,10 @@ $(function() {
 			 			<th style="font-size: 11px">$ Soli.</th>
 			 			<th style="font-size: 11px">$ Comp.</th>
 			 			<th style="font-size: 11px">$ Soli.</th>
+			 			
 			 			<th style="font-size: 11px">$ Soli.</th>
 			 			<th style="font-size: 11px">$ Subs.</th>
+			 			<th style="font-size: 11px">$ Tr O.S.</th>
 			 			<th style="font-size: 11px">$ O.S.</th>
 			 		</tr>
 			 	</thead>
@@ -98,6 +100,7 @@ $(function() {
 				$totSolSub = 0;
 				$totMonSub = 0;
 				$totMonOsp = 0;
+				$totMonChOsp = 0;
 				while ($rowFactura = mysql_fetch_array($resFactura)) {  ?>
 					<tr>
 						<td style="font-size: 11px"><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
@@ -180,12 +183,15 @@ $(function() {
 							$totSolSub += $rowFactura['impsolicitadosubsidio'];
 							$totMonSub += $rowFactura['impmontosubsidio'];
 							if ($rowFactura['impmontosubsidio'] > 0) {
-								$impOsp = $rowFactura['impcomprobante'] - $rowFactura['impmontosubsidio'];
+								$impOsp = $rowFactura['impsolicitadosubsidio'] - $rowFactura['impmontosubsidio'];
 								$totMonOsp += $impOsp;
 							} else {
-								$impOsp = $rowFactura['impcomprobante'] + $rowFactura['impmontosubsidio'];
+								$impOsp = $rowFactura['impsolicitadosubsidio'] + $rowFactura['impmontosubsidio'];
 								$totMonOsp += $impOsp;
 							}
+							
+							$impChOsp = $rowFactura['impcomprobante'] - $rowFactura['impsolicitadosubsidio'];
+							$totMonChOsp += $impChOsp;
 							
 							$sqlRetiene = "SELECT * FROM prestadores WHERE cuit = ".$rowFactura['cuit'];
 							$resRetiene = mysql_query($sqlRetiene);
@@ -203,9 +209,11 @@ $(function() {
 								<td style="font-size: 11px"><?php if ($rowFactura['impsolicitadosubsidio'] != null) echo number_format($rowFactura['impsolicitadosubsidio'],2,",","."); else echo "-";  ?></td>
 								<td style="font-size: 11px; color: <?php echo $colorMontInt ?>"><?php if ($rowFactura['impmontosubsidio'] != null) echo number_format($rowFactura['impmontosubsidio'],2,",","."); else echo "-";  ?></td>
 								<td style="font-size: 11px"><?php if ($rowFactura['impsolicitadosubsidio'] != null) echo number_format($impOsp,2,",","."); else echo "-";  ?></td>
+								<td style="font-size: 11px"><?php if ($rowFactura['impsolicitadosubsidio'] != null) echo number_format($impChOsp,2,",","."); else echo "-";  ?></td>
 								<td style="font-size: 11px"><?php echo $retiene ?></td>
 	
 					<?php 	} else { ?>
+								<td style="font-size: 11px">-</td>
 								<td style="font-size: 11px">-</td>
 								<td style="font-size: 11px">-</td>
 								<td style="font-size: 11px">-</td>
@@ -224,6 +232,7 @@ $(function() {
 						<th style="font-size: 11px"><?php echo number_format($totSolSub,2,",",".") ?></td>
 						<th style="font-size: 11px"><?php echo number_format($totMonSub,2,",",".") ?></td>
 						<th style="font-size: 11px"><?php echo number_format($totMonOsp,2,",",".") ?></td>
+						<th style="font-size: 11px"><?php echo number_format($totMonChOsp,2,",",".") ?></td>
 						<th style="font-size: 11px"></td>
 					</tr>
 			  	</tbody>
