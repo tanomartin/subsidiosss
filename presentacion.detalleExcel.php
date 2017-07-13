@@ -81,6 +81,7 @@ header("Content-Disposition: attachment; filename=$file");
 						    <td><?php echo number_format($rowFactura['impcomprobante'],2,",",".") ?></td>
 						    <td><?php echo number_format($rowFactura['impsolicitado'],2,",",".") ?></td>
 					<?php } 
+						if ($rowPresentacion['fechadevformato'] != null) {
 					      if ($rowFactura['deverrorformato'] != null ) { ?>
 							<td colspan="2" style="color: red"><?php  echo "ERROR: ".$rowFactura['deverrorformato'] ?></td>
 					<?php } else { 
@@ -103,10 +104,14 @@ header("Content-Disposition: attachment; filename=$file");
 								} else {  ?>
 									<td>-</td>
 									<td>-</td>
-									<td>-</td>
 					<?php 		}
-						  }  
-					      if ($rowFactura['deverrorintegral'] != null) { ?>
+						  } 
+						} else {  ?>
+							<td>-</td>
+							<td>-</td>
+					<?php }	
+						if ($rowPresentacion['fechaintegral'] != null) {
+					 	  if ($rowFactura['deverrorintegral'] != null) { ?>
 							<td colspan="2" style="color: red"><?php  echo "ERROR: ".$rowFactura['deverrorintegral'] ?></td>
 					<?php } else { 
 								if ($rowFactura['impcomprobanteintegral'] != null && $rowFactura['impsolicitadointegral'] != null) { 
@@ -129,9 +134,14 @@ header("Content-Disposition: attachment; filename=$file");
 								} else { ?>
 									<td>-</td>
 									<td>-</td>
-									<td>-</td>
 					<?php		} 	
-						  }  
+						  }
+						} else { ?>
+							<td>-</td>
+							<td>-</td>
+				<?php	}
+						
+					 if ($rowPresentacion['fechasubsidio'] != null) {
 						if ($rowFactura['deverrorintegral'] == null) { 
 							$controlMontoSub = $rowFactura['impsolicitadosubsidio'] - $rowFactura['impmontosubsidio'];
 							if ($controlMontoSub != 0) $colorMontInt = 'red'; else $colorMontInt = ''; 
@@ -173,7 +183,14 @@ header("Content-Disposition: attachment; filename=$file");
 							<td>-</td>
 							<td>-</td>
 							<td>-</td>
-				<?php } ?>
+			   <?php	} 
+				} else { ?>
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+			<?php }?>
 					</tr>
 			<?php } ?>
 					<tr>
