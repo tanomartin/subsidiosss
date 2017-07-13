@@ -132,20 +132,21 @@ header("Content-Disposition: attachment; filename=$file");
 									<td>-</td>
 					<?php		} 	
 						  }  
-						if ($rowFactura['impsolicitadosubsidio'] != null && $rowFactura['impmontosubsidio'] != null) { 
+						if ($rowFactura['deverrorintegral'] == null) { 
 							$controlMontoSub = $rowFactura['impsolicitadosubsidio'] - $rowFactura['impmontosubsidio'];
 							if ($controlMontoSub != 0) $colorMontInt = 'red'; else $colorMontInt = ''; 
 							$totSolSub += $rowFactura['impsolicitadosubsidio'];
 							$totMonSub += $rowFactura['impmontosubsidio'];
-							if ($rowFactura['impmontosubsidio'] > 0) {
-								$impOsp = $rowFactura['impsolicitadosubsidio'] - $rowFactura['impmontosubsidio'];
-								$totMonOsp += $impOsp;
-							} else {
-								$impOsp = $rowFactura['impsolicitadosubsidio'] + $rowFactura['impmontosubsidio'];
-								$totMonOsp += $impOsp;
+							
+							$impOsp = $rowFactura['impsolicitadosubsidio'] - $rowFactura['impmontosubsidio'];
+							$totMonOsp += $impOsp;
+
+							$importeFactura = $rowFactura['impcomprobante'];
+							if ($rowFactura['tipoarchivo'] == 'DB') {
+								$importeFactura = (-1)*$rowFactura['impcomprobante'];
 							}
 							
-							$impChOsp = $rowFactura['impcomprobante'] - $rowFactura['impsolicitadosubsidio'];
+							$impChOsp = $importeFactura - $rowFactura['impsolicitadosubsidio'];
 							$totMonChOsp += $impChOsp;
 							
 							$sqlRetiene = "SELECT * FROM prestadores WHERE cuit = ".$rowFactura['cuit'];
@@ -163,10 +164,10 @@ header("Content-Disposition: attachment; filename=$file");
 							?>
 							<td><?php if ($rowFactura['impsolicitadosubsidio'] != null) echo number_format($rowFactura['impsolicitadosubsidio'],2,",","."); else echo "-";  ?></td>
 							<td style="color: <?php echo $colorMontInt ?>"><?php if ($rowFactura['impmontosubsidio'] != null) echo number_format($rowFactura['impmontosubsidio'],2,",","."); else echo "-";  ?></td>
-							<td><?php if ($rowFactura['impsolicitadosubsidio'] != null) echo number_format($impOsp,2,",","."); else echo "-";  ?></td>
-							<td><?php if ($rowFactura['impsolicitadosubsidio'] != null) echo number_format($impChOsp,2,",","."); else echo "-";  ?></td>
+							<td><?php echo number_format($impOsp,2,",",".");  ?></td>
+							<td><?php echo number_format($impChOsp,2,",",".");  ?></td>
 							<td><?php echo $retiene ?></td>
-				<?php 	} else { ?>
+				<?php } else { ?>
 							<td>-</td>
 							<td>-</td>
 							<td>-</td>
