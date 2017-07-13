@@ -111,7 +111,7 @@ header("Content-Disposition: attachment; filename=$file");
 							<td>-</td>
 					<?php }	
 						if ($rowPresentacion['fechaintegral'] != null) {
-					 	  if ($rowFactura['deverrorintegral'] != null) { ?>
+					 	  if ($rowFactura['deverrorintegral'] != null && $rowFactura['deverrorformato'] == null) { ?>
 							<td colspan="2" style="color: red"><?php  echo "ERROR: ".$rowFactura['deverrorintegral'] ?></td>
 					<?php } else { 
 								if ($rowFactura['impcomprobanteintegral'] != null && $rowFactura['impsolicitadointegral'] != null) { 
@@ -142,7 +142,7 @@ header("Content-Disposition: attachment; filename=$file");
 				<?php	}
 						
 					 if ($rowPresentacion['fechasubsidio'] != null) {
-						if ($rowFactura['deverrorintegral'] == null) { 
+						if ($rowFactura['deverrorintegral'] == null && $rowFactura['deverrorformato'] == null) { 
 							$controlMontoSub = $rowFactura['impsolicitadosubsidio'] - $rowFactura['impmontosubsidio'];
 							if ($controlMontoSub != 0) $colorMontInt = 'red'; else $colorMontInt = ''; 
 							$totSolSub += $rowFactura['impsolicitadosubsidio'];
@@ -151,9 +151,9 @@ header("Content-Disposition: attachment; filename=$file");
 							$impOsp = $rowFactura['impsolicitadosubsidio'] - $rowFactura['impmontosubsidio'];
 							$totMonOsp += $impOsp;
 
-							$importeFactura = $rowFactura['impcomprobante'];
+							$importeFactura = $rowFactura['impcomprobanteintegral'];
 							if ($rowFactura['tipoarchivo'] == 'DB') {
-								$importeFactura = (-1)*$rowFactura['impcomprobante'];
+								$importeFactura = (-1)*$rowFactura['impcomprobanteintegral'];
 							}
 							
 							$impChOsp = $importeFactura - $rowFactura['impsolicitadosubsidio'];

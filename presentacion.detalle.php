@@ -157,7 +157,7 @@ $(function() {
 					<?php }
 					
 						  if ($rowPresentacion['fechaintegral'] != null) {
-						      if ($rowFactura['deverrorintegral'] != null) { ?>
+						      if ($rowFactura['deverrorintegral'] != null && $rowFactura['deverrorformato'] == null) { ?>
 								<td colspan="2" style="font-size: 11px; color: red"><?php  echo "ERROR: ".$rowFactura['deverrorintegral'] ?></td>
 						<?php } else { 
 									if ($rowFactura['impcomprobanteintegral'] != null && $rowFactura['impsolicitadointegral'] != null) { 
@@ -188,7 +188,7 @@ $(function() {
 			<?php		  }
 			
 						  if ($rowPresentacion['fechasubsidio'] != null) {
-						  		if ($rowFactura['deverrorintegral'] == null) { 
+						  		if ($rowFactura['deverrorintegral'] == null && $rowFactura['deverrorformato'] == null) { 
 									$controlMontoSub = $rowFactura['impsolicitadosubsidio'] - $rowFactura['impmontosubsidio'];
 									if ($controlMontoSub != 0) $colorMontInt = 'red'; else $colorMontInt = ''; 
 									$totSolSub += $rowFactura['impsolicitadosubsidio'];
@@ -197,9 +197,9 @@ $(function() {
 								  	$impOsp = $rowFactura['impsolicitadosubsidio'] - $rowFactura['impmontosubsidio'];
 									$totMonOsp += $impOsp;
 		
-									$importeFactura = $rowFactura['impcomprobante'];
+									$importeFactura = $rowFactura['impcomprobanteintegral'];
 									if ($rowFactura['tipoarchivo'] == 'DB') {
-										$importeFactura = (-1)*$rowFactura['impcomprobante'];
+										$importeFactura = (-1)*$rowFactura['impcomprobanteintegral'];
 									}
 									
 									$impChOsp = $importeFactura - $rowFactura['impsolicitadosubsidio'];
