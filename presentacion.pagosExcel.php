@@ -47,7 +47,7 @@ foreach ($arrayCompleto as $key => $subsidio) {
 		$totalSolicitado += (float) $factura['impsolicitado'];
 		if ($contadorFacturas != 0) {
 			$linea .= "<tr>";
-			$linea .= "<td colspan='6'></td>";
+			$linea .= "<td></td><td></td><td></td><td></td><td></td><td></td>";
 			$linea .= "<td style='font-size: 7px'>".$factura['periodo']."</td>";
 			$linea .= "<td style='font-size: 7px'>".$factura['cuit']."</td>";
 			$linea .= "<td style='font-size: 7px'>".$factura['comprobante']."</td>";
@@ -79,7 +79,8 @@ foreach ($arrayCompleto as $key => $subsidio) {
 			}
 			if ($contadorPagos != 0) {
 				$linea .= "<tr>";
-				$linea .= "<td colspan='12'></td>";
+				$linea .= "<td></td><td></td><td></td><td></td><td></td><td></td>";
+				$linea .= "<td></td><td></td><td></td><td></td><td></td><td></td>";
 				$linea .= "<td style='font-size: 7px'>".$pago['nroordenpago']."</td>";
 				$linea .= "<td style='font-size: 7px'>".$pago['fechatransferencia']."</td>";
 				$linea .= "<td style='font-size: 7px'>'".$factura['cbu']."'</td>";
