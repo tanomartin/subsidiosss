@@ -50,10 +50,13 @@ while ($data = fgetcsv ($fp, 1000, ";")) {
 			throw new Exception($error);
 		}
 		$cuit = $data['7'];
-		if (!esValidoCUIT($cuit)) {
-			$error = "Error en el C.U.I.T. $cuit nro comprobante interno ".$data['0'];
-			throw new Exception($error);
-		}
+		$codpractica = $data['17'];
+		if ($codpractica != 97 && $codpractica != 98 && $codpractica != 99) {
+			if (!esValidoCUIT($cuit)) {
+				$error = "Error en el C.U.I.T. $cuit nro comprobante interno ".$data['0'];
+				throw new Exception($error);
+			}
+		} 
 		
 		$impFactura = str_replace(',','.',$data['15']);
 		$impSolicit = str_replace(',','.',$data['16']);
@@ -87,7 +90,7 @@ while ($data = fgetcsv ($fp, 1000, ";")) {
     		'".$data['14']."',
     		".$impFactura.",
     		".$impSolicit.",
-    		".$data['17'].",
+    		".$codpractica.",
     		".$data['18'].",
     		".$data['19'].",
     		'".strtoupper($data['20'])."',
