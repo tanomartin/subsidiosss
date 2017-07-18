@@ -85,7 +85,7 @@ while ($data = fgetcsv ($fp, 1000, ";")) {
     		".$data['9'].",
     		'".strtoupper($data['10'])."',
     		'".$data['11']."',
-    		'".$data['12']."',
+    		'".str_pad($data['12'],14,'0',STR_PAD_LEFT)."',
     		".$data['13'].",
     		'".$data['14']."',
     		".$impFactura.",
