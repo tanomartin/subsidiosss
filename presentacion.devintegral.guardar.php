@@ -64,8 +64,7 @@ if ($archivook != null) {
 			$arrayUpdate[$indexUpdate] = "UPDATE facturas SET impcomprobanteintegral = $importeComprobante, impsolicitadointegral = $importeSolicitado
 												WHERE idpresentacion = $idPresentacion and tipoarchivo = '".$arraylinea[0]."' and cuil = '".$arraylinea[2]."' and periodo =  '".$arraylinea[5]."' and
 													  cuit = '".$arraylinea[6]."' and tipocomprobante = ".(int)$arraylinea[7]." and tipoemision = '".$arraylinea[8]."' and
-													  fechacomprobante = '".$arraylinea[9]."' and cae = '".trim($arraylinea[10])."' and puntoventa = ".(int)$arraylinea[11]." and
-													  nrocomprobante = '".(int)$arraylinea[12]."'";
+													  fechacomprobante = '".$arraylinea[9]."' and puntoventa = ".(int)$arraylinea[11]." and nrocomprobante = '".(int)$arraylinea[12]."'";
 			$indexUpdate++;
 		}
 	}
@@ -96,8 +95,7 @@ if ($archivoerror != null) {
 			$arrayUpdate[$indexUpdate] = "UPDATE facturas SET deverrorintegral = '".$arraylinea[19]."'
 												WHERE idpresentacion = $idPresentacion and tipoarchivo = '".$arraylinea[0]."' and cuil = '".$arraylinea[2]."' and periodo =  '".$arraylinea[5]."' and
 													  cuit = '".$arraylinea[6]."' and tipocomprobante = ".(int)$arraylinea[7]." and tipoemision = '".$arraylinea[8]."' and
-													  fechacomprobante = '".$arraylinea[9]."' and cae = '".trim($arraylinea[10])."' and puntoventa = ".(int)$arraylinea[11]." and
-													  nrocomprobante = '".(int)$arraylinea[12]."'";
+													  fechacomprobante = '".$arraylinea[9]."' and puntoventa = ".(int)$arraylinea[11]." and nrocomprobante = '".(int)$arraylinea[12]."'";
 			$indexUpdate++;
 		}
 	}
