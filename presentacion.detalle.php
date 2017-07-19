@@ -64,6 +64,7 @@ $(function() {
 			 			<th rowspan="2" style="font-size: 11px">Comp. Interno</th>
 			 			<th rowspan="2" style="font-size: 11px">Tipo</th>
 			 			<th rowspan="2" style="font-size: 11px">C.U.I.L.</th>
+			 			<th rowspan="2" style="font-size: 11px">Dele</th>
 			 			<th rowspan="2" style="font-size: 11px">Periodo</th>
 			 			<th rowspan="2" style="font-size: 11px">C.U.I.T.</th>
 			 			<th rowspan="2" style="font-size: 11px">C.A.E.</th>
@@ -101,11 +102,21 @@ $(function() {
 				$totMonSub = 0;
 				$totMonOsp = 0;
 				$totMonChOsp = 0;
-				while ($rowFactura = mysql_fetch_array($resFactura)) {  ?>
+				while ($rowFactura = mysql_fetch_array($resFactura)) {  
+					$sqlConsultaDele = "SELECT * FROM cuildelegaciones WHERE cuil = '".$rowFactura['cuil']."'";
+					$resConsultaDele = mysql_query($sqlConsultaDele);
+					$canConsultaDele = mysql_num_rows($resConsultaDele);
+					if ($canConsultaDele > 0) {
+						$rowConsultaDele = mysql_fetch_array($resConsultaDele);
+						$codidelega = $rowConsultaDele['codidelega'];
+					} else {
+						$codidelega = "-";
+					} ?>
 					<tr>
 						<td style="font-size: 11px"><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['tipoarchivo'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['cuil'] ?></td>
+						<td style="font-size: 11px"><?php echo $codidelega ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['periodo'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['cuit'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['cae'] ?></td>
@@ -239,7 +250,7 @@ $(function() {
 					</tr>	
 			<?php } ?>
 					<tr>
-						<th colspan="9">TOTALES</td>
+						<th colspan="10">TOTALES</td>
 						<th style="font-size: 11px"><?php echo number_format($totCom,2,",",".") ?></td>
 						<th style="font-size: 11px"><?php echo number_format($totSol,2,",",".") ?></td>
 						<th style="font-size: 11px"><?php echo number_format($totComFor,2,",",".") ?></td>

@@ -23,6 +23,7 @@ header("Content-Disposition: attachment; filename=$file");
 			 			<th>Comp. Interno</th>
 			 			<th>Tipo</th>
 			 			<th>C.U.I.L.</th>
+			 			<th>Dele</th>
 			 			<th>Periodo</th>
 			 			<th>C.U.I.T.</th>
 			 			<th>C.A.E.</th>
@@ -58,11 +59,21 @@ header("Content-Disposition: attachment; filename=$file");
 				$totMonSub = 0;
 				$totMonOsp = 0;
 				$totMonChOsp = 0;
-				while ($rowFactura = mysql_fetch_array($resFactura)) { ?>
+				while ($rowFactura = mysql_fetch_array($resFactura)) { 
+					$sqlConsultaDele = "SELECT * FROM cuildelegaciones WHERE cuil = '".$rowFactura['cuil']."'";
+					$resConsultaDele = mysql_query($sqlConsultaDele);
+					$canConsultaDele = mysql_num_rows($resConsultaDele);
+					if ($canConsultaDele > 0) {
+						$rowConsultaDele = mysql_fetch_array($resConsultaDele);
+						$codidelega = $rowConsultaDele['codidelega'];
+					} else {
+						$codidelega = "-";
+					} ?>
 					<tr>
 						<td><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
 						<td><?php echo $rowFactura['tipoarchivo'] ?></td>
 						<td><?php echo $rowFactura['cuil'] ?></td>
+						<td><?php echo $codidelega ?></td>
 						<td><?php echo $rowFactura['periodo'] ?></td>
 						<td><?php echo $rowFactura['cuit'] ?></td>
 						<td><?php echo '"'.$rowFactura['cae'].'"' ?></td>
