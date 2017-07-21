@@ -108,13 +108,13 @@ $(function() {
 
 <body bgcolor="#CCCCCC">
 	<div align="center">
-	 	<p><input type="button" name="volver" value="Volver" onClick="location.href = 'menu.php'" /></p>
+	 	<p><input type="button" name="volver" value="Volver" onClick="location.href = 'presentacion.php'" /></p>
 	 	<h2>Presentaciones S.S.S.</h2>
-	 	<p><input type="button" name="todas" value="Ver Todas las Presentaciones" onClick="location.href = 'presentacion.todas.php'" /></p>
   <?php if ($canPresentacionPeriodo == 0 && $usuario == 'sistemas') {?>
 	 		<p><input type="button" name="nueva" value="Nueva Presentacion" onClick="location.href = 'presentacion.nueva.php'" /></p>
   <?php } 
         if ($canPresentacion > 0) {?>
+
 			 <table id="listaResultado" class="tablesorter" style="text-align: center;">
 			 	<thead>
 			 		<tr>
@@ -142,8 +142,7 @@ $(function() {
 			 		</tr>
 			 	</thead>
 			 	<tbody>
-			<?php while ($rowPresentacion = mysql_fetch_array($resPresentacion)) { 
-					if ($rowPresentacion['fechacancelacion'] == null) { ?>
+			<?php while ($rowPresentacion = mysql_fetch_array($resPresentacion)) { ?>
 					<tr>
 						<td style="font-size: 12px"><?php echo $rowPresentacion['id'] ?></td>
 						<td style="font-size: 12px"><?php echo $rowPresentacion['periodo'] ?></td>
@@ -213,10 +212,10 @@ $(function() {
 				     			<?php  } ?>
 						</td>
 					</tr>
-			 <?php } 	
-				}  ?>
+			 <?php } ?>
 			  	</tbody>
 			</table>
+
   <?php } else { ?>
 			<p style="color: blue"><b>NO HAY PRESENTACIONES HASTA EL MOMENTO</b></p>
   <?php } ?>
