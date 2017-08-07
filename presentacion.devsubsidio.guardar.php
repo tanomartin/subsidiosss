@@ -36,7 +36,7 @@ while(!feof($fpok)) {
 		$montoSubsidio = (float) str_replace(",",".",$arraylinea[7]);
 		$summonto += $montoSubsidio;
 
-		$sqlSelectFactura = "SELECT tipoarchivo, nrocominterno,impcomprobanteintegral,impsolicitadointegral FROM facturas WHERE idpresentacion = $idPresentacion and deverrorformato is null and deverrorintegral is null and cuil = '".$arraylinea[3]."' and periodo = '".$arraylinea[4]."' and codpractica = ".(int) $arraylinea[6]." and tipoarchivo != 'DB'";
+		$sqlSelectFactura = "SELECT tipoarchivo, nrocominterno,impcomprobanteintegral,impsolicitadointegral, codpractica FROM facturas WHERE idpresentacion = $idPresentacion and deverrorformato is null and deverrorintegral is null and cuil = '".$arraylinea[3]."' and periodo = '".$arraylinea[4]."' and codpractica = ".(int) $arraylinea[6]." and tipoarchivo != 'DB'";
 		$resSelectFactura = mysql_query($sqlSelectFactura);
 		$canSelectFactura = mysql_num_rows($resSelectFactura);
 		if ($canSelectFactura > 0) {
@@ -49,17 +49,17 @@ while(!feof($fpok)) {
 					$importeSolicitadoRestante = round($importeSolicitadoRestante, 2);
 					$montoSubsidioRestante = round($montoSubsidioRestante, 2);		
 					if ($importeSolicitadoRestante >= 0 and $montoSubsidioRestante >= 0) {
-						$arrayUpdate[$indexUpdate] = "UPDATE facturas SET impsolicitadosubsidio = ".(float) $rowSelectFactura['impsolicitadointegral'].", impmontosubsidio = ".(float) $rowSelectFactura['impsolicitadointegral']." WHERE nrocominterno = ".$rowSelectFactura['nrocominterno']. " and idpresentacion = $idPresentacion and deverrorformato is null and deverrorintegral is null and tipoarchivo != 'DB'";
+						$arrayUpdate[$indexUpdate] = "UPDATE facturas SET impsolicitadosubsidio = ".(float) $rowSelectFactura['impsolicitadointegral'].", impmontosubsidio = ".(float) $rowSelectFactura['impsolicitadointegral']." WHERE nrocominterno = ".$rowSelectFactura['nrocominterno']. " and idpresentacion = $idPresentacion and codpractica = ".$rowSelectFactura['codpractica']." and deverrorformato is null and deverrorintegral is null and tipoarchivo != 'DB'";
 						$indexUpdate++;
 					} else {
 						$montoNuevo = (float) $rowSelectFactura['impsolicitadointegral'] + $montoSubsidioRestante;
 						$montoNuevo = round($montoNuevo, 2);
 						if ($montoNuevo < 0) { $montoNuevo = 0; }
-						$arrayUpdate[$indexUpdate] = "UPDATE facturas SET impsolicitadosubsidio = ".(float) $rowSelectFactura['impsolicitadointegral'].", impmontosubsidio = ".(float) $montoNuevo." WHERE nrocominterno = ".$rowSelectFactura['nrocominterno']. " and idpresentacion = $idPresentacion and deverrorformato is null and deverrorintegral is null and tipoarchivo != 'DB'";;
+						$arrayUpdate[$indexUpdate] = "UPDATE facturas SET impsolicitadosubsidio = ".(float) $rowSelectFactura['impsolicitadointegral'].", impmontosubsidio = ".(float) $montoNuevo." WHERE nrocominterno = ".$rowSelectFactura['nrocominterno']. " and idpresentacion = $idPresentacion and codpractica = ".$rowSelectFactura['codpractica']." and deverrorformato is null and deverrorintegral is null and tipoarchivo != 'DB'";;
 						$indexUpdate++;
 					}
 				} else {
-					$arrayUpdate[$indexUpdate] = "UPDATE facturas SET impsolicitadosubsidio = ".(float) $importeSolicitado.", impmontosubsidio = ".(float) $montoSubsidio." WHERE nrocominterno = ".$rowSelectFactura['nrocominterno']. " and idpresentacion = $idPresentacion and deverrorformato is null and deverrorintegral is null and tipoarchivo != 'DB'";
+					$arrayUpdate[$indexUpdate] = "UPDATE facturas SET impsolicitadosubsidio = ".(float) $importeSolicitado.", impmontosubsidio = ".(float) $montoSubsidio." WHERE nrocominterno = ".$rowSelectFactura['nrocominterno']. " and idpresentacion = $idPresentacion and codpractica = ".$rowSelectFactura['codpractica']." and deverrorformato is null and deverrorintegral is null and tipoarchivo != 'DB'";
 					$indexUpdate++;
 				}
 			}
