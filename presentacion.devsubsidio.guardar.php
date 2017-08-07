@@ -25,6 +25,9 @@ $indexUpdate = 0;
 $sumsoli = 0;
 $summonto = 0;
 $fpok = fopen($archivo, "r");
+
+$insertSubsidio = "INSERT INTO subsidio VALUES ";
+
 while(!feof($fpok)) {
 	$linea = fgets($fpok);
 	if ($linea != '') {
@@ -36,6 +39,8 @@ while(!feof($fpok)) {
 		$montoSubsidio = (float) str_replace(",",".",$arraylinea[7]);
 		$summonto += $montoSubsidio;
 
+		$insertSubsidio .= "($idPresentacion, '$numliqui','$arraylinea[1]','$arraylinea[2]','$arraylinea[3]','$arraylinea[4]',$importeSolicitado,'$arraylinea[6]',$montoSubsidio),";
+		
 		$sqlSelectFactura = "SELECT tipoarchivo, nrocominterno,impcomprobanteintegral,impsolicitadointegral, codpractica FROM facturas WHERE idpresentacion = $idPresentacion and deverrorformato is null and deverrorintegral is null and cuil = '".$arraylinea[3]."' and periodo = '".$arraylinea[4]."' and codpractica = ".(int) $arraylinea[6]." and tipoarchivo != 'DB'";
 		$resSelectFactura = mysql_query($sqlSelectFactura);
 		$canSelectFactura = mysql_num_rows($resSelectFactura);
@@ -72,6 +77,10 @@ while(!feof($fpok)) {
 	}
 }
 
+
+$insertSubsidio = substr($insertSubsidio, 0, -1);
+$insertSubsidio .= ";";
+
 fclose($fpok);
 
 //$sumsoli -= $rowPresentacion['totdebito'];
@@ -82,6 +91,9 @@ try {
 	$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	$dbh->beginTransaction();
 
+	//echo $insertSubsidio."<br>";
+	$dbh->exec($insertSubsidio);
+	
 	foreach ($arrayUpdate as $sqlUpdate) {
 		//echo $sqlUpdate."<br>";
 		$dbh->exec($sqlUpdate);
