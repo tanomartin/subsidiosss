@@ -80,7 +80,7 @@ foreach ($arrayCompleto as $key => $subsidio) {
 			if ($contadorPagos != 0) {
 				$linea .= "<tr>";
 				$linea .= "<td></td><td></td><td></td><td></td><td></td><td></td>";
-				$linea .= "<td></td><td></td><td></td><td></td><td></td><td></td>";
+				$linea .= "<td></td><td style='font-size: 7px'>".$factura['cuit']."</td><td></td><td></td><td></td><td></td>";
 				$linea .= "<td style='font-size: 7px'>".$pago['nroordenpago']."</td>";
 				$linea .= "<td style='font-size: 7px'>".$pago['fechatransferencia']."</td>";
 				$linea .= "<td style='font-size: 7px'>'".$factura['cbu']."'</td>";
