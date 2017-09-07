@@ -5,10 +5,12 @@ $clave = $datos[1];
 $host = $_SERVER['SERVER_NAME'];
 session_start();
 
-if ($usuario != "sistemas") {
+//control solo para sistemas//
+/* if ($usuario != "sistemas") {
 	header ('location:mantenimiento.php');
 	exit(0);
-}
+}*/
+//**************************//
 
 if ($_SESSION['usuario'] == $usuario) {
 	header ('location:index.php?error=2');	
