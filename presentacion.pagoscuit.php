@@ -9,7 +9,7 @@ if (isset($_GET['cuit'])) {
 						p.idpresentacion = $idPresentacion and 
 						p.nrocominterno = f.nrocominterno and
 						f.idpresentacion = $idPresentacion and 
-						f.cuit = '$nrocuit'";
+						f.cuit = '$nrocuit' order by f.nrocomprobante";
 	$resPagos = mysql_query($sqlPagos);
 	$canPagos = mysql_num_rows($resPagos);
 }
