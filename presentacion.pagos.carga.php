@@ -22,27 +22,23 @@ $rowPago = mysql_fetch_array($resPago);
 <link rel="stylesheet" href="css/tablas.css"/>
 <title>.: Carga Info Pagos S.S.S. :.</title>
 
-<script src="include/funcionControl.js" type="text/javascript"></script><base />
-<script type="text/javascript">
-	function validar(formulario) {
-		var recibo = formulario.recibo.value;
-		var asiento = formulario.asiento.value;
-		var folio = formulario.folio.value;
-		if(!isNumberPositivo(recibo)) {
-			alert("El recibo debe ser un nuero positivo");
-			return false;
-		}
-		if(!isNumberPositivo(asiento)) {
-			alert("El asiento debe ser un nuero positivo");
-			return false;
-		}
-		if(!isNumberPositivo(folio)) {
-			alert("El folio debe ser un nuero positivo");
-			return false;
-		}
-		return true;
+<script src="include/funcionControl.js" type="text/javascript"></script>
+<script>
+
+function validoNumero(id) {
+	var valorNumero = document.getElementById(id).value;
+	var errorNumero = "Error en la carga. Todos los datos deben ser numericos enteros postivos";
+	if(!isNumberPositivo(valorNumero)) {
+		alert(errorNumero);
+		document.getElementById(id).value = "";
+		document.getElementById(id).focus();
+		return false;
 	}
+	return false;
+}
+
 </script>
+
 
 <style type="text/css" media="print">
 .nover {display:none}
@@ -56,10 +52,8 @@ $rowPago = mysql_fetch_array($resPago);
 	 	<?php include_once("include/detalle.php")?>
 	 	
 	 	<h2>Datos del Pago</h2>
-	 	<form onSubmit="return validar(this)" action="presentacion.pagos.carga.guardar.php" method="post">
+	 	<form action="presentacion.pagos.carga.guardar.php" method="post">
 	 		<input style="display: none" type="text" id="idpresentacion" name="idpresentacion" value="<?php echo $idPresentacion ?>" />
-	 		<input style="display: none" type="text" id="nrocomint" name="nrocomint" value="<?php echo $nrocomint ?>" />
-	 		<input style="display: none" type="text" id="norord" name="norord" value="<?php echo $norord ?>" />
 		 	<div class="grilla" style="margin-bottom: 20px">
 			 	<table>
 			 		<thead>
@@ -84,15 +78,15 @@ $rowPago = mysql_fetch_array($resPago);
 				 <table>
 				 	<tr>
 				 		<td>Recibo</td>
-				 		<td><input type="text" value="<?php echo $rowPago['recibo'] ?>" id="recibo" name="recibo"></input></td>
+				 		<td><input type="text" value="<?php echo $rowPago['recibo'] ?>" id="recibo-<?php echo $norord."-".$nrocomint ?>" name="recibo-<?php echo $norord."-".$nrocomint ?>" onblur='validoNumero("recibo-<?php echo $norord."-".$nrocomint ?>")'/></td>
 				 	</tr>
 				 	<tr>
 				 		<td>Asiento</td>
-				 		<td><input type="text" value="<?php echo $rowPago['asiento'] ?>" id="asiento" name="asiento"></input></td>
+				 		<td><input type="text" value="<?php echo $rowPago['asiento'] ?>" id="asiento-<?php echo $norord."-".$nrocomint ?>" name="asiento-<?php echo $norord."-".$nrocomint ?>" onblur='validoNumero("asiento-<?php echo $norord."-".$nrocomint ?>")'/></td>
 				 	</tr>
 				 	<tr>
 				 		<td>Folio</td>
-				 		<td><input type="text" value="<?php echo $rowPago['folio'] ?>" id="folio" name="folio"></input></td>
+				 		<td><input type="text" value="<?php echo $rowPago['folio'] ?>" id="folio-<?php echo $norord."-".$nrocomint ?>" name="folio-<?php echo $norord."-".$nrocomint ?>" onblur='validoNumero("folio-<?php echo $norord."-".$nrocomint ?>")'/></td>
 				 	</tr>
 				 </table>
 			 </div>	
