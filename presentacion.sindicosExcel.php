@@ -30,6 +30,8 @@ while ($rowSubsidio = mysql_fetch_array($resSubsidio)) {
 $lineas = array();
 $indexLinea = 0;
 foreach ($arrayCompleto as $key => $subsidio) {
+	$carpeta = $subsidio['periodopresentacion'];
+	$idssss = $subsidio['idsss'];
 	foreach ($subsidio['f'] as $nrointerno => $factura) {
 		foreach ($subsidio['f'][$nrointerno]['p'] as $nropago => $pago) {
 			$tipo = substr($pago['nrotransferencia'], 0, 2);
@@ -79,7 +81,7 @@ foreach ($arrayCompleto as $key => $subsidio) {
 	}
 }
 
-$file= "INFORME SINDICO ".$idPresentacion.".xls";
+$file= "INFORME SINDICO ".$idPresentacion." - Carpeta ".$carpeta." - Id SSS - ".$idssss.".xls";
 header("Content-type: application/vnd.ms-excel");
 header("Content-Disposition: attachment; filename=$file");
 ?>
