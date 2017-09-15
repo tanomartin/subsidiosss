@@ -208,7 +208,10 @@ $(function() {
 	 	
 	 	<h2>Detalle de Pagos</h2>
 	 	
-	 	<p><input type="button" value="Generar Informe" onclick="location='presentacion.pagosExcel.php?id=<?php echo $idPresentacion?>'"/></p>
+	 	<p>
+	 		<input type="button" value="Generar Informe" onclick="location='presentacion.pagosExcel.php?id=<?php echo $idPresentacion?>'"/>
+	 		<input type="button" value="Generar Sindico" onclick="location='presentacion.sindicosExcel.php?id=<?php echo $idPresentacion?>'"/>
+	 	</p>
 	 	
 		 	<table id="listaResultado" class="tablesorter" style="text-align: center;">
 				 <thead>

@@ -84,7 +84,7 @@ $insertSubsidio .= ";";
 fclose($fpok);
 
 //$sumsoli -= $rowPresentacion['totdebito'];
-$sqlInsertPresentacionSubsidio = "INSERT INTO presentacionsubsidio VALUES($idPresentacion, CURDATE(),'$numliqui',$sumsoli,$summonto)";
+$sqlInsertPresentacionSubsidio = "INSERT INTO presentacionsubsidio VALUES($idPresentacion, CURDATE(),'$numliqui',NULL,$sumsoli,$summonto)";
 
 try {
 	$dbh = new PDO("mysql:host=$hostLocal;dbname=$dbname",$usuarioLocal,$claveLocal);
