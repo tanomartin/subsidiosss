@@ -1,6 +1,6 @@
 <?php 
 include_once 'include/conector.php';
-
+set_time_limit(0);
 $idPresentacion = $_POST['id'];
 $sqlPresentacion = "SELECT p.*, c.periodo, c.carpeta FROM presentacion p, cronograma c WHERE p.id = $idPresentacion and p.idcronograma = c.id";
 $resPresentacion = mysql_query($sqlPresentacion);

@@ -1,6 +1,7 @@
 <?php
 include_once 'include/conector.php';
 require_once 'include/phpExcel/Classes/PHPExcel.php';
+set_time_limit(0);
 
 function esValidoCUIT($cuit) {
 	$aMult = '5432765432';

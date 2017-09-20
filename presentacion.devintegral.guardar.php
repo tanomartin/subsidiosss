@@ -1,6 +1,6 @@
 <?php 
 include_once 'include/conector.php';
-
+set_time_limit(0);
 $idPresentacion = $_POST['id'];
 $sqlPresentacion = "SELECT
 p.id,
