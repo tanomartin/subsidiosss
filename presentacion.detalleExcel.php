@@ -38,7 +38,7 @@ header("Content-Disposition: attachment; filename=$file");
 			 			<th>Ret.</th>
 			 		</tr>
 			 		<tr>
-			 			<th colspan="11"></th>
+			 			<th colspan="12"></th>
 			 			<th>$ Comprobante</th>
 			 			<th>$ Solicitado</th>
 			 			<th>$ Comprobante</th>
@@ -205,7 +205,7 @@ header("Content-Disposition: attachment; filename=$file");
 					</tr>
 			<?php } ?>
 					<tr>
-						<td colspan="9">TOTALES</td>
+						<td colspan="10">TOTALES</td>
 						<td><?php echo number_format($totCom,2,",",".") ?></td>
 						<td><?php echo number_format($totSol,2,",",".") ?></td>
 						<td><?php echo number_format($totComFor,2,",",".") ?></td>
