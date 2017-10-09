@@ -9,7 +9,7 @@ if (isset($_GET['cuit'])) {
 						p.idpresentacion = $idPresentacion and 
 						p.nrocominterno = f.nrocominterno and
 						f.idpresentacion = $idPresentacion and 
-						f.cuit = '$nrocuit' order by f.nrocomprobante";
+						f.cuit = '$nrocuit' and f.tipoarchivo != 'DB' order by f.nrocomprobante";
 	$resPagos = mysql_query($sqlPagos);
 	$canPagos = mysql_num_rows($resPagos);
 }
@@ -76,6 +76,7 @@ if (isset($_GET['cuit'])) {
 					 		<thead>
 					 			<th>Nro. Orden Pago</th>
 					 			<th>Nro. Comp. Interno</th>
+					 			<th>Tipo</th>
 					 			<th>Nro. Factura</th>
 					 			<th width="90px">Fec. Transf.</th>
 					 			<th>Imp. Comprobante</th>
@@ -89,6 +90,7 @@ if (isset($_GET['cuit'])) {
 					 		<tbody>
 					 			<td><?php echo $rowPagos['nroordenpago'] ?></td>
 					 			<td><?php echo $rowPagos['nrocominterno'] ?></td>
+					 			<td><?php echo $rowPagos['tipoarchivo'] ?></td>
 					 			<td><?php echo $rowPagos['nrocomprobante'] ?></td>
 					 			<td><?php echo $rowPagos['fechatransferencia'] ?></td>
 					 			<td><?php echo number_format($rowPagos['impcomprobante'],"2",",","."); ?></td>
