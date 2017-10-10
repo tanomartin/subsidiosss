@@ -8,7 +8,7 @@ if (isset($_GET['cuit'])) {
 					WHERE 
 						p.idpresentacion = $idPresentacion and 
 						p.nrocominterno = f.nrocominterno and
-						f.idpresentacion = $idPresentacion and 
+						f.idpresentacion = $idPresentacion and f.codpractica not in (97,98,99) and
 						f.cuit = '$nrocuit' and f.tipoarchivo != 'DB' order by f.nrocomprobante";
 	$resPagos = mysql_query($sqlPagos);
 	$canPagos = mysql_num_rows($resPagos);
