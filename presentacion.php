@@ -120,7 +120,6 @@ $(function() {
 			 		<tr>
 			 			<th style="font-size: 11px" rowspan="2">Id</th>
 			 			<th rowspan="2" class="filter-select" data-placeholder="Selccione" style="font-size: 11px">Periodo</th>
-			 			<th rowspan="2" class="filter-select" data-placeholder="Selccione" style="font-size: 11px">Carpeta</th>
 			 			<th rowspan="2" style="font-size: 11px" rowspan="2">Cant. Fac.</th>
 			 			<th style="font-size: 11px" colspan="2">Credito</th>
 			 			<th style="font-size: 11px" colspan="2">Debito</th>
@@ -147,8 +146,7 @@ $(function() {
 					if ($rowPresentacion['fechacancelacion'] == null) { ?>
 					<tr>
 						<td style="font-size: 12px"><?php echo $rowPresentacion['id'] ?></td>
-						<td style="font-size: 12px"><?php echo $rowPresentacion['periodo'] ?></td>
-						<td style="font-size: 12px"><?php echo $rowPresentacion['carpeta'] ?></td>
+						<td style="font-size: 12px"><?php echo $rowPresentacion['carpeta']." <br> ".$rowPresentacion['periodo'] ?></td>
 						<td style="font-size: 12px"><?php echo $rowPresentacion['cantfactura'] ?></td>
 						<td style="font-size: 12px"><?php echo number_format($rowPresentacion['impcomprobantes'],2,",",".") ?></td>
 						<td style="font-size: 12px"><?php echo number_format($rowPresentacion['impsolicitado'],2,",",".") ?></td>
