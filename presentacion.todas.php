@@ -197,6 +197,7 @@ $(function() {
 				      									<td>
 				      										<input <?php echo $display ?> type="button" value="Cancelar" onClick="location.href = 'presentacion.cancelar.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
 				      										<input <?php echo $display ?> type="button" value="Subsidio" onClick="location.href = 'presentacion.devsubsidio.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+				     			 		  	 				<input <?php echo $display ?> type="button" value="Rendicion" onClick="location.href = 'presentacion.devrendicion.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 				     			 		  	 			</td>
 				     			 		  	 			<td><font size="2px">EN PROCESO</font></td>	
 				     			 		  	  <?php } else { 
