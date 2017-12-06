@@ -219,22 +219,23 @@ $(function() {
 										$retiene = "SI";
 									} 
 									
-									$sqlDebeRecibo = "SELECT count(*) as cantidadDebe FROM pagos p, facturas f
+									$sqlDebeRecibo = "SELECT f.nrocomprobante FROM pagos p, facturas f
 														WHERE
 														p.recibo = '' and
-														p.nrocominterno = f.nrocominterno and
+														p.nrocominterno = f.nrocominterno and codpractica not in (97,98,99) and
 														f.cuit = ".$rowFactura['cuit']." and
 														f.impsolicitadosubsidio is not null and
-														f.impmontosubsidio is not null";
+														f.impmontosubsidio is not null
+														group by f.nrocomprobante";
 									$resDebeRecibo = mysql_query($sqlDebeRecibo);
-									$rowDebeRecibo = mysql_fetch_array($resDebeRecibo);
+									$canDebeRecibo = mysql_num_rows($resDebeRecibo);
 									?>
 									<td style="font-size: 11px"><?php echo number_format($rowFactura['impsolicitadosubsidio'],2,",",".");  ?></td>
 									<td style="font-size: 11px; color: <?php echo $colorMontInt ?>"><?php echo number_format($rowFactura['impmontosubsidio'],2,",",".");  ?></td>
 									<td style="font-size: 11px"><?php echo number_format($impOsp,2,",",".");  ?></td>
 									<td style="font-size: 11px"><?php echo number_format($impChOsp,2,",","."); ?></td>
 									<td style="font-size: 11px"><?php echo $retiene ?></td>
-									<td style="font-size: 11px"><?php echo $rowDebeRecibo['cantidadDebe'] ?></td>
+									<td style="font-size: 11px"><?php echo $canDebeRecibo ?></td>
 						<?php 	} else { ?>
 									<td style="font-size: 11px">-</td>
 									<td style="font-size: 11px">-</td>
