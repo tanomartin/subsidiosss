@@ -248,7 +248,7 @@ $(function() {
 					</tr>	
 			<?php } ?>
 					<tr>
-						<th colspan="10">TOTALES</td>
+						<th colspan="11">TOTALES</td>
 						<th style="font-size: 11px"><?php echo number_format($totCom,2,",",".") ?></td>
 						<th style="font-size: 11px"><?php echo number_format($totSol,2,",",".") ?></td>
 						<th style="font-size: 11px"><?php echo number_format($totComFor,2,",",".") ?></td>
