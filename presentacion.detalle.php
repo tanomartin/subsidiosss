@@ -2,8 +2,13 @@
 include_once 'include/conector.php';
 
 $idPresentacion = $_GET['id'];
-$sqlFactura = "SELECT * FROM facturas WHERE idpresentacion = $idPresentacion order by cuit, cuil, nrocomprobante";
+$sqlFactura = "SELECT facturas.*, cuildelegaciones.codidelega, cbu.cbu FROM facturas 
+LEFT JOIN cuildelegaciones on  facturas.cuil = cuildelegaciones.cuil
+LEFT JOIN cbu on  facturas.cuit = cbu.cuit
+WHERE idpresentacion = $idPresentacion order by cuit, cuil, nrocomprobante";
 $resFactura = mysql_query($sqlFactura);
+
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -67,6 +72,7 @@ $(function() {
 			 			<th rowspan="2" style="font-size: 11px">Dele</th>
 			 			<th rowspan="2" style="font-size: 11px">Periodo</th>
 			 			<th rowspan="2" style="font-size: 11px">C.U.I.T.</th>
+			 			<th rowspan="2" style="font-size: 11px">C.B.U.</th>
 			 			<th rowspan="2" style="font-size: 11px">C.A.E.</th>
 			 			<th rowspan="2" style="font-size: 11px">Fec. Comp.</th>
 			 			<th rowspan="2" style="font-size: 11px">Num. Comp.</th>
@@ -79,15 +85,15 @@ $(function() {
 			 			<th rowspan="2" style="font-size: 11px">Ret.</th>
 			 		</tr>
 			 		<tr>
-			 			<th style="font-size: 11px">$ Comp.</th>
-			 			<th style="font-size: 11px">$ Soli.</th>
-			 			<th style="font-size: 11px">$ Comp.</th>
-			 			<th style="font-size: 11px">$ Soli.</th>
+			 			<th style="font-size: 11px">Comp.</th>
+			 			<th style="font-size: 11px">Soli.</th>
+			 			<th style="font-size: 11px">Comp.</th>
+			 			<th style="font-size: 11px">Soli.</th>
 			 			
-			 			<th style="font-size: 11px">$ Soli.</th>
-			 			<th style="font-size: 11px">$ Subs.</th>
-			 			<th style="font-size: 11px">$ Tr O.S.</th>
-			 			<th style="font-size: 11px">$ O.S.</th>
+			 			<th style="font-size: 11px">Soli.</th>
+			 			<th style="font-size: 11px">Subs.</th>
+			 			<th style="font-size: 11px">Tr O.S.</th>
+			 			<th style="font-size: 11px">Debito / Pago O.S.</th>
 			 		</tr>
 			 	</thead>
 			 	<tbody>
@@ -102,23 +108,15 @@ $(function() {
 				$totMonSub = 0;
 				$totMonOsp = 0;
 				$totMonChOsp = 0;
-				while ($rowFactura = mysql_fetch_array($resFactura)) {  
-					$sqlConsultaDele = "SELECT * FROM cuildelegaciones WHERE cuil = '".$rowFactura['cuil']."'";
-					$resConsultaDele = mysql_query($sqlConsultaDele);
-					$canConsultaDele = mysql_num_rows($resConsultaDele);
-					if ($canConsultaDele > 0) {
-						$rowConsultaDele = mysql_fetch_array($resConsultaDele);
-						$codidelega = $rowConsultaDele['codidelega'];
-					} else {
-						$codidelega = "-";
-					} ?>
+				while ($rowFactura = mysql_fetch_array($resFactura)) {  ?>
 					<tr>
 						<td style="font-size: 11px"><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['tipoarchivo'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['cuil'] ?></td>
-						<td style="font-size: 11px"><?php echo $codidelega ?></td>
+						<td style="font-size: 11px"><?php echo $rowFactura['codidelega'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['periodo'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['cuit'] ?></td>
+						<td style="font-size: 11px"><?php echo $rowFactura['cbu'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['cae'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['fechacomprobante'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['nrocomprobante'] ?></td>
