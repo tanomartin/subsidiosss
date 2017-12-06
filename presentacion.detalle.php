@@ -82,7 +82,7 @@ $(function() {
 			 			<th style="font-size: 11px" colspan="2">Resultado Integral</th>
 			 			<th style="font-size: 11px" colspan="4">Resultado Subsidio</th>
 			 			<th rowspan="2" style="font-size: 11px">Ret.</th>
-			 			<th rowspan="2" style="font-size: 11px">Debe Rec.</th>
+			 			<th rowspan="2" style="font-size: 11px">Cant. Rec. Debe</th>
 			 		</tr>
 			 		<tr>
 			 			<th style="font-size: 11px">Comp.</th>
@@ -217,13 +217,24 @@ $(function() {
 									$retiene = "NO";
 									if ($rowFactura['retiene'] == 1) {
 										$retiene = "SI";
-									} ?>
+									} 
+									
+									$sqlDebeRecibo = "SELECT count(*) as cantidadDebe FROM pagos p, facturas f
+														WHERE
+														p.recibo = '' and
+														p.nrocominterno = f.nrocominterno and
+														f.cuit = ".$rowFactura['cuit']." and
+														f.impsolicitadosubsidio is not null and
+														f.impmontosubsidio is not null";
+									$resDebeRecibo = mysql_query($sqlDebeRecibo);
+									$rowDebeRecibo = mysql_fetch_array($resDebeRecibo);
+									?>
 									<td style="font-size: 11px"><?php echo number_format($rowFactura['impsolicitadosubsidio'],2,",",".");  ?></td>
 									<td style="font-size: 11px; color: <?php echo $colorMontInt ?>"><?php echo number_format($rowFactura['impmontosubsidio'],2,",",".");  ?></td>
 									<td style="font-size: 11px"><?php echo number_format($impOsp,2,",",".");  ?></td>
 									<td style="font-size: 11px"><?php echo number_format($impChOsp,2,",","."); ?></td>
 									<td style="font-size: 11px"><?php echo $retiene ?></td>
-									<td style="font-size: 11px">-</td>
+									<td style="font-size: 11px"><?php echo $rowDebeRecibo['cantidadDebe'] ?></td>
 						<?php 	} else { ?>
 									<td style="font-size: 11px">-</td>
 									<td style="font-size: 11px">-</td>
