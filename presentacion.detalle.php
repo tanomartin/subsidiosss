@@ -2,13 +2,12 @@
 include_once 'include/conector.php';
 
 $idPresentacion = $_GET['id'];
-$sqlFactura = "SELECT facturas.*, cuildelegaciones.codidelega, cbu.cbu FROM facturas 
+$sqlFactura = "SELECT facturas.*, cuildelegaciones.codidelega, cbu.cbu, prestadores.retiene FROM facturas 
 LEFT JOIN cuildelegaciones on  facturas.cuil = cuildelegaciones.cuil
 LEFT JOIN cbu on  facturas.cuit = cbu.cuit
+LEFT JOIN prestadores on facturas.cuit = prestadores.cuit
 WHERE idpresentacion = $idPresentacion order by cuit, cuil, nrocomprobante";
 $resFactura = mysql_query($sqlFactura);
-
-
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -83,6 +82,7 @@ $(function() {
 			 			<th style="font-size: 11px" colspan="2">Resultado Integral</th>
 			 			<th style="font-size: 11px" colspan="4">Resultado Subsidio</th>
 			 			<th rowspan="2" style="font-size: 11px">Ret.</th>
+			 			<th rowspan="2" style="font-size: 11px">Debe Rec.</th>
 			 		</tr>
 			 		<tr>
 			 			<th style="font-size: 11px">Comp.</th>
@@ -214,24 +214,18 @@ $(function() {
 									$impChOsp = $importeFactura - $rowFactura['impsolicitadosubsidio'];
 									$totMonChOsp += $impChOsp;
 									
-									$sqlRetiene = "SELECT * FROM prestadores WHERE cuit = ".$rowFactura['cuit'];
-									$resRetiene = mysql_query($sqlRetiene);
-									$canRetiene = mysql_num_rows($resRetiene);
-									$retiene = "-";
-									if ($canRetiene == 1) {
-										$rowRetiene = mysql_fetch_array($resRetiene);
-										if ($rowRetiene['retiene'] == 1) {
-											$retiene = "SI";
-										} else {
-											$retiene = "NO";
-										}
+									$retiene = "NO";
+									if ($rowFactura['retiene'] == 1) {
+										$retiene = "SI";
 									} ?>
-										<td style="font-size: 11px"><?php echo number_format($rowFactura['impsolicitadosubsidio'],2,",",".");  ?></td>
-										<td style="font-size: 11px; color: <?php echo $colorMontInt ?>"><?php echo number_format($rowFactura['impmontosubsidio'],2,",",".");  ?></td>
-										<td style="font-size: 11px"><?php echo number_format($impOsp,2,",",".");  ?></td>
-										<td style="font-size: 11px"><?php echo number_format($impChOsp,2,",","."); ?></td>
-										<td style="font-size: 11px"><?php echo $retiene ?></td>
+									<td style="font-size: 11px"><?php echo number_format($rowFactura['impsolicitadosubsidio'],2,",",".");  ?></td>
+									<td style="font-size: 11px; color: <?php echo $colorMontInt ?>"><?php echo number_format($rowFactura['impmontosubsidio'],2,",",".");  ?></td>
+									<td style="font-size: 11px"><?php echo number_format($impOsp,2,",",".");  ?></td>
+									<td style="font-size: 11px"><?php echo number_format($impChOsp,2,",","."); ?></td>
+									<td style="font-size: 11px"><?php echo $retiene ?></td>
+									<td style="font-size: 11px">-</td>
 						<?php 	} else { ?>
+									<td style="font-size: 11px">-</td>
 									<td style="font-size: 11px">-</td>
 									<td style="font-size: 11px">-</td>
 									<td style="font-size: 11px">-</td>
@@ -239,6 +233,7 @@ $(function() {
 									<td style="font-size: 11px">-</td>
 						  <?php }
 						} else { ?>		
+									<td style="font-size: 11px">-</td>
 									<td style="font-size: 11px">-</td>
 									<td style="font-size: 11px">-</td>
 									<td style="font-size: 11px">-</td>
@@ -259,6 +254,7 @@ $(function() {
 						<th style="font-size: 11px"><?php echo number_format($totMonSub,2,",",".") ?></td>
 						<th style="font-size: 11px"><?php echo number_format($totMonOsp,2,",",".") ?></td>
 						<th style="font-size: 11px"><?php echo number_format($totMonChOsp,2,",",".") ?></td>
+						<th style="font-size: 11px"></td>
 						<th style="font-size: 11px"></td>
 					</tr>
 			  	</tbody>
