@@ -42,7 +42,7 @@ header("Content-Disposition: attachment; filename=$file");
 	<div align="center">
 		<h2>Recibos Adeudados</h2>
 		
-		<table>
+		<table border="1">
 			<thead>
 			 <tr>
 			 	<th>Id. Pres.</th>
