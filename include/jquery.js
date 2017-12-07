@@ -1,4 +1,4 @@
-/*!
+include/*!
  * jQuery JavaScript Library v1.7.1
  * http://jquery.com/
  *

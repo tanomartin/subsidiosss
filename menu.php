@@ -42,6 +42,21 @@ include_once 'include/conector.php';
 	  </td>
 	  </tr>
     </tr>
+     <tr>
+       <td>
+	    <p></p>
+	    <p></p>
+	  </td>
+	  <td>
+	    <p>Informes</p>
+	    <p><a href="informes.php"><img src="img/excellogo.png" width="90" height="90" border="0" alt="enviar"/></a></p>
+	  </td>
+	  <td>
+	    <p></p>
+	    <p></p>
+	  </td>
+	  </tr>
+    </tr>
   </table>
    <p><input type="button" name="salir" value="SALIR" onclick="location.href='logout.php'" /></p>
 </div>

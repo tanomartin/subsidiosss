@@ -1,6 +1,6 @@
 <?php 
 include_once 'include/conector.php';
-
+set_time_limit(0);
 $idPresentacion = $_GET['id'];
 $carpeta = $_GET['carpeta'];
 $sqlFactura = "SELECT * FROM facturas WHERE idpresentacion = $idPresentacion order by cuit, cuil, nrocomprobante";

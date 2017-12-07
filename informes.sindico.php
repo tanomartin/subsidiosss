@@ -1,5 +1,6 @@
 <?php
 include_once 'include/conector.php';
+set_time_limit(0);
 $idPresentacion = $_GET['id'];
 $sqlSubsidio = "SELECT s.*, n.descripcion, ps.idsss FROM subsidio s, nomenclador n, presentacionsubsidio ps WHERE s.idpresentacion = $idPresentacion and s.idpresentacion = ps.id and s.codigopractica = n.codigo";
 $resSubsidio = mysql_query($sqlSubsidio);
@@ -34,50 +35,52 @@ foreach ($arrayCompleto as $key => $subsidio) {
 	$carpeta = $subsidio['periodopresentacion'];
 	$idssss = $subsidio['idsss'];
 	foreach ($subsidio['f'] as $nrointerno => $factura) {
-		foreach ($subsidio['f'][$nrointerno]['p'] as $nropago => $pago) {
-			$tipo = substr($pago['nrotransferencia'], 0, 2);
-			if ($tipo == 'TS') {
-				$imporPagoS = (float) $pago['importepagado'] + $pago['retganancias'];
-				$imporPagoO = 0;
-			} else {
-				$imporPagoO = (float) $pago['importepagado'] + $pago['retganancias'];
-				$imporPagoS = 0;
+		if (isset($subsidio['f'][$nrointerno]['p'])) {
+			foreach ($subsidio['f'][$nrointerno]['p'] as $nropago => $pago) {
+				$tipo = substr($pago['nrotransferencia'], 0, 2);
+				if ($tipo == 'TS') {
+					$imporPagoS = (float) $pago['importepagado'] + $pago['retganancias'];
+					$imporPagoO = 0;
+				} else {
+					$imporPagoO = (float) $pago['importepagado'] + $pago['retganancias'];
+					$imporPagoS = 0;
+				}
+				
+				$linea = "<tr>";
+					$linea .= "<td></td>";
+					$linea .= "<td>".$subsidio['idsss']."</td>";
+					$linea .= "<td>".$subsidio['nroliquidacion']."</td>";
+					$linea .= "<td></td>";
+					$linea .= "<td>".$factura['tipoarchivo']."</td>";
+					$linea .= "<td>".$factura['codigoob']."</td>";
+					$linea .= "<td>".$factura['cuil']."</td>";
+					$linea .= "<td>".$factura['periodo']."</td>";
+					$linea .= "<td>".$factura['cuit']."</td>";
+					$linea .= "<td>".$factura['tipocomprobante']."</td>";
+					$linea .= "<td>".$factura['tipoemision']."</td>";
+					$linea .= "<td>".$factura['fechacomprobante']."</td>";
+					$linea .= "<td>'".$factura['cae']."'</td>";
+					$linea .= "<td>".$factura['puntoventa']."</td>";
+					$linea .= "<td>".$factura['nrocomprobante']."</td>";
+					$linea .= "<td>".number_format($factura['impcomprobante'],"2",",",".")."</td>";
+					$linea .= "<td>".number_format($factura['impsolicitado'],"2",",",".")."</td>";
+					$linea .= "<td>".$subsidio['periodopresentacion']."</td>";
+					$linea .= "<td>".number_format($subsidio['impsubsidiado'],"2",",",".")."</td>";
+					$linea .= "<td>".$pago['nroordenpago']."</td>";
+					$linea .= "<td>".$pago['fechatransferencia']."</td>";
+					$linea .= "<td>".number_format($pago['retganancias']+$pago['retingresosbrutos'],"2",",",".")."</td>";			
+					$linea .= "<td>".number_format($imporPagoS,"2",",",".")."</td>";
+					$linea .= "<td>".number_format($imporPagoS+$imporPagoO,"2",",",".")."</td>";
+					$linea .= "<td></td>";
+					$linea .= "<td></td>";
+					$linea .= "<td></td>";
+					$linea .= "<td>".$pago['recibo']."</td>";
+					$linea .= "<td></td>";
+					$linea .= "<td></td>";
+				$linea .= "</tr>";
+				$lineas[$indexLinea] = $linea;
+				$indexLinea++;
 			}
-			
-			$linea = "<tr>";
-				$linea .= "<td></td>";
-				$linea .= "<td>".$subsidio['idsss']."</td>";
-				$linea .= "<td>".$subsidio['nroliquidacion']."</td>";
-				$linea .= "<td></td>";
-				$linea .= "<td>".$factura['tipoarchivo']."</td>";
-				$linea .= "<td>".$factura['codigoob']."</td>";
-				$linea .= "<td>".$factura['cuil']."</td>";
-				$linea .= "<td>".$factura['periodo']."</td>";
-				$linea .= "<td>".$factura['cuit']."</td>";
-				$linea .= "<td>".$factura['tipocomprobante']."</td>";
-				$linea .= "<td>".$factura['tipoemision']."</td>";
-				$linea .= "<td>".$factura['fechacomprobante']."</td>";
-				$linea .= "<td>'".$factura['cae']."'</td>";
-				$linea .= "<td>".$factura['puntoventa']."</td>";
-				$linea .= "<td>".$factura['nrocomprobante']."</td>";
-				$linea .= "<td>".number_format($factura['impcomprobante'],"2",",",".")."</td>";
-				$linea .= "<td>".number_format($factura['impsolicitado'],"2",",",".")."</td>";
-				$linea .= "<td>".$subsidio['periodopresentacion']."</td>";
-				$linea .= "<td>".number_format($subsidio['impsubsidiado'],"2",",",".")."</td>";
-				$linea .= "<td>".$pago['nroordenpago']."</td>";
-				$linea .= "<td>".$pago['fechatransferencia']."</td>";
-				$linea .= "<td>".number_format($pago['retganancias']+$pago['retingresosbrutos'],"2",",",".")."</td>";			
-				$linea .= "<td>".number_format($imporPagoS,"2",",",".")."</td>";
-				$linea .= "<td>".number_format($imporPagoS+$imporPagoO,"2",",",".")."</td>";
-				$linea .= "<td></td>";
-				$linea .= "<td></td>";
-				$linea .= "<td></td>";
-				$linea .= "<td>".$pago['recibo']."</td>";
-				$linea .= "<td></td>";
-				$linea .= "<td></td>";
-			$linea .= "</tr>";
-			$lineas[$indexLinea] = $linea;
-			$indexLinea++;
 		}
 	}
 }

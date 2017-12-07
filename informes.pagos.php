@@ -1,5 +1,6 @@
 <?php
 include_once 'include/conector.php';
+set_time_limit(0);
 $idPresentacion = $_GET['id'];
 $sqlSubsidio = "SELECT s.*, n.descripcion FROM subsidio s, nomenclador n WHERE  idpresentacion = $idPresentacion and s.codigopractica = n.codigo";
 $resSubsidio = mysql_query($sqlSubsidio);
@@ -66,50 +67,52 @@ foreach ($arrayCompleto as $key => $subsidio) {
 		$contadorFacturas++;
 		
 		$contadorPagos = 0;
-		foreach ($subsidio['f'][$nrointerno]['p'] as $nropago => $pago) {
-			$nrotran = $pago['nrotransferencia'];
-			$tipo = substr($nrotran, 0, 2);
-			if ($tipo == 'TS') {
-				$totalPagoS += (float) $pago['importepagado'] + $pago['retganancias'];
-				$imporPagoS = (float) $pago['importepagado'] + $pago['retganancias'];
-				$imporPagoO = 0;
-			} else {
-				$totalPagoO += (float) $pago['importepagado'] + $pago['retganancias'];
-				$imporPagoO = (float) $pago['importepagado'] + $pago['retganancias'];
-				$imporPagoS = 0;
+		if (isset($subsidio['f'][$nrointerno]['p'])) {
+			foreach ($subsidio['f'][$nrointerno]['p'] as $nropago => $pago) {
+				$nrotran = $pago['nrotransferencia'];
+				$tipo = substr($nrotran, 0, 2);
+				if ($tipo == 'TS') {
+					$totalPagoS += (float) $pago['importepagado'] + $pago['retganancias'];
+					$imporPagoS = (float) $pago['importepagado'] + $pago['retganancias'];
+					$imporPagoO = 0;
+				} else {
+					$totalPagoO += (float) $pago['importepagado'] + $pago['retganancias'];
+					$imporPagoO = (float) $pago['importepagado'] + $pago['retganancias'];
+					$imporPagoS = 0;
+				}
+				if ($contadorPagos != 0) {
+					$linea .= "<tr>";
+					$linea .= "<td></td><td></td><td></td><td></td><td></td><td></td>";
+					$linea .= "<td></td><td style='font-size: 7px'>".$factura['cuit']."</td><td></td><td></td><td></td><td></td>";
+					$linea .= "<td style='font-size: 7px'>".$pago['nroordenpago']."</td>";
+					$linea .= "<td style='font-size: 7px'>".$pago['fechatransferencia']."</td>";
+					$linea .= "<td style='font-size: 7px'>'".$factura['cbu']."'</td>";
+					$linea .= "<td style='font-size: 7px'>".number_format($pago['importepagado'],"2",",",".")."</td>";
+					$linea .= "<td style='font-size: 7px'>".number_format($pago['retganancias'],"2",",",".")."</td>";
+					$linea .= "<td style='font-size: 7px'>".number_format($pago['retingresosbrutos'],"2",",",".")."</td>";
+					$linea .= "<td style='font-size: 7px'>".number_format("0","2",",",".")."</td>";
+					$linea .= "<td style='font-size: 7px'>".number_format($imporPagoS,"2",",",".")."</td>";
+					$linea .= "<td style='font-size: 7px'>".number_format($imporPagoO,"2",",",".")."</td>";
+					$linea .= "<td style='font-size: 7px'>".$pago['recibo']."</td>";
+					$linea .= "<td style='font-size: 7px'>".$pago['asiento']."</td>";
+					$linea .= "<td style='font-size: 7px'>".$pago['folio']."</td>";		
+					$linea .= "</tr>";
+				} else {
+					$linea .= "<td style='font-size: 7px'>".$pago['nroordenpago']."</td>";
+					$linea .= "<td style='font-size: 7px'>".$pago['fechatransferencia']."</td>";
+					$linea .= "<td style='font-size: 7px'>'".$factura['cbu']."'</td>";
+					$linea .= "<td style='font-size: 7px'>".number_format($pago['importepagado'],'2',',','.')."</td>";
+					$linea .= "<td style='font-size: 7px'>".number_format($pago['retganancias'],"2",",",".")."</td>";
+					$linea .= "<td style='font-size: 7px'>".number_format($pago['retingresosbrutos'],"2",",",".")."</td>";
+					$linea .= "<td style='font-size: 7px'>".number_format("0","2",",",".")."</td>";
+					$linea .= "<td style='font-size: 7px'>".number_format($imporPagoS,"2",",",".")."</td>";
+					$linea .= "<td style='font-size: 7px'>".number_format($imporPagoO,"2",",",".")."</td>";
+					$linea .= "<td style='font-size: 7px'>".$pago['recibo']."</td>";
+					$linea .= "<td style='font-size: 7px'>".$pago['asiento']."</td>";
+					$linea .= "<td style='font-size: 7px'>".$pago['folio']."</td>";
+				}
+				$contadorPagos++;
 			}
-			if ($contadorPagos != 0) {
-				$linea .= "<tr>";
-				$linea .= "<td></td><td></td><td></td><td></td><td></td><td></td>";
-				$linea .= "<td></td><td style='font-size: 7px'>".$factura['cuit']."</td><td></td><td></td><td></td><td></td>";
-				$linea .= "<td style='font-size: 7px'>".$pago['nroordenpago']."</td>";
-				$linea .= "<td style='font-size: 7px'>".$pago['fechatransferencia']."</td>";
-				$linea .= "<td style='font-size: 7px'>'".$factura['cbu']."'</td>";
-				$linea .= "<td style='font-size: 7px'>".number_format($pago['importepagado'],"2",",",".")."</td>";
-				$linea .= "<td style='font-size: 7px'>".number_format($pago['retganancias'],"2",",",".")."</td>";
-				$linea .= "<td style='font-size: 7px'>".number_format($pago['retingresosbrutos'],"2",",",".")."</td>";
-				$linea .= "<td style='font-size: 7px'>".number_format("0","2",",",".")."</td>";
-				$linea .= "<td style='font-size: 7px'>".number_format($imporPagoS,"2",",",".")."</td>";
-				$linea .= "<td style='font-size: 7px'>".number_format($imporPagoO,"2",",",".")."</td>";
-				$linea .= "<td style='font-size: 7px'>".$pago['recibo']."</td>";
-				$linea .= "<td style='font-size: 7px'>".$pago['asiento']."</td>";
-				$linea .= "<td style='font-size: 7px'>".$pago['folio']."</td>";		
-				$linea .= "</tr>";
-			} else {
-				$linea .= "<td style='font-size: 7px'>".$pago['nroordenpago']."</td>";
-				$linea .= "<td style='font-size: 7px'>".$pago['fechatransferencia']."</td>";
-				$linea .= "<td style='font-size: 7px'>'".$factura['cbu']."'</td>";
-				$linea .= "<td style='font-size: 7px'>".number_format($pago['importepagado'],'2',',','.')."</td>";
-				$linea .= "<td style='font-size: 7px'>".number_format($pago['retganancias'],"2",",",".")."</td>";
-				$linea .= "<td style='font-size: 7px'>".number_format($pago['retingresosbrutos'],"2",",",".")."</td>";
-				$linea .= "<td style='font-size: 7px'>".number_format("0","2",",",".")."</td>";
-				$linea .= "<td style='font-size: 7px'>".number_format($imporPagoS,"2",",",".")."</td>";
-				$linea .= "<td style='font-size: 7px'>".number_format($imporPagoO,"2",",",".")."</td>";
-				$linea .= "<td style='font-size: 7px'>".$pago['recibo']."</td>";
-				$linea .= "<td style='font-size: 7px'>".$pago['asiento']."</td>";
-				$linea .= "<td style='font-size: 7px'>".$pago['folio']."</td>";
-			}
-			$contadorPagos++;
 		}
 	}	
 	$totalFilas = $contadorFacturas + $contadorPagos - 1;
@@ -183,4 +186,3 @@ header("Content-Disposition: attachment; filename=$file");
 		 	</table>
 	</div>
 </body>
-</html>
