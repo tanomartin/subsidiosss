@@ -28,7 +28,7 @@
 		  </td>
 		  <td>
 		    <p>Recibos Adeudados</p>
-		    <p><a href="#"><img src="img/excellogo.png" width="90" height="90" border="0"/></a></p>
+		    <p><a href="informe.recibosadeudados.php"><img src="img/excellogo.png" width="90" height="90" border="0"/></a></p>
 		  </td>
 	  </tr>
     </tr>
