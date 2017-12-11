@@ -75,7 +75,7 @@ header("Content-Disposition: attachment; filename=$file");
 			 		<td><?php echo $rowRecibo['descripcion'] ?></td>
 			 		<td><?php echo $rowRecibo['nrocomprobante'] ?></td>
 			 		<td><?php echo $rowRecibo['periodo'] ?></td>
-			 		<td><?php echo $rowRecibo['impcomprobante'] ?></td>
+			 		<td><?php echo number_format($rowRecibo['impcomprobante'],"2",",",".") ?></td>
 			 		<td><?php echo $rowRecibo['nrotransferencia'] ?></td>
 			 		<td><?php echo $rowRecibo['fechatrasferencia'] ?></td>
 			 	</tr>
