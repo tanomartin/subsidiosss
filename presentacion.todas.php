@@ -160,7 +160,6 @@ $(function() {
 						<td>
 							<input style="margin-bottom: 5px" type="button" value="Facturas" onClick="location.href = 'presentacion.facturas.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
 							<input style="margin-bottom: 5px" type="button" value="Detalle" onClick="location.href = 'presentacion.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
-							<input type="button" value="Excel" onClick="location.href = 'presentacion.detalleExcel.php?id=<?php echo $rowPresentacion['id'] ?>&carpeta=<?php echo $rowPresentacion['carpeta'] ?>'"/>
 						</td>
 						<td>
 					<?php	if ($rowPresentacion['fechadevformato'] != NULL && $rowPresentacion['cantformatonok'] != 0) { ?>
