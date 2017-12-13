@@ -22,7 +22,9 @@ LEFT JOIN cuildelegaciones on f.cuil = cuildelegaciones.cuil
 LEFT JOIN prestadores on f.cuit = prestadores.cuit
 WHERE
   p.recibo = '' and
-  p.nrocominterno = f.nrocominterno and codpractica not in (97,98,99) and
+  p.nrocominterno = f.nrocominterno and 
+  p.idpresentacion = f.idpresentacion and
+  codpractica not in (97,98,99) and
   f.impsolicitadosubsidio is not null and
   f.impmontosubsidio is not null and
   f.idpresentacion = pre.id and
