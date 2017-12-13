@@ -6,7 +6,7 @@ $sqlFactura = "SELECT facturas.*, cuildelegaciones.codidelega, cbu.cbu, prestado
 LEFT JOIN cuildelegaciones on  facturas.cuil = cuildelegaciones.cuil
 LEFT JOIN cbu on  facturas.cuit = cbu.cuit
 LEFT JOIN prestadores on facturas.cuit = prestadores.cuit
-WHERE idpresentacion = $idPresentacion order by cuit, cuil, nrocomprobante";
+WHERE idpresentacion = $idPresentacion order by cuil, periodo, codpractica";
 $resFactura = mysql_query($sqlFactura);
 ?>
 
