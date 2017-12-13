@@ -49,7 +49,7 @@ $rowPresentacion = mysql_fetch_array($resPresentacion);
 		    <th rowspan="2" style="font-size: 11px">Estado</th>
 		    <th colspan="3" style="font-size: 11px">Dev. Formato</th>
 		    <th colspan="3" style="font-size: 11px">Dev. Integral</th>
-		    <th colspan="4" style="font-size: 11px">Dev. Subsidio</th>
+		    <th colspan="5" style="font-size: 11px">Dev. Subsidio</th>
 		    <th style="font-size: 11px">Info. Deposito</th>
 		  </tr>
 		  <tr>	  
@@ -67,7 +67,8 @@ $rowPresentacion = mysql_fetch_array($resPresentacion);
 		   	<th style="font-size: 11px">Tipo</th>
 		    <th style="font-size: 11px">$ Soli,</th>
 		    <th style="font-size: 11px">$ Subs.</th>
-		    <th style="font-size: 11px">$ Dif.</th>
+		    <th style="font-size: 11px">$ Tr. O.S.</th>
+		    <th style="font-size: 11px">$ D/Pago O.S.</th>	
 		   
 		    <th style="font-size: 11px">$ Monto</th>
 		  </tr>
@@ -92,6 +93,7 @@ $rowPresentacion = mysql_fetch_array($resPresentacion);
 				<td rowspan="2" style="font-size: 11px"><?php echo number_format($rowPresentacion['impsolicitadosubsidio'],"2",",",".") ?></td>
 				<td rowspan="2" style="font-size: 11px"><?php echo number_format($rowPresentacion['montosubsidio'],"2",",",".") ?></td>
 				<td rowspan="2" style="font-size: 11px"><?php echo number_format($rowPresentacion['impsolicitadosubsidio']-$rowPresentacion['montosubsidio'],"2",",",".") ?></td>
+				<td rowspan="2" style="font-size: 11px"><?php echo number_format($rowPresentacion['impcomprobantesintegralok']-$rowPresentacion['impsolicitadosubsidio'],"2",",",".") ?></td>
 						
 				<td rowspan="5" style="font-size: 11px"> <?php echo number_format($rowPresentacion['montodepositado'],"2",",",".") ?> </td>
 			</tr>
@@ -121,6 +123,7 @@ $rowPresentacion = mysql_fetch_array($resPresentacion);
 				<td rowspan="2" style="font-size: 11px"><?php echo number_format($rowPresentacion['importesolicitado'],"2",",",".") ?></td>
 				<td rowspan="2" style="font-size: 11px"><?php echo number_format($rowPresentacion['importeliquidado'],"2",",",".") ?></td>
 				<td rowspan="2" style="font-size: 11px"><?php echo number_format($rowPresentacion['importesolicitado']-$rowPresentacion['importeliquidado'],"2",",",".") ?></td>
+				<td rowspan="2" style="font-size: 11px"><?php echo number_format($rowPresentacion['impcomprobantesintegralok']-$rowPresentacion['importesolicitado'],"2",",",".") ?></td>
 		
 			</tr>
 			
@@ -152,11 +155,13 @@ $rowPresentacion = mysql_fetch_array($resPresentacion);
 					$controlSoli = number_format($rowPresentacion['impsolicitadosubsidio'],"2",",",".") - number_format($rowPresentacion['importesolicitado'],"2",",",".");
 					$controlSubs = number_format($rowPresentacion['montosubsidio'],"2",",",".") - number_format($rowPresentacion['importeliquidado'],"2",",",".");
 					$controlDif = (number_format($rowPresentacion['impsolicitadosubsidio']-$rowPresentacion['montosubsidio'],"2",",",".")) - (number_format($rowPresentacion['importesolicitado']-$rowPresentacion['importeliquidado'],"2",",","."));
+					$controlDifPagoOS = (number_format($rowPresentacion['impcomprobantesintegralok']-$rowPresentacion['impsolicitadosubsidio'],"2",",",".")) - (number_format($rowPresentacion['impcomprobantesintegralok']-$rowPresentacion['importesolicitado'],"2",",","."));	
 				?>
 				
 				<td style="font-size: 11px"><?php echo number_format($controlSoli,"2",",",".")?></td>
 				<td style="font-size: 11px"><?php echo number_format($controlSubs,"2",",",".")?></td>
 				<td style="font-size: 11px"><?php echo number_format($controlDif,"2",",",".")?></td>
+				<td style="font-size: 11px"><?php echo number_format($controlDifPagoOS,"2",",",".")?></td>
 			</tr>
 		</tbody>
 	</table>
