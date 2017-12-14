@@ -139,7 +139,7 @@ $lineas[$indexLinea] = $lineaTotales;
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link rel="stylesheet" href="css/tablas.css"/>
 <link rel="stylesheet" href="include/jquery.tablesorter/themes/theme.blue.css"/>
-<script src="include/jquery.js"></script>
+<script src="include/jquery-ui-1.9.2.custom/js/jquery-1.8.3.js" type="text/javascript"></script>
 <script src="include/jquery.tablesorter/jquery.tablesorter.js"></script>
 <script src="include/jquery.tablesorter/jquery.tablesorter.widgets.js"></script>
 <script src="include/jquery.tablesorter/addons/pager/jquery.tablesorter.pager.js"></script> 

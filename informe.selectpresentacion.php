@@ -17,7 +17,7 @@ while ($rowPresentacion = mysql_fetch_array($resPresentacion)) {
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>.: Menú Seleccion Presentacion Informes S.S.S. :.</title>
 
-<script src="include/jquery.js" type="text/javascript"></script>
+<script src="include/jquery-ui-1.9.2.custom/js/jquery-1.8.3.js" type="text/javascript"></script>
 <script src="include/jquery.blockUI.js" type="text/javascript"></script>
 <script language="javascript" type="text/javascript">
 
