@@ -55,12 +55,12 @@ if ($canPagos > 0) {
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<script src="include/jquery.js"></script>
-<link rel="stylesheet" href="include/jquery.tablesorter/themes/theme.blue.css"/>
+<script src="include/jquery-ui-1.9.2.custom/js/jquery-1.8.3.js" type="text/javascript"></script>
 <script src="include/jquery.tablesorter/jquery.tablesorter.js"></script>
 <script src="include/jquery.tablesorter/jquery.tablesorter.widgets.js"></script>
 <script src="include/jquery.tablesorter/addons/pager/jquery.tablesorter.pager.js"></script> 
 <script src="include/funcionControl.js" type="text/javascript"></script>
+<link rel="stylesheet" href="include/jquery.tablesorter/themes/theme.blue.css"/>
 
 <script type="text/javascript">
 
