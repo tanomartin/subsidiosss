@@ -16,7 +16,9 @@ f.nrocomprobante,
 f.periodo,
 f.impcomprobante,
 p.nrotransferencia,
-DATE_FORMAT(p.fechatransferencia,'%d-%m-%Y') as fechatrasferencia
+DATE_FORMAT(p.fechatransferencia,'%d-%m-%Y') as fechatrasferencia,
+prestadores.email,
+prestadores.telefono
 FROM pagos p, presentacion pre, cronograma c, comprobante m, facturas f
 LEFT JOIN cuildelegaciones on f.cuil = cuildelegaciones.cuil
 LEFT JOIN prestadores on f.cuit = prestadores.cuit
@@ -61,6 +63,9 @@ header("Content-Disposition: attachment; filename=$file");
 			 	<th>$ Comprobante</th>
 			 	<th>Nro Transf</th>
 			 	<th>Fecha</th>
+			 	<th>Email</th>
+			 	<th>Telefono</th>
+			 	<th>Observacion</th>
 			 </tr>
 			</thead>
 			<tbody>
@@ -80,6 +85,9 @@ header("Content-Disposition: attachment; filename=$file");
 			 		<td><?php echo number_format($rowRecibo['impcomprobante'],"2",",",".") ?></td>
 			 		<td><?php echo $rowRecibo['nrotransferencia'] ?></td>
 			 		<td><?php echo $rowRecibo['fechatrasferencia'] ?></td>
+			 		<td><?php echo $rowRecibo['email'] ?></td>
+			 		<td><?php echo $rowRecibo['telefono'] ?></td>
+			 		<td></td>
 			 	</tr>
 				<?php } ?>
 			</tbody>
