@@ -2,9 +2,8 @@
 include_once 'include/conector.php';
 
 $idPresentacion = $_GET['id'];
-$sqlFactura = "SELECT facturas.*, cuildelegaciones.codidelega, cbu.cbu, prestadores.retiene FROM facturas 
+$sqlFactura = "SELECT facturas.*, cuildelegaciones.codidelega, prestadores.cbu, prestadores.retiene FROM facturas 
 LEFT JOIN cuildelegaciones on  facturas.cuil = cuildelegaciones.cuil
-LEFT JOIN cbu on  facturas.cuit = cbu.cuit
 LEFT JOIN prestadores on facturas.cuit = prestadores.cuit
 WHERE idpresentacion = $idPresentacion order by cuil, periodo, codpractica";
 $resFactura = mysql_query($sqlFactura);

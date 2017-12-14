@@ -8,9 +8,9 @@ $arrayCompleto = array();
 $index = 0;
 while ($rowSubsidio = mysql_fetch_array($resSubsidio)) {
 	$arrayCompleto[$index] = $rowSubsidio;
-	$sqlSelectFactura = "SELECT f.*, DATE_FORMAT(f.fechacomprobante, '%d/%m/%Y') as fechacomprobante, comprobante.descripcion as comprobante, cbu.cbu  
+	$sqlSelectFactura = "SELECT f.*, DATE_FORMAT(f.fechacomprobante, '%d/%m/%Y') as fechacomprobante, comprobante.descripcion as comprobante, prestadores.cbu  
 							FROM facturas f
-							LEFT JOIN cbu ON f.cuit = cbu.cuit
+							LEFT JOIN prestadores ON f.cuit = prestadores.cuit
               				LEFT JOIN comprobante ON f.tipocomprobante = comprobante.codigo
 							WHERE f.idpresentacion = $idPresentacion and f.deverrorformato is null and 
 								  f.deverrorintegral is null and f.cuil = '".$rowSubsidio['cuil']."' and 

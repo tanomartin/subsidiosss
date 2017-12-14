@@ -32,10 +32,10 @@ function redireccion(formulario) {
 		action = "informe.detalle.php?id="+datos[0]+"&carpeta="+datos[1];
 	}
 	if (tipo == "pagos") {
-		action = "informes.pagos.php?id="+datos[0]+"&carpeta="+datos[1];
+		action = "informe.pagos.php?id="+datos[0]+"&carpeta="+datos[1];
 	}
 	if (tipo == "sindicos") {
-		action = "informes.sindico.php?id="+datos[0]+"&carpeta="+datos[1];
+		action = "informe.sindico.php?id="+datos[0]+"&carpeta="+datos[1];
 	}
 	this.seleccionPresentacion.generar.disabled = true;
 	this.seleccionPresentacion.action = action;
