@@ -115,7 +115,7 @@ try {
 	$cantidadUpdate = 0;
 	
 	while ($rowRendicion = mysql_fetch_array($resRendicion)) {
-		$indexLiqui = $rowRendicion['cuil']."-".$rowRendicion['periodoprestacion']."-".$rowRendicion['codigopractica'];
+		$indexLiqui = $rowRendicion['cuil']."-".$rowRendicion['periodoprestacion']."-".$rowRendicion['codpractica'];
 		
 		$impsoli = $rowRendicion['impsolicitado'];
 		if ($rowRendicion['tipoarchivo'] == 'DB') { $impsoli = (-1)*$rowRendicion['impsolicitado']; } 
@@ -127,7 +127,7 @@ try {
 									  deverrorintegral is null and 
 									  cuil = '".$rowRendicion['cuil']."' and 
 									  periodo = '".$rowRendicion['periodoprestacion']."' and 
-									  codpractica = ".$rowRendicion['codigopractica']." and 
+									  codpractica = ".$rowRendicion['codpractica']." and 
 									  cuit = '".$rowRendicion['cuit']."' and
 									  impsolicitadointegral = ".$impsoli." and
 									  tipocomprobante = ".$rowRendicion['tipocomprobante']." and
@@ -149,7 +149,7 @@ try {
 										  deverrorintegral is null and 
 										  cuil = '".$rowRendicion['cuil']."' and 
 										  periodo = '".$rowRendicion['periodoprestacion']."' and 
-										  codpractica = ".$rowRendicion['codigopractica']." and 
+										  codpractica = ".$rowRendicion['codpractica']." and 
 										  cuit = '".$rowRendicion['cuit']."' and
 										  impsolicitadointegral = ".$impsoli." and
 										  tipocomprobante = ".$rowRendicion['tipocomprobante']." and
@@ -171,7 +171,7 @@ try {
 														deverrorintegral is null and
 														cuil = '".$rowRendicion['cuil']."' and
 										  periodo = '".$rowRendicion['periodoprestacion']."' and
-										  codpractica = ".$rowRendicion['codigopractica']." and
+										  codpractica = ".$rowRendicion['codpractica']." and
 										  cuit = '".$rowRendicion['cuit']."' and
 										  impsolicitadointegral = ".$impsoli." and
 										  tipocomprobante = ".$rowRendicion['tipocomprobante']." and
