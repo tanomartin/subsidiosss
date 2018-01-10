@@ -89,12 +89,18 @@ $rowPresentacion = mysql_fetch_array($resPresentacion);
 				<td style="color: blue; font-size: 11px"><?php echo number_format($rowPresentacion['impcomprobantesintegralok'],"2",",",".") ?> </td>
 				<td style="color: blue; font-size: 11px"><?php echo number_format($rowPresentacion['impsolicitadointegralok'],"2",",",".") ?></td>
 				
+				<?php 
+					$comIntetralTotal = $rowPresentacion['impcomprobantesintegralok'] + $rowPresentacion['impcomprobantesintegralnok'] - $rowPresentacion['impcomprobantesintegraldok'] - $rowPresentacion['impcomprobantesintegraldnok']; 
+					$soliIntegralTotal = $rowPresentacion['impsolicitadointegralok'] + $rowPresentacion['impsolicitadointegralnok'] - $rowPresentacion['impsolicitadointegraldok'] - $rowPresentacion['impsolicitadointegraldnok'];	
+					$dpagoOS = 	$comIntetralTotal - $soliIntegralTotal;
+				?>
+				
 				<td rowspan="2" style="font-size: 11px"><?php echo "Calculado" ?></td>
 				<td rowspan="2" style="font-size: 11px"><?php echo number_format($rowPresentacion['impsolicitadosubsidio'],"2",",",".") ?></td>
 				<td rowspan="2" style="font-size: 11px"><?php echo number_format($rowPresentacion['montosubsidio'],"2",",",".") ?></td>
 				<td rowspan="2" style="font-size: 11px"><?php echo number_format($rowPresentacion['impsolicitadosubsidio']-$rowPresentacion['montosubsidio'],"2",",",".") ?></td>
-				<td rowspan="2" style="font-size: 11px"><?php echo number_format($rowPresentacion['impcomprobantesintegralok']-$rowPresentacion['impsolicitadosubsidio'],"2",",",".") ?></td>
-						
+				<td rowspan="2" style="font-size: 11px"><?php echo number_format($dpagoOS,"2",",",".") ?></td>
+					
 				<td rowspan="5" style="font-size: 11px"> <?php echo number_format($rowPresentacion['montodepositado'],"2",",",".") ?> </td>
 			</tr>
 			<tr>
@@ -123,7 +129,7 @@ $rowPresentacion = mysql_fetch_array($resPresentacion);
 				<td rowspan="2" style="font-size: 11px"><?php echo number_format($rowPresentacion['importesolicitado'],"2",",",".") ?></td>
 				<td rowspan="2" style="font-size: 11px"><?php echo number_format($rowPresentacion['importeliquidado'],"2",",",".") ?></td>
 				<td rowspan="2" style="font-size: 11px"><?php echo number_format($rowPresentacion['importesolicitado']-$rowPresentacion['importeliquidado'],"2",",",".") ?></td>
-				<td rowspan="2" style="font-size: 11px"><?php echo number_format($rowPresentacion['impcomprobantesintegralok']-$rowPresentacion['importesolicitado'],"2",",",".") ?></td>
+				<td rowspan="2" style="font-size: 11px"><?php echo number_format($dpagoOS,"2",",",".") ?></td>
 		
 			</tr>
 			
@@ -146,16 +152,15 @@ $rowPresentacion = mysql_fetch_array($resPresentacion);
 				<td style="font-size: 11px"><?php echo number_format($rowPresentacion['impsolicitadoformatook'] + $rowPresentacion['impsolicitadoformatonok'] - $rowPresentacion['impsolicitadoformatodok'] - $rowPresentacion['impsolicitadoformatodnok'],"2",",",".") ?></td>
 				
 				<td style="font-size: 11px"><?php echo number_format($rowPresentacion['cantintegralok'] + $rowPresentacion['cantintegralnok'],"0","",".") ?></td>
-				<td style="font-size: 11px"><?php echo number_format($rowPresentacion['impcomprobantesintegralok'] + $rowPresentacion['impcomprobantesintegralnok'] - $rowPresentacion['impcomprobantesintegraldok'] - $rowPresentacion['impcomprobantesintegraldnok'],"2",",",".") ?> </td>
-				<td style="font-size: 11px"><?php echo number_format($rowPresentacion['impsolicitadointegralok'] + $rowPresentacion['impsolicitadointegralnok'] - $rowPresentacion['impsolicitadointegraldok'] - $rowPresentacion['impsolicitadointegraldnok'],"2",",",".")  ?></td>
-				
+				<td style="font-size: 11px"><?php echo number_format($comIntetralTotal,"2",",",".") ?> </td>
+				<td style="font-size: 11px"><?php echo number_format($soliIntegralTotal,"2",",",".") ?></td>
 				<td style="font-size: 11px"><?php echo "Control" ?></td>
 				
 				<?php 
 					$controlSoli = number_format($rowPresentacion['impsolicitadosubsidio'],"2",",",".") - number_format($rowPresentacion['importesolicitado'],"2",",",".");
 					$controlSubs = number_format($rowPresentacion['montosubsidio'],"2",",",".") - number_format($rowPresentacion['importeliquidado'],"2",",",".");
 					$controlDif = (number_format($rowPresentacion['impsolicitadosubsidio']-$rowPresentacion['montosubsidio'],"2",",",".")) - (number_format($rowPresentacion['importesolicitado']-$rowPresentacion['importeliquidado'],"2",",","."));
-					$controlDifPagoOS = (number_format($rowPresentacion['impcomprobantesintegralok']-$rowPresentacion['impsolicitadosubsidio'],"2",",",".")) - (number_format($rowPresentacion['impcomprobantesintegralok']-$rowPresentacion['importesolicitado'],"2",",","."));	
+					$controlDifPagoOS = $dpagoOS - $dpagoOS; 
 				?>
 				
 				<td style="font-size: 11px"><?php echo number_format($controlSoli,"2",",",".")?></td>

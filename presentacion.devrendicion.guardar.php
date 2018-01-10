@@ -115,7 +115,10 @@ try {
 	$cantidadUpdate = 0;
 	
 	while ($rowRendicion = mysql_fetch_array($resRendicion)) {
-		$indexLiqui = $rowRendicion['cuil']."-".$rowRendicion['periodoprestacion']."-".$rowRendicion['codpractica'];
+		$indexLiqui = $rowRendicion['cuil']."-".$rowRendicion['periodoprestacion']."-".$rowRendicion['codigopractica'];
+		
+		$impsoli = $rowRendicion['impsolicitado'];
+		if ($rowRendicion['tipoarchivo'] == 'DB') { $impsoli = (-1)*$rowRendicion['impsolicitado']; } 
 		
 		$sqlFactura = "SELECT tipoarchivo, nrocominterno,impcomprobanteintegral,impsolicitadointegral, codpractica 
 								FROM facturas 
@@ -124,9 +127,9 @@ try {
 									  deverrorintegral is null and 
 									  cuil = '".$rowRendicion['cuil']."' and 
 									  periodo = '".$rowRendicion['periodoprestacion']."' and 
-									  codpractica = ".$rowRendicion['codpractica']." and 
+									  codpractica = ".$rowRendicion['codigopractica']." and 
 									  cuit = '".$rowRendicion['cuit']."' and
-									  impsolicitadointegral = ".$rowRendicion['importesolicitado']." and
+									  impsolicitadointegral = ".$impsoli." and
 									  tipocomprobante = ".$rowRendicion['tipocomprobante']." and
 									  nrocomprobante = ".$rowRendicion['nrocomprobante']." and
 									  puntoventa = ".$rowRendicion['puntoventa']." and
@@ -136,19 +139,19 @@ try {
 		
 		if ($canFacutra == 1) {
 			$cantidadUpdate++;
-			if (round($arrayLiquidado[$indexLiqui],2) >= round($rowRendicion['importesolicitado'],2)) {		
-				$arrayLiquidado[$indexLiqui] -= (float) $rowRendicion['importesolicitado'];
+			if (round($arrayLiquidado[$indexLiqui],2) >= round($rowRendicion['impsolicitado'],2)) {		
+				$arrayLiquidado[$indexLiqui] -= (float) $rowRendicion['impsolicitado'];
 				$updateFactura = "UPDATE facturas
-									SET impsolicitadosubsidio = ".(float) $rowRendicion['importesolicitado'].", 
-										impmontosubsidio = ".(float) $rowRendicion['importesolicitado']." 
+									SET impsolicitadosubsidio = ".(float) $rowRendicion['impsolicitado'].", 
+										impmontosubsidio = ".(float) $rowRendicion['impsolicitado']." 
 									WHERE idpresentacion = $idPresentacion and 
 										  deverrorformato is null and 
 										  deverrorintegral is null and 
 										  cuil = '".$rowRendicion['cuil']."' and 
 										  periodo = '".$rowRendicion['periodoprestacion']."' and 
-										  codpractica = ".$rowRendicion['codpractica']." and 
+										  codpractica = ".$rowRendicion['codigopractica']." and 
 										  cuit = '".$rowRendicion['cuit']."' and
-										  impsolicitadointegral = ".$rowRendicion['importesolicitado']." and
+										  impsolicitadointegral = ".$impsoli." and
 										  tipocomprobante = ".$rowRendicion['tipocomprobante']." and
 										  nrocomprobante = ".$rowRendicion['nrocomprobante']." and
 										  puntoventa = ".$rowRendicion['puntoventa']." and
@@ -161,16 +164,16 @@ try {
 					$arrayLiquidado[$indexLiqui] = 0.00;
 				} 
 				$updateFactura = "UPDATE facturas
-									SET impsolicitadosubsidio = ".(float) $rowRendicion['importesolicitado'].",
+									SET impsolicitadosubsidio = ".(float) $rowRendicion['impsolicitado'].",
 										impmontosubsidio = ".(float) $nuevoMonto."
 														WHERE idpresentacion = $idPresentacion and
 														deverrorformato is null and
 														deverrorintegral is null and
 														cuil = '".$rowRendicion['cuil']."' and
 										  periodo = '".$rowRendicion['periodoprestacion']."' and
-										  codpractica = ".$rowRendicion['codpractica']." and
+										  codpractica = ".$rowRendicion['codigopractica']." and
 										  cuit = '".$rowRendicion['cuit']."' and
-										  impsolicitadointegral = ".$rowRendicion['importesolicitado']." and
+										  impsolicitadointegral = ".$impsoli." and
 										  tipocomprobante = ".$rowRendicion['tipocomprobante']." and
 										  nrocomprobante = ".$rowRendicion['nrocomprobante']." and
 										  puntoventa = ".$rowRendicion['puntoventa']." and
@@ -179,7 +182,7 @@ try {
 			//echo $updateFactura."<br>";
 			$dbh->exec($updateFactura);
 		} else {
-			throw new PDOException('No se encontro una factura', $sqlFactura );
+			throw new PDOException("No se encontro una factura con $sqlFactura");
 		}
 	}
 	if ($cantidadUpdate != $cantregi) {
