@@ -151,37 +151,37 @@ header("Content-Disposition: attachment; filename=$file");
 		 	<table border="1">
 				 <thead>
 				 	<tr>
-				 		<th style="font-size: 7px" colspan="6">LIQ SSSALUD</th>
-				 		<th style="font-size: 7px" colspan="6">INF. PRESENTADA POR LA OS EN CADA PERIODO</th>
-				 		<th style="font-size: 7px" colspan="12">INFORMACION ADICIONAL QUE DEBE COMPLETAR LA OBRA SOCIAL</th>
+				 		<th style="colspan="6">LIQ SSSALUD</th>
+				 		<th style="colspan="6">INF. PRESENTADA POR LA OS EN CADA PERIODO</th>
+				 		<th style="colspan="12">INFORMACION ADICIONAL QUE DEBE COMPLETAR LA OBRA SOCIAL</th>
 				 	</tr>
 				 	<tr>
-				 		<th style="font-size: 7px">MES<br> PROCESO</th>
-				 		<th style="font-size: 7px">MES<br> PRESTAC</th>
-				 		<th style="font-size: 7px">CUIL<br> BENEFIC</th>
-				 		<th style="font-size: 7px">COD<br> PREST</th>
+				 		<th>MES<br> PROCESO</th>
+				 		<th>MES<br> PRESTAC</th>
+				 		<th>CUIL<br> BENEFIC</th>
+				 		<th>COD<br> PREST</th>
 				 		<th style="font-size: 7px; width: 120px">PRESTACION</th>
-				 		<th style="font-size: 7px">IMPORTE<br> LIQUIDADO</th>
+				 		<th>IMPORTE<br> LIQUIDADO</th>
 				 		
-				 		<th style="font-size: 7px">PERIODO<br> FC</th>
-				 		<th style="font-size: 7px">CUIT</th>
-				 		<th style="font-size: 7px">LETRA</th>
-				 		<th style="font-size: 7px">PV</th>
-				 		<th style="font-size: 7px">Nº FC</th>
-				 		<th style="font-size: 7px">IMPORTE<br> SOLICITADO</th>
+				 		<th>PERIODO<br> FC</th>
+				 		<th>CUIT</th>
+				 		<th>LETRA</th>
+				 		<th>PV</th>
+				 		<th>Nº FC</th>
+				 		<th>IMPORTE<br> SOLICITADO</th>
 				 		
-				 		<th style="font-size: 7px">ORDEN DE<br> PAGO</th>
-				 		<th style="font-size: 7px">FECHA DE<br> TRANSF.</th>
-				 		<th style="font-size: 7px">CBU</th>
-				 		<th style="font-size: 7px">IMPORTE<br> TRANSF.</th>
-				 		<th style="font-size: 7px">RETENCION<br> GCIAS.</th>
-				 		<th style="font-size: 7px">RETENCION<br> INGRESOS<br> BRUTOS</th>
-				 		<th style="font-size: 7px">OTRAS<br> RETENC</th>
-				 		<th style="font-size: 7px">IMPORTE<br> APOLICADO<br> SSS</th>
-				 		<th style="font-size: 7px">IMPORTE<br> FONDOS<br> PROPIOS</th>
-				 		<th style="font-size: 7px">NRO.<br> RECIBO</th>
-				 		<th style="font-size: 7px">ASI</th>
-				 		<th style="font-size: 7px">FOL</th>
+				 		<th>ORDEN DE<br> PAGO</th>
+				 		<th>FECHA DE<br> TRANSF.</th>
+				 		<th>CBU</th>
+				 		<th>IMPORTE<br> TRANSF.</th>
+				 		<th>RETENCION<br> GCIAS.</th>
+				 		<th>RETENCION<br> INGRESOS<br> BRUTOS</th>
+				 		<th>OTRAS<br> RETENC</th>
+				 		<th>IMPORTE<br> APOLICADO<br> SSS</th>
+				 		<th>IMPORTE<br> FONDOS<br> PROPIOS</th>
+				 		<th>NRO.<br> RECIBO</th>
+				 		<th>ASI</th>
+				 		<th>FOL</th>
 				 	</tr>
 				 </thead>
 				 <tbody>
