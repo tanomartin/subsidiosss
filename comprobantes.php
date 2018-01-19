@@ -1,6 +1,6 @@
 <?php 
 include_once 'include/conector.php';
-$sqlCompro = "SELECT * FROM comprobante";
+$sqlCompro = "SELECT * FROM tipocomprobante";
 $resCompro = mysql_query($sqlCompro);
 
 ?>
@@ -27,7 +27,7 @@ $resCompro = mysql_query($sqlCompro);
 		 	<tbody>
 		<?php while ($rowCompro = mysql_fetch_array($resCompro)) {  ?>
 				<tr>
-					<td><?php echo $rowCompro['codigo'] ?></td>
+					<td><?php echo $rowCompro['id'] ?></td>
 					<td><?php echo $rowCompro['descripcion'] ?></td>
 				</tr>
 		<?php } ?>

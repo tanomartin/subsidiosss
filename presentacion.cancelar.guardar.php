@@ -3,9 +3,9 @@ include_once 'include/conector.php';
 require_once 'include/phpExcel/Classes/PHPExcel.php';
 
 $idPresentacion = $_GET['id'];
-$updateCancelarPresentacion = "UPDATE presentacion SET fechacancelacion = CURDATE(), motivocancelacion = '".$_POST['motivo']."' WHERE id = $idPresentacion";
+$updateCancelarPresentacion = "UPDATE intepresentacion SET fechacancelacion = CURDATE(), motivocancelacion = '".$_POST['motivo']."' WHERE id = $idPresentacion";
 
-$sqlPresentacion = "SELECT p.*, c.periodo, c.carpeta FROM presentacion p, cronograma c WHERE p.id = $idPresentacion and p.idcronograma = c.id";
+$sqlPresentacion = "SELECT p.*, c.periodo, c.carpeta FROM intepresentacion p, intecronograma c WHERE p.id = $idPresentacion and p.idcronograma = c.id";
 $resPresentacion = mysql_query($sqlPresentacion);
 $rowPresentacion = mysql_fetch_array($resPresentacion);
 

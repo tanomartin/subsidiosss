@@ -3,10 +3,10 @@ include_once 'include/conector.php';
 
 $idPresentacion = $_GET['id'];
 
-$sqlFactura = "SELECT * FROM facturas WHERE idpresentacion = $idPresentacion and deverrorformato is not null";
+$sqlFactura = "SELECT * FROM intepresentaciondetalle WHERE idpresentacion = $idPresentacion and deverrorformato is not null";
 $resFactura = mysql_query($sqlFactura);
 
-$sqlErrores = "SELECT * FROM errorsss";
+$sqlErrores = "SELECT * FROM inteerror";
 $resErrores = mysql_query($sqlErrores);
 $arrayErrores = array();
 while ($rowErrores = mysql_fetch_array($resErrores)) {

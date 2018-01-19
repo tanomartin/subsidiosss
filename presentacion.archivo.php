@@ -2,11 +2,11 @@
 include_once 'include/conector.php';
 $idPresentacion = $_GET['id'];
 
-$sqlPresentacion = "SELECT p.*, c.periodo, c.carpeta FROM presentacion p, cronograma c WHERE p.id = $idPresentacion and p.idcronograma = c.id";
+$sqlPresentacion = "SELECT p.*, c.periodo, c.carpeta FROM intepresentacion p, intecronograma c WHERE p.id = $idPresentacion and p.idcronograma = c.id";
 $resPresentacion = mysql_query($sqlPresentacion);
 $rowPresentacion = mysql_fetch_array($resPresentacion);
 
-$sqlFactura = "SELECT * FROM facturas WHERE idpresentacion = $idPresentacion order by tipoarchivo";
+$sqlFactura = "SELECT * FROM intepresentaciondetalle WHERE idpresentacion = $idPresentacion order by tipoarchivo";
 $resFactura = mysql_query($sqlFactura);
 
 $anio = substr($rowPresentacion['carpeta'],0,4);
@@ -44,7 +44,7 @@ try {
 	$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	$dbh->beginTransaction();
 
-	$sqlUpdatePresentacion = "UPDATE presentacion SET fechapresentacion = CURDATE() WHERE id = $idPresentacion";
+	$sqlUpdatePresentacion = "UPDATE intepresentacion SET fechapresentacion = CURDATE() WHERE id = $idPresentacion";
 	$dbh->exec($sqlUpdatePresentacion);
 	$dbh->commit();
 

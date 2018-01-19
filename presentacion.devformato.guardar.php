@@ -2,7 +2,7 @@
 include_once 'include/conector.php';
 set_time_limit(0);
 $idPresentacion = $_POST['id'];
-$sqlPresentacion = "SELECT p.*, c.periodo, c.carpeta FROM presentacion p, cronograma c WHERE p.id = $idPresentacion and p.idcronograma = c.id";
+$sqlPresentacion = "SELECT p.*, c.periodo, c.carpeta FROM intepresentacion p, intecronograma c WHERE p.id = $idPresentacion and p.idcronograma = c.id";
 $resPresentacion = mysql_query($sqlPresentacion);
 $rowPresentacion = mysql_fetch_array($resPresentacion);
 
@@ -46,7 +46,7 @@ if ($archivook != null) {
 				$sumsoliok += $importeSolicitado;
 			}
 			
-			$arrayUpdate[$indexUpdate] = "UPDATE facturas SET impcomprobanteformato = $importeComprobante, impsolicitadoformato = $importeSolicitado
+			$arrayUpdate[$indexUpdate] = "UPDATE intepresentaciondetalle SET impcomprobanteformato = $importeComprobante, impsolicitadoformato = $importeSolicitado
 												WHERE idpresentacion = $idPresentacion and tipoarchivo = '".$arraylinea[0]."' and cuil = '".(double)$arraylinea[2]."' and periodo =  '".$arraylinea[5]."' and
 													  cuit = '".(double)$arraylinea[6]."' and tipocomprobante = ".(int)$arraylinea[7]." and tipoemision = '".$arraylinea[8]."' and
 													  fechacomprobante = '".$arraylinea[9]."' and cae = '".trim($arraylinea[10])."' and puntoventa = ".(int)$arraylinea[11]." and
@@ -79,7 +79,7 @@ if ($archivoerror != null) {
 				$sumsolinok += $importeSolicitado;
 			}
 			
-			$arrayUpdate[$indexUpdate] = "UPDATE facturas SET deverrorformato = '".$arraylinea[19]."'
+			$arrayUpdate[$indexUpdate] = "UPDATE intepresentaciondetalle SET deverrorformato = '".$arraylinea[19]."'
 												WHERE idpresentacion = $idPresentacion and tipoarchivo = '".$arraylinea[0]."' and cuil = '".(double) $arraylinea[2]."' and periodo =  '".$arraylinea[5]."' and
 													  cuit = '".(double)$arraylinea[6]."' and tipocomprobante = ".(int)$arraylinea[7]." and tipoemision = '".$arraylinea[8]."' and
 													  fechacomprobante = '".$arraylinea[9]."' and cae = '".trim($arraylinea[10])."' and puntoventa = ".(int)$arraylinea[11]." and
@@ -90,7 +90,7 @@ if ($archivoerror != null) {
 	fclose($fpnok);
 }
 $contadornok = sizeof($arrayUpdate) - $contadorok;
-$sqlInsertPresentacionFormato = "INSERT INTO presentacionformato VALUES($idPresentacion,CURDATE(),$contadorok,$sumcompok,$sumsoliok,$sumcompdok,$sumsolidok,$contadornok,$sumcompnok,$sumsolinok,$sumcompdnok,$sumsolidnok)";
+$sqlInsertPresentacionFormato = "INSERT INTO intepresentacionformato VALUES($idPresentacion,CURDATE(),$contadorok,$sumcompok,$sumsoliok,$sumcompdok,$sumsolidok,$contadornok,$sumcompnok,$sumsolinok,$sumcompdnok,$sumsolidnok)";
 $total = $contadorok + $contadornok;
 if ($total == $rowPresentacion['cantfactura']) {
 	try {

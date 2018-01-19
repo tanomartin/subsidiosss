@@ -2,7 +2,7 @@
 include_once 'include/conector.php';
 
 $idPresentacion = $_GET['id'];
-$sqlFactura = "SELECT * FROM facturas WHERE idpresentacion = $idPresentacion order by cuil, periodo, codpractica";
+$sqlFactura = "SELECT * FROM intepresentaciondetalle WHERE idpresentacion = $idPresentacion order by cuil, periodo, codpractica";
 $resFactura = mysql_query($sqlFactura);
 ?>
 

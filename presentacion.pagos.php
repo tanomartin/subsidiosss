@@ -1,25 +1,32 @@
 <?php
 include_once 'include/conector.php';
+set_time_limit(0);
 $idPresentacion = $_GET['id'];
-$sqlSubsidio = "SELECT s.*, n.descripcion FROM subsidio s, nomenclador n WHERE  idpresentacion = $idPresentacion and s.codigopractica = n.codigo";
+$sqlSubsidio = "SELECT s.*, SUBSTRING(n.descripcion,1,30) as descripcion FROM intesubsidio s, practicas n
+				WHERE idpresentacion = $idPresentacion and 
+					  s.codigopractica not in (97,98,99) and 
+					  n.nomenclador = 7 and 
+					  s.codigopractica = n.codigopractica";
 $resSubsidio = mysql_query($sqlSubsidio);
 $arrayCompleto = array();
 $index = 0;
 while ($rowSubsidio = mysql_fetch_array($resSubsidio)) {
 	$arrayCompleto[$index] = $rowSubsidio;
-	$sqlSelectFactura = "SELECT f.*, comprobante.descripcion as comprobante, prestadores.cbu  
-							FROM facturas f
+	$sqlSelectFactura = "SELECT f.*, tipocomprobante.descripcion as comprobante, prestadoresauxiliar.cbu
+							FROM intepresentaciondetalle f
 							LEFT JOIN prestadores ON f.cuit = prestadores.cuit
-              				LEFT JOIN comprobante ON f.tipocomprobante = comprobante.codigo
-							WHERE f.idpresentacion = $idPresentacion and f.deverrorformato is null and 
-								  f.deverrorintegral is null and f.cuil = '".$rowSubsidio['cuil']."' and 
-								  f.periodo = '".$rowSubsidio['periodoprestacion']."' and 
-								  f.tipoarchivo != 'DB' and f.codpractica not in (97,98,99) and
-								  f.codpractica = ".(int) $rowSubsidio['codigopractica'];
+							LEFT JOIN prestadoresauxiliar ON prestadores.codigoprestador = prestadoresauxiliar.codigoprestador
+							LEFT JOIN tipocomprobante ON f.tipocomprobante = tipocomprobante.id
+							WHERE
+								f.idpresentacion = $idPresentacion and f.deverrorformato is null and 
+								f.deverrorintegral is null and f.cuil = '".$rowSubsidio['cuil']."' and 
+								f.periodo = '".$rowSubsidio['periodoprestacion']."' and 
+								f.tipoarchivo != 'DB' and
+								f.codpractica = ".(int) $rowSubsidio['codigopractica'];
 	$resSelectFactura = mysql_query($sqlSelectFactura);
 	while($rowfactura = mysql_fetch_array($resSelectFactura)) {
 		$arrayCompleto[$index]['f'][$rowfactura['nrocominterno']] = $rowfactura;
-		$sqlPagos = "SELECT p.*, DATE_FORMAT(p.fechatransferencia, '%d-%m-%Y') as fechatransferencia FROM pagos p WHERE idpresentacion = $idPresentacion and nrocominterno = ".$rowfactura['nrocominterno'];
+		$sqlPagos = "SELECT p.*, DATE_FORMAT(p.fechatransferencia, '%d-%m-%Y') as fechatransferencia FROM intepagos p WHERE idpresentacion = $idPresentacion and nrocominterno = ".$rowfactura['nrocominterno'];
 		$resPagos = mysql_query($sqlPagos);
 		while($rowPagos = mysql_fetch_array($resPagos)) {
 			$arrayCompleto[$index]['f'][$rowfactura['nrocominterno']]['p'][$rowPagos['nrodepago']] = $rowPagos;
@@ -43,7 +50,6 @@ $totOtrasRete = 0;
 
 foreach ($arrayCompleto as $key => $subsidio) {
 	$totalSubsidio += (float) $subsidio['impsubsidiado'];
-	if (isset($subsidio['f'])){
 		foreach ($subsidio['f'] as $nrointerno => $factura) {
 			$totalSolicitado += (float) $factura['impsolicitado'];
 			foreach ($subsidio['f'][$nrointerno]['p'] as $nropago => $pago) {
@@ -113,7 +119,6 @@ foreach ($arrayCompleto as $key => $subsidio) {
 				$indexLinea++;
 			}
 		}	
-	}
 }
 
 $lineaTotales = "<tr>

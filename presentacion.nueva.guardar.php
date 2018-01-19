@@ -74,7 +74,7 @@ while ($data = fgetcsv ($fp, 1000, ";")) {
 		exit -1;
 	}
 	
-    $linea = "INSERT INTO facturas VALUES (".str_replace('.','',$data['0']).",idpres,
+    $linea = "INSERT INTO intepresentaciondetalle VALUES (".str_replace('.','',$data['0']).",idpres,
     		'".$data['1']."',
     		".$data['2'].",
     		'".$cuil."',
@@ -101,7 +101,7 @@ while ($data = fgetcsv ($fp, 1000, ";")) {
 }
 
 fclose ($fp);
-$sqlInsertPresentacion = "INSERT INTO presentacion VALUES(DEFAULT, ".$_POST['idCronograma'].", NULL, NULL, NULL,$cantFacturas,$impCompTotal,$impPedido,$impCompTotalD,$impPedidoD,NULL,NULL)";
+$sqlInsertPresentacion = "INSERT INTO intepresentacion VALUES(DEFAULT, ".$_POST['idCronograma'].", NULL, NULL, NULL,$cantFacturas,$impCompTotal,$impPedido,$impCompTotalD,$impPedidoD,NULL,NULL)";
 
 $anio = substr($_POST['carpeta'],0,4);
 $carpetaanio = "archivos/$anio";

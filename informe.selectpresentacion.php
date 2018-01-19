@@ -1,7 +1,7 @@
 <?php include_once 'include/conector.php'; 
 
 $informe = $_GET['informe'];
-$sqlPresentacion = "SELECT p.*, c.periodo, c.carpeta FROM presentacion p, presentacionsubsidio s, cronograma c 
+$sqlPresentacion = "SELECT p.*, c.periodo, c.carpeta FROM intepresentacion p, intepresentacionsubsidio s, intecronograma c 
 							WHERE s.id = p.id and p.idcronograma = c.id ORDER BY p.id DESC";
 $resPresentacion = mysql_query($sqlPresentacion);
 $arrayPresentacion = array();

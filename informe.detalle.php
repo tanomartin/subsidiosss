@@ -3,9 +3,17 @@ include_once 'include/conector.php';
 set_time_limit(0);
 $idPresentacion = $_GET['id'];
 $carpeta = $_GET['carpeta'];
-$sqlFactura = "SELECT facturas.*, cuildelegaciones.codidelega, prestadores.cbu, prestadores.retiene FROM facturas 
-LEFT JOIN cuildelegaciones on  facturas.cuil = cuildelegaciones.cuil
-LEFT JOIN prestadores on facturas.cuit = prestadores.cuit
+$sqlFactura = "SELECT intepresentaciondetalle.*, titulares.codidelega as deletitu, titufami.codidelega as delefami, prestadoresauxiliar.cbu,
+CASE
+  WHEN (prestadores.situacionfiscal in (0,1,4) || (prestadores.situacionfiscal = 3 and prestadores.vtoexento >= CURDATE())) THEN 0
+  WHEN (prestadores.situacionfiscal = 2 || (prestadores.situacionfiscal = 3 and prestadores.vtoexento < CURDATE())) THEN 1
+END as retiene
+FROM intepresentaciondetalle
+LEFT JOIN titulares on  intepresentaciondetalle.cuil = titulares.cuil
+LEFT JOIN familiares on  intepresentaciondetalle.cuil = familiares.cuil
+LEFT JOIN titulares titufami on  familiares.nroafiliado = titufami.nroafiliado
+LEFT JOIN prestadores on intepresentaciondetalle.cuit = prestadores.cuit
+LEFT JOIN prestadoresauxiliar on prestadores.codigoprestador = prestadoresauxiliar.codigoprestador
 WHERE idpresentacion = $idPresentacion order by cuil, periodo, codpractica";
 $resFactura = mysql_query($sqlFactura);
 
@@ -69,7 +77,7 @@ header("Content-Disposition: attachment; filename=$file");
 						<td><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
 						<td><?php echo $rowFactura['tipoarchivo'] ?></td>
 						<td><?php echo $rowFactura['cuil'] ?></td>
-						<td><?php echo $rowFactura['codidelega'] ?></td>
+						<td><?php echo $rowFactura['deletitu']." ".$rowFactura['delefami'] ?></td>
 						<td><?php echo $rowFactura['periodo'] ?></td>
 						<td><?php echo $rowFactura['cuit'] ?></td>
 						<td><?php echo "'".$rowFactura['cbu']."'" ?></td>
@@ -175,7 +183,7 @@ header("Content-Disposition: attachment; filename=$file");
 										$retiene = "SI";
 									} 
 									
-									$sqlDebeRecibo = "SELECT f.nrocomprobante FROM pagos p, facturas f
+									$sqlDebeRecibo = "SELECT f.nrocomprobante FROM intepagos p, intepresentaciondetalle f
 														WHERE
 														p.recibo = '' and
 														p.nrocominterno = f.nrocominterno and codpractica not in (97,98,99) and

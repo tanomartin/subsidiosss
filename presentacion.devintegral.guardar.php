@@ -10,12 +10,12 @@ p.motivocancelacion,
 p.cantfactura,
 p.impcomprobantes,
 p.impsolicitado ,
-cronograma.periodo,
-cronograma.carpeta,
-presentacionformato.cantformatook
-FROM presentacion p
-INNER JOIN cronograma on p.idcronograma = cronograma.id
-LEFT JOIN presentacionformato on p.id = presentacionformato.id
+intecronograma.periodo,
+intecronograma.carpeta,
+intepresentacionformato.cantformatook
+FROM intepresentacion p
+INNER JOIN intecronograma on p.idcronograma = intecronograma.id
+LEFT JOIN intepresentacionformato on p.id = intepresentacionformato.id
 WHERE p.id = $idPresentacion";
 $resPresentacion = mysql_query($sqlPresentacion);
 $rowPresentacion = mysql_fetch_array($resPresentacion);
@@ -31,7 +31,7 @@ try {
 	copy($archivook, $archivodestinook);
 	copy($archivoerror, $archivodestinoerr);
 } catch (Exception $e) {
-	$redire = "Location: presentacion.error.php?id=$idPresentacion&page='Dev. Integral'&error=".$e->getMessage();
+	$redire = "Location: intepresentacion.error.php?id=$idPresentacion&page='Dev. Integral'&error=".$e->getMessage();
 	Header($redire);
 	exit -1;
 }
@@ -61,7 +61,7 @@ if ($archivook != null) {
 				$sumsoliok += $importeSolicitado;
 			}
 			
-			$arrayUpdate[$indexUpdate] = "UPDATE facturas SET impcomprobanteintegral = $importeComprobante, impsolicitadointegral = $importeSolicitado
+			$arrayUpdate[$indexUpdate] = "UPDATE intepresentaciondetalle SET impcomprobanteintegral = $importeComprobante, impsolicitadointegral = $importeSolicitado
 												WHERE idpresentacion = $idPresentacion and tipoarchivo = '".$arraylinea[0]."' and cuil = '".$arraylinea[2]."' and periodo =  '".$arraylinea[5]."' and
 													  cuit = '".$arraylinea[6]."' and tipocomprobante = ".(int)$arraylinea[7]." and tipoemision = '".$arraylinea[8]."' and
 													  fechacomprobante = '".$arraylinea[9]."' and puntoventa = ".(int)$arraylinea[11]." and nrocomprobante = '".(int)$arraylinea[12]."'";
@@ -92,7 +92,7 @@ if ($archivoerror != null) {
 				$sumcompnok += $importeComprobante;
 				$sumsolinok += $importeSolicitado;
 			}
-			$arrayUpdate[$indexUpdate] = "UPDATE facturas SET deverrorintegral = '".$arraylinea[19]."'
+			$arrayUpdate[$indexUpdate] = "UPDATE intepresentaciondetalle SET deverrorintegral = '".$arraylinea[19]."'
 												WHERE idpresentacion = $idPresentacion and tipoarchivo = '".$arraylinea[0]."' and cuil = '".$arraylinea[2]."' and periodo =  '".$arraylinea[5]."' and
 													  cuit = '".$arraylinea[6]."' and tipocomprobante = ".(int)$arraylinea[7]." and tipoemision = '".$arraylinea[8]."' and
 													  fechacomprobante = '".$arraylinea[9]."' and puntoventa = ".(int)$arraylinea[11]." and nrocomprobante = '".(int)$arraylinea[12]."'";
@@ -103,7 +103,7 @@ if ($archivoerror != null) {
 }
 $contadornok = sizeof($arrayUpdate) - $contadorok;
 
-$sqlInsertPresentacionIntegral= "INSERT INTO presentacionintegral VALUES($idPresentacion,CURDATE(),$contadorok,$sumcompok,$sumsoliok,$sumcompdok,$sumsolidok,$contadornok,$sumcompnok,$sumsolinok,$sumcompdnok,$sumsolidnok)"; 
+$sqlInsertPresentacionIntegral= "INSERT INTO intepresentacionintegral VALUES($idPresentacion,CURDATE(),$contadorok,$sumcompok,$sumsoliok,$sumcompdok,$sumsolidok,$contadornok,$sumcompnok,$sumsolinok,$sumcompdnok,$sumsolidnok)"; 
 $total = $contadorok + $contadornok;
 if ($total == $rowPresentacion['cantformatook']) {
 	try {

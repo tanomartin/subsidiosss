@@ -4,7 +4,7 @@ $idPresentacion = $_GET['idpresentacion'];
 $nrocomint = $_GET['nrocomint'];
 $norord = $_GET['norord'];
 
-$sqlPago = "SELECT * FROM pagos p, facturas f
+$sqlPago = "SELECT * FROM intepagos p, intepresentaciondetalle f
 				WHERE 
 					p.idpresentacion = $idPresentacion and 
 					p.nrocominterno = $nrocomint and 

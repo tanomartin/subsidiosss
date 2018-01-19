@@ -1,6 +1,6 @@
 <?php 
 include_once 'include/conector.php';
-$sqlNomenclador = "SELECT * FROM nomenclador ORDER BY codigo";
+$sqlNomenclador = "SELECT * FROM practicas WHERE nomenclador = 7 ORDER BY codigopractica";
 $resNomenclador =  mysql_query($sqlNomenclador);
 
 ?>
@@ -52,7 +52,7 @@ $(function() {
 			 	<tbody>
 			<?php while ($rowNomenclador = mysql_fetch_array($resNomenclador)) {  ?>
 					<tr>
-						<td><?php echo $rowNomenclador['codigo'] ?></td>
+						<td><?php echo $rowNomenclador['codigopractica'] ?></td>
 						<td><?php echo $rowNomenclador['descripcion'] ?></td>
 					</tr>
 			<?php } ?>

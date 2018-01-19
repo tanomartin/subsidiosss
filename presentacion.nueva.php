@@ -1,7 +1,7 @@
 <?php 
 include_once 'include/conector.php';
 
-$sqlAPresentar = "SELECT c.*,DATE_FORMAT(c.fechacierre,'%d/%m/%Y') as fechacierre FROM cronograma c WHERE fechacierre >= CURDATE() LIMIT 1";
+$sqlAPresentar = "SELECT c.*,DATE_FORMAT(c.fechacierre,'%d/%m/%Y') as fechacierre FROM intecronograma c WHERE fechacierre >= CURDATE() LIMIT 1";
 $resAPresentar = mysql_query($sqlAPresentar);
 $rowAPresentar = mysql_fetch_array($resAPresentar)
 ?>

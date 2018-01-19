@@ -2,25 +2,31 @@
 include_once 'include/conector.php';
 set_time_limit(0);
 $idPresentacion = $_GET['id'];
-$sqlSubsidio = "SELECT s.*, n.descripcion FROM subsidio s, nomenclador n WHERE  idpresentacion = $idPresentacion and s.codigopractica = n.codigo";
+$sqlSubsidio = "SELECT s.*, SUBSTRING(n.descripcion,1,30) as descripcion FROM intesubsidio s, practicas n
+				WHERE idpresentacion = $idPresentacion and 
+					  s.codigopractica not in (97,98,99) and 
+					  n.nomenclador = 7 and 
+					  s.codigopractica = n.codigopractica";
 $resSubsidio = mysql_query($sqlSubsidio);
 $arrayCompleto = array();
 $index = 0;
 while ($rowSubsidio = mysql_fetch_array($resSubsidio)) {
 	$arrayCompleto[$index] = $rowSubsidio;
-	$sqlSelectFactura = "SELECT f.*, comprobante.descripcion as comprobante, prestadores.cbu  
-							FROM facturas f
+	$sqlSelectFactura = "SELECT f.*, tipocomprobante.descripcion as comprobante, prestadoresauxiliar.cbu
+							FROM intepresentaciondetalle f
 							LEFT JOIN prestadores ON f.cuit = prestadores.cuit
-              				LEFT JOIN comprobante ON f.tipocomprobante = comprobante.codigo
-							WHERE f.idpresentacion = $idPresentacion and f.deverrorformato is null and 
-								  f.deverrorintegral is null and f.cuil = '".$rowSubsidio['cuil']."' and 
-								  f.periodo = '".$rowSubsidio['periodoprestacion']."' and 
-								  f.tipoarchivo != 'DB' and
-								  f.codpractica = ".(int) $rowSubsidio['codigopractica'];
+							LEFT JOIN prestadoresauxiliar ON prestadores.codigoprestador = prestadoresauxiliar.codigoprestador
+							LEFT JOIN tipocomprobante ON f.tipocomprobante = tipocomprobante.id
+							WHERE
+								f.idpresentacion = $idPresentacion and f.deverrorformato is null and 
+								f.deverrorintegral is null and f.cuil = '".$rowSubsidio['cuil']."' and 
+								f.periodo = '".$rowSubsidio['periodoprestacion']."' and 
+								f.tipoarchivo != 'DB' and f.codpractica not in (97,98,99) and
+								f.codpractica = ".(int) $rowSubsidio['codigopractica'];
 	$resSelectFactura = mysql_query($sqlSelectFactura);
 	while($rowfactura = mysql_fetch_array($resSelectFactura)) {
 		$arrayCompleto[$index]['f'][$rowfactura['nrocominterno']] = $rowfactura;
-		$sqlPagos = "SELECT p.*, DATE_FORMAT(p.fechatransferencia, '%d-%m-%Y') as fechatransferencia FROM pagos p WHERE idpresentacion = $idPresentacion and nrocominterno = ".$rowfactura['nrocominterno'];
+		$sqlPagos = "SELECT p.*, DATE_FORMAT(p.fechatransferencia, '%d-%m-%Y') as fechatransferencia FROM intepagos p WHERE idpresentacion = $idPresentacion and nrocominterno = ".$rowfactura['nrocominterno'];
 		$resPagos = mysql_query($sqlPagos);
 		while($rowPagos = mysql_fetch_array($resPagos)) {
 			$arrayCompleto[$index]['f'][$rowfactura['nrocominterno']]['p'][$rowPagos['nrodepago']] = $rowPagos;
@@ -38,31 +44,31 @@ $totalPagoO = 0;
 foreach ($arrayCompleto as $key => $subsidio) {
 	$totalSubsidio += (float) $subsidio['impsubsidiado'];
 	$linea = "<tr>";
-	$linea .= "<td style='font-size: 7px'>".$subsidio['periodopresentacion']."</td>";
-	$linea .= "<td style='font-size: 7px'>".$subsidio['periodoprestacion']."</td>";
-	$linea .= "<td style='font-size: 7px'>".$subsidio['cuil']."</td>";
-	$linea .= "<td style='font-size: 7px'>".$subsidio['codigopractica']."</td>";
-	$linea .= "<td style='font-size: 7px'>".$subsidio['descripcion']."</td>";
-	$linea .= "<td style='font-size: 7px'>".number_format($subsidio['impsubsidiado'],"2",",",".")."</td>";
+	$linea .= "<td>".$subsidio['periodopresentacion']."</td>";
+	$linea .= "<td>".$subsidio['periodoprestacion']."</td>";
+	$linea .= "<td>".$subsidio['cuil']."</td>";
+	$linea .= "<td>".$subsidio['codigopractica']."</td>";
+	$linea .= "<td>".$subsidio['descripcion']."</td>";
+	$linea .= "<td>".number_format($subsidio['impsubsidiado'],"2",",",".")."</td>";
 	$contadorFacturas = 0;
 	foreach ($subsidio['f'] as $nrointerno => $factura) {
 		$totalSolicitado += (float) $factura['impsolicitado'];
 		if ($contadorFacturas != 0) {
 			$linea .= "<tr>";
 			$linea .= "<td></td><td></td><td></td><td></td><td></td><td></td>";
-			$linea .= "<td style='font-size: 7px'>".$factura['periodo']."</td>";
-			$linea .= "<td style='font-size: 7px'>".$factura['cuit']."</td>";
-			$linea .= "<td style='font-size: 7px'>".$factura['comprobante']."</td>";
-			$linea .= "<td style='font-size: 7px'>".$factura['puntoventa']."</td>";
-			$linea .= "<td style='font-size: 7px'>".$factura['nrocomprobante']."</td>";
-			$linea .= "<td style='font-size: 7px'>".number_format($factura['impsolicitado'],"2",",",".")."</td>";
+			$linea .= "<td>".$factura['periodo']."</td>";
+			$linea .= "<td>".$factura['cuit']."</td>";
+			$linea .= "<td>".$factura['comprobante']."</td>";
+			$linea .= "<td>".$factura['puntoventa']."</td>";
+			$linea .= "<td>".$factura['nrocomprobante']."</td>";
+			$linea .= "<td>".number_format($factura['impsolicitado'],"2",",",".")."</td>";
 		} else {
-			$linea .= "<td style='font-size: 7px'>".$factura['periodo']."</td>";
-			$linea .= "<td style='font-size: 7px'>".$factura['cuit']."</td>";
-			$linea .= "<td style='font-size: 7px'>".$factura['comprobante']."</td>";
-			$linea .= "<td style='font-size: 7px'>".$factura['puntoventa']."</td>";
-			$linea .= "<td style='font-size: 7px'>".$factura['nrocomprobante']."</td>";
-			$linea .= "<td style='font-size: 7px'>".number_format($factura['impsolicitado'],"2",",",".")."</td>";
+			$linea .= "<td>".$factura['periodo']."</td>";
+			$linea .= "<td>".$factura['cuit']."</td>";
+			$linea .= "<td>".$factura['comprobante']."</td>";
+			$linea .= "<td>".$factura['puntoventa']."</td>";
+			$linea .= "<td>".$factura['nrocomprobante']."</td>";
+			$linea .= "<td>".number_format($factura['impsolicitado'],"2",",",".")."</td>";
 		}
 		$contadorFacturas++;
 		
@@ -83,33 +89,33 @@ foreach ($arrayCompleto as $key => $subsidio) {
 				if ($contadorPagos != 0) {
 					$linea .= "<tr>";
 					$linea .= "<td></td><td></td><td></td><td></td><td></td><td></td>";
-					$linea .= "<td></td><td style='font-size: 7px'>".$factura['cuit']."</td><td></td><td></td><td></td><td></td>";
-					$linea .= "<td style='font-size: 7px'>".$pago['nroordenpago']."</td>";
-					$linea .= "<td style='font-size: 7px'>".$pago['fechatransferencia']."</td>";
-					$linea .= "<td style='font-size: 7px'>'".$factura['cbu']."'</td>";
-					$linea .= "<td style='font-size: 7px'>".number_format($pago['importepagado'],"2",",",".")."</td>";
-					$linea .= "<td style='font-size: 7px'>".number_format($pago['retganancias'],"2",",",".")."</td>";
-					$linea .= "<td style='font-size: 7px'>".number_format($pago['retingresosbrutos'],"2",",",".")."</td>";
-					$linea .= "<td style='font-size: 7px'>".number_format("0","2",",",".")."</td>";
-					$linea .= "<td style='font-size: 7px'>".number_format($imporPagoS,"2",",",".")."</td>";
-					$linea .= "<td style='font-size: 7px'>".number_format($imporPagoO,"2",",",".")."</td>";
-					$linea .= "<td style='font-size: 7px'>".$pago['recibo']."</td>";
-					$linea .= "<td style='font-size: 7px'>".$pago['asiento']."</td>";
-					$linea .= "<td style='font-size: 7px'>".$pago['folio']."</td>";		
+					$linea .= "<td></td><td>".$factura['cuit']."</td><td></td><td></td><td></td><td></td>";
+					$linea .= "<td>".$pago['nroordenpago']."</td>";
+					$linea .= "<td>".$pago['fechatransferencia']."</td>";
+					$linea .= "<td>'".$factura['cbu']."'</td>";
+					$linea .= "<td>".number_format($pago['importepagado'],"2",",",".")."</td>";
+					$linea .= "<td>".number_format($pago['retganancias'],"2",",",".")."</td>";
+					$linea .= "<td>".number_format($pago['retingresosbrutos'],"2",",",".")."</td>";
+					$linea .= "<td>".number_format("0","2",",",".")."</td>";
+					$linea .= "<td>".number_format($imporPagoS,"2",",",".")."</td>";
+					$linea .= "<td>".number_format($imporPagoO,"2",",",".")."</td>";
+					$linea .= "<td>".$pago['recibo']."</td>";
+					$linea .= "<td>".$pago['asiento']."</td>";
+					$linea .= "<td>".$pago['folio']."</td>";		
 					$linea .= "</tr>";
 				} else {
-					$linea .= "<td style='font-size: 7px'>".$pago['nroordenpago']."</td>";
-					$linea .= "<td style='font-size: 7px'>".$pago['fechatransferencia']."</td>";
-					$linea .= "<td style='font-size: 7px'>'".$factura['cbu']."'</td>";
-					$linea .= "<td style='font-size: 7px'>".number_format($pago['importepagado'],'2',',','.')."</td>";
-					$linea .= "<td style='font-size: 7px'>".number_format($pago['retganancias'],"2",",",".")."</td>";
-					$linea .= "<td style='font-size: 7px'>".number_format($pago['retingresosbrutos'],"2",",",".")."</td>";
-					$linea .= "<td style='font-size: 7px'>".number_format("0","2",",",".")."</td>";
-					$linea .= "<td style='font-size: 7px'>".number_format($imporPagoS,"2",",",".")."</td>";
-					$linea .= "<td style='font-size: 7px'>".number_format($imporPagoO,"2",",",".")."</td>";
-					$linea .= "<td style='font-size: 7px'>".$pago['recibo']."</td>";
-					$linea .= "<td style='font-size: 7px'>".$pago['asiento']."</td>";
-					$linea .= "<td style='font-size: 7px'>".$pago['folio']."</td>";
+					$linea .= "<td>".$pago['nroordenpago']."</td>";
+					$linea .= "<td>".$pago['fechatransferencia']."</td>";
+					$linea .= "<td>'".$factura['cbu']."'</td>";
+					$linea .= "<td>".number_format($pago['importepagado'],'2',',','.')."</td>";
+					$linea .= "<td>".number_format($pago['retganancias'],"2",",",".")."</td>";
+					$linea .= "<td>".number_format($pago['retingresosbrutos'],"2",",",".")."</td>";
+					$linea .= "<td>".number_format("0","2",",",".")."</td>";
+					$linea .= "<td>".number_format($imporPagoS,"2",",",".")."</td>";
+					$linea .= "<td>".number_format($imporPagoO,"2",",",".")."</td>";
+					$linea .= "<td>".$pago['recibo']."</td>";
+					$linea .= "<td>".$pago['asiento']."</td>";
+					$linea .= "<td>".$pago['folio']."</td>";
 				}
 				$contadorPagos++;
 			}
@@ -123,14 +129,14 @@ foreach ($arrayCompleto as $key => $subsidio) {
 }
 
 $lineaTotales = "<tr>
-					 <td style='font-size: 7px' colspan='5'></td>
-					 <td style='font-size: 7px'>".number_format($totalSubsidio,"2",",",".")."</td>
-					 <td style='font-size: 7px' colspan='5'></td>
-					 <td style='font-size: 7px'>".number_format($totalSolicitado,"2",",",".")."</td>
-					 <td style='font-size: 7px' colspan='7'></td>
-					 <td style='font-size: 7px'>".number_format($totalPagoS,"2",",",".")."</td>
-					 <td style='font-size: 7px'>".number_format($totalPagoO,"2",",",".")."</td>
-					 <td style='font-size: 7px' colspan='3'></td>
+					 <td colspan='5'></td>
+					 <td>".number_format($totalSubsidio,"2",",",".")."</td>
+					 <td colspan='5'></td>
+					 <td>".number_format($totalSolicitado,"2",",",".")."</td>
+					 <td colspan='7'></td>
+					 <td>".number_format($totalPagoS,"2",",",".")."</td>
+					 <td>".number_format($totalPagoO,"2",",",".")."</td>
+					 <td colspan='3'></td>
 				</tr>";
 $lineas[$indexLinea] = $lineaTotales;
 

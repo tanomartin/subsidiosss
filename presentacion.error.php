@@ -4,7 +4,7 @@ include_once 'include/conector.php';
 
 if (isset($_GET['id'])) {
 	$idPresentacion = $_GET['id'];	
-	$sqlPresentacion = "SELECT p.*, c.periodo, c.carpeta FROM presentacion p, cronograma c WHERE p.id = $idPresentacion and p.idcronograma = c.id";
+	$sqlPresentacion = "SELECT p.*, c.periodo, c.carpeta FROM intepresentacion p, intecronograma c WHERE p.id = $idPresentacion and p.idcronograma = c.id";
 	$resPresentacion = mysql_query($sqlPresentacion);
 	$rowPresentacion = mysql_fetch_array($resPresentacion);
 }

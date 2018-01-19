@@ -1,22 +1,6 @@
 <?php 
 include_once 'include/conector.php';
-
 $idPresentacion = $_GET['id'];
-$sqlPresentacion = "SELECT
-p.id,
-DATE_FORMAT(p.fechapresentacion, '%d-%m-%Y') as fechapresentacion,
-DATE_FORMAT(p.fechacancelacion, '%d-%m-%Y') as fechacancelacion,
-p.motivocancelacion,
-p.cantfactura,
-p.impcomprobantes,
-p.impsolicitado ,
-cronograma.periodo,
-cronograma.carpeta
-FROM presentacion p
-INNER JOIN cronograma on p.idcronograma = cronograma.id
-WHERE p.id = $idPresentacion";
-$resPresentacion = mysql_query($sqlPresentacion);
-$rowPresentacion = mysql_fetch_array($resPresentacion);
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

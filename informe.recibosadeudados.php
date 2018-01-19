@@ -10,17 +10,24 @@ prestadores.nombre,
 f.cuit,
 f.nrocominterno,
 f.cuil,
-cuildelegaciones.codidelega,
+titulares.codidelega as deletitu, 
+titufami.codidelega as delefami,
 m.descripcion,
 f.nrocomprobante,
 f.periodo,
 f.impcomprobante,
 p.nrotransferencia,
 DATE_FORMAT(p.fechatransferencia,'%d-%m-%Y') as fechatrasferencia,
-prestadores.email,
-prestadores.telefono
-FROM pagos p, presentacion pre, cronograma c, comprobante m, facturas f
-LEFT JOIN cuildelegaciones on f.cuil = cuildelegaciones.cuil
+prestadores.email1,
+prestadores.email2,
+prestadores.ddn1,
+prestadores.telefono1,
+prestadores.ddn2,
+prestadores.telefono2
+FROM intepagos p, intepresentacion pre, intecronograma c, tipocomprobante m, intepresentaciondetalle f
+LEFT JOIN titulares on f.cuil = titulares.cuil
+LEFT JOIN familiares on f.cuil = familiares.cuil
+LEFT JOIN titulares titufami on  familiares.nroafiliado = titufami.nroafiliado
 LEFT JOIN prestadores on f.cuit = prestadores.cuit
 WHERE
   p.recibo = '' and
@@ -31,7 +38,7 @@ WHERE
   f.impmontosubsidio is not null and
   f.idpresentacion = pre.id and
   pre.idcronograma = c.id and
-  f.tipocomprobante = m.codigo
+  f.tipocomprobante = m.id
 group by f.cuit, f.nrocomprobante
 order by f.idpresentacion, f.cuit";
 $resRecibos = mysql_query($sqlRecibos);
@@ -63,8 +70,8 @@ header("Content-Disposition: attachment; filename=$file");
 			 	<th>$ Comprobante</th>
 			 	<th>Nro Transf</th>
 			 	<th>Fecha</th>
-			 	<th>Email</th>
-			 	<th>Telefono</th>
+			 	<th>Emails</th>
+			 	<th>Telefonos</th>
 			 	<th>Observacion</th>
 			 </tr>
 			</thead>
@@ -78,15 +85,15 @@ header("Content-Disposition: attachment; filename=$file");
 			 		<td><?php echo $rowRecibo['cuit'] ?></td>
 			 		<td><?php echo $rowRecibo['nrocominterno'] ?></td>
 			 		<td><?php echo $rowRecibo['cuil'] ?></td>
-			 		<td><?php echo $rowRecibo['codidelega'] ?></td>
+			 		<td><?php echo $rowRecibo['deletitu']." ".$rowRecibo['delefami'] ?></td>
 			 		<td><?php echo $rowRecibo['descripcion'] ?></td>
 			 		<td><?php echo $rowRecibo['nrocomprobante'] ?></td>
 			 		<td><?php echo $rowRecibo['periodo'] ?></td>
 			 		<td><?php echo number_format($rowRecibo['impcomprobante'],"2",",",".") ?></td>
 			 		<td><?php echo $rowRecibo['nrotransferencia'] ?></td>
 			 		<td><?php echo $rowRecibo['fechatrasferencia'] ?></td>
-			 		<td><?php echo $rowRecibo['email'] ?></td>
-			 		<td><?php echo $rowRecibo['telefono'] ?></td>
+			 		<td><?php echo $rowRecibo['email1']." | ".$rowRecibo['email2'] ?></td>
+			 		<td><?php echo "(".$rowRecibo['ddn1'].")".$rowRecibo['telefono1']." | (".$rowRecibo['ddn2'].")".$rowRecibo['telefono1'] ?></td>
 			 		<td></td>
 			 	</tr>
 				<?php } ?>

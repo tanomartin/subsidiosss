@@ -7,7 +7,7 @@ $fecha = $date->format('Y-m-d');
 $monto = $_POST['monto'];
 
 $idPresentacion = $_POST['id'];
-$sqlUpdatePresentacion = "UPDATE presentacion 
+$sqlUpdatePresentacion = "UPDATE intepresentacion 
 							SET fechadeposito = '$fecha', 
 								montodepositado = $monto
 							WHERE id = $idPresentacion";

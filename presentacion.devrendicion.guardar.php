@@ -2,7 +2,9 @@
 include_once 'include/conector.php';
 set_time_limit(0);
 $idPresentacion = $_POST['id'];
-$sqlPresentacion = "SELECT p.*, pi.impsolicitadointegraldok as totdebito, pi.cantintegralok as totalintegralok, c.periodo, c.carpeta FROM presentacion p, presentacionintegral pi, cronograma c WHERE p.id = $idPresentacion and p.idcronograma = c.id and p.id = pi.id";
+$sqlPresentacion = "SELECT p.*, pi.impsolicitadointegraldok as totdebito, pi.cantintegralok as totalintegralok, c.periodo, c.carpeta 
+					FROM intepresentacion p, intepresentacionintegral pi, intecronograma c 
+					WHERE p.id = $idPresentacion and p.idcronograma = c.id and p.id = pi.id";
 $resPresentacion = mysql_query($sqlPresentacion);
 $rowPresentacion = mysql_fetch_array($resPresentacion);
 
@@ -29,7 +31,7 @@ $sumsoli = 0;
 $sumliqui = 0;
 $cantregi = 0;
 $fpok = fopen($archivo, "r");
-$insertRendicion = "INSERT INTO rendicion VALUES ";
+$insertRendicion = "INSERT INTO interendicion VALUES ";
 
 $arrayLiquidado = array();
 $index = "";
@@ -59,7 +61,7 @@ $insertRendicion .= ";";
 fclose($fpok);
 
 $fpcontrol = fopen($archivoControl, "r");
-$insertControl = "INSERT INTO rendicioncontrol VALUE ";
+$insertControl = "INSERT INTO interendicioncontrol VALUE ";
 while(!feof($fpcontrol)) {
 	$linea = fgets($fpcontrol);
 	if ($linea != '') {
@@ -94,7 +96,7 @@ if ($cantregi != $rowPresentacion['totalintegralok']) {
 	exit -1;
 }
 
-$sqlInsertPresentacionRendicion = "INSERT INTO presentacionsubsidio VALUES($idPresentacion, CURDATE(),$nroenvioafip,NULL,$sumsoli,$sumliqui)";
+$sqlInsertPresentacionRendicion = "INSERT INTO intepresentacionsubsidio VALUES($idPresentacion, CURDATE(),$nroenvioafip,NULL,$sumsoli,$sumliqui)";
 
 try {
 	$dbh = new PDO("mysql:host=$hostLocal;dbname=$dbname",$usuarioLocal,$claveLocal);
@@ -110,7 +112,7 @@ try {
 	
 	$dbh->beginTransaction();
 	
-	$sqlRendicion = "SELECT * FROM rendicion WHERE idpresentacion = $idPresentacion";
+	$sqlRendicion = "SELECT * FROM interendicion WHERE idpresentacion = $idPresentacion";
 	$resRendicion = mysql_query($sqlRendicion);
 	$cantidadUpdate = 0;
 	
@@ -121,7 +123,7 @@ try {
 		if ($rowRendicion['tipoarchivo'] == 'DB') { $impsoli = (-1)*$rowRendicion['impsolicitado']; } 
 		
 		$sqlFactura = "SELECT tipoarchivo, nrocominterno,impcomprobanteintegral,impsolicitadointegral, codpractica 
-								FROM facturas 
+								FROM intepresentaciondetalle 
 								WHERE idpresentacion = $idPresentacion and 
 									  deverrorformato is null and 
 									  deverrorintegral is null and 
@@ -141,7 +143,7 @@ try {
 			$cantidadUpdate++;
 			if (round($arrayLiquidado[$indexLiqui],2) >= round($rowRendicion['impsolicitado'],2)) {		
 				$arrayLiquidado[$indexLiqui] -= (float) $rowRendicion['impsolicitado'];
-				$updateFactura = "UPDATE facturas
+				$updateFactura = "UPDATE intepresentaciondetalle
 									SET impsolicitadosubsidio = ".(float) $rowRendicion['impsolicitado'].", 
 										impmontosubsidio = ".(float) $rowRendicion['impsolicitado']." 
 									WHERE idpresentacion = $idPresentacion and 
@@ -163,7 +165,7 @@ try {
 					$nuevoMonto = (float) $arrayLiquidado[$indexLiqui];
 					$arrayLiquidado[$indexLiqui] = 0.00;
 				} 
-				$updateFactura = "UPDATE facturas
+				$updateFactura = "UPDATE intepresentaciondetalle
 									SET impsolicitadosubsidio = ".(float) $rowRendicion['impsolicitado'].",
 										impmontosubsidio = ".(float) $nuevoMonto."
 														WHERE idpresentacion = $idPresentacion and
@@ -194,11 +196,11 @@ try {
 	$dbh->rollback();
 	
 	$dbh->beginTransaction();
-	$sqlDeleteRendicion = "DELETE FROM rendicion WHERE idpresentacion = $idPresentacion";
+	$sqlDeleteRendicion = "DELETE FROM interendicion WHERE idpresentacion = $idPresentacion";
 	$dbh->exec($sqlDeleteRendicion);
-	$sqlDeleteControl =  "DELETE FROM rendicioncontrol WHERE idpresentacion = $idPresentacion";
+	$sqlDeleteControl =  "DELETE FROM interendicioncontrol WHERE idpresentacion = $idPresentacion";
 	$dbh->exec($sqlDeleteControl);
-	$sqlDeletePresentacionRendicion = "DELETE FROM presentacionsubsidio WHERE id = $idPresentacion";
+	$sqlDeletePresentacionRendicion = "DELETE FROM intepresentacionsubsidio WHERE id = $idPresentacion";
 	$dbh->exec($sqlDeletePresentacionRendicion);
 	$dbh->commit();
 	

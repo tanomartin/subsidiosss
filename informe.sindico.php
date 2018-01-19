@@ -2,16 +2,23 @@
 include_once 'include/conector.php';
 set_time_limit(0);
 $idPresentacion = $_GET['id'];
-$sqlSubsidio = "SELECT s.*, n.descripcion, ps.idsss FROM subsidio s, nomenclador n, presentacionsubsidio ps WHERE s.idpresentacion = $idPresentacion and s.idpresentacion = ps.id and s.codigopractica = n.codigo";
+$sqlSubsidio = "SELECT s.*, n.descripcion, ps.idsss 
+				FROM intesubsidio s, practicas n, intepresentacionsubsidio ps 
+				WHERE s.idpresentacion = $idPresentacion and 
+					  s.idpresentacion = ps.id and 
+					  s.codigopractica not in (97,98,99) and 
+					  n.nomenclador = 7 and 
+					  s.codigopractica = n.codigopractica";
 $resSubsidio = mysql_query($sqlSubsidio);
 $arrayCompleto = array();
 $index = 0;
 while ($rowSubsidio = mysql_fetch_array($resSubsidio)) {
 	$arrayCompleto[$index] = $rowSubsidio;
-	$sqlSelectFactura = "SELECT f.*, DATE_FORMAT(f.fechacomprobante, '%d/%m/%Y') as fechacomprobante, comprobante.descripcion as comprobante, prestadores.cbu  
-							FROM facturas f
-							LEFT JOIN prestadores ON f.cuit = prestadores.cuit
-              				LEFT JOIN comprobante ON f.tipocomprobante = comprobante.codigo
+	$sqlSelectFactura = "SELECT f.*, DATE_FORMAT(f.fechacomprobante, '%d/%m/%Y') as fechacomprobante, tipocomprobante.descripcion as comprobante, prestadoresauxiliar.cbu  
+							FROM intepresentaciondetalle f
+							LEFT JOIN tipocomprobante ON f.tipocomprobante = tipocomprobante.id
+							LEFT JOIN prestadores on f.cuit = prestadores.cuit
+							LEFT JOIN prestadoresauxiliar on prestadores.codigoprestador = prestadoresauxiliar.codigoprestador
 							WHERE f.idpresentacion = $idPresentacion and f.deverrorformato is null and 
 								  f.deverrorintegral is null and f.cuil = '".$rowSubsidio['cuil']."' and 
 								  f.periodo = '".$rowSubsidio['periodoprestacion']."' and 
@@ -20,7 +27,7 @@ while ($rowSubsidio = mysql_fetch_array($resSubsidio)) {
 	$resSelectFactura = mysql_query($sqlSelectFactura);
 	while($rowfactura = mysql_fetch_array($resSelectFactura)) {
 		$arrayCompleto[$index]['f'][$rowfactura['nrocominterno']] = $rowfactura;
-		$sqlPagos = "SELECT p.*, DATE_FORMAT(p.fechatransferencia, '%d/%m/%Y') as fechatransferencia FROM pagos p WHERE idpresentacion = $idPresentacion and nrocominterno = ".$rowfactura['nrocominterno'];
+		$sqlPagos = "SELECT p.*, DATE_FORMAT(p.fechatransferencia, '%d/%m/%Y') as fechatransferencia FROM intepagos p WHERE idpresentacion = $idPresentacion and nrocominterno = ".$rowfactura['nrocominterno'];
 		$resPagos = mysql_query($sqlPagos);
 		while($rowPagos = mysql_fetch_array($resPagos)) {
 			$arrayCompleto[$index]['f'][$rowfactura['nrocominterno']]['p'][$rowPagos['nrodepago']] = $rowPagos;

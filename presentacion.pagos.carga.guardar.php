@@ -20,7 +20,7 @@ foreach ($arrayDatosPagos as $key => $data) {
 	$keyArray = explode("-",$key);
 	$norord = $keyArray[0];
 	$nrocomint = $keyArray[1];
-	$sqlUpdatePago[$i] = "UPDATE pagos SET recibo = '".$data['recibo']."', asiento = '".$data['asiento']."', folio = '".$data['folio']."' WHERE idpresentacion = $idPresentacion and nrocominterno = $nrocomint and nroordenpago = $norord";
+	$sqlUpdatePago[$i] = "UPDATE intepagos SET recibo = '".$data['recibo']."', asiento = '".$data['asiento']."', folio = '".$data['folio']."' WHERE idpresentacion = $idPresentacion and nrocominterno = $nrocomint and nroordenpago = $norord";
 	$i++;
 }
 

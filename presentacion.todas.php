@@ -10,37 +10,37 @@ $sqlPresentacion = "SELECT
 						p.impsolicitado,
 						p.impcomprobantesd, 
 						p.impsolicitadod, 
-						cronograma.periodo, 
-						cronograma.carpeta,
-						DATE_FORMAT(presentacionformato.fechadevformato, '%d-%m-%Y') as fechadevformato,
-						presentacionformato.cantformatonok,
-						DATE_FORMAT(presentacionintegral.fechaintegral, '%d-%m-%Y') as fechaintegral,
-						presentacionintegral.cantintegralnok,
-						DATE_FORMAT(presentacionsubsidio.fechasubsidio, '%d-%m-%Y') as fechasubsidio,
+						intecronograma.periodo, 
+						intecronograma.carpeta,
+						DATE_FORMAT(intepresentacionformato.fechadevformato, '%d-%m-%Y') as fechadevformato,
+						intepresentacionformato.cantformatonok,
+						DATE_FORMAT(intepresentacionintegral.fechaintegral, '%d-%m-%Y') as fechaintegral,
+						intepresentacionintegral.cantintegralnok,
+						DATE_FORMAT(intepresentacionsubsidio.fechasubsidio, '%d-%m-%Y') as fechasubsidio,
 						DATE_FORMAT(p.fechadeposito, '%d-%m-%Y') as fechadeposito
-					FROM presentacion p
-          			INNER JOIN cronograma on p.idcronograma = cronograma.id
-				  	LEFT JOIN presentacionformato on p.id = presentacionformato.id
-          			LEFT JOIN presentacionintegral on p.id = presentacionintegral.id
-          			LEFT JOIN presentacionsubsidio on p.id = presentacionsubsidio.id
+					FROM intepresentacion p
+          			INNER JOIN intecronograma on p.idcronograma = intecronograma.id
+				  	LEFT JOIN intepresentacionformato on p.id = intepresentacionformato.id
+          			LEFT JOIN intepresentacionintegral on p.id = intepresentacionintegral.id
+          			LEFT JOIN intepresentacionsubsidio on p.id = intepresentacionsubsidio.id
 					ORDER BY p.id DESC";
 $resPresentacion = mysql_query($sqlPresentacion);
 $canPresentacion = mysql_num_rows($resPresentacion);
 
 $sqlAPresentar = "SELECT c.*,DATE_FORMAT(c.fechacierre,'%d/%m/%Y') as fechacierre 
-					FROM cronograma c 
+					FROM intecronograma c 
 					WHERE fechacierre >=  CURDATE() LIMIT 1";
 $resAPresentar = mysql_query($sqlAPresentar);
 $rowAPresentar = mysql_fetch_array($resAPresentar);
 
 $sqlPresentacionPeriodo = "SELECT *
-							FROM presentacion p
-							LEFT JOIN presentacionsubsidio on p.id = presentacionsubsidio.id
-							WHERE p.fechacancelacion is null and presentacionsubsidio.fechasubsidio is null";
+							FROM intepresentacion p
+							LEFT JOIN intepresentacionsubsidio on p.id = intepresentacionsubsidio.id
+							WHERE p.fechacancelacion is null and intepresentacionsubsidio.fechasubsidio is null";
 $resPresentacionPeriodo  = mysql_query($sqlPresentacionPeriodo);
 $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 
-$sqlPagos = "SELECT idpresentacion from pagos group by idpresentacion";
+$sqlPagos = "SELECT idpresentacion FROM intepagos GROUP BY idpresentacion";
 $resPagos  = mysql_query($sqlPagos);
 $canPagos = mysql_num_rows($resPagos);
 $arrayPagos = array();

@@ -23,10 +23,10 @@ if (isset($_POST['dato']) && isset($_POST['filtro'])) {
 	$cartel .= "<br><br> Presentaciones <b>$pres</b>"; 
 	$resultado = array();
 	if (isset($dato)) {
-		if ($filtro == 0) { $sqlFactura = "SELECT c.periodo as perpres, f.*, p.fechacancelacion, p.fechadeposito FROM facturas f, presentacion p, cronograma c WHERE f.nrocominterno = $dato and f.idpresentacion = p.id and p.idcronograma = c.id"; }
-		if ($filtro == 1) { $sqlFactura = "SELECT c.periodo as perpres, f.*, p.fechacancelacion, p.fechadeposito FROM facturas f, presentacion p, cronograma c WHERE cuit = $dato and f.idpresentacion = p.id and p.idcronograma = c.id"; }
-		if ($filtro == 2) { $sqlFactura = "SELECT c.periodo as perpres, f.*, p.fechacancelacion, p.fechadeposito FROM facturas f, presentacion p, cronograma c WHERE cuil = $dato and f.idpresentacion = p.id and p.idcronograma = c.id"; }
-		if ($filtro == 3) { $sqlFactura = "SELECT c.periodo as perpres, f.*, p.fechacancelacion, p.fechadeposito FROM facturas f, presentacion p, cronograma c WHERE nrocomprobante = $dato and f.idpresentacion = p.id and p.idcronograma = c.id"; }
+		if ($filtro == 0) { $sqlFactura = "SELECT c.periodo as perpres, f.*, p.fechacancelacion, p.fechadeposito FROM intepresentaciondetalle f, intepresentacion p, intecronograma c WHERE f.nrocominterno = $dato and f.idpresentacion = p.id and p.idcronograma = c.id"; }
+		if ($filtro == 1) { $sqlFactura = "SELECT c.periodo as perpres, f.*, p.fechacancelacion, p.fechadeposito FROM intepresentaciondetalle f, intepresentacion p, intecronograma c WHERE cuit = $dato and f.idpresentacion = p.id and p.idcronograma = c.id"; }
+		if ($filtro == 2) { $sqlFactura = "SELECT c.periodo as perpres, f.*, p.fechacancelacion, p.fechadeposito FROM intepresentaciondetalle f, intepresentacion p, intecronograma c WHERE cuil = $dato and f.idpresentacion = p.id and p.idcronograma = c.id"; }
+		if ($filtro == 3) { $sqlFactura = "SELECT c.periodo as perpres, f.*, p.fechacancelacion, p.fechadeposito FROM intepresentaciondetalle f, intepresentacion p, intecronograma c WHERE nrocomprobante = $dato and f.idpresentacion = p.id and p.idcronograma = c.id"; }
 		
 		if ($pres != 'TODAS') {
 			if ($pres == 'CANCELADAS') {

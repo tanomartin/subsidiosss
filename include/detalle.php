@@ -8,30 +8,28 @@ p.impcomprobantes,
 p.impsolicitado,
 p.impcomprobantesd,
 p.impsolicitadod,
-cronograma.periodo,
-cronograma.carpeta,
-DATE_FORMAT(presentacionformato.fechadevformato, '%d-%m-%Y') as fechadevformato,
-presentacionformato.*,
-DATE_FORMAT(presentacionintegral.fechaintegral, '%d-%m-%Y') as fechaintegral,
-presentacionintegral.*,
-DATE_FORMAT(presentacionsubsidio.fechasubsidio, '%d-%m-%Y') as fechasubsidio,
-presentacionsubsidio.impsolicitadosubsidio,
-presentacionsubsidio.montosubsidio,
-rendicioncontrol.importesolicitado,
-rendicioncontrol.importeliquidado,
+intecronograma.periodo,
+intecronograma.carpeta,
+DATE_FORMAT(intepresentacionformato.fechadevformato, '%d-%m-%Y') as fechadevformato,
+intepresentacionformato.*,
+DATE_FORMAT(intepresentacionintegral.fechaintegral, '%d-%m-%Y') as fechaintegral,
+intepresentacionintegral.*,
+DATE_FORMAT(intepresentacionsubsidio.fechasubsidio, '%d-%m-%Y') as fechasubsidio,
+intepresentacionsubsidio.impsolicitadosubsidio,
+intepresentacionsubsidio.montosubsidio,
+interendicioncontrol.importesolicitado,
+interendicioncontrol.importeliquidado,
 DATE_FORMAT(p.fechadeposito, '%d-%m-%Y') as fechadeposito,
 p.montodepositado
-FROM presentacion p
-INNER JOIN cronograma on p.idcronograma = cronograma.id
-LEFT JOIN presentacionformato on p.id = presentacionformato.id
-LEFT JOIN presentacionintegral on p.id = presentacionintegral.id
-LEFT JOIN presentacionsubsidio on p.id = presentacionsubsidio.id
-LEFT JOIN rendicioncontrol on p.id = rendicioncontrol.idpresentacion
+FROM intepresentacion p
+INNER JOIN intecronograma on p.idcronograma = intecronograma.id
+LEFT JOIN intepresentacionformato on p.id = intepresentacionformato.id
+LEFT JOIN intepresentacionintegral on p.id = intepresentacionintegral.id
+LEFT JOIN intepresentacionsubsidio on p.id = intepresentacionsubsidio.id
+LEFT JOIN interendicioncontrol on p.id = interendicioncontrol.idpresentacion
 WHERE p.id = $idPresentacion";
 $resPresentacion = mysql_query($sqlPresentacion);
-$rowPresentacion = mysql_fetch_array($resPresentacion);
-
-?>
+$rowPresentacion = mysql_fetch_array($resPresentacion); ?>
 
 	<h2>Detalle Presentacion</h2>
 	 	<h3>ID: <?php echo $rowPresentacion['idpres']?> - PERIODO: <?php echo $rowPresentacion['periodo'] ?> - CARPETA: <?php echo $rowPresentacion['carpeta'] ?></h3>
@@ -157,9 +155,9 @@ $rowPresentacion = mysql_fetch_array($resPresentacion);
 				<td style="font-size: 11px"><?php echo "Control" ?></td>
 				
 				<?php 
-					$controlSoli = number_format($rowPresentacion['impsolicitadosubsidio'],"2",",",".") - number_format($rowPresentacion['importesolicitado'],"2",",",".");
-					$controlSubs = number_format($rowPresentacion['montosubsidio'],"2",",",".") - number_format($rowPresentacion['importeliquidado'],"2",",",".");
-					$controlDif = (number_format($rowPresentacion['impsolicitadosubsidio']-$rowPresentacion['montosubsidio'],"2",",",".")) - (number_format($rowPresentacion['importesolicitado']-$rowPresentacion['importeliquidado'],"2",",","."));
+					$controlSoli = $rowPresentacion['impsolicitadosubsidio'] - $rowPresentacion['importesolicitado'];
+					$controlSubs = $rowPresentacion['montosubsidio'] - $rowPresentacion['importeliquidado'];
+					$controlDif = ($rowPresentacion['impsolicitadosubsidio']-$rowPresentacion['montosubsidio']) - ($rowPresentacion['importesolicitado']-$rowPresentacion['importeliquidado']);
 					$controlDifPagoOS = $dpagoOS - $dpagoOS; 
 				?>
 				

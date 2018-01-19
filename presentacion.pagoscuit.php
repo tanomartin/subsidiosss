@@ -4,7 +4,8 @@ $idPresentacion = $_GET['id'];
 $canPagos = 0;
 if (isset($_GET['cuit'])) {
 	$nrocuit= $_GET['cuit'];
-	$sqlPagos = "SELECT *, DATE_FORMAT(p.fechatransferencia, '%d-%m-%Y') as fechatransferencia FROM pagos p, facturas f
+	$sqlPagos = "SELECT *, DATE_FORMAT(p.fechatransferencia, '%d-%m-%Y') as fechatransferencia 
+					FROM intepagos p, intepresentaciondetalle f
 					WHERE 
 						p.idpresentacion = $idPresentacion and 
 						p.nrocominterno = f.nrocominterno and

@@ -1,6 +1,6 @@
 <?php 
 include_once 'include/conector.php';
-$sqlErrores = "SELECT * FROM errorsss c ORDER BY id";
+$sqlErrores = "SELECT * FROM inteerror c ORDER BY id";
 $resErrores = mysql_query($sqlErrores);
 
 ?>

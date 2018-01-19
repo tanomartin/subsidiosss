@@ -3,7 +3,18 @@ include_once 'include/conector.php';
 
 $idPresentacion = $_GET['id'];
 $nrocom = $_GET['nro'];
-$sqlFactura = "SELECT * FROM facturas WHERE idpresentacion = $idPresentacion and nrocominterno = $nrocom order by cuit, cuil, nrocomprobante";
+$sqlFactura = "SELECT d.*, titulares.codidelega as deletitu, titufami.codidelega as delefami,
+				CASE
+				  WHEN (prestadores.situacionfiscal in (0,1,4) || (prestadores.situacionfiscal = 3 and prestadores.vtoexento >= CURDATE())) THEN 0
+				  WHEN (prestadores.situacionfiscal = 2 || (prestadores.situacionfiscal = 3 and prestadores.vtoexento < CURDATE())) THEN 1
+				END as retiene
+				FROM intepresentaciondetalle d
+				LEFT JOIN titulares on d.cuil = titulares.cuil
+				LEFT JOIN familiares on d.cuil = familiares.cuil
+				LEFT JOIN titulares titufami on  familiares.nroafiliado = titufami.nroafiliado
+				LEFT JOIN prestadores on d.cuit = prestadores.cuit
+				LEFT JOIN prestadoresauxiliar on prestadores.codigoprestador = prestadoresauxiliar.codigoprestador
+				WHERE d.idpresentacion = $idPresentacion and d.nrocominterno = $nrocom order by d.cuit, d.cuil, d.nrocomprobante";
 $resFactura = mysql_query($sqlFactura);
 ?>
 
@@ -63,15 +74,7 @@ $resFactura = mysql_query($sqlFactura);
 			 	<tbody>
 			<?php 
 				while ($rowFactura = mysql_fetch_array($resFactura)) {  
-					$sqlConsultaDele = "SELECT * FROM cuildelegaciones WHERE cuil = '".$rowFactura['cuil']."'";
-					$resConsultaDele = mysql_query($sqlConsultaDele);
-					$canConsultaDele = mysql_num_rows($resConsultaDele);
-					if ($canConsultaDele > 0) {
-						$rowConsultaDele = mysql_fetch_array($resConsultaDele);
-						$codidelega = $rowConsultaDele['codidelega'];
-					} else {
-						$codidelega = "-";
-					} ?>
+					$codidelega = $rowFactura['deletitu']." ".$rowFactura['delefami']; ?>
 					<tr>
 						<td style="font-size: 11px"><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['tipoarchivo'] ?></td>
@@ -158,19 +161,10 @@ $resFactura = mysql_query($sqlFactura);
 										$importeFactura = (-1)*$rowFactura['impcomprobanteintegral'];
 									}
 									
-									$impChOsp = $importeFactura - $rowFactura['impsolicitadosubsidio'];
-									
-									$sqlRetiene = "SELECT * FROM prestadores WHERE cuit = ".$rowFactura['cuit'];
-									$resRetiene = mysql_query($sqlRetiene);
-									$canRetiene = mysql_num_rows($resRetiene);
-									$retiene = "-";
-									if ($canRetiene == 1) {
-										$rowRetiene = mysql_fetch_array($resRetiene);
-										if ($rowRetiene['retiene'] == 1) {
-											$retiene = "SI";
-										} else {
-											$retiene = "NO";
-										}
+									$impChOsp = $importeFactura - $rowFactura['impsolicitadosubsidio']; 
+						  			$retiene = "NO";
+									if ($rowFactura['retiene'] == 1) {
+										$retiene = "SI";
 									} ?>
 										<td style="font-size: 11px"><?php echo number_format($rowFactura['impsolicitadosubsidio'],2,",",".");  ?></td>
 										<td style="font-size: 11px; color: <?php echo $colorMontInt ?>"><?php echo number_format($rowFactura['impmontosubsidio'],2,",",".");  ?></td>
