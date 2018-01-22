@@ -6,9 +6,9 @@ $sqlSubsidio = "SELECT s.*, n.descripcion, ps.idsss
 				FROM intesubsidio s, practicas n, intepresentacionsubsidio ps 
 				WHERE s.idpresentacion = $idPresentacion and 
 					  s.idpresentacion = ps.id and 
-					  s.codigopractica not in (97,98,99) and 
+					  s.codpractica not in (97,98,99) and 
 					  n.nomenclador = 7 and 
-					  s.codigopractica = n.codigopractica";
+					  s.codpractica = n.codigopractica";
 $resSubsidio = mysql_query($sqlSubsidio);
 $arrayCompleto = array();
 $index = 0;
@@ -23,7 +23,7 @@ while ($rowSubsidio = mysql_fetch_array($resSubsidio)) {
 								  f.deverrorintegral is null and f.cuil = '".$rowSubsidio['cuil']."' and 
 								  f.periodo = '".$rowSubsidio['periodoprestacion']."' and 
 								  f.tipoarchivo != 'DB' and
-								  f.codpractica = ".(int) $rowSubsidio['codigopractica'];
+								  f.codpractica = ".(int) $rowSubsidio['codpractica'];
 	$resSelectFactura = mysql_query($sqlSelectFactura);
 	while($rowfactura = mysql_fetch_array($resSelectFactura)) {
 		$arrayCompleto[$index]['f'][$rowfactura['nrocominterno']] = $rowfactura;
