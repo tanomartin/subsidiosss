@@ -10,34 +10,34 @@ include_once 'include/conector.php';
 </head>
 <body bgcolor="#CCCCCC">
 <div align="center">
-  	<h2>Subsidio S.S.S.</h2>
+  	<h2>INTEGRACION S.S.S.</h2>
   	<table width="600" border="1" style="text-align: center">
       <tr>
-      <td> 
-        <p>Cronograma</p>
+      <td width="200"> 
+        <p>CRONOGRAMA</p>
         <p><a href="cronograma.php"><img src="img/cronograma.png" width="90" height="90" border="0"/></a></p>
 	  </td>
-      <td>
-	    <p>Presentacion</p>
+      <td width="200">
+	    <p>PRESENTACIONES</p>
 	    <p><a href="presentacion.php"><img src="img/presentacion.png" width="90" height="90" border="0" alt="enviar"/></a></p>
 	  </td>
-	  <td>
-	    <p>Buscador</p>
+	  <td width="200">
+	    <p>BUSCADOR</p>
 	    <p><a href="buscador.php"><img src="img/buscar.png" width="90" height="90" border="0" /></a></p>
 	  </td>
 	  
      </tr>	
      <tr>
        <td>
-	    <p>Errores S.S.S.</p>
+	    <p>ERRORES</p>
 	    <p><a href="errores.php"><img src="img/error.png" width="90" height="90" border="0" /></a></p>
 	  </td>
 	  <td>
-	    <p>Comprobantes</p>
+	    <p>COMPROBANTES</p>
 	    <p><a href="comprobantes.php"><img src="img/comprobante.png" width="90" height="90" border="0" alt="enviar"/></a></p>
 	  </td>
 	  <td>
-	    <p>Nomenclador</p>
+	    <p>NOMENCLADOR</p>
 	    <p><a href="nomenclador.php"><img src="img/nomenclador.png" width="90" height="90" border="0" /></a></p>
 	  </td>
 	  </tr>
@@ -48,7 +48,7 @@ include_once 'include/conector.php';
 	    <p></p>
 	  </td>
 	  <td>
-	    <p>Informes</p>
+	    <p>INFORMES</p>
 	    <p><a href="informes.php"><img src="img/excellogo.png" width="90" height="90" border="0" alt="enviar"/></a></p>
 	  </td>
 	  <td>
