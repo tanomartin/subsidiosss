@@ -118,34 +118,12 @@ try {
 	
 	while ($rowRendicion = mysql_fetch_array($resRendicion)) {
 		$indexLiqui = $rowRendicion['cuil']."-".$rowRendicion['periodoprestacion']."-".$rowRendicion['codpractica'];
-		
 		$impsoli = $rowRendicion['impsolicitado'];
-		if ($rowRendicion['tipoarchivo'] == 'DB') { $impsoli = (-1)*$rowRendicion['impsolicitado']; } 
-		
+		if ($rowRendicion['tipoarchivo'] == 'DB') {
+			$impsoli = (-1)*$rowRendicion['impsolicitado'];
+		}
 		$sqlFactura = "SELECT tipoarchivo, nrocominterno,impcomprobanteintegral,impsolicitadointegral, codpractica 
-								FROM intepresentaciondetalle 
-								WHERE idpresentacion = $idPresentacion and 
-									  deverrorformato is null and 
-									  deverrorintegral is null and 
-									  cuil = '".$rowRendicion['cuil']."' and 
-									  periodo = '".$rowRendicion['periodoprestacion']."' and 
-									  codpractica = ".$rowRendicion['codpractica']." and 
-									  cuit = '".$rowRendicion['cuit']."' and
-									  impsolicitadointegral = ".$impsoli." and
-									  tipocomprobante = ".$rowRendicion['tipocomprobante']." and
-									  nrocomprobante = ".$rowRendicion['nrocomprobante']." and
-									  puntoventa = ".$rowRendicion['puntoventa']." and
-									  tipoarchivo = '".$rowRendicion['tipoarchivo']."'";
-		$resFactura = mysql_query($sqlFactura);
-		$canFacutra = mysql_num_rows($resFactura);
-		
-		if ($canFacutra == 1) {
-			$cantidadUpdate++;
-			if (round($arrayLiquidado[$indexLiqui],2) >= round($rowRendicion['impsolicitado'],2)) {		
-				$arrayLiquidado[$indexLiqui] -= (float) $rowRendicion['impsolicitado'];
-				$updateFactura = "UPDATE intepresentaciondetalle
-									SET impsolicitadosubsidio = ".(float) $rowRendicion['impsolicitado'].", 
-										impmontosubsidio = ".(float) $rowRendicion['impsolicitado']." 
+									FROM intepresentaciondetalle 
 									WHERE idpresentacion = $idPresentacion and 
 										  deverrorformato is null and 
 										  deverrorintegral is null and 
@@ -158,28 +136,67 @@ try {
 										  nrocomprobante = ".$rowRendicion['nrocomprobante']." and
 										  puntoventa = ".$rowRendicion['puntoventa']." and
 										  tipoarchivo = '".$rowRendicion['tipoarchivo']."'";
-				
+		$resFactura = mysql_query($sqlFactura);
+		$canFacutra = mysql_num_rows($resFactura);	
+		if ($canFacutra == 1) {
+			$cantidadUpdate++;
+			//NO TENGO EN CUENTA LAS REVERSIONES PORQUE NO ESTA CLARO COMO LO TOMA LA SSS LA AGRUPACION
+			if ($rowRendicion['tipoarchivo'] != 'DB') {
+				if (round($arrayLiquidado[$indexLiqui],2) >= round($rowRendicion['impsolicitado'],2)) {		
+					$arrayLiquidado[$indexLiqui] -= (float) $rowRendicion['impsolicitado'];
+					$updateFactura = "UPDATE intepresentaciondetalle
+										SET impsolicitadosubsidio = ".(float) $rowRendicion['impsolicitado'].", 
+											impmontosubsidio = ".(float) $rowRendicion['impsolicitado']." 
+										WHERE idpresentacion = $idPresentacion and 
+											  deverrorformato is null and 
+											  deverrorintegral is null and 
+											  cuil = '".$rowRendicion['cuil']."' and 
+											  periodo = '".$rowRendicion['periodoprestacion']."' and 
+											  codpractica = ".$rowRendicion['codpractica']." and 
+											  cuit = '".$rowRendicion['cuit']."' and
+											  impsolicitadointegral = ".$impsoli." and
+											  tipocomprobante = ".$rowRendicion['tipocomprobante']." and
+											  nrocomprobante = ".$rowRendicion['nrocomprobante']." and
+											  puntoventa = ".$rowRendicion['puntoventa']." and
+											  tipoarchivo = '".$rowRendicion['tipoarchivo']."'";	
+				} else {
+					$nuevoMonto = 0.00;
+					if ($arrayLiquidado[$indexLiqui] > 0) {
+						$nuevoMonto = (float) $arrayLiquidado[$indexLiqui];
+						$arrayLiquidado[$indexLiqui] = 0.00;
+					} 
+					$updateFactura = "UPDATE intepresentaciondetalle
+										SET impsolicitadosubsidio = ".(float) $rowRendicion['impsolicitado'].",
+											impmontosubsidio = ".(float) $nuevoMonto."
+															WHERE idpresentacion = $idPresentacion and
+															deverrorformato is null and
+															deverrorintegral is null and
+															cuil = '".$rowRendicion['cuil']."' and
+											  periodo = '".$rowRendicion['periodoprestacion']."' and
+											  codpractica = ".$rowRendicion['codpractica']." and
+											  cuit = '".$rowRendicion['cuit']."' and
+											  impsolicitadointegral = ".$impsoli." and
+											  tipocomprobante = ".$rowRendicion['tipocomprobante']." and
+											  nrocomprobante = ".$rowRendicion['nrocomprobante']." and
+											  puntoventa = ".$rowRendicion['puntoventa']." and
+											  tipoarchivo = '".$rowRendicion['tipoarchivo']."'";
+				}
 			} else {
-				$nuevoMonto = 0.00;
-				if ($arrayLiquidado[$indexLiqui] > 0) {
-					$nuevoMonto = (float) $arrayLiquidado[$indexLiqui];
-					$arrayLiquidado[$indexLiqui] = 0.00;
-				} 
+				//SOLO ACTUALIZO EL IMP solicitado, TODO ver como agrupa el imp liquidado en Reversion
 				$updateFactura = "UPDATE intepresentaciondetalle
-									SET impsolicitadosubsidio = ".(float) $rowRendicion['impsolicitado'].",
-										impmontosubsidio = ".(float) $nuevoMonto."
-														WHERE idpresentacion = $idPresentacion and
-														deverrorformato is null and
-														deverrorintegral is null and
-														cuil = '".$rowRendicion['cuil']."' and
-										  periodo = '".$rowRendicion['periodoprestacion']."' and
-										  codpractica = ".$rowRendicion['codpractica']." and
-										  cuit = '".$rowRendicion['cuit']."' and
-										  impsolicitadointegral = ".$impsoli." and
-										  tipocomprobante = ".$rowRendicion['tipocomprobante']." and
-										  nrocomprobante = ".$rowRendicion['nrocomprobante']." and
-										  puntoventa = ".$rowRendicion['puntoventa']." and
-										  tipoarchivo = '".$rowRendicion['tipoarchivo']."'";
+										SET impsolicitadosubsidio = ".(float) $rowRendicion['impsolicitado']."
+										WHERE idpresentacion = $idPresentacion and 
+											  deverrorformato is null and 
+											  deverrorintegral is null and 
+											  cuil = '".$rowRendicion['cuil']."' and 
+											  periodo = '".$rowRendicion['periodoprestacion']."' and 
+											  codpractica = ".$rowRendicion['codpractica']." and 
+											  cuit = '".$rowRendicion['cuit']."' and
+											  impsolicitadointegral = ".$impsoli." and
+											  tipocomprobante = ".$rowRendicion['tipocomprobante']." and
+											  nrocomprobante = ".$rowRendicion['nrocomprobante']." and
+											  puntoventa = ".$rowRendicion['puntoventa']." and
+											  tipoarchivo = '".$rowRendicion['tipoarchivo']."'";	
 			}
 			//echo $updateFactura."<br>";
 			$dbh->exec($updateFactura);
