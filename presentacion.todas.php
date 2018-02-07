@@ -110,10 +110,7 @@ $(function() {
 	<div align="center">
 	 	<p><input type="button" name="volver" value="Volver" onClick="location.href = 'presentacion.php'" /></p>
 	 	<h2>Presentaciones S.S.S.</h2>
-  <?php if ($canPresentacionPeriodo == 0 && $usuario == 'sistemas') {?>
-	 		<p><input type="button" name="nueva" value="Nueva Presentacion" onClick="location.href = 'presentacion.nueva.php'" /></p>
-  <?php } 
-        if ($canPresentacion > 0) {?>
+  <?php if ($canPresentacion > 0) {?>
 
 			 <table id="listaResultado" class="tablesorter" style="text-align: center;">
 			 	<thead>
