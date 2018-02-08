@@ -17,7 +17,8 @@ $sqlPresentacion = "SELECT
 						DATE_FORMAT(intepresentacionintegral.fechaintegral, '%d-%m-%Y') as fechaintegral,
 						intepresentacionintegral.cantintegralnok,
 						DATE_FORMAT(intepresentacionsubsidio.fechasubsidio, '%d-%m-%Y') as fechasubsidio,
-						DATE_FORMAT(p.fechadeposito, '%d-%m-%Y') as fechadeposito
+						DATE_FORMAT(p.fechadeposito, '%d-%m-%Y') as fechadeposito,
+						p.montodepositado
 					FROM intepresentacion p
           			INNER JOIN intecronograma on p.idcronograma = intecronograma.id
 				  	LEFT JOIN intepresentacionformato on p.id = intepresentacionformato.id
@@ -128,7 +129,7 @@ $(function() {
 			 			<th rowspan="2" style="font-size: 11px">Fecha Dev. Integral</th>
 			 			<th rowspan="2" style="font-size: 11px">Fecha Dev. Subsidio</th>
 			 			<th rowspan="2" style="font-size: 11px">Fecha Deposito</th>
-			 			<th rowspan="2" style="font-size: 11px">Fecha Cancelacion</th>
+			 			<th rowspan="2" style="font-size: 11px">Monto Deposito</th>
 			 			<th rowspan="2" style="font-size: 11px">Informacion</th>
 			 			<th rowspan="2" style="font-size: 11px">Errores</th>
 			 			<th rowspan="2" style="font-size: 11px">Acciones</th>
@@ -157,17 +158,17 @@ $(function() {
 						<td style="font-size: 12px"><?php echo $rowPresentacion['fechaintegral'] ?></td>
 						<td style="font-size: 12px"><?php echo $rowPresentacion['fechasubsidio'] ?></td>
 						<td style="font-size: 12px"><?php echo $rowPresentacion['fechadeposito'] ?></td>
-						<td style="font-size: 12px"><?php echo $rowPresentacion['fechacancelacion'] ?></td>
+						<td style="font-size: 12px"><?php echo number_format($rowPresentacion['montodepositado'],2,",",".") ?></td>
 						<td>
 							<input style="margin-bottom: 5px" type="button" value="Facturas" onClick="location.href = 'presentacion.facturas.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
 							<input style="margin-bottom: 5px" type="button" value="Detalle" onClick="location.href = 'presentacion.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
 						</td>
 						<td>
 					<?php	if ($rowPresentacion['fechadevformato'] != NULL && $rowPresentacion['cantformatonok'] != 0) { ?>
-								<input style="margin-bottom: 5px" type="button" value="Err. Formato" onClick="location.href = 'presentacion.erroresformato.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
+								<input style="margin-bottom: 5px" type="button" value="Formato" onClick="location.href = 'presentacion.erroresformato.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
 					<?php   } ?>
 					<?php	if ($rowPresentacion['fechaintegral'] != NULL && $rowPresentacion['cantintegralnok'] != 0) { ?>
-								<input type="button" value="Err. Integral" onClick="location.href = 'presentacion.erroresintegral.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+								<input type="button" value="Integrales" onClick="location.href = 'presentacion.erroresintegral.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 					<?php   } ?>
 						</td>
 				    		 <?php 	if ($rowPresentacion['fechacancelacion'] == NULL) { 
