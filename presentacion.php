@@ -121,7 +121,7 @@ $(function() {
 			 		<tr>
 			 			<th style="font-size: 11px" rowspan="2">Id</th>
 			 			<th rowspan="2" class="filter-select" data-placeholder="Selccione" style="font-size: 11px">Periodo</th>
-			 			<th rowspan="2" style="font-size: 11px" rowspan="2">Cant. Fac.</th>
+			 			<th rowspan="2" style="font-size: 11px" rowspan="2">Cant. Reg.</th>
 			 			<th style="font-size: 11px" colspan="2">Credito</th>
 			 			<th style="font-size: 11px" colspan="2">Debito</th>
 			 			<th rowspan="2" style="font-size: 11px">Fecha Presentacion</th>
