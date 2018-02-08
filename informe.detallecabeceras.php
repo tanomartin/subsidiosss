@@ -57,11 +57,16 @@ $rowPromedio = mysql_fetch_array($resPromedio)
 <script src="include/funcionControl.js" type="text/javascript"></script>
 <link rel="stylesheet" href="include/jquery.tablesorter/themes/theme.blue.css"/>
 <title>.: Presentaciones S.S.S. :.</title>
+
+<style type="text/css" media="print">
+.nover {display:none}
+</style>
+
 </head>
 
 <body bgcolor="#CCCCCC">
 	<div align="center">
-	<p><input type="button" name="volver" value="Volver" onClick="location.href = 'informes.php'" /></p>
+	<p><input class="nover" type="button" name="volver" value="Volver" onClick="location.href = 'informes.php'" /></p>
 	<h2>Datos Totalizadores de Presentaciones</h2>
 	
 	<div class="grilla" style="width: 80%">
