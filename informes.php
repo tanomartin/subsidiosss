@@ -18,11 +18,11 @@
 		  </td>
 	      <td width="200">
 		    <p>Pagos por Presentacion</p>
-		    <p><a href="informe.selectpresentacion.php?informe=pagos"><img src="img/excellogo.png" width="90" height="90" border="0" /></a></p>
+		    <p><a href="#"><img src="img/excellogo.png" width="90" height="90" border="0" /></a></p>
 		  </td>	 
 		  <td width="200">
 		    <p>Pagos Sindico por Presentacion</p>
-		    <p><a href="informe.selectpresentacion.php?informe=sindicos"><img src="img/excellogo.png" width="90" height="90" border="0" /></a></p>
+		    <p><a href="#"><img src="img/excellogo.png" width="90" height="90" border="0" /></a></p>
 		  </td> 
      </tr>	
      <tr>
