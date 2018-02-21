@@ -166,13 +166,14 @@ $(function() {
 			theme: 'blue', 
 			widthFixed: true, 
 			widgets: ["zebra", "filter"],
-			headers:{0:{sorter:false, filter:false},
+			headers:{
+				0:{sorter:false, filter:false},
 				1:{sorter:false, filter:false},
 				2:{sorter:false, filter:false},
 				3:{sorter:false, filter:false},
 				4:{sorter:false, filter:false},
 				5:{sorter:false, filter:false},
-				6:{sorter:false, filter:false},
+				/*6:{sorter:false, filter:false},*/
 				7:{sorter:false, filter:false},
 				8:{sorter:false},
 				9:{sorter:false, filter:false},
@@ -193,7 +194,8 @@ $(function() {
 				25:{sorter:false, filter:false},
 				26:{sorter:false},
 				27:{sorter:false},
-				28:{sorter:false}},
+				28:{sorter:false}
+			},
 			widgetOptions : { 
 				filter_cssFilter   : '',
 				filter_childRows   : false,
