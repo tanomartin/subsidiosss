@@ -22,13 +22,13 @@ interendicioncontrol.importesolicitado,
 interendicioncontrol.importeliquidado,
 DATE_FORMAT(p.fechadeposito, '%d-%m-%Y') as fechadeposito,
 p.montodepositado
-FROM intepresentacion p
+FROM interendicioncontrol c, intepresentacion p
 INNER JOIN intecronograma on p.idcronograma = intecronograma.id
 LEFT JOIN intepresentacionformato on p.id = intepresentacionformato.id
 LEFT JOIN intepresentacionintegral on p.id = intepresentacionintegral.id
 LEFT JOIN intepresentacionsubsidio on p.id = intepresentacionsubsidio.id
 LEFT JOIN interendicioncontrol on p.id = interendicioncontrol.idpresentacion
-WHERE p.fechacancelacion is null ORDER BY p.id DESC";
+WHERE p.fechacancelacion is null and p.id = c.idpresentacion ORDER BY p.id DESC";
 $resPresentacion = mysql_query($sqlPresentacion);
 
 
