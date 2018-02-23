@@ -12,7 +12,7 @@ if (isset($_POST['dato']) && isset($_POST['filtro'])) {
 		$cartel = "Resultados de Busqueda por <b>Nro. Comprobante Interno $dato</b>";
 	}
 	if ($filtro == 1) {
-		$cartel = "Resultados de Busqueda por <b>C.U.I.T. Prestador $dato</b>";
+		$cartel = "Resultados de Busqueda por <b>C.U.I.T. / C.U.E. Prestador $dato</b>";
 	}
 	if ($filtro == 2) {
 		$cartel = "Resultados de Busqueda por <b>C.U.I.L. Afiliado $dato</b>";
@@ -98,10 +98,11 @@ function validar(formulario) {
 		} 
 	}
 	if (formulario.filtro[1].checked) {
-		if (!verificaCuilCuit(formulario.dato.value)) {
-			alert("C.U.I.T. invalido");
+		resultado = esEnteroPositivo(formulario.dato.value);
+		if (!resultado) {
+			alert("El C.U.I.T. / C.U.E. debe ser un numero entero positivo");
 			return false;
-		}
+		} 
 	}
 	if (formulario.filtro[2].checked) {
 		if (!verificaCuilCuit(formulario.dato.value)) {
@@ -155,7 +156,7 @@ function validar(formulario) {
         <td><div align="left"><input type="radio" name="filtro"  value="0" checked="checked" /> Nro. Comprobante Interno </div></td>
       </tr>
       <tr>
-        <td><div align="left"><input type="radio" name="filtro" value="1" /> C.U.I.T. Prestador</div></td>
+        <td><div align="left"><input type="radio" name="filtro" value="1" /> C.U.I.T. / C.U.E. Prestador</div></td>
       </tr>
       <tr>
         <td><div align="left"><input type="radio" name="filtro" value="2" /> C.U.I.L. Afiliado</div></td>
@@ -193,7 +194,7 @@ function validar(formulario) {
 			 			<th style="font-size: 12px">C.U.I.L.</th>
 			 			<th style="font-size: 12px">V. Cert.</th>
 			 			<th style="font-size: 12px" class="filter-select" data-placeholder="Selccione">Periodo</th>
-			 			<th style="font-size: 12px">C.U.I.T.</th>
+			 			<th style="font-size: 12px">C.U.I.T. / C.U.E.</th>
 			 			<th style="font-size: 12px">Fec. Comp.</th>
 			 			<th style="font-size: 12px">C.A.E.</th>
 			 			<th style="font-size: 12px">Pto. Venta</th>
