@@ -73,10 +73,10 @@ $totOtrasRete = 0;
 
 
 foreach ($arrayCompleto as $key => $subsidio) {
-	$totalSubsidio += (float) $subsidio['impsubsidiado'];
 	if (isset($subsidio['f'])) {
 		foreach ($subsidio['f'] as $nrointerno => $factura) {
 			$totalSolicitado += (float) $factura['impsolicitado'];
+			$totalSubsidio += (float) $factura['impmontosubsidio'];
 			if (isset($subsidio['f'][$nrointerno]['p'])) {
 				foreach ($subsidio['f'][$nrointerno]['p'] as $nropago => $pago) {
 					$nrotran = $pago['nrotransferencia'];
@@ -97,7 +97,7 @@ foreach ($arrayCompleto as $key => $subsidio) {
 					$linea .= "<td style='font-size: 11px'>".$subsidio['cuil']."</td>";
 					$linea .= "<td style='font-size: 11px'>".$subsidio['codpractica']."</td>";
 					$linea .= "<td style='font-size: 11px'>".$subsidio['descripcion']."</td>";
-					$linea .= "<td style='font-size: 11px'>".number_format($subsidio['impsubsidiado'],"2",",",".")."</td>";
+					$linea .= "<td style='font-size: 11px'>".number_format($factura['impmontosubsidio'],"2",",",".")."</td>";
 							
 					$linea .= "<td style='font-size: 11px'>".$factura['nrocominterno']."</td>";
 					$linea .= "<td style='font-size: 11px'>".$factura['periodo']."</td>";
@@ -254,7 +254,7 @@ $(function() {
 				2:{sorter:false, filter:false},
 				3:{sorter:false, filter:false},
 				4:{sorter:false, filter:false},
-				5:{sorter:false, filter:false},
+				/*5:{sorter:false, filter:false},*/
 				/*6:{sorter:false, filter:false},*/
 				7:{sorter:false, filter:false},
 				8:{sorter:false},
