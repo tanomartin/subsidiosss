@@ -33,6 +33,7 @@ while ($rowSubsidio = mysql_fetch_array($resSubsidio)) {
 									f.periodo = '".$rowSubsidio['periodoprestacion']."' and 
 									f.tipoarchivo != 'DB' and 
 									f.nrocomprobante = ".$rowSubsidio['nrocomprobante']." and
+									f.puntoventa = ".$rowSubsidio['puntoventa']." and
 									f.codpractica = ".(int) $rowSubsidio['codpractica'];
 	} else {
 		$sqlSelectFactura = "SELECT f.*, tipocomprobante.descripcion as comprobante, prestadoresauxiliar.cbu
@@ -41,11 +42,11 @@ while ($rowSubsidio = mysql_fetch_array($resSubsidio)) {
 								LEFT JOIN prestadoresauxiliar ON prestadores.codigoprestador = prestadoresauxiliar.codigoprestador
 								LEFT JOIN tipocomprobante ON f.tipocomprobante = tipocomprobante.id
 								WHERE
-								f.idpresentacion = $idPresentacion and f.deverrorformato is null and
-								f.deverrorintegral is null and f.cuil = '".$rowSubsidio['cuil']."' and
-															f.periodo = '".$rowSubsidio['periodoprestacion']."' and
-															f.tipoarchivo != 'DB' and
-															f.codpractica = ".(int) $rowSubsidio['codpractica'];
+									f.idpresentacion = $idPresentacion and f.deverrorformato is null and
+									f.deverrorintegral is null and f.cuil = '".$rowSubsidio['cuil']."' and
+									f.periodo = '".$rowSubsidio['periodoprestacion']."' and
+									f.tipoarchivo != 'DB' and
+									f.codpractica = ".(int) $rowSubsidio['codpractica'];
 	}
 	$resSelectFactura = mysql_query($sqlSelectFactura);
 	while($rowfactura = mysql_fetch_array($resSelectFactura)) {
