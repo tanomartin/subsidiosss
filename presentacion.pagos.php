@@ -34,6 +34,7 @@ while ($rowSubsidio = mysql_fetch_array($resSubsidio)) {
 									f.tipoarchivo != 'DB' and 
 									f.nrocomprobante = ".$rowSubsidio['nrocomprobante']." and
 									f.puntoventa = ".$rowSubsidio['puntoventa']." and
+									f.cuit = ".$rowSubsidio['cuit']." and
 									f.codpractica = ".(int) $rowSubsidio['codpractica'];
 	} else {
 		$sqlSelectFactura = "SELECT f.*, tipocomprobante.descripcion as comprobante, prestadoresauxiliar.cbu
