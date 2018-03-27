@@ -163,9 +163,13 @@ $(function() {
 						<td>
 							<input style="margin-bottom: 5px" type="button" value="Facturas" onClick="location.href = 'presentacion.facturas.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
 							<input style="margin-bottom: 5px" type="button" value="Detalle" onClick="location.href = 'presentacion.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
-							<?php if (in_array($rowPresentacion['id'],$arrayPagos) && $rowPresentacion['idcronograma'] > 7) {?>
+							<?php if (in_array($rowPresentacion['id'],$arrayPagos)) {
+								 	if($rowPresentacion['idcronograma'] > 7) {?>
 										<input type="button" value="Pagos" onClick="location.href = 'presentacion.pagos.divididos.php?id=<?php echo $rowPresentacion['id'] ?>'"/>									
-							<?php } ?>
+							  <?php } else {?>
+										<input type="button" value="Pagos TS/TO" onClick="location.href = 'presentacion.pagos.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+							<?php 	}
+								 }  ?>
 						</td>
 						<td>
 					<?php	if ($rowPresentacion['fechadevformato'] != NULL && $rowPresentacion['cantformatonok'] != 0) { ?>
@@ -212,7 +216,6 @@ $(function() {
 				     							<?php 	} else {  ?>
 				     										<td>
 				     										<?php if (in_array($rowPresentacion['id'],$arrayPagos)) {?>
-				     												<input style="margin-top: 5px" type="button" value="Info. Pagos" onClick="location.href = 'presentacion.pagos.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 				     												<input style="margin-top: 5px" type="button" value="Pagos x CUIT" onClick="location.href = 'presentacion.pagoscuit.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 				     										<?php }?>
 				     										</td>

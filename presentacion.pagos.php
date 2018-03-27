@@ -140,7 +140,7 @@ foreach ($arrayCompleto as $key => $subsidio) {
 						$linea .= "<td style='font-size: 11px'>".$pago['folio']."</td>";
 					}
 						
-					$linea .= "<td style='font-size: 11px'><input type='button' value='Cargar' onclick='location=\"presentacion.pagos.carga.php?idpresentacion=$idPresentacion&nrocomint=".$factura['nrocominterno']."&norord=".$pago['nroordenpago']."\"'/></td>";
+					//$linea .= "<td style='font-size: 11px'><input type='button' value='Cargar' onclick='location=\"presentacion.pagos.carga.php?idpresentacion=$idPresentacion&nrocomint=".$factura['nrocominterno']."&norord=".$pago['nroordenpago']."\"'/></td>";
 					$linea .= "</tr>";
 							
 					$lineas[$indexLinea] = $linea;
@@ -175,7 +175,7 @@ foreach ($arrayCompleto as $key => $subsidio) {
 				
 				$linea .= "<td style='font-size: 11px'>-</td>";
 				$linea .= "<td style='font-size: 11px'>-</td>";
-				$linea .= "<td style='font-size: 11px'>-</td>";
+				//$linea .= "<td style='font-size: 11px'>-</td>";
 			}
 		}
 	} else {
@@ -207,7 +207,7 @@ foreach ($arrayCompleto as $key => $subsidio) {
 		
 		$linea .= "<td style='font-size: 11px'>-</td>";
 		$linea .= "<td style='font-size: 11px'>-</td>";
-		$linea .= "<td style='font-size: 11px'>-</td>";
+		//$linea .= "<td style='font-size: 11px'>-</td>";
 		
 		$lineas[$indexLinea] = $linea;
 		$indexLinea++;
@@ -351,7 +351,7 @@ $(function() {
 				 		<th style="font-size: 11px">NRO. RECIBO</th>
 				 		<th style="font-size: 11px">ASI</th>
 				 		<th style="font-size: 11px">FOL</th>
-				 		<th style="font-size: 11px"></th>
+				 	<!-- <th style="font-size: 11px"></th>  -->	
 				 	</tr>
 				 </thead>
 				 <tbody>

@@ -123,6 +123,24 @@ foreach ($arrayCompleto as $key => $subsidio) {
 					$linea .= "<td style='font-size: 11px; $color'>".number_format($imporPagoO,"2",",","")."</td>";
 					$linea .= "<td style='font-size: 11px; $color'>".number_format($imporPagoF,"2",",","")."</td>";
 					$linea .= "<td style='font-size: 11px; $color'>".number_format($control,"2",",","")."</td>";				
+					
+					if ($pago['recibo'] == null) {
+						$linea .= "<td style='font-size: 11px'>-</td>";
+					} else {
+						$linea .= "<td style='font-size: 11px'>".$pago['recibo']."</td>";
+					}
+					if ($pago['asiento'] == null) {
+						$linea .= "<td style='font-size: 11px'>-</td>";
+					} else {
+						$linea .= "<td style='font-size: 11px'>".$pago['asiento']."</td>";
+					}
+					
+					if ($pago['folio'] == null) {
+						$linea .= "<td style='font-size: 11px'>-</td>";
+					} else {
+						$linea .= "<td style='font-size: 11px'>".$pago['folio']."</td>";
+					}
+					
 					$linea .= "</tr>";
 							
 					$lineas[$indexLinea] = $linea;
@@ -150,6 +168,9 @@ foreach ($arrayCompleto as $key => $subsidio) {
 				$linea .= "<td style='font-size: 11px'>-</td>";
 				$linea .= "<td style='font-size: 11px'>-</td>";
 				$linea .= "<td style='font-size: 11px'>-</td>";
+				$linea .= "<td style='font-size: 11px'>-</td>";
+				$linea .= "<td style='font-size: 11px'>-</td>";
+				$linea .= "<td style='font-size: 11px'>-</td>";
 			}
 		}
 	} else {
@@ -164,6 +185,9 @@ foreach ($arrayCompleto as $key => $subsidio) {
 		$linea .= "<td style='font-size: 11px'>-</td>";
 		$linea .= "<td style='font-size: 11px'>-</td>";
 			
+		$linea .= "<td style='font-size: 11px'>-</td>";
+		$linea .= "<td style='font-size: 11px'>-</td>";
+		$linea .= "<td style='font-size: 11px'>-</td>";
 		$linea .= "<td style='font-size: 11px'>-</td>";
 		$linea .= "<td style='font-size: 11px'>-</td>";
 		$linea .= "<td style='font-size: 11px'>-</td>";
@@ -288,7 +312,7 @@ $(function() {
 				 	<tr>
 				 		<th  style="font-size: 11px" colspan="3">LIQ SSSALUD</th>
 				 		<th  style="font-size: 11px" colspan="8">INF. PRESENTADA POR LA OS EN CADA PERIODO</th>
-				 		<th  style="font-size: 11px" colspan="14">INFORMACION ADICIONAL QUE DEBE COMPLETAR LA OBRA SOCIAL</th>
+				 		<th  style="font-size: 11px" colspan="17">INFORMACION ADICIONAL QUE DEBE COMPLETAR LA OBRA SOCIAL</th>
 				 	</tr>
 				 	<tr>
 				 		<th style="font-size: 11px">MES PRESTAC</th>
@@ -310,6 +334,9 @@ $(function() {
 				 		<th style="font-size: 11px">IMPORTE FONDOS PROPIOS</th>
 				 		<th style="font-size: 11px">IMPORTE F.I./DEB.</th>
 				 		<th style="font-size: 11px">CONTROL</th>
+				 		<th style="font-size: 11px">NRO. RECIBO</th>
+				 		<th style="font-size: 11px">ASI</th>
+				 		<th style="font-size: 11px">FOL</th>
 				 	</tr>
 				 </thead>
 				 <tbody>
