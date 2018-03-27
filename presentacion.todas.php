@@ -10,6 +10,7 @@ $sqlPresentacion = "SELECT
 						p.impsolicitado,
 						p.impcomprobantesd, 
 						p.impsolicitadod, 
+						p.idcronograma , 
 						intecronograma.periodo, 
 						intecronograma.carpeta,
 						DATE_FORMAT(intepresentacionformato.fechadevformato, '%d-%m-%Y') as fechadevformato,
@@ -128,7 +129,7 @@ $(function() {
 			 			<th rowspan="2" style="font-size: 11px">Fecha Cancelacion</th>
 			 			<th rowspan="2" style="font-size: 11px">Informacion</th>
 			 			<th rowspan="2" style="font-size: 11px">Errores</th>
-			 			<th rowspan="2" style="font-size: 11px">Acciones</th>
+			 			<!-- <th rowspan="2" style="font-size: 11px">Acciones</th>  -->
 			 			<th rowspan="2" class="filter-select" data-placeholder="Selccione" style="font-size: 11px">Estado</th>
 			 		</tr>
 			 		<tr>
@@ -157,6 +158,13 @@ $(function() {
 						<td>
 							<input style="margin-bottom: 5px" type="button" value="Facturas" onClick="location.href = 'presentacion.facturas.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
 							<input style="margin-bottom: 5px" type="button" value="Detalle" onClick="location.href = 'presentacion.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
+							<?php if (in_array($rowPresentacion['id'],$arrayPagos)) {
+								 	if($rowPresentacion['idcronograma'] > 7) {?>
+										<input type="button" value="Pagos" onClick="location.href = 'presentacion.pagos.divididos.php?id=<?php echo $rowPresentacion['id'] ?>'"/>									
+							  <?php } else {?>
+										<input type="button" value="Pagos TS/TO" onClick="location.href = 'presentacion.pagos.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+							<?php 	}
+								 }  ?>
 						</td>
 						<td>
 					<?php	if ($rowPresentacion['fechadevformato'] != NULL && $rowPresentacion['cantformatonok'] != 0) { ?>
@@ -167,54 +175,12 @@ $(function() {
 					<?php   } ?>
 						</td>
 				    		 <?php 	if ($rowPresentacion['fechacancelacion'] == NULL) { 
-				    		 			if ($usuario != 'sistemas') { $display = 'style="display: none; margin-bottom: 5px"'; $displayp = ''; } else { $display = 'style="margin-bottom: 5px"'; $displayp = 'style="display: none"'; };
-				    					if ($rowPresentacion['fechapresentacion'] == NULL) { ?>
-											<td>
-												<input <?php echo $display ?> type="button" value="Cancelar" onClick="location.href = 'presentacion.cancelar.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
-												<input <?php echo $display ?> type="button" value="Generar Archivo" onClick="location.href = 'presentacion.archivo.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-											</td>
-											<td><font size="2px">EN PROCESO</font></td>
-					  		   	  <?php } else { 
-											if ($rowPresentacion['fechadevformato'] == NULL) { ?>
-												<td>
-													<input <?php echo $display ?> type="button" value="Cancelar" onClick="location.href = 'presentacion.cancelar.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
-													<input <?php echo $display ?> type="button" value="Formato" onClick="location.href = 'presentacion.devformato.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-					  			  	  			</td>
-					  			  	  			<td><font size="2px">EN PROCESO</font></td>
-					  			  	  <?php } else { 
-					  			  	  			if ($rowPresentacion['fechaintegral'] == NULL) { ?>
-					  			  	  				<td>
-					  			  	  					<input <?php echo $display ?> type="button" value="Cancelar" onClick="location.href = 'presentacion.cancelar.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
-														<input <?php echo $display ?> type="button" value="Integral" onClick="location.href = 'presentacion.devintegral.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-					  			  	  				</td>
-					  			  	  				<td><font size="2px">EN PROCESO</font></td>	
-					  			  	  	  <?php } else { 	
-				      								if ($rowPresentacion['fechasubsidio'] == NULL) { ?>
-				      									<td>
-				      										<input <?php echo $display ?> type="button" value="Cancelar" onClick="location.href = 'presentacion.cancelar.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
-				      								<!--  <input <?php echo $display ?> type="button" value="Subsidio" onClick="location.href = 'presentacion.devsubsidio.php?id=<?php echo $rowPresentacion['id'] ?>'"/> -->		
-				     			 		  	 				<input <?php echo $display ?> type="button" value="Rendicion" onClick="location.href = 'presentacion.devrendicion.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-				     			 		  	 			</td>
-				     			 		  	 			<td><font size="2px">EN PROCESO</font></td>	
-				     			 		  	  <?php } else { 
-				     			 		  				if ($rowPresentacion['fechadeposito'] == NULL) {?>
-				     										<td><input <?php echo $display ?> type="button" value="Deposito" onClick="location.href = 'presentacion.deposito.php?id=<?php echo $rowPresentacion['id'] ?>'"/></td>
-				     										<td><font size="2px">EN PROCESO</font>	</td>
-				     							<?php 	} else {  ?>
-				     										<td>
-				     										<?php if (in_array($rowPresentacion['id'],$arrayPagos)) {?>
-				     												<input style="margin-top: 5px" type="button" value="Info. Pagos" onClick="location.href = 'presentacion.pagos.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-				     												<input style="margin-top: 5px" type="button" value="Pagos x CUIT" onClick="location.href = 'presentacion.pagoscuit.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-				     										<?php }?>
-				     										</td>
-				     										<td><font color="blue" size="2px">FINALIZADA</font>	</td>
-				     			 		  		<?php	} 
-				     			 		 			}
-					  			  	  	  		}
-					  			  	  		}
-					  			  	  	}	
+				     			 		if ($rowPresentacion['fechadeposito'] == NULL) {?>
+				     						<td><font size="2px">EN PROCESO</font>	</td>
+				     			<?php 	} else {  ?>
+				     						<td><font color="blue" size="2px">FINALIZADA</font>	</td>
+				     			 <?php	} 
 				      				} else { ?>
-				      					<td></td>
 				      					<td><font color="red" size="2px">CANCELADA</font></td>
 				     			<?php  } ?>
 						</td>
