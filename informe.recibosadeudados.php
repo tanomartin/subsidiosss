@@ -102,6 +102,4 @@ header("Content-Disposition: attachment; filename=$file");
 			</tbody>
 		</table>
 	</div>
-	
-	
 </body>
