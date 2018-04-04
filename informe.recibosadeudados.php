@@ -94,8 +94,20 @@ header("Content-Disposition: attachment; filename=$file");
 			 		<td><?php echo $rowRecibo['nrotransferencia'] ?></td>
 			 		<td><?php echo number_format($rowRecibo['importepagado'],"2",",",".") ?></td>
 			 		<td><?php echo $rowRecibo['fechatrasferencia'] ?></td>
-			 		<td><?php echo $rowRecibo['email1']." | ".$rowRecibo['email2'] ?></td>
-			 		<td><?php echo "(".$rowRecibo['ddn1'].")".$rowRecibo['telefono1']." | (".$rowRecibo['ddn2'].")".$rowRecibo['telefono1'] ?></td>
+			 		<?php $emails =  $rowRecibo['email1']." ".$rowRecibo['email2'];
+			 		  if ($rowRecibo['email1']!= "" && $rowRecibo['email2']!= "") {
+			 				$emails = $rowRecibo['email1']." | ".$rowRecibo['email2'];
+					  } ?>
+			 		<td><?php echo $emails ?></td>
+			 		<?php $telefono1 = "(".$rowRecibo['ddn1'].") ".$rowRecibo['telefono1'];
+			 			  $telefono2 = "(".$rowRecibo['ddn2'].") ".$rowRecibo['telefono2']; 
+			 			  if ($telefono1 == "() ") { $telefono1 = ""; } 
+ 						  if ($telefono2 == "() ") { $telefono2 = ""; }
+ 						  $telefonos = $telefono1." ".$telefono2;
+ 						  if ($telefono1 != "" && $telefono2 != "") { 
+ 						  		$telefonos = $telefono1." | ".$telefono2; 
+ 						  }  ?>
+			 		<td><?php echo $telefonos ?></td>
 			 		<td></td>
 			 	</tr>
 			<?php } ?>
