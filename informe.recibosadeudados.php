@@ -17,6 +17,7 @@ f.nrocomprobante,
 f.periodo,
 f.impcomprobante,
 p.nrotransferencia,
+p.importepagado,
 DATE_FORMAT(p.fechatransferencia,'%d-%m-%Y') as fechatrasferencia,
 prestadores.email1,
 prestadores.email2,
@@ -52,31 +53,31 @@ header("Content-Disposition: attachment; filename=$file");
 <body>
 	<div align="center">
 		<h2>Recibos Adeudados</h2>
-		
 		<table border="1">
 			<thead>
-			 <tr>
-			 	<th>Id. Pres.</th>
-			 	<th>Carpeta</th>
-			 	<th>Periodo</th>
-			 	<th>Prestador</th>
-			 	<th>C.U.I.T.</th>
-			 	<th>Nro. Interno</th>
-			 	<th>C.U.I.L.</th>
-			 	<th>Delegacion</th>
-			 	<th>Tipo Compr.</th>
-			 	<th>Nro Compr.</th>
-			 	<th>Periodo</th>
-			 	<th>$ Comprobante</th>
-			 	<th>Nro Transf</th>
-			 	<th>Fecha</th>
-			 	<th>Emails</th>
-			 	<th>Telefonos</th>
-			 	<th>Observacion</th>
-			 </tr>
+				<tr>
+				 	<th>Id. Pres.</th>
+				 	<th>Carpeta</th>
+				 	<th>Periodo</th>
+				 	<th>Prestador</th>
+				 	<th>C.U.I.T.</th>
+				 	<th>Nro. Interno</th>
+				 	<th>C.U.I.L.</th>
+				 	<th>Delegacion</th>
+				 	<th>Tipo Compr.</th>
+				 	<th>Periodo</th>
+				 	<th>Nro Compr.</th>
+				 	<th>$ Comprobante</th>
+				 	<th>Nro Transf</th>
+				 	<th>$ Transferido</th>
+				 	<th>Fecha</th>
+				 	<th>Emails</th>
+				 	<th>Telefonos</th>
+				 	<th>Observacion</th>
+				</tr>
 			</thead>
 			<tbody>
-				<?php while ($rowRecibo = mysql_fetch_assoc($resRecibos)) {  ?>
+			<?php while ($rowRecibo = mysql_fetch_assoc($resRecibos)) {  ?>
 				<tr>
 			 		<td><?php echo $rowRecibo['idpresentacion'] ?></td>
 			 		<td><?php echo $rowRecibo['carpeta'] ?></td>
@@ -87,16 +88,17 @@ header("Content-Disposition: attachment; filename=$file");
 			 		<td><?php echo $rowRecibo['cuil'] ?></td>
 			 		<td><?php echo $rowRecibo['deletitu']." ".$rowRecibo['delefami'] ?></td>
 			 		<td><?php echo $rowRecibo['descripcion'] ?></td>
-			 		<td><?php echo $rowRecibo['nrocomprobante'] ?></td>
 			 		<td><?php echo $rowRecibo['periodo'] ?></td>
+			 		<td><?php echo $rowRecibo['nrocomprobante'] ?></td>
 			 		<td><?php echo number_format($rowRecibo['impcomprobante'],"2",",",".") ?></td>
 			 		<td><?php echo $rowRecibo['nrotransferencia'] ?></td>
+			 		<td><?php echo number_format($rowRecibo['importepagado'],"2",",",".") ?></td>
 			 		<td><?php echo $rowRecibo['fechatrasferencia'] ?></td>
 			 		<td><?php echo $rowRecibo['email1']." | ".$rowRecibo['email2'] ?></td>
 			 		<td><?php echo "(".$rowRecibo['ddn1'].")".$rowRecibo['telefono1']." | (".$rowRecibo['ddn2'].")".$rowRecibo['telefono1'] ?></td>
 			 		<td></td>
 			 	</tr>
-				<?php } ?>
+			<?php } ?>
 			</tbody>
 		</table>
 	</div>
