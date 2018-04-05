@@ -18,6 +18,7 @@ f.periodo,
 f.impcomprobante,
 p.nrotransferencia,
 p.importepagado,
+p.retingresosbrutos + p.retganancias as rete,
 DATE_FORMAT(p.fechatransferencia,'%d-%m-%Y') as fechatrasferencia,
 prestadores.email1,
 prestadores.email2,
@@ -69,6 +70,7 @@ header("Content-Disposition: attachment; filename=$file");
 				 	<th>Nro Compr.</th>
 				 	<th>$ Comprobante</th>
 				 	<th>Nro Transf</th>
+				 	<th>$ Retencion</th>
 				 	<th>$ Transferido</th>
 				 	<th>Fecha</th>
 				 	<th>Emails</th>
@@ -92,6 +94,7 @@ header("Content-Disposition: attachment; filename=$file");
 			 		<td><?php echo $rowRecibo['nrocomprobante'] ?></td>
 			 		<td><?php echo number_format($rowRecibo['impcomprobante'],"2",",",".") ?></td>
 			 		<td><?php echo $rowRecibo['nrotransferencia'] ?></td>
+			 		<td><?php echo number_format($rowRecibo['rete'],"2",",",".") ?></td>
 			 		<td><?php echo number_format($rowRecibo['importepagado'],"2",",",".") ?></td>
 			 		<td><?php echo $rowRecibo['fechatrasferencia'] ?></td>
 			 		<?php $emails =  $rowRecibo['email1']." ".$rowRecibo['email2'];
