@@ -140,7 +140,6 @@ try {
 		$canFacutra = mysql_num_rows($resFactura);	
 		if ($canFacutra == 1) {
 			$cantidadUpdate++;
-			//NO TENGO EN CUENTA LAS REVERSIONES PORQUE NO ESTA CLARO COMO LO TOMA LA SSS LA AGRUPACION
 			if ($rowRendicion['tipoarchivo'] != 'DB') {
 				if (round($arrayLiquidado[$indexLiqui],2) >= round($rowRendicion['impsolicitado'],2)) {		
 					$arrayLiquidado[$indexLiqui] -= (float) $rowRendicion['impsolicitado'];
@@ -168,23 +167,24 @@ try {
 					$updateFactura = "UPDATE intepresentaciondetalle
 										SET impsolicitadosubsidio = ".(float) $rowRendicion['impsolicitado'].",
 											impmontosubsidio = ".(float) $nuevoMonto."
-															WHERE idpresentacion = $idPresentacion and
-															deverrorformato is null and
-															deverrorintegral is null and
-															cuil = '".$rowRendicion['cuil']."' and
-											  periodo = '".$rowRendicion['periodoprestacion']."' and
-											  codpractica = ".$rowRendicion['codpractica']." and
-											  cuit = '".$rowRendicion['cuit']."' and
-											  impsolicitadointegral = ".$impsoli." and
-											  tipocomprobante = ".$rowRendicion['tipocomprobante']." and
-											  nrocomprobante = ".$rowRendicion['nrocomprobante']." and
-											  puntoventa = ".$rowRendicion['puntoventa']." and
-											  tipoarchivo = '".$rowRendicion['tipoarchivo']."'";
+									  WHERE idpresentacion = $idPresentacion and
+										 	deverrorformato is null and
+											deverrorintegral is null and
+											cuil = '".$rowRendicion['cuil']."' and
+											periodo = '".$rowRendicion['periodoprestacion']."' and
+											codpractica = ".$rowRendicion['codpractica']." and
+											cuit = '".$rowRendicion['cuit']."' and
+											impsolicitadointegral = ".$impsoli." and
+											tipocomprobante = ".$rowRendicion['tipocomprobante']." and
+											nrocomprobante = ".$rowRendicion['nrocomprobante']." and
+											puntoventa = ".$rowRendicion['puntoventa']." and
+											tipoarchivo = '".$rowRendicion['tipoarchivo']."'";
 				}
 			} else {
-				//SOLO ACTUALIZO EL IMP solicitado, TODO ver como agrupa el imp liquidado en Reversion
+				$montoDebito = (float) $arrayLiquidado[$indexLiqui];
 				$updateFactura = "UPDATE intepresentaciondetalle
-										SET impsolicitadosubsidio = ".(float) $rowRendicion['impsolicitado']."
+										SET impsolicitadosubsidio = ".(float) $rowRendicion['impsolicitado'].",
+											impmontosubsidio = ".(float) $montoDebito."
 										WHERE idpresentacion = $idPresentacion and 
 											  deverrorformato is null and 
 											  deverrorintegral is null and 
