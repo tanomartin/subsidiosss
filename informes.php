@@ -13,27 +13,26 @@
   	<table width="600" border="1" style="text-align: center">
       <tr>
 	      <td width="200"> 
-	        <p>Detalle por Presentacion</p>
+	        <p>DETALLE</br> X PRESENTACION</p>
 	        <p><a href="informe.selectpresentacion.php?informe=detalle"><img src="img/excellogo.png" width="90" height="90" border="0"/></a></p>
 		  </td>
 	      <td width="200">
-		    <p>Pagos por Presentacion</p>
+		    <p>PAGOS</br> X PRESENTACION</p>
 		    <p><a href="#"><img src="img/excellogo.png" width="90" height="90" border="0" /></a></p>
 		  </td>	 
 		  <td width="200">
-		    <p>Pagos Sindico por Presentacion</p>
+		    <p>PAGOS SINDICO</br> X PRESENTACION</p>
 		    <p><a href="#"><img src="img/excellogo.png" width="90" height="90" border="0" /></a></p>
 		  </td> 
      </tr>	
      <tr>
 		  <td>
-		    <p>Recibos Adeudados</p>
+		    <p>RECIBO ADEUDADOS</p>
 		    <p><a href="informe.recibosadeudados.php"><img src="img/excellogo.png" width="90" height="90" border="0"/></a></p>
 		  </td>
 		  <td>
-		  	 <p>Detalle Cabeceras</br> Finalizadas</p>
+		  	 <p>DETALLE CABECERAS</br>FINALIZADAS</p>
 		    <p><a href="informe.detallecabeceras.php"><img src="img/pantalla.png" width="90" height="90" border="0"/></a></p>
-	
 		  </td>
 		  <td>
 		  </td>
