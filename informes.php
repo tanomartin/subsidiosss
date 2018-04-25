@@ -31,10 +31,12 @@
 		    <p><a href="informe.recibosadeudados.php"><img src="img/excellogo.png" width="90" height="90" border="0"/></a></p>
 		  </td>
 		  <td>
-		  	 <p>DETALLE CABECERAS</br>FINALIZADAS</p>
-		    <p><a href="informe.detallecabeceras.php"><img src="img/pantalla.png" width="90" height="90" border="0"/></a></p>
+		  	 <p>FACTURAS CONTROL</br> REPETICIONES</p>
+		    <p><a href="informe.controlrepeticiones.php"><img src="img/excellogo.png" width="90" height="90" border="0"/></a></p>
 		  </td>
 		  <td>
+		  	<p>DETALLE CABECERAS</br>FINALIZADAS</p>
+		    <p><a href="informe.detallecabeceras.php"><img src="img/pantalla.png" width="90" height="90" border="0"/></a></p>
 		  </td>
 	  </tr>
     </tr>
