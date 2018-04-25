@@ -4,11 +4,11 @@ set_time_limit(0);
 
 $sqlRepeticiones = "SELECT 
 						tipoarchivo,periodo,cuit,cuil,codpractica,count(*) as cantidad,
-						sum(impsolicitadointegral) as solicitado, sum(impmontosubsidio) as subsidio
+						sum(impsolicitadointegral) as solicitado, sum(impmontosubsidio) as subsidio, sum(impsolicitadointegral) - sum(impmontosubsidio) as diferencia
 					FROM intepresentaciondetalle i, intepresentacionsubsidio s
 					WHERE i.idpresentacion = s.id and codpractica not in (90,96)
 					GROUP BY tipoarchivo,periodo,cuit,cuil,codpractica HAVING cantidad > 1 and solicitado > subsidio
-					ORDER BY cantidad DESC, periodo ASC";
+					ORDER BY diferencia ASC, periodo ASC";
 $resRepeticiones = mysql_query($sqlRepeticiones);
 
 $today = date("m-d-y");
@@ -45,8 +45,7 @@ header("Content-Disposition: attachment; filename=$file");
 			 		<td><?php echo $rowRepeticiones['cantidad'] ?></td>
 			 		<td><?php echo number_format($rowRepeticiones['solicitado'],"2",",",".") ?></td>
 			 		<td><?php echo number_format($rowRepeticiones['subsidio'],"2",",",".") ?></td>
-			 		<?php $dif = (float)$rowRepeticiones['solicitado']  - (float)$rowRepeticiones['subsidio']; ?>
-			 		<td><?php echo number_format($dif,"2",",",".") ?></td>
+			 		<td><?php echo number_format($rowRepeticiones['diferencia'],"2",",",".") ?></td>
 			 		<td></td>
 			 	</tr>
 			<?php } ?>
