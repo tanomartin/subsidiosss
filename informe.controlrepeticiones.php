@@ -12,7 +12,7 @@ $sqlRepeticiones = "SELECT
 $resRepeticiones = mysql_query($sqlRepeticiones);
 
 $today = date("m-d-y");
-$file= "Control Repeticiones al $today.xls";
+$file= "Control Repeticiones $today.xls";
 header("Content-type: application/vnd.ms-excel");
 header("Content-Disposition: attachment; filename=$file");
 
