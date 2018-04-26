@@ -168,10 +168,10 @@ $(function() {
 						</td>
 						<td>
 					<?php	if ($rowPresentacion['fechadevformato'] != NULL && $rowPresentacion['cantformatonok'] != 0) { ?>
-								<input style="margin-bottom: 5px" type="button" value="Err. Formato" onClick="location.href = 'presentacion.erroresformato.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
+								<input style="margin-bottom: 5px" type="button" value="Formato" onClick="location.href = 'presentacion.erroresformato.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
 					<?php   } ?>
 					<?php	if ($rowPresentacion['fechaintegral'] != NULL && $rowPresentacion['cantintegralnok'] != 0) { ?>
-								<input type="button" value="Err. Integral" onClick="location.href = 'presentacion.erroresintegral.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+								<input type="button" value="Integrales" onClick="location.href = 'presentacion.erroresintegral.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 					<?php   } ?>
 						</td>
 				    		 <?php 	if ($rowPresentacion['fechacancelacion'] == NULL) { 
