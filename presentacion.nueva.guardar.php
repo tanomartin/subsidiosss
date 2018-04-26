@@ -147,6 +147,17 @@ try {
 	Header("Location: presentacion.detalle.php?id=$lastId");
 } catch (PDOException $e) {
 	$dbh->rollback();
+	
+	$sqlConsultaUlitmoID = "SELECT id FROM intepresentacion i ORDER BY id desc limit 1";
+	$resConsultaUlitmoID = mysql_query($sqlConsultaUlitmoID);
+	$rowConsultaUlitmoID = mysql_fetch_array($resConsultaUlitmoID);
+	$idRestart = $rowConsultaUlitmoID['id'] + 1;
+	
+	$dbh->beginTransaction();
+	$sqlUpdateAutoAuto = "ALTER TABLE intepresentacion AUTO_INCREMENT = $idRestart";
+	$dbh->exec($sqlUpdateAutoAuto);
+	$dbh->commit();
+	
 	$error = $e->getMessage()." (INSERT: ".$sqlinsert.")";
 	$redire = "Location: presentacion.error.php?page='Nueva Presentacion'&error=$error";
 	Header($redire);
