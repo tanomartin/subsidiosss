@@ -3,15 +3,32 @@ include_once 'include/conector.php';
 set_time_limit(0);
 $idPresentacion = $_GET['id'];
 $carpeta = $_GET['carpeta'];
-$sqlFactura = "SELECT intepresentaciondetalle.*, titulares.codidelega as deletitu, titufami.codidelega as delefami, prestadoresauxiliar.cbu,
-CASE
-  WHEN (prestadores.situacionfiscal in (0,1,4) || (prestadores.situacionfiscal = 3 and prestadores.vtoexento >= CURDATE())) THEN 0
-  WHEN (prestadores.situacionfiscal = 2 || (prestadores.situacionfiscal = 3 and prestadores.vtoexento < CURDATE())) THEN 1
-END as retiene
+$sqlFactura = "SELECT intepresentaciondetalle.*, prestadoresauxiliar.cbu,
+	CASE
+     WHEN (titulares.codidelega is not null) THEN titulares.codidelega
+ 		WHEN (titularesdebaja.codidelega is not null) THEN titularesdebaja.codidelega
+ 		WHEN (titufami.codidelega is not null) THEN titufami.codidelega
+ 		WHEN (titubajafami.codidelega is not null) THEN titubajafami.codidelega
+ 		WHEN (titufamibaja.codidelega is not null) THEN titufamibaja.codidelega
+ 		WHEN (titubajafamibaja.codidelega is not null) THEN titubajafamibaja.codidelega
+	END as codidelega,
+	CASE
+	  WHEN (prestadores.situacionfiscal in (0,1,4) || (prestadores.situacionfiscal = 3 and prestadores.vtoexento >= CURDATE())) THEN 0
+	  WHEN (prestadores.situacionfiscal = 2 || (prestadores.situacionfiscal = 3 and prestadores.vtoexento < CURDATE())) THEN 1
+	END as retiene
 FROM intepresentaciondetalle
-LEFT JOIN titulares on  intepresentaciondetalle.cuil = titulares.cuil
-LEFT JOIN familiares on  intepresentaciondetalle.cuil = familiares.cuil
-LEFT JOIN titulares titufami on  familiares.nroafiliado = titufami.nroafiliado
+
+LEFT JOIN titulares on intepresentaciondetalle.cuil = titulares.cuil
+LEFT JOIN titularesdebaja on intepresentaciondetalle.cuil = titularesdebaja.cuil
+
+LEFT JOIN familiares on intepresentaciondetalle.cuil = familiares.cuil
+LEFT JOIN titulares titufami on familiares.nroafiliado = titufami.nroafiliado
+LEFT JOIN titularesdebaja titubajafami on familiares.nroafiliado = titubajafami.nroafiliado
+
+LEFT JOIN familiaresdebaja on intepresentaciondetalle.cuil = familiaresdebaja.cuil
+LEFT JOIN titulares titufamibaja on familiaresdebaja.nroafiliado = titufamibaja.nroafiliado
+LEFT JOIN titularesdebaja titubajafamibaja on familiaresdebaja.nroafiliado = titubajafamibaja.nroafiliado
+
 LEFT JOIN prestadores on intepresentaciondetalle.cuit = prestadores.cuit
 LEFT JOIN prestadoresauxiliar on prestadores.codigoprestador = prestadoresauxiliar.codigoprestador
 WHERE idpresentacion = $idPresentacion order by cuil, periodo, codpractica";
@@ -77,7 +94,7 @@ header("Content-Disposition: attachment; filename=$file");
 						<td><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
 						<td><?php echo $rowFactura['tipoarchivo'] ?></td>
 						<td><?php echo $rowFactura['cuil'] ?></td>
-						<td><?php echo $rowFactura['deletitu']." ".$rowFactura['delefami'] ?></td>
+						<td><?php echo $rowFactura['codidelega'] ?></td>
 						<td><?php echo $rowFactura['periodo'] ?></td>
 						<td><?php echo $rowFactura['cuit'] ?></td>
 						<td><?php echo "'".$rowFactura['cbu']."'" ?></td>
