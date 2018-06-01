@@ -17,13 +17,13 @@ $sqlPresentacion = "SELECT
 						intepresentacionformato.cantformatonok,
 						DATE_FORMAT(intepresentacionintegral.fechaintegral, '%d-%m-%Y') as fechaintegral,
 						intepresentacionintegral.cantintegralnok,
-						DATE_FORMAT(intepresentacionsubsidio.fechasubsidio, '%d-%m-%Y') as fechasubsidio,
+						DATE_FORMAT(interendicioncontrol.fecharendicion, '%d-%m-%Y') as fecharendicion,
 						DATE_FORMAT(p.fechadeposito, '%d-%m-%Y') as fechadeposito
 					FROM intepresentacion p
           			INNER JOIN intecronograma on p.idcronograma = intecronograma.id
 				  	LEFT JOIN intepresentacionformato on p.id = intepresentacionformato.id
           			LEFT JOIN intepresentacionintegral on p.id = intepresentacionintegral.id
-          			LEFT JOIN intepresentacionsubsidio on p.id = intepresentacionsubsidio.id
+          			LEFT JOIN interendicioncontrol on p.id = interendicioncontrol.idpresentacion
 					ORDER BY p.id DESC";
 $resPresentacion = mysql_query($sqlPresentacion);
 $canPresentacion = mysql_num_rows($resPresentacion);
@@ -36,8 +36,8 @@ $rowAPresentar = mysql_fetch_array($resAPresentar);
 
 $sqlPresentacionPeriodo = "SELECT *
 							FROM intepresentacion p
-							LEFT JOIN intepresentacionsubsidio on p.id = intepresentacionsubsidio.id
-							WHERE p.fechacancelacion is null and intepresentacionsubsidio.fechasubsidio is null";
+							LEFT JOIN interendicioncontrol on p.id = interendicioncontrol.idpresentacion
+							WHERE p.fechacancelacion is null and interendicioncontrol.fecharendicion is null";
 $resPresentacionPeriodo  = mysql_query($sqlPresentacionPeriodo);
 $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 
@@ -152,7 +152,7 @@ $(function() {
 						<td style="font-size: 12px"><?php echo $rowPresentacion['fechapresentacion'] ?></td>
 						<td style="font-size: 12px"><?php echo $rowPresentacion['fechadevformato'] ?></td>
 						<td style="font-size: 12px"><?php echo $rowPresentacion['fechaintegral'] ?></td>
-						<td style="font-size: 12px"><?php echo $rowPresentacion['fechasubsidio'] ?></td>
+						<td style="font-size: 12px"><?php echo $rowPresentacion['fecharendicion'] ?></td>
 						<td style="font-size: 12px"><?php echo $rowPresentacion['fechadeposito'] ?></td>
 						<td style="font-size: 12px"><?php echo $rowPresentacion['fechacancelacion'] ?></td>
 						<td>

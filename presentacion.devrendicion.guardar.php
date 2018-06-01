@@ -82,7 +82,7 @@ while(!feof($fpcontrol)) {
 			Header($redire);
 			exit -1;
 		}
-		$insertControl .= "($arraylinea[0], $idPresentacion, $arraylinea[1], $importeSolicitado, $importeLiquidado),";
+		$insertControl .= "($arraylinea[0], $idPresentacion, CURDATE(), $arraylinea[1], $importeSolicitado, $importeLiquidado),";
 	}
 }
 $insertControl = substr($insertControl, 0, -1);
@@ -96,8 +96,6 @@ if ($cantregi != $rowPresentacion['totalintegralok']) {
 	exit -1;
 }
 
-$sqlInsertPresentacionRendicion = "INSERT INTO intepresentacionsubsidio VALUES($idPresentacion, CURDATE(),$nroenvioafip,NULL,$sumsoli,$sumliqui)";
-
 try {
 	$dbh = new PDO("mysql:host=$hostLocal;dbname=$dbname",$usuarioLocal,$claveLocal);
 	$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -106,8 +104,6 @@ try {
 	$dbh->exec($insertRendicion);
 	//echo $insertControl."<br><br>";
 	$dbh->exec($insertControl);
-	//echo $sqlInsertPresentacionRendicion."<br>";
-	$dbh->exec($sqlInsertPresentacionRendicion);
 	$dbh->commit();
 	
 	$dbh->beginTransaction();
@@ -208,7 +204,7 @@ try {
 		throw new PDOException('No concuerdan la cantidad de Facturas con los update realizados');
 	}
 	$dbh->commit();
-	Header("Location: presentacion.detalle.php?id=$idPresentacion");
+	Header("Location: presentacion.devrendicion.interbanking.php?id=$idPresentacion");
 } catch (PDOException $e) {
 	$dbh->rollback();
 	
@@ -217,8 +213,6 @@ try {
 	$dbh->exec($sqlDeleteRendicion);
 	$sqlDeleteControl =  "DELETE FROM interendicioncontrol WHERE idpresentacion = $idPresentacion";
 	$dbh->exec($sqlDeleteControl);
-	$sqlDeletePresentacionRendicion = "DELETE FROM intepresentacionsubsidio WHERE id = $idPresentacion";
-	$dbh->exec($sqlDeletePresentacionRendicion);
 	$dbh->commit();
 	
 	$redire = "Location: presentacion.error.php?id=$idPresentacion&page='Dev. Subsidio'&error=".$e->getMessage();

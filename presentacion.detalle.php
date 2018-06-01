@@ -101,10 +101,12 @@ $(function() {
 			 			<th rowspan="2" style="font-size: 11px">Num. Comp.</th>
 			 			<th rowspan="2" style="font-size: 11px">Cod. Prac.</th>
 			 			<th rowspan="2" style="font-size: 11px">$ Comp.</th>
+			 			<th rowspan="2" style="font-size: 11px">$ Deb.</th>
+			 			<th rowspan="2" style="font-size: 11px">$ No Int.</th>
 			 			<th rowspan="2" style="font-size: 11px">$ Soli.</th>
 			 			<th style="font-size: 11px" colspan="2">Resultado Formato</th>
 			 			<th style="font-size: 11px" colspan="2">Resultado Integral</th>
-			 			<th style="font-size: 11px" colspan="4">Resultado Subsidio</th>
+			 			<th style="font-size: 11px" colspan="3">Resultado Subsidio</th>
 			 			<th rowspan="2" style="font-size: 11px">Ret.</th>
 			 			<th rowspan="2" style="font-size: 11px">Cant. Rec. Debe</th>
 			 		</tr>
@@ -117,12 +119,13 @@ $(function() {
 			 			<th style="font-size: 11px">Soli.</th>
 			 			<th style="font-size: 11px">Subs.</th>
 			 			<th style="font-size: 11px">Tr O.S.</th>
-			 			<th style="font-size: 11px">Debito / Pago O.S.</th>
 			 		</tr>
 			 	</thead>
 			 	<tbody>
 			<?php 
 				$totCom = 0;
+				$totDeb = 0;
+				$totNOI = 0;
 				$totSol = 0;
 				$totComFor = 0;
 				$totSolFor = 0;
@@ -131,7 +134,6 @@ $(function() {
 				$totSolSub = 0;
 				$totMonSub = 0;
 				$totMonOsp = 0;
-				$totMonChOsp = 0;
 				while ($rowFactura = mysql_fetch_array($resFactura)) {  ?>
 					<tr>
 						<td style="font-size: 11px"><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
@@ -148,13 +150,21 @@ $(function() {
 				 
 				  <?php if ($rowFactura['tipoarchivo'] == 'DB') { 
 				  			$totCom -= $rowFactura['impcomprobante'];
+				  			$totDeb -= $rowFactura['impdebito'];
+				  			$totNOI -= $rowFactura['impnointe'];
 				  			$totSol -= $rowFactura['impsolicitado']; ?>
 						    <td style="font-size: 11px"><?php echo "(".number_format($rowFactura['impcomprobante'],2,",",".").")" ?></td>
+						    <td style="font-size: 11px"><?php echo "(".number_format($rowFactura['impdebito'],2,",",".").")" ?></td>
+						    <td style="font-size: 11px"><?php echo "(".number_format($rowFactura['impnointe'],2,",",".").")" ?></td>
 						    <td style="font-size: 11px"><?php echo "(".number_format($rowFactura['impsolicitado'],2,",",".").")" ?></td>
 				   <?php } else { 
 							$totCom += $rowFactura['impcomprobante'];
+							$totDeb += $rowFactura['impdebito'];
+							$totNOI += $rowFactura['impnointe'];
 				  			$totSol += $rowFactura['impsolicitado']; ?>
 						    <td style="font-size: 11px"><?php echo number_format($rowFactura['impcomprobante'],2,",",".") ?></td>
+						    <td style="font-size: 11px"><?php echo number_format($rowFactura['impdebito'],2,",",".") ?></td>
+						    <td style="font-size: 11px"><?php echo number_format($rowFactura['impnointe'],2,",",".") ?></td>
 						    <td style="font-size: 11px"><?php echo number_format($rowFactura['impsolicitado'],2,",",".") ?></td>
 					<?php } 
 					   
@@ -220,7 +230,7 @@ $(function() {
 								<td style="font-size: 11px">-</td>
 			<?php		  }
 			
-						  if ($rowPresentacion['fechasubsidio'] != null) {
+						  if ($rowPresentacion['fecharendicion'] != null) {
 						  		if ($rowFactura['deverrorintegral'] == null && $rowFactura['deverrorformato'] == null) { 
 									$controlMontoSub = $rowFactura['impsolicitadosubsidio'] - $rowFactura['impmontosubsidio'];
 									if ($controlMontoSub != 0) $colorMontInt = 'red'; else $colorMontInt = ''; 
@@ -234,10 +244,7 @@ $(function() {
 									if ($rowFactura['tipoarchivo'] == 'DB') {
 										$importeFactura = (-1)*$rowFactura['impcomprobanteintegral'];
 									}
-									
-									$impChOsp = $importeFactura - $rowFactura['impsolicitadosubsidio'];
-									$totMonChOsp += $impChOsp;
-									
+															
 									$retiene = "NO";
 									if ($rowFactura['retiene'] == 1) {
 										$retiene = "SI";
@@ -257,11 +264,9 @@ $(function() {
 									<td style="font-size: 11px"><?php echo number_format($rowFactura['impsolicitadosubsidio'],2,",",".");  ?></td>
 									<td style="font-size: 11px; color: <?php echo $colorMontInt ?>"><?php echo number_format($rowFactura['impmontosubsidio'],2,",",".");  ?></td>
 									<td style="font-size: 11px"><?php echo number_format($impOsp,2,",",".");  ?></td>
-									<td style="font-size: 11px"><?php echo number_format($impChOsp,2,",","."); ?></td>
 									<td style="font-size: 11px"><?php echo $retiene ?></td>
 									<td style="font-size: 11px"><?php echo $canDebeRecibo ?></td>
 						<?php 	} else { ?>
-									<td style="font-size: 11px">-</td>
 									<td style="font-size: 11px">-</td>
 									<td style="font-size: 11px">-</td>
 									<td style="font-size: 11px">-</td>
@@ -274,26 +279,26 @@ $(function() {
 									<td style="font-size: 11px">-</td>
 									<td style="font-size: 11px">-</td>
 									<td style="font-size: 11px">-</td>
-									<td style="font-size: 11px">-</td>
 						 <?php } ?>		  	
 					</tr>	
 			<?php } ?>
-					<tr>
-						<th colspan="11">TOTALES</td>
-						<th style="font-size: 11px"><?php echo number_format($totCom,2,",",".") ?></td>
-						<th style="font-size: 11px"><?php echo number_format($totSol,2,",",".") ?></td>
-						<th style="font-size: 11px"><?php echo number_format($totComFor,2,",",".") ?></td>
-						<th style="font-size: 11px"><?php echo number_format($totSolFor,2,",",".") ?></td>
-						<th style="font-size: 11px"><?php echo number_format($totComInt,2,",",".") ?></td>
-						<th style="font-size: 11px"><?php echo number_format($totSolInt,2,",",".") ?></td>
-						<th style="font-size: 11px"><?php echo number_format($totSolSub,2,",",".") ?></td>
-						<th style="font-size: 11px"><?php echo number_format($totMonSub,2,",",".") ?></td>
-						<th style="font-size: 11px"><?php echo number_format($totMonOsp,2,",",".") ?></td>
-						<th style="font-size: 11px"><?php echo number_format($totMonChOsp,2,",",".") ?></td>
-						<th style="font-size: 11px"></td>
-						<th style="font-size: 11px"></td>
-					</tr>
-			  	</tbody>
+				</tbody>
+				<tr>
+					<th colspan="11">TOTALES</td>
+					<th style="font-size: 11px"><?php echo number_format($totCom,2,",",".") ?></td>	
+					<th style="font-size: 11px"><?php echo number_format($totDeb,2,",",".") ?></td>
+					<th style="font-size: 11px"><?php echo number_format($totNOI,2,",",".") ?></td>				
+					<th style="font-size: 11px"><?php echo number_format($totSol,2,",",".") ?></td>
+					<th style="font-size: 11px"><?php echo number_format($totComFor,2,",",".") ?></td>
+					<th style="font-size: 11px"><?php echo number_format($totSolFor,2,",",".") ?></td>
+					<th style="font-size: 11px"><?php echo number_format($totComInt,2,",",".") ?></td>
+					<th style="font-size: 11px"><?php echo number_format($totSolInt,2,",",".") ?></td>
+					<th style="font-size: 11px"><?php echo number_format($totSolSub,2,",",".") ?></td>
+					<th style="font-size: 11px"><?php echo number_format($totMonSub,2,",",".") ?></td>
+					<th style="font-size: 11px"><?php echo number_format($totMonOsp,2,",",".") ?></td>
+					<th style="font-size: 11px"></td>
+					<th style="font-size: 11px"></td>
+				</tr>
 			</table>
 		<p><input class="nover" type="button" name="imprimir" value="Imprimir" onclick="window.print();"></p>
 	</div>

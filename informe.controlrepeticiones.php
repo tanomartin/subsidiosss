@@ -5,8 +5,8 @@ set_time_limit(0);
 $sqlRepeticiones = "SELECT 
 						tipoarchivo,periodo,cuit,cuil,codpractica,count(*) as cantidad,
 						sum(impsolicitadointegral) as solicitado, sum(impmontosubsidio) as subsidio, sum(impsolicitadointegral) - sum(impmontosubsidio) as diferencia
-					FROM intepresentaciondetalle i, intepresentacionsubsidio s
-					WHERE i.idpresentacion = s.id and codpractica not in (90,96)
+					FROM intepresentaciondetalle i, interendicioncontrol s
+					WHERE i.idpresentacion = s.idpresentacion and codpractica not in (90,96)
 					GROUP BY tipoarchivo,periodo,cuit,cuil,codpractica HAVING cantidad > 1 and solicitado > subsidio
 					ORDER BY diferencia ASC, periodo ASC";
 $resRepeticiones = mysql_query($sqlRepeticiones);

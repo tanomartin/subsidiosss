@@ -44,8 +44,8 @@ include_once 'include/conector.php';
     </tr>
      <tr>
        <td>
-	    <p></p>
-	    <p></p>
+	    <p>INTERBANKING</p>
+	    <p><a href="interbanking.php"><img src="img/interbanking.png" width="90" height="90" border="0" alt="enviar"/></a></p>
 	  </td>
 	  <td>
 	    <p>INFORMES</p>

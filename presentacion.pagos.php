@@ -2,27 +2,17 @@
 include_once 'include/conector.php';
 set_time_limit(0);
 $idPresentacion = $_GET['id'];
-$sqlSubsidio = "SELECT s.*, SUBSTRING(n.descripcion,1,30) as descripcion FROM intesubsidio s, practicas n
-				WHERE idpresentacion = $idPresentacion and 
-					  s.codpractica not in (97,98,99) and 
-					  n.nomenclador = 7 and
-					  s.codpractica = n.codigopractica";
-$resSubsidio = mysql_query($sqlSubsidio);
-$canSubsidio = mysql_num_rows($resSubsidio);
-if ($canSubsidio == 0) {
-	$sqlSubsidio = "SELECT s.*, SUBSTRING(n.descripcion,1,30) as descripcion FROM interendicion s, practicas n
+$sqlSubsidio = "SELECT s.*, SUBSTRING(n.descripcion,1,30) as descripcion FROM interendicion s, practicas n
 						WHERE idpresentacion = $idPresentacion and
 							  s.codpractica not in (97,98,99) and
 							  n.nomenclador = 7 and s.tipoarchivo != 'DB' and
 						      s.codpractica = n.codigopractica";
-	$resSubsidio = mysql_query($sqlSubsidio);
-}
+$resSubsidio = mysql_query($sqlSubsidio);
 $arrayCompleto = array();
 $index = 0;
 while ($rowSubsidio = mysql_fetch_array($resSubsidio)) {
 	$arrayCompleto[$index] = $rowSubsidio;
-	if ($canSubsidio == 0) {
-		$sqlSelectFactura = "SELECT f.*, tipocomprobante.descripcion as comprobante, prestadoresauxiliar.cbu
+	$sqlSelectFactura = "SELECT f.*, tipocomprobante.descripcion as comprobante, prestadoresauxiliar.cbu
 								FROM intepresentaciondetalle f
 								LEFT JOIN prestadores ON f.cuit = prestadores.cuit
 								LEFT JOIN prestadoresauxiliar ON prestadores.codigoprestador = prestadoresauxiliar.codigoprestador
@@ -36,19 +26,6 @@ while ($rowSubsidio = mysql_fetch_array($resSubsidio)) {
 									f.puntoventa = ".$rowSubsidio['puntoventa']." and
 									f.cuit = ".$rowSubsidio['cuit']." and
 									f.codpractica = ".(int) $rowSubsidio['codpractica'];
-	} else {
-		$sqlSelectFactura = "SELECT f.*, tipocomprobante.descripcion as comprobante, prestadoresauxiliar.cbu
-								FROM intepresentaciondetalle f
-								LEFT JOIN prestadores ON f.cuit = prestadores.cuit
-								LEFT JOIN prestadoresauxiliar ON prestadores.codigoprestador = prestadoresauxiliar.codigoprestador
-								LEFT JOIN tipocomprobante ON f.tipocomprobante = tipocomprobante.id
-								WHERE
-									f.idpresentacion = $idPresentacion and f.deverrorformato is null and
-									f.deverrorintegral is null and f.cuil = '".$rowSubsidio['cuil']."' and
-									f.periodo = '".$rowSubsidio['periodoprestacion']."' and
-									f.tipoarchivo != 'DB' and
-									f.codpractica = ".(int) $rowSubsidio['codpractica'];
-	}
 	$resSelectFactura = mysql_query($sqlSelectFactura);
 	while($rowfactura = mysql_fetch_array($resSelectFactura)) {
 		$arrayCompleto[$index]['f'][$rowfactura['nrocominterno']] = $rowfactura;
@@ -140,7 +117,6 @@ foreach ($arrayCompleto as $key => $subsidio) {
 						$linea .= "<td style='font-size: 11px'>".$pago['folio']."</td>";
 					}
 						
-					//$linea .= "<td style='font-size: 11px'><input type='button' value='Cargar' onclick='location=\"presentacion.pagos.carga.php?idpresentacion=$idPresentacion&nrocomint=".$factura['nrocominterno']."&norord=".$pago['nroordenpago']."\"'/></td>";
 					$linea .= "</tr>";
 							
 					$lineas[$indexLinea] = $linea;

@@ -20,7 +20,7 @@ foreach ($arrayDatosPagos as $key => $data) {
 	$keyArray = explode("-",$key);
 	$norord = $keyArray[0];
 	$nrocomint = $keyArray[1];
-	$sqlUpdatePago[$i] = "UPDATE intepagos SET recibo = '".$data['recibo']."', asiento = '".$data['asiento']."', folio = '".$data['folio']."' WHERE idpresentacion = $idPresentacion and nrocominterno = $nrocomint and nroordenpago = $norord";
+	$sqlUpdatePago[$i] = "UPDATE intepagosdetalle SET recibo = '".$data['recibo']."', asiento = '".$data['asiento']."', folio = '".$data['folio']."' WHERE idpresentacion = $idPresentacion and nrocominterno = $nrocomint and nroordenpago = $norord";
 	$i++;
 }
 
@@ -40,7 +40,7 @@ try {
 	if (strpos($pagina_anterior, "cuit") === false) {
 		$redirect = "presentacion.pagos.php?id=$idPresentacion";
 	} else {
-		$redirect = "presentacion.pagoscuit.php?id=$idPresentacion";
+		$redirect = "presentacion.pagos.carga.php?id=$idPresentacion";
 	}
 	Header("Location: $redirect");
 	

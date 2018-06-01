@@ -29,19 +29,27 @@ $archivo = $_FILES['archivo']['tmp_name'];
 $fp = fopen ($archivo,"r");
 
 $impCompTotal = 0;
+$impDebitoTotal = 0;
+$impNoInteTotal = 0;
 $impPedido = 0;
 $impCompTotalD = 0;
+$impDebitoTotalD = 0;
+$impNoInteTotalD = 0;
 $impPedidoD = 0;
 $cantFacturas = 0;
 $sqlInsertFacturas = array();
 while ($data = fgetcsv ($fp, 1000, ";")) { 
 	if ($data['1'] == 'DS' || $data['1'] == 'DC') {
 		$impCompTotal += str_replace(',','.',$data['15']);
-		$impPedido += str_replace(',','.',$data['16']);
+		$impDebitoTotal += str_replace(',','.',$data['16']);
+		$impNoInteTotal += str_replace(',','.',$data['17']);
+		$impPedido += str_replace(',','.',$data['18']);
 	}
 	if ($data['1'] == 'DB') {
 		$impCompTotalD += str_replace(',','.',$data['15']);
-		$impPedidoD += str_replace(',','.',$data['16']);
+		$impDebitoTotalD += str_replace(',','.',$data['16']);
+		$impNoInteTotalD += str_replace(',','.',$data['17']);
+		$impPedidoD += str_replace(',','.',$data['18']);
 	}
 
 	try {
@@ -51,7 +59,7 @@ while ($data = fgetcsv ($fp, 1000, ";")) {
 			throw new Exception($error);
 		}
 		$cuit = $data['7'];
-		$codpractica = $data['17'];
+		$codpractica = $data['19'];
 		if ($codpractica != 97 && $codpractica != 98 && $codpractica != 99) {
 			if (!esValidoCUIT($cuit)) {
 				$error = "Error en el C.U.I.T. $cuit nro comprobante interno ".$data['0'];
@@ -60,10 +68,18 @@ while ($data = fgetcsv ($fp, 1000, ";")) {
 		} 
 		
 		$impFactura = str_replace(',','.',$data['15']);
-		$impSolicit = str_replace(',','.',$data['16']);
+		$impDebito = str_replace(',','.',$data['16']);
+		$impNoInte = str_replace(',','.',$data['17']);
+		$impSolicit = str_replace(',','.',$data['18']);
 		if ($data['1'] == 'DS' || $data['1'] == 'DC') { 
 			if ($impFactura < $impSolicit) {
 				$error = "El monto solicitado no puede ser superior al monto de la facutra nor comprobante interno ".$data['0'];
+				throw new Exception($error);
+			}
+			$calculoSolicitado = $impFactura - $impDebito - $impNoInte;
+			$calculoSolicitado = round($calculoSolicitado,2);
+			if ($calculoSolicitado != $impSolicit) {
+				$error = "El monto solicitado no concuerda con el comprobante, el debito y lo no integral ($calculoSolicitado)".$data['0'];
 				throw new Exception($error);
 			}
 		}
@@ -90,18 +106,22 @@ while ($data = fgetcsv ($fp, 1000, ";")) {
     		".$data['13'].",
     		'".$data['14']."',
     		".$impFactura.",
+    		".$impDebito.",
+    		".$impNoInte.",		
     		".$impSolicit.",
     		".$codpractica.",
-    		".$data['18'].",
-    		".$data['19'].",
-    		'".strtoupper($data['20'])."',
+    		".$data['20'].",
+    		".$data['21'].",
+    		'".strtoupper($data['22'])."',
     		NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL)";
     $sqlInsertFacturas[$cantFacturas] = $linea;
     $cantFacturas++;
 }
 
 fclose ($fp);
-$sqlInsertPresentacion = "INSERT INTO intepresentacion VALUES(DEFAULT, ".$_POST['idCronograma'].", NULL, NULL, NULL,$cantFacturas,$impCompTotal,$impPedido,$impCompTotalD,$impPedidoD,NULL,NULL)";
+$sqlInsertPresentacion = "INSERT INTO intepresentacion VALUES(DEFAULT, ".$_POST['idCronograma'].", NULL, NULL, NULL,
+						$cantFacturas,$impCompTotal,$impDebitoTotal,$impNoInteTotal,$impPedido,
+						$impCompTotalD,$impDebitoTotalD,$impNoInteTotalD,$impPedidoD,NULL,NULL,NULL)";
 
 $anio = substr($_POST['carpeta'],0,4);
 $carpetaanio = "archivos/$anio";
