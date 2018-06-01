@@ -68,11 +68,10 @@ $(function() {
 			theme: 'blue', 
 			widthFixed: true, 
 			widgets: ["filter"],
-			headers:{0:{sorter:false, filter:false},
-				 1:{sorter:false, filter:false},
+			headers:{0:{filter:false},
+				 1:{sorter:false},
 			 	 2:{sorter:false, filter:false},
 			 	 3:{sorter:false, filter:false},
-			 	 4:{sorter:false},
 			 	 5:{sorter:false, filter:false},
 			 	 6:{sorter:false, filter:false},
 			 	 7:{sorter:false, filter:false},
@@ -81,7 +80,7 @@ $(function() {
 			 	 10:{sorter:false, filter:false},
 			 	 11:{sorter:false, filter:false},
 			 	 12:{sorter:false, filter:false},
-			 	 13:{sorter:false},
+			 	 13:{sorter:false, filter:false},
 			 	 14:{sorter:false, filter:false},
 			 	 15:{sorter:false, filter:false}},
 			widgetOptions : { 
@@ -152,7 +151,6 @@ function cerrarPresentacion(idpresentacion) {
 				 		<th>$ No Int</th>
 				 		<th>$ O.S.</th>
 				 		<th>$ S.S.S</th>
-				 		<th class="filter-select" data-placeholder="Selccione" >Ret.</th>
 				 		<th>$ Ret.</th>
 				 		<th>$ A Pagar</th>
 				 		<th>Ord. Pago</th>
@@ -198,7 +196,6 @@ function cerrarPresentacion(idpresentacion) {
 								<td><?php echo number_format($rowFactura['impmontosubsidio'],2,",",".") ?></td>
 								<td></td>
 								<td></td>
-								<td></td>
 								<?php if (isset($arrayPagos[$rowFactura['nrocominterno']])) { ?>
 									<td><?php echo $arrayPagos[$rowFactura['nrocominterno']]['nroordenpago'] ?></td>
 									<td><?php echo $arrayPagos[$rowFactura['nrocominterno']]['fechatransferencia'] ?></td>
@@ -233,7 +230,6 @@ function cerrarPresentacion(idpresentacion) {
 					 			<td style="background-color: #99bfe6"><b><?php echo number_format($rowFactura['impnointe'],2,",",".") ?></b></td>
 					 			<td style="background-color: #99bfe6"><b><?php echo number_format($rowFactura['impobrasocial'],2,",",".") ?></b></td>
 					 			<td style="background-color: #99bfe6"><b><?php echo number_format($rowFactura['impmontosubsidio'],2,",",".") ?></b></td>
-					 			<td style="background-color: #99bfe6"><b><?php if($rowFactura['retiene'] == 1) { echo "SI"; } else { echo "NO"; } ?></b></td>
 					 			<td style="background-color: #99bfe6"><b><?php echo number_format($rowFactura['impretencion'],2,",",".") ?></b></td>
 					 			<td style="background-color: #99bfe6"><b><?php echo number_format($rowFactura['impapagar'],2,",",".") ?></b></td>
 					 			<td style="background-color: #99bfe6" colspan="6"></td>
@@ -249,7 +245,7 @@ function cerrarPresentacion(idpresentacion) {
 						<th><?php echo number_format($totMonNOI,2,",",".") ?></td>
 						<th><?php echo number_format($totMonOS,2,",",".") ?></td>
 						<th rowspan="2"><?php echo number_format($totMonSub,2,",",".") ?></td>
-						<th rowspan="2" colspan="2"><?php echo number_format($totRete,2,",",".") ?></th>
+						<th rowspan="2"><?php echo number_format($totRete,2,",",".") ?></th>
 						<th rowspan="2"><?php echo number_format($totApagar,2,",",".") ?></th>
 						<th colspan="6" rowspan="3"></h>
 					</tr>
@@ -260,7 +256,7 @@ function cerrarPresentacion(idpresentacion) {
 						<th>COM<br><?php echo number_format($totComSub,2,",",".") ?></td>
 						<th colspan="3">DEB+SOL+NOI<br><?php echo number_format($totMonDeb + $totSolSub + $totMonNOI,2,",",".") ?></td>
 						<th colspan="2">NOI+OS+SUB+DEB<br><?php echo number_format($totMonNOI + $totMonOS + $totMonSub + $totMonDeb,2,",",".") ?></th>
-						<th colspan="3">RET+DEB+PAG<br><?php echo number_format($totRete + $totMonDeb + $totApagar,2,",",".") ?></th>
+						<th colspan="2">RET+DEB+PAG<br><?php echo number_format($totRete + $totMonDeb + $totApagar,2,",",".") ?></th>
 					</tr>	
 			</table>
 		</form>
