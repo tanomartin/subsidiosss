@@ -43,21 +43,21 @@ while ($rowTotalesCuit = mysql_fetch_assoc($resPagos)) {
 }
 ksort($arrayFacturas);
 
+$nrosecu = $rowTotales['nrosecuencia'];
 $maquina = $_SERVER['SERVER_NAME'];
 $fechagenera=date("YmdHis");
 $carpeta="archivos/interbanking/".date("Ymd");
 if (!file_exists($carpeta)) {
 	mkdir($carpeta, 0777, true);
 }
-$archivo_xls_name=$carpeta."/inter_pago$fechagenera.xls";
-$archivo_txt_name=$carpeta."/inter_pago$fechagenera.txt";
+$archivo_xls_name=$carpeta."/inter_pago_$nrosecu.xls";
+$archivo_txt_name=$carpeta."/inter_pago_$nrosecu.txt";
 if(strcmp("localhost",$maquina)!=0) {
 	$archivo_xls_name="/home/sistemas/Documentos/Repositorio/".$archivo_xls_name;
 	$archivo_txt_name="/home/sistemas/Documentos/Repositorio/".$archivo_xls_name;
 }
 
 $objPHPExcel = new PHPExcel();
-
 $objPHPExcel->getProperties()->setCreator($_SESSION['usuario'])
 ->setLastModifiedBy($_SESSION['usuario'])
 ->setTitle("Interbankgin")
@@ -110,9 +110,15 @@ $objPHPExcel->getActiveSheet()->setCellValue('L1', '$ Ret');
 $objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(12);
 $objPHPExcel->getActiveSheet()->setCellValue('M1', '$ Transf.');
 
-$fila=1;
-
 $file = fopen($archivo_txt_name, "w");
+$cbuOS = "0110599520000054914032";
+$obsU = str_pad(" ",61,' ',STR_PAD_RIGHT);
+$secuencia = str_pad($nrosecu,8,' ',STR_PAD_RIGHT);
+$blanco = str_pad(" ",123,' ',STR_PAD_RIGHT);
+$filaUtxt = "*U*".$cbuOS."D".date("Ymd")."S".$obsU."00000".date("d/m/y").$secuencia.$blanco;
+fwrite($file, $filaUtxt . PHP_EOL);
+
+$fila=1;
 $obs = "";
 foreach ($arrayFacturas as $key => $rowFactura) {  
 	$fila++;

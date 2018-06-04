@@ -9,10 +9,10 @@ $totMonSub = $_POST["totMonSub"];
 $totRete = $_POST["totRete"];
 $totApagar = $_POST["totApagar"];
 $totCantidad = $_POST["totCantidad"];
+$nrosecuencia = bin2hex(rand(0, 9999));
+$nrosecuencia = str_pad($nrosecuencia,8,0,STR_PAD_LEFT);
 
-$nrosecuencia = "TODO";
-
-$insertCabecera = "INSERT INTO inteinterbankingcabecera VALUES(DEFAULT, CURDATE(), $totCantidad, $nrosecuencia, $totMonCom, $totMonDeb, $totMonNOI, $totMonOS, $totMonSub, $totRete, $totApagar)";
+$insertCabecera = "INSERT INTO inteinterbankingcabecera VALUES(DEFAULT, CURDATE(), $totCantidad, '$nrosecuencia', $totMonCom, $totMonDeb, $totMonNOI, $totMonOS, $totMonSub, $totRete, $totApagar)";
 
 $arrayUpdateInter = array();
 $index = 0;
@@ -59,6 +59,5 @@ try {
 	Header($redire);
 	exit -1;
 }
-
 
 ?>

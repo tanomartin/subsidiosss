@@ -51,7 +51,7 @@ ksort($arrayFacturas);
 <script src="include/jquery.tablesorter/jquery.tablesorter.widgets.js"></script>
 <script src="include/jquery.tablesorter/addons/pager/jquery.tablesorter.pager.js"></script> 
 <script src="include/funcionControl.js" type="text/javascript"></script>
-<script src="/madera/lib/jquery.blockUI.js" type="text/javascript"></script>
+<script src="include/jquery.blockUI.js" type="text/javascript"></script>
 <script type="text/javascript">
 $(function() {
 	$("#listaResultado")

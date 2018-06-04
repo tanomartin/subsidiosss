@@ -215,7 +215,7 @@ $(function() {
 					     		  <?php } else { 
 					     			 		 if ($rowPresentacion['fechadeposito'] == NULL) {?>
 					     						<td>
-					     							<input type="button" value="Deposito" onClick="location.href = 'presentacion.deposito.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
+					     							<input style="margin-bottom: 5px" type="button" value="Deposito" onClick="location.href = 'presentacion.deposito.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
 					     				  	  <?php if ($rowPresentacion['fechacierre'] == NULL) { ?>
 					     								<input type="button" value="Cargar Rete" onClick="location.href = 'presentacion.retenciones.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 					     					  <?php } else { ?>

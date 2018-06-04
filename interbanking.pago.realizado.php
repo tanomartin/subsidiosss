@@ -65,6 +65,7 @@ function cancelarPresentacion(id) {
 					 	<th>Id</th>
 					 	<th>Fecha Pago</th>
 					 	<th>Cant Pagos</th>
+					 	<th>Nro. Secuencia</th>
 					 	<th>$ Comp.</th>
 					 	<th>$ Deb.</th>
 					 	<th>$ O.S.</th>
@@ -80,6 +81,7 @@ function cancelarPresentacion(id) {
 						<td><?php echo $rowTotales['id'] ?></td>
 						<td><?php echo $rowTotales['fechapago'] ?></td>
 						<td><?php echo $rowTotales['cantidad'] ?></td>
+						<td><?php echo $rowTotales['nrosecuencia'] ?></td>
 						<td><?php echo number_format($rowTotales['impcomprobanteintegral'],2,",",".") ?></td>
 						<td><?php echo number_format($rowTotales['impdebito'],2,",",".") ?></td>
 						<td><?php echo number_format($rowTotales['impnointe'] + $rowTotales['impobrasocial'] ,2,",",".") ?></td>

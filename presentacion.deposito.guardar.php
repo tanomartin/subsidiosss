@@ -19,7 +19,7 @@ try {
 	//echo $sqlUpdatePresentacion."<br>";
 	$dbh->exec($sqlUpdatePresentacion);
 	$dbh->commit();
-	Header("Location: presentacion.detalle.php?id=$idPresentacion");
+	Header("Location: presentacion.php");
 } catch (PDOException $e) {
 	$redire = "Location: presentacion.error.php?id=$idPresentacion&page='Detalle Deposito'&error=".$e->getMessage();
 	Header($redire);
