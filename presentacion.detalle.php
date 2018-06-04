@@ -250,7 +250,7 @@ $(function() {
 										$retiene = "SI";
 									} 
 									
-									$sqlDebeRecibo = "SELECT f.nrocomprobante FROM intepagos p, intepresentaciondetalle f
+									$sqlDebeRecibo = "SELECT f.nrocomprobante FROM intepagosdetalle p, intepresentaciondetalle f
 														WHERE
 														p.recibo = '' and
 														p.nrocominterno = f.nrocominterno and codpractica not in (97,98,99) and

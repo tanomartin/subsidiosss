@@ -177,7 +177,7 @@ header("Content-Disposition: attachment; filename=$file");
 								<td>-</td>
 			<?php		  }
 			
-						  if ($rowPresentacion['fechasubsidio'] != null) {
+						  if ($rowPresentacion['fecharendicion'] != null) {
 						  		if ($rowFactura['deverrorintegral'] == null && $rowFactura['deverrorformato'] == null) { 
 									$controlMontoSub = $rowFactura['impsolicitadosubsidio'] - $rowFactura['impmontosubsidio'];
 									if ($controlMontoSub != 0) $colorMontInt = 'red'; else $colorMontInt = ''; 
@@ -200,7 +200,7 @@ header("Content-Disposition: attachment; filename=$file");
 										$retiene = "SI";
 									} 
 									
-									$sqlDebeRecibo = "SELECT f.nrocomprobante FROM intepagos p, intepresentaciondetalle f
+									$sqlDebeRecibo = "SELECT f.nrocomprobante FROM intepagosdetalle p, intepresentaciondetalle f
 														WHERE
 														p.recibo = '' and
 														p.nrocominterno = f.nrocominterno and codpractica not in (97,98,99) and

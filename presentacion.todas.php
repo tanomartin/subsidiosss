@@ -43,7 +43,7 @@ $sqlPresentacionPeriodo = "SELECT *
 $resPresentacionPeriodo  = mysql_query($sqlPresentacionPeriodo);
 $canPresentacionPeriodo = mysql_num_rows($resPresentacionPeriodo);
 
-$sqlPagos = "SELECT idpresentacion FROM intepagos GROUP BY idpresentacion";
+$sqlPagos = "SELECT idpresentacion FROM intepagoscabecera GROUP BY idpresentacion";
 $resPagos  = mysql_query($sqlPagos);
 $canPagos = mysql_num_rows($resPagos);
 $arrayPagos = array();
@@ -157,13 +157,9 @@ $(function() {
 						<td>
 							<input style="margin-bottom: 5px" type="button" value="Facturas" onClick="location.href = 'presentacion.facturas.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
 							<input style="margin-bottom: 5px" type="button" value="Detalle" onClick="location.href = 'presentacion.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
-							<?php if (in_array($rowPresentacion['id'],$arrayPagos)) {
-								 	if($rowPresentacion['idcronograma'] > 7) {?>
-										<input type="button" value="Pagos" onClick="location.href = 'presentacion.pagosnuevo.php?id=<?php echo $rowPresentacion['id'] ?>'"/>									
-							  <?php } else {?>
-										<input type="button" value="Pagos TS/TO" onClick="location.href = 'presentacion.pagos.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-							<?php 	}
-								 }  ?>
+							<?php if (in_array($rowPresentacion['id'],$arrayPagos)) { ?>
+									<input type="button" value="Pagos" onClick="location.href = 'presentacion.pagos.php?id=<?php echo $rowPresentacion['id'] ?>'"/>									
+							<?php }  ?>
 						</td>
 						<td>
 					<?php	if ($rowPresentacion['fechadevformato'] != NULL && $rowPresentacion['cantformatonok'] != 0) { ?>

@@ -16,25 +16,24 @@ m.descripcion,
 f.nrocomprobante,
 f.periodo,
 f.impcomprobante,
-p.nrotransferencia,
-p.importepagado,
-p.retingresosbrutos + p.retganancias as rete,
-DATE_FORMAT(p.fechatransferencia,'%d-%m-%Y') as fechatrasferencia,
+pc.nrotransferencia,
+DATE_FORMAT(pc.fechatransferencia,'%d-%m-%Y') as fechatrasferencia,
 prestadores.email1,
 prestadores.email2,
 prestadores.ddn1,
 prestadores.telefono1,
 prestadores.ddn2,
 prestadores.telefono2
-FROM intepagos p, intepresentacion pre, intecronograma c, tipocomprobante m, intepresentaciondetalle f
+FROM intepagosdetalle p, intepagoscabecera pc, intepresentacion pre, intecronograma c, tipocomprobante m, intepresentaciondetalle f
 LEFT JOIN titulares on f.cuil = titulares.cuil
 LEFT JOIN familiares on f.cuil = familiares.cuil
 LEFT JOIN titulares titufami on  familiares.nroafiliado = titufami.nroafiliado
 LEFT JOIN prestadores on f.cuit = prestadores.cuit
 WHERE
   p.recibo = '' and
-  p.nrocominterno = f.nrocominterno and 
-  p.idpresentacion = f.idpresentacion and
+  p.nrocominterno = f.nrocominterno and
+  p.idpresentacion = f.idpresentacion and 
+  pc.idpresentacion = p.idpresentacion and
   codpractica not in (97,98,99) and
   f.impsolicitadosubsidio is not null and
   f.impmontosubsidio is not null and
@@ -70,8 +69,6 @@ header("Content-Disposition: attachment; filename=$file");
 				 	<th>Nro Compr.</th>
 				 	<th>$ Comprobante</th>
 				 	<th>Nro Transf</th>
-				 	<th>$ Retencion</th>
-				 	<th>$ Transferido</th>
 				 	<th>Fecha</th>
 				 	<th>Emails</th>
 				 	<th>Telefonos</th>
@@ -94,8 +91,6 @@ header("Content-Disposition: attachment; filename=$file");
 			 		<td><?php echo $rowRecibo['nrocomprobante'] ?></td>
 			 		<td><?php echo number_format($rowRecibo['impcomprobante'],"2",",",".") ?></td>
 			 		<td><?php echo $rowRecibo['nrotransferencia'] ?></td>
-			 		<td><?php echo number_format($rowRecibo['rete'],"2",",",".") ?></td>
-			 		<td><?php echo number_format($rowRecibo['importepagado'],"2",",",".") ?></td>
 			 		<td><?php echo $rowRecibo['fechatrasferencia'] ?></td>
 			 		<?php $emails =  $rowRecibo['email1']." ".$rowRecibo['email2'];
 			 		  if ($rowRecibo['email1']!= "" && $rowRecibo['email2']!= "") {

@@ -163,13 +163,9 @@ $(function() {
 						<td>
 							<input style="margin-bottom: 5px" type="button" value="Facturas" onClick="location.href = 'presentacion.facturas.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
 							<input style="margin-bottom: 5px" type="button" value="Detalle" onClick="location.href = 'presentacion.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
-					  <?php if (in_array($rowPresentacion['id'],$arrayPagos)) {
-								if($rowPresentacion['idcronograma'] > 7) { ?>
-									<input type="button" value="Pagos" onClick="location.href = 'presentacion.pagosnuevo.php?id=<?php echo $rowPresentacion['id'] ?>'"/>									
-						  <?php } else {?>
-									<input type="button" value="P.TS/TO" onClick="location.href = 'presentacion.pagos.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-						<?php 	}
-							}  ?>
+					  <?php if (in_array($rowPresentacion['id'],$arrayPagos)) { ?>
+								<input type="button" value="Pagos" onClick="location.href = 'presentacion.pagos.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+					  <?php	}  ?>
 						</td>
 						<td>
 					<?php	if ($rowPresentacion['fechadevformato'] != NULL && $rowPresentacion['cantformatonok'] != 0) { ?>
