@@ -86,11 +86,7 @@ $(function() {
 				 	 13:{sorter:false, filter:false},
 				 	 14:{sorter:false, filter:false},
 				 	 15:{sorter:false, filter:false},
-				 	 16:{sorter:false, filter:false},
-				 	 17:{sorter:false},
-				 	 18:{sorter:false, filter:false},
-				 	 19:{sorter:false, filter:false},
-				 	 20:{sorter:false, filter:false}},
+				 	 16:{sorter:false}},
 			widgetOptions : { 
 				filter_cssFilter   : '',
 				filter_childRows   : false,
