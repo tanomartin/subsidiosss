@@ -58,6 +58,8 @@ header("Content-Disposition: attachment; filename=$file");
 			 			<th rowspan="2">Num. Comp.</th>
 			 			<th rowspan="2">Cod. Prac.</th>
 			 			<th rowspan="2">$ Comp.</th>
+			 			<th rowspan="2">$ Deb.</th>
+			 			<th rowspan="2">$ No Int.</th>
 			 			<th rowspan="2">$ Soli.</th>
 			 			<th colspan="2">Resultado Formato</th>
 			 			<th colspan="2">Resultado Integral</th>
@@ -74,12 +76,13 @@ header("Content-Disposition: attachment; filename=$file");
 			 			<th>Soli.</th>
 			 			<th>Subs.</th>
 			 			<th>Tr O.S.</th>
-			 			<th>Debito / Pago O.S.</th>
 			 		</tr>
 			 	</thead>
 			 	<tbody>
 			<?php 
 				$totCom = 0;
+				$totDeb = 0;
+				$totNOI = 0;
 				$totSol = 0;
 				$totComFor = 0;
 				$totSolFor = 0;
@@ -105,13 +108,21 @@ header("Content-Disposition: attachment; filename=$file");
 				 
 				  <?php if ($rowFactura['tipoarchivo'] == 'DB') { 
 				  			$totCom -= $rowFactura['impcomprobante'];
+				  			$totDeb -= $rowFactura['impdebito'];
+				  			$totNOI -= $rowFactura['impnointe'];
 				  			$totSol -= $rowFactura['impsolicitado']; ?>
 						    <td><?php echo "(".number_format($rowFactura['impcomprobante'],2,",",".").")" ?></td>
+						    <td><?php echo "(".number_format($rowFactura['impdebito'],2,",",".").")" ?></td>
+						    <td><?php echo "(".number_format($rowFactura['impnointe'],2,",",".").")" ?></td>
 						    <td><?php echo "(".number_format($rowFactura['impsolicitado'],2,",",".").")" ?></td>
 				   <?php } else { 
 							$totCom += $rowFactura['impcomprobante'];
+							$totDeb += $rowFactura['impdebito'];
+							$totNOI += $rowFactura['impnointe'];
 				  			$totSol += $rowFactura['impsolicitado']; ?>
 						    <td><?php echo number_format($rowFactura['impcomprobante'],2,",",".") ?></td>
+						    <td><?php echo number_format($rowFactura['impdebito'],2,",",".") ?></td>
+						    <td><?php echo number_format($rowFactura['impnointe'],2,",",".") ?></td>
 						    <td><?php echo number_format($rowFactura['impsolicitado'],2,",",".") ?></td>
 					<?php } 
 					   
@@ -192,9 +203,6 @@ header("Content-Disposition: attachment; filename=$file");
 										$importeFactura = (-1)*$rowFactura['impcomprobanteintegral'];
 									}
 									
-									$impChOsp = $importeFactura - $rowFactura['impsolicitadosubsidio'];
-									$totMonChOsp += $impChOsp;
-									
 									$retiene = "NO";
 									if ($rowFactura['retiene'] == 1) {
 										$retiene = "SI";
@@ -214,11 +222,9 @@ header("Content-Disposition: attachment; filename=$file");
 									<td><?php echo number_format($rowFactura['impsolicitadosubsidio'],2,",",".");  ?></td>
 									<td style="font-size: 11px; color: <?php echo $colorMontInt ?>"><?php echo number_format($rowFactura['impmontosubsidio'],2,",",".");  ?></td>
 									<td><?php echo number_format($impOsp,2,",",".");  ?></td>
-									<td><?php echo number_format($impChOsp,2,",","."); ?></td>
 									<td><?php echo $retiene ?></td>
 									<td><?php echo $canDebeRecibo ?></td>
 						<?php 	} else { ?>
-									<td>-</td>
 									<td>-</td>
 									<td>-</td>
 									<td>-</td>
@@ -231,13 +237,14 @@ header("Content-Disposition: attachment; filename=$file");
 									<td>-</td>
 									<td>-</td>
 									<td>-</td>
-									<td>-</td>
 						 <?php } ?>		  	
 					</tr>	
 			<?php } ?>
 					<tr>
 						<th colspan="11">TOTALES</td>
 						<th><?php echo number_format($totCom,2,",",".") ?></td>
+						<th><?php echo number_format($totDeb,2,",",".") ?></td>
+						<th><?php echo number_format($totNOI,2,",",".") ?></td>		
 						<th><?php echo number_format($totSol,2,",",".") ?></td>
 						<th><?php echo number_format($totComFor,2,",",".") ?></td>
 						<th><?php echo number_format($totSolFor,2,",",".") ?></td>
@@ -246,7 +253,6 @@ header("Content-Disposition: attachment; filename=$file");
 						<th><?php echo number_format($totSolSub,2,",",".") ?></td>
 						<th><?php echo number_format($totMonSub,2,",",".") ?></td>
 						<th><?php echo number_format($totMonOsp,2,",",".") ?></td>
-						<th><?php echo number_format($totMonChOsp,2,",",".") ?></td>
 						<th></td>
 						<th></td>
 					</tr>
