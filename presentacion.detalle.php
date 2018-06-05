@@ -4,30 +4,10 @@ set_time_limit(0);
 $idPresentacion = $_GET['id'];
 $sqlFactura = "SELECT intepresentaciondetalle.*, prestadoresauxiliar.cbu,
 	CASE
-     WHEN (titulares.codidelega is not null) THEN titulares.codidelega
- 		WHEN (titularesdebaja.codidelega is not null) THEN titularesdebaja.codidelega
- 		WHEN (titufami.codidelega is not null) THEN titufami.codidelega
- 		WHEN (titubajafami.codidelega is not null) THEN titubajafami.codidelega
- 		WHEN (titufamibaja.codidelega is not null) THEN titufamibaja.codidelega
- 		WHEN (titubajafamibaja.codidelega is not null) THEN titubajafamibaja.codidelega
-	END as codidelega,
-	CASE
 	  WHEN (prestadores.situacionfiscal in (0,1,4) || (prestadores.situacionfiscal = 3 and prestadores.vtoexento >= CURDATE())) THEN 0
 	  WHEN (prestadores.situacionfiscal = 2 || (prestadores.situacionfiscal = 3 and prestadores.vtoexento < CURDATE())) THEN 1
 	END as retiene
 FROM intepresentaciondetalle
-
-LEFT JOIN titulares on intepresentaciondetalle.cuil = titulares.cuil
-LEFT JOIN titularesdebaja on intepresentaciondetalle.cuil = titularesdebaja.cuil
-
-LEFT JOIN familiares on intepresentaciondetalle.cuil = familiares.cuil
-LEFT JOIN titulares titufami on familiares.nroafiliado = titufami.nroafiliado
-LEFT JOIN titularesdebaja titubajafami on familiares.nroafiliado = titubajafami.nroafiliado
-
-LEFT JOIN familiaresdebaja on intepresentaciondetalle.cuil = familiaresdebaja.cuil
-LEFT JOIN titulares titufamibaja on familiaresdebaja.nroafiliado = titufamibaja.nroafiliado
-LEFT JOIN titularesdebaja titubajafamibaja on familiaresdebaja.nroafiliado = titubajafamibaja.nroafiliado
-
 LEFT JOIN prestadores on intepresentaciondetalle.cuit = prestadores.cuit
 LEFT JOIN prestadoresauxiliar on prestadores.codigoprestador = prestadoresauxiliar.codigoprestador
 WHERE idpresentacion = $idPresentacion order by cuil, periodo, codpractica";
@@ -92,7 +72,6 @@ $(function() {
 			 			<th rowspan="2" style="font-size: 11px">Comp. Interno</th>
 			 			<th rowspan="2" style="font-size: 11px">Tipo</th>
 			 			<th rowspan="2" style="font-size: 11px">C.U.I.L.</th>
-			 			<th rowspan="2" style="font-size: 11px">Dele</th>
 			 			<th rowspan="2" style="font-size: 11px">Periodo</th>
 			 			<th rowspan="2" style="font-size: 11px">C.U.I.T.</th>
 			 			<th rowspan="2" style="font-size: 11px">C.B.U.</th>
@@ -139,7 +118,6 @@ $(function() {
 						<td style="font-size: 11px"><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['tipoarchivo'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['cuil'] ?></td>
-						<td style="font-size: 11px"><?php echo $rowFactura['codidelega'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['periodo'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['cuit'] ?></td>
 						<td style="font-size: 11px"><?php echo $rowFactura['cbu'] ?></td>
@@ -284,7 +262,7 @@ $(function() {
 			<?php } ?>
 				</tbody>
 				<tr>
-					<th colspan="11">TOTALES</td>
+					<th colspan="10">TOTALES</td>
 					<th style="font-size: 11px"><?php echo number_format($totCom,2,",",".") ?></td>	
 					<th style="font-size: 11px"><?php echo number_format($totDeb,2,",",".") ?></td>
 					<th style="font-size: 11px"><?php echo number_format($totNOI,2,",",".") ?></td>				
