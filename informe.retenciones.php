@@ -45,7 +45,7 @@ header("Content-Disposition: attachment; filename=$file");
 ?>
 <body>
 	<div align="center">
-		<table>
+		<table border="1">
 			<thead>
 				 <tr>
 				 	<th>Nº Comp.</th>
