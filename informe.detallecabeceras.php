@@ -40,7 +40,7 @@ $rowPromedio = mysql_fetch_array($resPromedio)
 	<p><input class="nover" type="button" name="volver" value="Volver" onClick="location.href = 'informes.php'" /></p>
 	<h2>Datos Totalizadores de Presentaciones</h2>
 	
-	<div class="grilla" style="width: 80%">
+	<div class="grilla" style="width: 90%">
 		<table>
 			<thead>
 				<tr>

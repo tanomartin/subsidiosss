@@ -197,42 +197,42 @@ function cerrarPresentacion(idpresentacion) {
 					 			<td style="background-color: #99bfe6"><b><?php echo $cuit ?></b></td>
 					 			<td style="background-color: #99bfe6"></td>
 					 			<td style="background-color: #99bfe6"></td>
-					 			<td style="background-color: #99bfe6"><b><?php echo number_format($rowFactura['impcomprobanteintegral'],2,",",".") ?></td>	
-					 			<td style="background-color: #99bfe6"><b><?php echo number_format($rowFactura['impdebito'],2,",",".") ?></td>	
-					 			<td style="background-color: #99bfe6"><b><?php echo number_format($rowFactura['impsolicitadosubsidio'],2,",",".") ?></td>	
-					 			<td style="background-color: #99bfe6"><b><?php echo number_format($rowFactura['impnointe'],2,",",".") ?></td>
-					 			<td style="background-color: #99bfe6"><b><?php echo number_format($rowFactura['impobrasocial'],2,",",".") ?></td>
-					 			<td style="background-color: #99bfe6"><b><?php echo number_format($rowFactura['impmontosubsidio'],2,",",".") ?></td>
-					 			<td style="background-color: #99bfe6"><b><?php if($rowFactura['retiene'] == 1) { echo "SI"; } else { echo "NO"; } ?></td>
+					 			<td style="background-color: #99bfe6"><b><?php echo number_format($rowFactura['impcomprobanteintegral'],2,",",".") ?></b></td>	
+					 			<td style="background-color: #99bfe6"><b><?php echo number_format($rowFactura['impdebito'],2,",",".") ?></b></td>	
+					 			<td style="background-color: #99bfe6"><b><?php echo number_format($rowFactura['impsolicitadosubsidio'],2,",",".") ?></b></td>	
+					 			<td style="background-color: #99bfe6"><b><?php echo number_format($rowFactura['impnointe'],2,",",".") ?></b></td>
+					 			<td style="background-color: #99bfe6"><b><?php echo number_format($rowFactura['impobrasocial'],2,",",".") ?></b></td>
+					 			<td style="background-color: #99bfe6"><b><?php echo number_format($rowFactura['impmontosubsidio'],2,",",".") ?></b></td>
+					 			<td style="background-color: #99bfe6"><b><?php if($rowFactura['retiene'] == 1) { echo "SI"; } else { echo "NO"; } ?></b></td>
 					 			<th><?php if($rowFactura['retiene'] == 1) { ?> <input onchange="actualizarDatos(this,<?php echo $rowFactura['impretencion']?>,<?php echo $cuit?>,<?php echo $rowFactura['impcomprobanteintegral']?>,<?php echo $rowFactura['impdebito']?>,<?php echo $rowFactura['impapagar']?> )" type="text" size="4" name="rete<?php echo $cuit?>" id="rete"<?php echo $cuit?>" value="<?php echo number_format($rowFactura['impretencion'],2,".","") ?>"/> <?php } ?></th>
-					 			<th>
+					 			<th><b>
 					 			<?php if($rowFactura['retiene'] == 1) { ?> 
 					 					<input type="text" size="8" readonly="readonly" style="background-color: silver; text-align: center" name="apagar<?php echo $cuit?>" id="apagar<?php echo $cuit?>" value="<?php echo number_format($rowFactura['impapagar'],2,".","") ?>"/> 
 					 			<?php } else {  
 					 					echo number_format($rowFactura['impapagar'],2,",",".");
 					 				  } ?>
-					 			</th>
+					 			</b></th>
 					 		</tr>	
 				 <?php	}
 				 	} ?>
 				 	</tbody>
 					<tr>
-						<th colspan="7" rowspan="3">TOTALES</td>
-						<th rowspan="2"><?php echo number_format($totComSub,2,",",".") ?></td>
-						<th rowspan="2"><?php echo number_format($totMonDeb,2,",",".") ?></td>
-						<th rowspan="2"><?php echo number_format($totSolSub,2,",",".") ?></td>
-						<th><?php echo number_format($totMonNOI,2,",",".") ?></td>
-						<th><?php echo number_format($totMonOS,2,",",".") ?></td>
-						<th rowspan="2"><?php echo number_format($totMonSub,2,",",".") ?></td>
+						<th colspan="7" rowspan="3">TOTALES</th>
+						<th rowspan="2"><?php echo number_format($totComSub,2,",",".") ?></th>
+						<th rowspan="2"><?php echo number_format($totMonDeb,2,",",".") ?></th>
+						<th rowspan="2"><?php echo number_format($totSolSub,2,",",".") ?></th>
+						<th><?php echo number_format($totMonNOI,2,",",".") ?></th>
+						<th><?php echo number_format($totMonOS,2,",",".") ?></th>
+						<th rowspan="2"><?php echo number_format($totMonSub,2,",",".") ?></th>
 						<th rowspan="2" colspan="2"><?php echo number_format($totRete,2,",",".") ?></th>
 						<th rowspan="2"><?php echo number_format($totApagar,2,",",".") ?></th>
 					</tr>
 					<tr>					
-						<th colspan="2"><?php echo number_format($totMonNOI + $totMonOS,2,",",".") ?></td>
+						<th colspan="2"><?php echo number_format($totMonNOI + $totMonOS,2,",",".") ?></th>
 					</tr>
 					<tr>
-						<th>COM<br><?php echo number_format($totComSub,2,",",".") ?></td>
-						<th colspan="3">DEB+SOL+NOI<br><?php echo number_format($totMonDeb + $totSolSub + $totMonNOI,2,",",".") ?></td>
+						<th>COM<br><?php echo number_format($totComSub,2,",",".") ?></th>
+						<th colspan="3">DEB+SOL+NOI<br><?php echo number_format($totMonDeb + $totSolSub + $totMonNOI,2,",",".") ?></th>
 						<th colspan="2">NOI+OS+SUB+DEB<br><?php echo number_format($totMonNOI + $totMonOS + $totMonSub + $totMonDeb,2,",",".") ?></th>
 						<th colspan="3">RET+DEB+PAG<br><?php echo number_format($totRete + $totMonDeb + $totApagar,2,",",".") ?></th>
 					</tr>	

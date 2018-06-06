@@ -1,8 +1,15 @@
 <?php include_once 'include/conector.php'; 
 
 $informe = $_GET['informe'];
-$sqlPresentacion = "SELECT p.*, c.periodo, c.carpeta FROM intepresentacion p, interendicioncontrol s, intecronograma c 
-							WHERE s.idpresentacion = p.id and p.idcronograma = c.id ORDER BY p.id DESC";
+$sqlPresentacion = "";
+if ($informe != "pagos") {
+	$sqlPresentacion = "SELECT DISTINCT p.id, c.periodo, c.carpeta FROM intepresentacion p, interendicioncontrol s, intecronograma c 
+								WHERE s.idpresentacion = p.id and p.idcronograma = c.id ORDER BY p.id DESC";
+} else { 
+	$sqlPresentacion = "SELECT DISTINCT p.id, c.periodo, c.carpeta FROM intepresentacion p, intepagoscabecera s, intecronograma c
+								WHERE s.idpresentacion = p.id and p.idcronograma = c.id ORDER BY p.id DESC";
+}
+
 $resPresentacion = mysql_query($sqlPresentacion);
 $arrayPresentacion = array();
 while ($rowPresentacion = mysql_fetch_array($resPresentacion)) {
@@ -34,8 +41,8 @@ function redireccion(formulario) {
 	if (tipo == "pagos") {
 		action = "informe.pagos.php?id="+datos[0]+"&carpeta="+datos[1];
 	}
-	if (tipo == "sindicos") {
-		action = "informe.sindico.php?id="+datos[0]+"&carpeta="+datos[1];
+	if (tipo == "retenciones") {
+		action = "informe.retenciones.php?id="+datos[0]+"&carpeta="+datos[1];
 	}
 	this.seleccionPresentacion.generar.disabled = true;
 	this.seleccionPresentacion.action = action;
@@ -48,14 +55,16 @@ function redireccion(formulario) {
 	<div align="center">
 		<p><input type="button" name="volver" value="Volver" onClick="location.href = 'informes.php'" /></p>
 		<h2>Informes S.S.S.</h2>
-		<h2>Seleccione Presentacion - Informe "<?php echo $informe?>"</h2>
+		<h2>Informe "<?php echo $informe?>"</h2>
 		<form onsubmit="redireccion(this)" name="seleccionPresentacion" id="seleccionPresentacion" method="post" >
 			<input type="text" value="<?php echo $informe?>" id="tipo" name="tipo" style="display: none"/>
+			<p><b>Presentación: </b>
 			<select id="id" name="id">
 			<?php foreach($arrayPresentacion as $id => $presentacion) { ?>
 					<option value="<?php echo $id ?>"><?php echo $id." (".$presentacion.")" ?></option>
 			<?php } ?>
 			</select>
+			</p>
 			<p><input type="submit" id="generar" name="generar" value="Generar Informe"/></p>
 		</form>
 	</div>

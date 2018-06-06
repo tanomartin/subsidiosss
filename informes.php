@@ -10,18 +10,27 @@
 <div align="center">
 	<p><input type="reset" name="volver" value="Volver" onClick="location.href = 'menu.php'" /></p>
   	<h2>Informes S.S.S.</h2>
-  	<table width="400" border="1" style="text-align: center">
+  	<table width="600" border="1" style="text-align: center">
       <tr>
 	      <td width="200"> 
 	        <p>DETALLE</br> X PRESENTACION</p>
 	        <p><a href="informe.selectpresentacion.php?informe=detalle"><img src="img/excellogo.png" width="90" height="90" border="0"/></a></p>
 		  </td>
-		   <td width="200">
+		  <td width="200"> 
+	        <p>DETALLE RETE.</br> X PRESENTACION</p>
+	        <p><a href="informe.selectpresentacion.php?informe=retenciones"><img src="img/excellogo.png" width="90" height="90" border="0"/></a></p>
+		  </td>
+		  <td width="200"> 
+	        <p>DETALLE PAGOS</br> X PRESENTACION</p>
+	        <p><a href="informe.selectpresentacion.php?informe=pagos"><img src="img/excellogo.png" width="90" height="90" border="0"/></a></p>
+		  </td>
+		   
+     </tr>	
+     <tr>
+     	  <td>
 		    <p>RECIBO ADEUDADOS</p>
 		    <p><a href="informe.recibosadeudados.php"><img src="img/excellogo.png" width="90" height="90" border="0"/></a></p>
 		  </td>
-     </tr>	
-     <tr>
 		  <td>
 		  	 <p>FACTURAS CONTROL</br> REPETICIONES</p>
 		    <p><a href="informe.controlrepeticiones.php"><img src="img/excellogo.png" width="90" height="90" border="0"/></a></p>

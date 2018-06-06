@@ -194,7 +194,7 @@ $(function() {
 								<td><?php echo number_format($rowFactura['impmontosubsidio'],2,",",".") ?></td>
 								<td></td>
 								<td></td>
-							<?php if (isset($arrayPagos[$rowFactura['nrocominterno']])) { ?>
+							<?php if (isset($arrayPagos[$rowFactura['nrocominterno']]) && $rowFactura['tipoarchivo'] != "DB") { ?>
 									<td><?php echo $arrayPagos[$rowFactura['nrocominterno']]['nroordenpago'] ?></td>
 									<td><?php echo $arrayPagos[$rowFactura['nrocominterno']]['fechatransferencia'] ?></td>
 									<td><?php echo $arrayPagos[$rowFactura['nrocominterno']]['nrotransferencia'] ?></td>
@@ -202,7 +202,7 @@ $(function() {
 									<td><?php echo $arrayPagos[$rowFactura['nrocominterno']]['asiento'] ?></td>
 									<td><?php echo $arrayPagos[$rowFactura['nrocominterno']]['folio'] ?></td>
 							<?php } else { 
-										if (isset($arrayReversiones[$rowFactura['nrocominterno']])) { ?>
+										if (isset($arrayReversiones[$rowFactura['nrocominterno']]) && $rowFactura['tipoarchivo'] != "DB") { ?>
 											<td>Rev <?php echo $arrayReversiones[$rowFactura['nrocominterno']] ?></td>
 											<td>-</td>
 											<td>-</td>
