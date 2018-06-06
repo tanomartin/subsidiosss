@@ -55,6 +55,19 @@ while ($rowTotalesCuit = mysql_fetch_assoc($resTotalesCuit)) {
 }
 
 ksort($arrayFacturas);
+
+$arrayReversiones = array();
+$sqlReversionesFuturas = "SELECT d.nrocominterno, d.idpresentacion
+							FROM intepresentaciondetalle d, intepresentacion p 
+							WHERE d.idpresentacion > $idPresentacion AND d.tipoarchivo = 'DB' AND 
+								  d.idpresentacion = p.id AND p.fechacancelacion is null";
+$resReversionesFuturas = mysql_query($sqlReversionesFuturas);
+$canReversionesFuturas = mysql_num_rows($resReversionesFuturas);
+if ($canReversionesFuturas > 0) {
+	while ($rowReversionesFuturas = mysql_fetch_assoc($resReversionesFuturas)) {
+		$arrayReversiones[$rowReversionesFuturas['nrocominterno']] = $rowReversionesFuturas['idpresentacion'];
+	}
+}
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -181,21 +194,30 @@ $(function() {
 								<td><?php echo number_format($rowFactura['impmontosubsidio'],2,",",".") ?></td>
 								<td></td>
 								<td></td>
-								<?php if (isset($arrayPagos[$rowFactura['nrocominterno']])) { ?>
+							<?php if (isset($arrayPagos[$rowFactura['nrocominterno']])) { ?>
 									<td><?php echo $arrayPagos[$rowFactura['nrocominterno']]['nroordenpago'] ?></td>
 									<td><?php echo $arrayPagos[$rowFactura['nrocominterno']]['fechatransferencia'] ?></td>
 									<td><?php echo $arrayPagos[$rowFactura['nrocominterno']]['nrotransferencia'] ?></td>
 									<td><?php echo $arrayPagos[$rowFactura['nrocominterno']]['recibo'] ?></td>
 									<td><?php echo $arrayPagos[$rowFactura['nrocominterno']]['asiento'] ?></td>
 									<td><?php echo $arrayPagos[$rowFactura['nrocominterno']]['folio'] ?></td>
-								<?php } else { ?>
-									<td>-</td>
-									<td>-</td>
-									<td>-</td>
-									<td>-</td>
-									<td>-</td>
-									<td>-</td>
-								<?php } ?>
+							<?php } else { 
+										if (isset($arrayReversiones[$rowFactura['nrocominterno']])) { ?>
+											<td>Rev <?php echo $arrayReversiones[$rowFactura['nrocominterno']] ?></td>
+											<td>-</td>
+											<td>-</td>
+											<td>-</td>
+											<td>-</td>
+											<td>-</td>
+								  <?php } else {  ?>
+											<td>-</td>
+											<td>-</td>
+											<td>-</td>
+											<td>-</td>
+											<td>-</td>
+											<td>-</td>
+									<?php }
+									} ?>
 							</tr>
 					<?php } else {
 							$cuit = substr($key,0,11);  
