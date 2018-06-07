@@ -1,6 +1,6 @@
 <?php 
 include_once 'include/conector.php';
-$sqlNomenclador = "SELECT * FROM practicas WHERE nomenclador = 7 ORDER BY codigopractica";
+$sqlNomenclador = "SELECT * FROM madera.practicas WHERE nomenclador = 7 ORDER BY codigopractica";
 $resNomenclador =  mysql_query($sqlNomenclador);
 
 ?>

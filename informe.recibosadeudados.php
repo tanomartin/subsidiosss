@@ -11,12 +11,12 @@ $sqlRecibos = "SELECT
 	f.nrocominterno,
 	f.cuil,
 	CASE
-     WHEN (titulares.codidelega is not null) THEN titulares.codidelega
- 		WHEN (titularesdebaja.codidelega is not null) THEN titularesdebaja.codidelega
- 		WHEN (titufami.codidelega is not null) THEN titufami.codidelega
- 		WHEN (titubajafami.codidelega is not null) THEN titubajafami.codidelega
- 		WHEN (titufamibaja.codidelega is not null) THEN titufamibaja.codidelega
- 		WHEN (titubajafamibaja.codidelega is not null) THEN titubajafamibaja.codidelega
+     	WHEN (madera.titulares.codidelega is not null) THEN madera.titulares.codidelega
+ 	 	WHEN (madera.titularesdebaja.codidelega is not null) THEN madera.titularesdebaja.codidelega
+ 		WHEN (madera.titufami.codidelega is not null) THEN madera.titufami.codidelega
+ 		WHEN (madera.titubajafami.codidelega is not null) THEN madera.titubajafami.codidelega
+ 		WHEN (madera.titufamibaja.codidelega is not null) THEN madera.titufamibaja.codidelega
+ 		WHEN (madera.titubajafamibaja.codidelega is not null) THEN madera.titubajafamibaja.codidelega
 	END as codidelega,
 	m.descripcion,
 	f.nrocomprobante,
@@ -35,18 +35,17 @@ FROM
 	intepagoscabecera pc, 
 	intepresentacion pre, 
 	intecronograma c, 
-	tipocomprobante m, 
+	madera.tipocomprobante m, 
 	intepresentaciondetalle f
 		
-LEFT JOIN titulares on f.cuil = titulares.cuil
-LEFT JOIN titularesdebaja on f.cuil = titularesdebaja.cuil
-LEFT JOIN familiares on f.cuil = familiares.cuil
-LEFT JOIN titulares titufami on familiares.nroafiliado = titufami.nroafiliado
-LEFT JOIN titularesdebaja titubajafami on familiares.nroafiliado = titubajafami.nroafiliado
-LEFT JOIN familiaresdebaja on f.cuil = familiaresdebaja.cuil
-LEFT JOIN titulares titufamibaja on familiaresdebaja.nroafiliado = titufamibaja.nroafiliado
-LEFT JOIN titularesdebaja titubajafamibaja on familiaresdebaja.nroafiliado = titubajafamibaja.nroafiliado
-		
+LEFT JOIN madera.titulares on f.cuil = madera.titulares.cuil
+LEFT JOIN madera.titularesdebaja on f.cuil = madera.titularesdebaja.cuil
+LEFT JOIN madera.familiares on f.cuil = madera.familiares.cuil
+LEFT JOIN madera.titulares titufami on madera.familiares.nroafiliado = madera.titufami.nroafiliado
+LEFT JOIN madera.titularesdebaja titubajafami on madera.familiares.nroafiliado = madera.titubajafami.nroafiliado
+LEFT JOIN madera.familiaresdebaja on f.cuil = madera.familiaresdebaja.cuil
+LEFT JOIN madera.titulares titufamibaja on madera.familiaresdebaja.nroafiliado = madera.titufamibaja.nroafiliado
+LEFT JOIN madera.titularesdebaja titubajafamibaja on madera.familiaresdebaja.nroafiliado = madera.titubajafamibaja.nroafiliado
 LEFT JOIN madera.prestadores on f.cuit = madera.prestadores.cuit	
 WHERE
 	p.recibo = '' and

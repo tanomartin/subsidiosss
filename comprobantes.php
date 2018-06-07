@@ -1,6 +1,6 @@
 <?php 
 include_once 'include/conector.php';
-$sqlCompro = "SELECT * FROM tipocomprobante";
+$sqlCompro = "SELECT * FROM madera.tipocomprobante";
 $resCompro = mysql_query($sqlCompro);
 
 ?>
