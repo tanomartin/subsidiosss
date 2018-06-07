@@ -2,14 +2,14 @@
 include_once 'include/conector.php';
 set_time_limit(0);
 $idPresentacion = $_GET['id'];
-$sqlFactura = "SELECT intepresentaciondetalle.*, prestadoresauxiliar.cbu,
+$sqlFactura = "SELECT intepresentaciondetalle.*, madera.prestadoresauxiliar.cbu,
 	CASE
-	  WHEN (prestadores.situacionfiscal in (0,1,4) || (prestadores.situacionfiscal = 3 and prestadores.vtoexento >= CURDATE())) THEN 0
-	  WHEN (prestadores.situacionfiscal = 2 || (prestadores.situacionfiscal = 3 and prestadores.vtoexento < CURDATE())) THEN 1
+	  WHEN (madera.prestadores.situacionfiscal in (0,1,4) || (madera.prestadores.situacionfiscal = 3 and madera.prestadores.vtoexento >= CURDATE())) THEN 0
+	  WHEN (madera.prestadores.situacionfiscal = 2 || (madera.prestadores.situacionfiscal = 3 and madera.prestadores.vtoexento < CURDATE())) THEN 1
 	END as retiene
 FROM intepresentaciondetalle
-LEFT JOIN prestadores on intepresentaciondetalle.cuit = prestadores.cuit
-LEFT JOIN prestadoresauxiliar on prestadores.codigoprestador = prestadoresauxiliar.codigoprestador
+LEFT JOIN madera.prestadores on intepresentaciondetalle.cuit = madera.prestadores.cuit
+LEFT JOIN madera.prestadoresauxiliar on prestadores.codigoprestador = madera.prestadoresauxiliar.codigoprestador
 WHERE idpresentacion = $idPresentacion order by cuil, periodo, codpractica";
 $resFactura = mysql_query($sqlFactura);
 ?>
