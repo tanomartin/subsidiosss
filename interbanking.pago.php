@@ -3,10 +3,10 @@ include_once 'include/conector.php';
 
 $sqlPagos = "SELECT inteinterbanking.*, prestadoresauxiliar.cbu,
 			DATE_FORMAT(inteinterbanking.fechaenvio, '%d-%m-%Y') as fechaenvio,
-			prestadoresauxiliar.cbu
+			madera.prestadoresauxiliar.cbu
 			FROM inteinterbanking
-			LEFT JOIN prestadores on inteinterbanking.cuit = prestadores.cuit
-			LEFT JOIN prestadoresauxiliar on prestadores.codigoprestador = prestadoresauxiliar.codigoprestador
+			LEFT JOIN madera.prestadores on inteinterbanking.cuit = madera.prestadores.cuit
+			LEFT JOIN madera.prestadoresauxiliar on madera.prestadores.codigoprestador = madera.prestadoresauxiliar.codigoprestador
 			WHERE inteinterbanking.fechaenvio is not null and inteinterbanking.idpago is null";
 $resPagos = mysql_query($sqlPagos);
 $numPagos = mysql_num_rows($resPagos);

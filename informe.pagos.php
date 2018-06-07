@@ -39,13 +39,8 @@ while ($rowFactura = mysql_fetch_assoc($resFactura)) {
 	$arrayFacturas[$index] = $rowFactura;
 }
 
-$sqlTotalesCuit = "SELECT inteinterbanking.*,
-	CASE
-		WHEN (prestadores.situacionfiscal in (0,1,4) || (prestadores.situacionfiscal = 3 and prestadores.vtoexento >= CURDATE())) THEN 0
-		WHEN (prestadores.situacionfiscal = 2 || (prestadores.situacionfiscal = 3 and prestadores.vtoexento < CURDATE())) THEN 1
-	END as retiene
+$sqlTotalesCuit = "SELECT inteinterbanking.*
 	FROM inteinterbanking 
-	LEFT JOIN prestadores on inteinterbanking.cuit = prestadores.cuit
 	WHERE idpresentacion = $idPresentacion";
 $resTotalesCuit = mysql_query($sqlTotalesCuit);
 

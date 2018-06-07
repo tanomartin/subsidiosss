@@ -6,7 +6,7 @@ $sqlRecibos = "SELECT
 	f.idpresentacion,
 	c.carpeta,
 	c.periodo as periodocarpeta,
-	prestadores.nombre,
+	madera.prestadores.nombre,
 	f.cuit,
 	f.nrocominterno,
 	f.cuil,
@@ -24,12 +24,12 @@ $sqlRecibos = "SELECT
 	f.impcomprobante,
 	pc.nrotransferencia,
 	DATE_FORMAT(pc.fechatransferencia,'%d-%m-%Y') as fechatrasferencia,
-	prestadores.email1,
-	prestadores.email2,
-	prestadores.ddn1,
-	prestadores.telefono1,
-	prestadores.ddn2,
-	prestadores.telefono2
+	madera.prestadores.email1,
+	madera.prestadores.email2,
+	madera.prestadores.ddn1,
+	madera.prestadores.telefono1,
+	madera.prestadores.ddn2,
+	madera.prestadores.telefono2
 FROM 
 	intepagosdetalle p, 
 	intepagoscabecera pc, 
@@ -47,7 +47,7 @@ LEFT JOIN familiaresdebaja on f.cuil = familiaresdebaja.cuil
 LEFT JOIN titulares titufamibaja on familiaresdebaja.nroafiliado = titufamibaja.nroafiliado
 LEFT JOIN titularesdebaja titubajafamibaja on familiaresdebaja.nroafiliado = titubajafamibaja.nroafiliado
 		
-LEFT JOIN prestadores on f.cuit = prestadores.cuit	
+LEFT JOIN madera.prestadores on f.cuit = madera.prestadores.cuit	
 WHERE
 	p.recibo = '' and
 	p.nrocominterno = f.nrocominterno and

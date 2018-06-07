@@ -4,12 +4,12 @@ require_once 'include/phpExcel/Classes/PHPExcel.php';
 
 $idCabecera = $_GET['id'];
 
-$sqlPagos = "SELECT inteinterbanking.*, prestadoresauxiliar.cbu,
+$sqlPagos = "SELECT inteinterbanking.*, madera.prestadoresauxiliar.cbu,
 			DATE_FORMAT(inteinterbanking.fechaenvio, '%d-%m-%Y') as fechaenvio,
-			prestadoresauxiliar.cbu
+			madera.prestadoresauxiliar.cbu
 			FROM inteinterbanking
-			LEFT JOIN prestadores on inteinterbanking.cuit = prestadores.cuit
-			LEFT JOIN prestadoresauxiliar on prestadores.codigoprestador = prestadoresauxiliar.codigoprestador
+			LEFT JOIN madera.prestadores on inteinterbanking.cuit = madera.prestadores.cuit
+			LEFT JOIN madera.prestadoresauxiliar on madera.prestadores.codigoprestador = madera.prestadoresauxiliar.codigoprestador
 			WHERE inteinterbanking.idpago = $idCabecera";
 $resPagos = mysql_query($sqlPagos);
 

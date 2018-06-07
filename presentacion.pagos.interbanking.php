@@ -6,10 +6,11 @@ $idPresentacion = $_GET['id'];
 $sqlTotalesCuit = "SELECT inteinterbanking.*, 
 						 DATE_FORMAT(inteinterbankingcabecera.fechapago, '%d-%m-%Y') as fechapago,
 						 DATE_FORMAT(inteinterbanking.fechaenvio, '%d-%m-%Y') as fechaenvio,
-						 prestadoresauxiliar.cbu, prestadoresauxiliar.interbanking, prestadoresauxiliar.fechainterbanking
+						 madera.prestadoresauxiliar.cbu, madera.prestadoresauxiliar.interbanking, 
+						 madera.prestadoresauxiliar.fechainterbanking
 	FROM inteinterbanking 
-	LEFT JOIN prestadores on inteinterbanking.cuit = prestadores.cuit
-	LEFT JOIN prestadoresauxiliar on prestadores.codigoprestador = prestadoresauxiliar.codigoprestador
+	LEFT JOIN madera.prestadores on inteinterbanking.cuit = madera.prestadores.cuit
+	LEFT JOIN madera.prestadoresauxiliar on madera.prestadores.codigoprestador = madera.prestadoresauxiliar.codigoprestador
 	LEFT JOIN inteinterbankingcabecera on inteinterbanking.idpago = inteinterbankingcabecera.id
 	WHERE idpresentacion = $idPresentacion ";
 $resTotalesCuit = mysql_query($sqlTotalesCuit);

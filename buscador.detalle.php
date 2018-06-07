@@ -5,15 +5,15 @@ $idPresentacion = $_GET['id'];
 $nrocom = $_GET['nro'];
 $sqlFactura = "SELECT d.*, titulares.codidelega as deletitu, titufami.codidelega as delefami,
 				CASE
-				  WHEN (prestadores.situacionfiscal in (0,1,4) || (prestadores.situacionfiscal = 3 and prestadores.vtoexento >= CURDATE())) THEN 0
-				  WHEN (prestadores.situacionfiscal = 2 || (prestadores.situacionfiscal = 3 and prestadores.vtoexento < CURDATE())) THEN 1
+				  WHEN (madera.prestadores.situacionfiscal in (0,1,4) || (madera.prestadores.situacionfiscal = 3 and madera.prestadores.vtoexento >= CURDATE())) THEN 0
+				  WHEN (madera.prestadores.situacionfiscal = 2 || (madera.prestadores.situacionfiscal = 3 and madera.prestadores.vtoexento < CURDATE())) THEN 1
 				END as retiene
 				FROM intepresentaciondetalle d
 				LEFT JOIN titulares on d.cuil = titulares.cuil
 				LEFT JOIN familiares on d.cuil = familiares.cuil
 				LEFT JOIN titulares titufami on  familiares.nroafiliado = titufami.nroafiliado
-				LEFT JOIN prestadores on d.cuit = prestadores.cuit
-				LEFT JOIN prestadoresauxiliar on prestadores.codigoprestador = prestadoresauxiliar.codigoprestador
+				LEFT JOIN madera.prestadores on d.cuit = madera.prestadores.cuit
+				LEFT JOIN madera.prestadoresauxiliar on madera.prestadores.codigoprestador = madera.prestadoresauxiliar.codigoprestador
 				WHERE d.idpresentacion = $idPresentacion and d.nrocominterno = $nrocom order by d.cuit, d.cuil, d.nrocomprobante";
 $resFactura = mysql_query($sqlFactura);
 ?>
