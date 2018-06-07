@@ -113,7 +113,7 @@ $resFactura = mysql_query($sqlFactura);
 								<td style="font-size: 11px">-</td>
 				 	<?php 	}
 						} 
-						if ($rowFactura['deverrorintegral'] != null && $rowFactura['deverrorformato'] == null) { ?>
+						if ($rowFactura['deverrorintegral'] != null && $rowFactura['deverrorformato'] == null && $rowFactura['impcomprobanteintegral'] != null) { ?>
 							<td colspan="2" style="font-size: 11px; color: red"><?php  echo "ERROR: ".$rowFactura['deverrorintegral'] ?></td>
 				  <?php } else { 
 							if ($rowFactura['impcomprobanteintegral'] != null && $rowFactura['impsolicitadointegral'] != null) { 
@@ -133,7 +133,7 @@ $resFactura = mysql_query($sqlFactura);
 								<td style="font-size: 11px">-</td>
 					  <?php } 	 
 						  } 
-						  if ($rowFactura['deverrorintegral'] == null && $rowFactura['deverrorformato'] == null) { 
+						  if ($rowFactura['deverrorintegral'] == null && $rowFactura['deverrorformato'] == null && $rowFactura['impmontosubsidio'] != null) { 
 								$controlMontoSub = $rowFactura['impsolicitadosubsidio'] - $rowFactura['impmontosubsidio'];
 								if ($controlMontoSub != 0) $colorMontInt = 'red'; else $colorMontInt = ''; 
 									
