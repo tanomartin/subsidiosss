@@ -50,7 +50,7 @@ foreach ($arrayFacturas as $key => $rowFactura) {
 	if($rowFactura['retiene'] == 1) {
 		if ($montoCalculo > 30000) {
 			$montoRet = ($montoCalculo - 30000) * 0.02;
-			if ($montoRet <= 90) {
+			if ($montoRet <= 150) {
 				$montoRet = 0;
 			}
 		}
