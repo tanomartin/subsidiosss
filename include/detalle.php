@@ -32,7 +32,6 @@ WHERE p.id = $idPresentacion";
 $resPresentacion = mysql_query($sqlPresentacion);
 $rowPresentacion = mysql_fetch_array($resPresentacion); ?>
 
-	<h2>Detalle Presentacion</h2>
 	 	<h3>ID: <?php echo $rowPresentacion['idpres']?> - PERIODO: <?php echo $rowPresentacion['periodo'] ?> - CARPETA: <?php echo $rowPresentacion['carpeta'] ?></h3>
 	 	 	
 	 	<?php if ($rowPresentacion['fechacancelacion'] != null) {  ?>
