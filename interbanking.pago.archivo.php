@@ -46,15 +46,11 @@ ksort($arrayFacturas);
 $nrosecu = $rowTotales['nrosecuencia'];
 $maquina = $_SERVER['SERVER_NAME'];
 $fechagenera=date("YmdHis");
-$carpeta="archivos/interbanking/".date("Ymd");
-if (!file_exists($carpeta)) {
-	mkdir($carpeta, 0777, true);
-}
-$archivo_xls_name=$carpeta."/inter_pago_$nrosecu.xls";
-$archivo_txt_name=$carpeta."/inter_pago_$nrosecu.txt";
+$archivo_xls_name="inter_pago_$nrosecu.xls";
+$archivo_txt_name="inter_pago_$nrosecu.txt";
 if(strcmp("localhost",$maquina)!=0) {
-	$archivo_xls_name="/home/sistemas/Documentos/Repositorio/".$archivo_xls_name;
-	$archivo_txt_name="/home/sistemas/Documentos/Repositorio/".$archivo_xls_name;
+	$archivo_xls_name="/home/sistemas/Documentos/Repositorio/Interbanking/".$archivo_xls_name;
+	$archivo_txt_name="/home/sistemas/Documentos/Repositorio/Interbanking/".$archivo_txt_name;
 }
 
 $objPHPExcel = new PHPExcel();
