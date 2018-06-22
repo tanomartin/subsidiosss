@@ -92,6 +92,14 @@ function validar(fomulario) {
 	return true;
 }
 
+function sacarEnvio(id, cuit) {
+	var redire = "interbanking.pago.realizado.sacarenvio.php?id="+id+"&cuit="+cuit;
+	var r = confirm("Desea Quitar del Envio al cuit "+ cuit +" de la presentacion con id "+ id);
+	if (r == true) {
+		window.location.href = redire;
+	} 
+}
+
 </script>
 <title>.: Generacion Pagos :.</title>
 <style type="text/css" media="print">
@@ -160,7 +168,11 @@ function validar(fomulario) {
 							$totRete += $rowFactura['impretencion']; 
 							$totApagar += $rowFactura['impapagar'];?>
 					 		<tr>
-					 			<th colspan="3">SUB</th>
+					 			<th colspan="3">
+					 			<?php if ($_SESSION['usuario'] == "sistemas") {?>
+					 				<input type="button" value="SACAR ENVIO" onclick="sacarEnvio(<?php echo $rowFactura['idpresentacion'] ?>, <?php echo $rowFactura['cuit'] ?>)"/>
+					 			<?php }?>
+					 			</th>
 					 			<th>
 					 				<?php echo $cuit ?></b>
 					 				<input style="display: none" type="text" value="<?php echo $cuit?>" id="cuit<?php echo $cuit?>" name="cuit<?php echo $cuit?>"/>
