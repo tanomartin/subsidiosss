@@ -93,7 +93,7 @@ function validar(fomulario) {
 }
 
 function sacarEnvio(id, cuit) {
-	var redire = "interbanking.pago.realizado.sacarenvio.php?id="+id+"&cuit="+cuit;
+	var redire = "interbanking.pago.sacarenvio.php?id="+id+"&cuit="+cuit;
 	var r = confirm("Desea Quitar del Envio al cuit "+ cuit +" de la presentacion con id "+ id);
 	if (r == true) {
 		window.location.href = redire;
