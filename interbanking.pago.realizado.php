@@ -90,7 +90,7 @@ function cancelarPresentacion(id) {
 						<td><?php echo number_format($rowTotales['impapagar'],2,",",".") ?></td>
 						<td>
 							<input type="button" value="DETALLE" onclick="location.href = 'interbanking.pago.realizado.detalle.php?id=<?php echo $rowTotales['id']?>'"/>
-					<?php if ($_SESSION['usuario'] == "sistemas") { ?>
+					<?php if ($_SESSION['usuario'] == "sistemas" || $_SESSION['usuario'] == "vresch") { ?>
 						  	<input type="button" value="CANCELAR" onclick="cancelarPresentacion(<?php echo $rowTotales['id'] ?>)"/>
 					<?php }?>
 						</td>
