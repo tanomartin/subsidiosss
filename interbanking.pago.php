@@ -169,7 +169,7 @@ function sacarEnvio(id, cuit) {
 							$totApagar += $rowFactura['impapagar'];?>
 					 		<tr>
 					 			<th colspan="3">
-					 			<?php if ($_SESSION['usuario'] == "sistemas") {?>
+					 			<?php if ($_SESSION['usuario'] == "sistemas" || $_SESSION['usuario'] == "vresch") {?>
 					 				<input type="button" value="SACAR ENVIO" onclick="sacarEnvio(<?php echo $rowFactura['idpresentacion'] ?>, <?php echo $rowFactura['cuit'] ?>)"/>
 					 			<?php }?>
 					 			</th>

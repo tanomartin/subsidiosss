@@ -150,7 +150,7 @@ function sacarPago(id, cuit) {
 					$cuit = substr($key,0,11);  ?>
 					 <tr>
 					 	<th colspan="3">
-					 	<?php if ($_SESSION['usuario'] == "sistemas") {?>
+					 	<?php if ($_SESSION['usuario'] == "sistemas" || $_SESSION['usuario'] == "vresch") {?>
 					 			<input type="button" value="SACAR PAGO" onclick="sacarPago(<?php echo $rowTotales['id'] ?>, <?php echo $rowFactura['cuit'] ?>)"/>
 					 	<?php }?>
 					 	</th>
