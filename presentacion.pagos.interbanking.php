@@ -130,7 +130,7 @@ function validar(fomulario) {
 						<?php if ($rowTotales['fechaenvio'] != NULL) { 
 								echo $rowTotales['fechaenvio']; 
 							  } else { 
-							  		if ($rowTotales['cbu'] != NULL && $rowTotales['interbanking'] == 1 && $rowTotales['fechainterbanking'] != NULL) { ?>
+							  		if ($rowTotales['cbu'] != NULL && $rowTotales['interbanking'] == 1 && $rowTotales['fechainterbanking'] != NULL && $rowTotales['impapagar'] > 0) { ?>
 										<input type="checkbox" id="<?php echo $rowTotales['cuit']?>" name="<?php echo $rowTotales['cuit']?>" value="<?php echo $rowTotales['cuit'] ?>" />
 							  <?php } 
 							  } ?>		
