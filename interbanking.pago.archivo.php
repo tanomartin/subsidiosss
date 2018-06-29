@@ -6,7 +6,8 @@ $idCabecera = $_GET['id'];
 
 $sqlPagos = "SELECT inteinterbanking.*, madera.prestadoresauxiliar.cbu,
 			DATE_FORMAT(inteinterbanking.fechaenvio, '%d-%m-%Y') as fechaenvio,
-			madera.prestadoresauxiliar.cbu
+			madera.prestadoresauxiliar.cbu,
+			madera.prestadores.nombre
 			FROM inteinterbanking
 			LEFT JOIN madera.prestadores on inteinterbanking.cuit = madera.prestadores.cuit
 			LEFT JOIN madera.prestadoresauxiliar on madera.prestadores.codigoprestador = madera.prestadoresauxiliar.codigoprestador
@@ -51,6 +52,9 @@ $archivo_txt_name="inter_pago_$nrosecu.txt";
 if(strcmp("localhost",$maquina)!=0) {
 	$archivo_xls_name="/home/sistemas/Documentos/Repositorio/Interbanking/".$archivo_xls_name;
 	$archivo_txt_name="/home/sistemas/Documentos/Repositorio/Interbanking/".$archivo_txt_name;
+} else {
+	$archivo_xls_name="archivos/Interbanking/".$archivo_xls_name;
+	$archivo_txt_name="archivos/Interbanking/".$archivo_txt_name;
 }
 
 $objPHPExcel = new PHPExcel();
@@ -135,9 +139,8 @@ foreach ($arrayFacturas as $key => $rowFactura) {
 		$objPHPExcel->getActiveSheet()->setCellValue('L'.$fila, "");
 		$objPHPExcel->getActiveSheet()->setCellValue('M'.$fila, "");
 	} else {
-		$objPHPExcel->getActiveSheet()->setCellValue('A'.$fila, "");
-		$objPHPExcel->getActiveSheet()->setCellValue('B'.$fila, "");
-		$objPHPExcel->getActiveSheet()->setCellValue('C'.$fila, "");
+		$objPHPExcel->getActiveSheet()->mergeCells('A'.$fila.':C'.$fila);
+		$objPHPExcel->getActiveSheet()->setCellValue('A'.$fila, $rowFactura['nombre']);
 		$objPHPExcel->getActiveSheet()->setCellValue('D'.$fila, $rowFactura['cuit']);
 		$objPHPExcel->getActiveSheet()->setCellValue('E'.$fila, "'".$rowFactura['cbu']."'");
 		$objPHPExcel->getActiveSheet()->setCellValue('F'.$fila, "");
