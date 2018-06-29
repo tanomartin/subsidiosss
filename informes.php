@@ -36,6 +36,12 @@
 		    <p><a href="informe.controlrepeticiones.php"><img src="img/excellogo.png" width="90" height="90" border="0"/></a></p>
 		  </td>
 		  <td>
+		  	 <p>FACTURAS PENDIENTES</br> DE PAGO</p>
+		    <p><a href="informe.pendientespago.php"><img src="img/excellogo.png" width="90" height="90" border="0"/></a></p>
+		  </td>
+	  </tr>
+	  <tr>
+	  	  <td colspan="3">
 		  	<p>DETALLE CABECERAS</br>FINALIZADAS</p>
 		    <p><a href="informe.detallecabeceras.php"><img src="img/pantalla.png" width="90" height="90" border="0"/></a></p>
 		  </td>
