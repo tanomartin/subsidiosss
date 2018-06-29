@@ -78,8 +78,8 @@ if ($archivoerror != null) {
 				$sumcompnok += $importeComprobante;
 				$sumsolinok += $importeSolicitado;
 			}
-			
-			$arrayUpdate[$indexUpdate] = "UPDATE intepresentaciondetalle SET deverrorformato = '".$arraylinea[19]."'
+			$errorFormato = trim($arraylinea[19]);
+			$arrayUpdate[$indexUpdate] = "UPDATE intepresentaciondetalle SET deverrorformato = '$errorFormato'
 												WHERE idpresentacion = $idPresentacion and tipoarchivo = '".$arraylinea[0]."' and cuil = '".(double) $arraylinea[2]."' and periodo =  '".$arraylinea[5]."' and
 													  cuit = '".(double)$arraylinea[6]."' and tipocomprobante = ".(int)$arraylinea[7]." and tipoemision = '".$arraylinea[8]."' and
 													  fechacomprobante = '".$arraylinea[9]."' and cae = '".trim($arraylinea[10])."' and puntoventa = ".(int)$arraylinea[11]." and

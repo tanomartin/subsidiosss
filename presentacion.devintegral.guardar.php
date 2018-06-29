@@ -92,7 +92,8 @@ if ($archivoerror != null) {
 				$sumcompnok += $importeComprobante;
 				$sumsolinok += $importeSolicitado;
 			}
-			$arrayUpdate[$indexUpdate] = "UPDATE intepresentaciondetalle SET deverrorintegral = '".$arraylinea[19]."'
+			$errorInte = trim($arraylinea[19]);
+			$arrayUpdate[$indexUpdate] = "UPDATE intepresentaciondetalle SET deverrorintegral = '$errorInte'
 												WHERE idpresentacion = $idPresentacion and tipoarchivo = '".$arraylinea[0]."' and cuil = '".$arraylinea[2]."' and periodo =  '".$arraylinea[5]."' and
 													  cuit = '".$arraylinea[6]."' and tipocomprobante = ".(int)$arraylinea[7]." and tipoemision = '".$arraylinea[8]."' and
 													  fechacomprobante = '".$arraylinea[9]."' and puntoventa = ".(int)$arraylinea[11]." and nrocomprobante = '".(int)$arraylinea[12]."'";
