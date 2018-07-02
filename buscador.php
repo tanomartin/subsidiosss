@@ -192,7 +192,6 @@ function validar(formulario) {
 			 			<th style="font-size: 12px">Comp. Interno</th>
 			 			<th style="font-size: 12px" class="filter-select" data-placeholder="Selccione">T.</th>
 			 			<th style="font-size: 12px">C.U.I.L.</th>
-			 			<th style="font-size: 12px">V. Cert.</th>
 			 			<th style="font-size: 12px" class="filter-select" data-placeholder="Selccione">Periodo</th>
 			 			<th style="font-size: 12px">C.U.I.T. / C.U.E.</th>
 			 			<th style="font-size: 12px">Fec. Comp.</th>
@@ -200,13 +199,14 @@ function validar(formulario) {
 			 			<th style="font-size: 12px">Pto. Venta</th>
 			 			<th style="font-size: 12px">Num. Comp.</th>
 			 			<th style="font-size: 12px">$ Comp.</th>
+			 			<th style="font-size: 12px">$ Deb.</th>
+			 			<th style="font-size: 12px">$ No Inte.</th>
 			 			<th style="font-size: 12px">$ Soli.</th>
 			 			<th style="font-size: 12px">$ Subs.</th>
 			 			<th style="font-size: 12px">Cod. Prac.</th>
 			 			<th style="font-size: 12px">Cant.</th>
-			 			<th style="font-size: 12px">Prov.</th>
 			 			<th style="font-size: 12px" class="filter-select" data-placeholder="Selccione">Dep.</th>
-			 			<th style="font-size: 12px">+</th>
+			 			<th style="font-size: 12px">+Info</th>
 			 		</tr>
 			</thead>
 			<tbody>
@@ -228,7 +228,6 @@ function validar(formulario) {
 						<td style="font-size: 14px"><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
 						<td style="font-size: 14px"><?php echo $rowFactura['tipoarchivo'] ?></td>
 						<td style="font-size: 14px"><?php echo $rowFactura['cuil'] ?></td>
-						<td style="font-size: 14px"><?php echo $rowFactura['vtocertificado'] ?></td>
 						<td style="font-size: 14px"><?php echo $rowFactura['periodo'] ?></td>
 						<td style="font-size: 14px"><?php echo $rowFactura['cuit'] ?></td>
 						<td style="font-size: 14px"><?php echo $rowFactura['fechacomprobante'] ?></td>
@@ -238,9 +237,13 @@ function validar(formulario) {
 						
 				  <?php if ($rowFactura['tipoarchivo'] == 'DB') { ?>
 							<td style="font-size: 14px"><?php echo "(".number_format($rowFactura['impcomprobante'],2,",",".").")" ?></td>
+							<td style="font-size: 14px"><?php echo "(".number_format($rowFactura['impdebito'],2,",",".").")" ?></td>
+							<td style="font-size: 14px"><?php echo "(".number_format($rowFactura['impnointe'],2,",",".").")" ?></td>
 							<td style="font-size: 14px"><?php echo "(".number_format($rowFactura['impsolicitado'],2,",",".").")" ?></td>
 				  <?php } else {  ?>
 							<td style="font-size: 14px"><?php echo number_format($rowFactura['impcomprobante'],2,",",".") ?></td>
+							<td style="font-size: 14px"><?php echo number_format($rowFactura['impdebito'],2,",",".")  ?></td>
+							<td style="font-size: 14px"><?php echo number_format($rowFactura['impnointe'],2,",",".")  ?></td>
 							<td style="font-size: 14px"><?php echo number_format($rowFactura['impsolicitado'],2,",",".")  ?></td>
 				  <?php }
 				  		if ($rowFactura['impmontosubsidio'] < 0) {
@@ -253,10 +256,9 @@ function validar(formulario) {
 				  		<td style="font-size: 14px; color: <?php echo $color ?>;"><?php echo number_format($rowFactura['impmontosubsidio'],2,",",".") ?></td>
 						<td style="font-size: 14px"><?php echo $rowFactura['codpractica'] ?></td>
 						<td style="font-size: 14px"><?php echo $rowFactura['cantidad'] ?></td>
-						<td style="font-size: 14px"><?php echo $rowFactura['provincia'] ?></td>
 						<td style="font-size: 14px"><?php echo $rowFactura['dependencia'] ?></td>
 						<td style="font-size: 14px">
-							<a href="buscador.detalle.php?id=<?php echo $rowFactura['idpresentacion'] ?>&nro=<?php echo $rowFactura['nrocominterno'] ?>" target="_blank">INFO</a>
+							<input type="button" value="INFO" target="_blank" onclick='window.open("buscador.detalle.php?id=<?php echo $rowFactura['idpresentacion'] ?>&nro=<?php echo $rowFactura['nrocominterno'] ?>")'/>
 						</td>
 					</tr>
 			<?php } ?>
