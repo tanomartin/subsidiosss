@@ -13,6 +13,14 @@ $sqlFactura = "SELECT intepresentaciondetalle.*, madera.prestadoresauxiliar.cbu,
  		WHEN (madera.titubajafamibaja.codidelega is not null) THEN madera.titubajafamibaja.codidelega
 	END as codidelega,
 	CASE
+     	WHEN (madera.titulares.nroafiliado is not null) THEN madera.titulares.nroafiliado
+ 		WHEN (madera.titularesdebaja.nroafiliado is not null) THEN madera.titularesdebaja.nroafiliado
+ 		WHEN (madera.titufami.nroafiliado is not null) THEN madera.titufami.nroafiliado
+ 		WHEN (madera.titubajafami.nroafiliado is not null) THEN madera.titubajafami.nroafiliado
+ 		WHEN (madera.titufamibaja.nroafiliado is not null) THEN madera.titufamibaja.nroafiliado
+ 		WHEN (madera.titubajafamibaja.nroafiliado is not null) THEN madera.titubajafamibaja.nroafiliado
+	END as nroafiliado,
+	CASE
 	  WHEN (madera.prestadores.situacionfiscal in (0,1,4) || (madera.prestadores.situacionfiscal = 3 and madera.prestadores.vtoexento >= CURDATE())) THEN 0
 	  WHEN (madera.prestadores.situacionfiscal = 2 || (madera.prestadores.situacionfiscal = 3 and madera.prestadores.vtoexento < CURDATE())) THEN 1
 	END as retiene
@@ -45,6 +53,7 @@ header("Content-Disposition: attachment; filename=$file");
 			 			<th rowspan="2">Comp. Interno</th>
 			 			<th rowspan="2">Tipo</th>
 			 			<th rowspan="2">C.U.I.L.</th>
+			 			<th rowspan="2">Nro. Afil.</th>
 			 			<th rowspan="2">Dele</th>
 			 			<th rowspan="2">Periodo</th>
 			 			<th rowspan="2">C.U.I.T.</th>
@@ -59,9 +68,9 @@ header("Content-Disposition: attachment; filename=$file");
 			 			<th rowspan="2">$ Soli.</th>
 			 			<th colspan="2">Resultado Formato</th>
 			 			<th colspan="2">Resultado Integral</th>
-			 			<th colspan="4">Resultado Subsidio</th>
+			 			<th colspan="3">Resultado Subsidio</th>
 			 			<th rowspan="2">Ret.</th>
-			 			<th rowspan="2">Cant. Rec. Debe</th>
+			 			<th rowspan="2"># Rec. Debe</th>
 			 		</tr>
 			 		<tr>
 			 			<th>Comp.</th>
@@ -93,6 +102,7 @@ header("Content-Disposition: attachment; filename=$file");
 						<td><?php echo number_format($rowFactura['nrocominterno'],0,"",".") ?></td>
 						<td><?php echo $rowFactura['tipoarchivo'] ?></td>
 						<td><?php echo $rowFactura['cuil'] ?></td>
+						<td><?php echo $rowFactura['nroafiliado'] ?></td>
 						<td><?php echo $rowFactura['codidelega'] ?></td>
 						<td><?php echo $rowFactura['periodo'] ?></td>
 						<td><?php echo $rowFactura['cuit'] ?></td>
@@ -237,7 +247,7 @@ header("Content-Disposition: attachment; filename=$file");
 					</tr>	
 			<?php } ?>
 					<tr>
-						<th colspan="11">TOTALES</td>
+						<th colspan="12">TOTALES</td>
 						<th><?php echo number_format($totCom,2,",",".") ?></td>
 						<th><?php echo number_format($totDeb,2,",",".") ?></td>
 						<th><?php echo number_format($totNOI,2,",",".") ?></td>		
@@ -249,8 +259,7 @@ header("Content-Disposition: attachment; filename=$file");
 						<th><?php echo number_format($totSolSub,2,",",".") ?></td>
 						<th><?php echo number_format($totMonSub,2,",",".") ?></td>
 						<th><?php echo number_format($totMonOsp,2,",",".") ?></td>
-						<th></td>
-						<th></td>
+						<th colspan="2"></td>
 					</tr>
 			  	</tbody>
 			</table>
