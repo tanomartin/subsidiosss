@@ -2,7 +2,7 @@
 
 $informe = $_GET['informe'];
 $sqlPresentacion = "";
-if ($informe != "pagos") {
+if ($informe != "pagos" && $informe != "delegacion") {
 	$sqlPresentacion = "SELECT DISTINCT p.id, c.periodo, c.carpeta FROM intepresentacion p, interendicioncontrol s, intecronograma c 
 								WHERE s.idpresentacion = p.id and p.idcronograma = c.id ORDER BY p.id DESC";
 } else { 
@@ -43,6 +43,9 @@ function redireccion(formulario) {
 	}
 	if (tipo == "retenciones") {
 		action = "informe.retenciones.php?id="+datos[0]+"&carpeta="+datos[1];
+	}
+	if (tipo == "delegacion") {
+		action = "informe.delegacion.php?id="+datos[0]+"&carpeta="+datos[1];
 	}
 	this.seleccionPresentacion.generar.disabled = true;
 	this.seleccionPresentacion.action = action;

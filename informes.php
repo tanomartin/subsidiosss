@@ -41,10 +41,15 @@
 		  </td>
 	  </tr>
 	  <tr>
-	  	  <td colspan="3">
+	  	  <td width="200"> 
+	        <p>DETALLE</br> X DELEGACION</p>
+	        <p><a href="informe.selectpresentacion.php?informe=delegacion"><img src="img/excellogo.png" width="90" height="90" border="0"/></a></p>
+		  </td>
+	  	  <td>
 		  	<p>DETALLE CABECERAS</br>FINALIZADAS</p>
 		    <p><a href="informe.detallecabeceras.php"><img src="img/pantalla.png" width="90" height="90" border="0"/></a></p>
 		  </td>
+		  <td></td>
 	  </tr>
     </tr>
   </table>
