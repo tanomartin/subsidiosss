@@ -43,7 +43,7 @@ if (isset($_GET['cuit'])) {
 
 	function validoNumero(id) {
 		var valorNumero = document.getElementById(id).value;
-		var errorNumero = "Error en la carga. Todos los datos deben ser numericos enteros postivos";
+		var errorNumero = "Error en la carga. Asiento y Folio deben ser numericos enteros postivos";
 		if(!isNumberPositivo(valorNumero)) {
 			alert(errorNumero);
 			document.getElementById(id).value = "";
@@ -99,7 +99,7 @@ if (isset($_GET['cuit'])) {
 					 			<td><?php echo number_format($rowPagos['impcomprobante'],"2",",","."); ?></td>
 					 			<td><?php echo $rowPagos['fechatransferencia'] ?></td>
 					 			<td><?php echo $rowPagos['nrotransferencia'] ?></td>	
-					 			<td class="nover"><input size="5px" type="text" value="<?php echo $rowPagos['recibo'] ?>" id="recibo-<?php echo $rowPagos['nroordenpago']."-".$rowPagos['nrocominterno']  ?>" name="recibo-<?php echo $rowPagos['nroordenpago']."-".$rowPagos['nrocominterno']  ?>" onblur='validoNumero("recibo-<?php echo $rowPagos['nroordenpago']."-".$rowPagos['nrocominterno']  ?>")'/></td>
+					 			<td class="nover"><input size="5px" type="text" value="<?php echo $rowPagos['recibo'] ?>" id="recibo-<?php echo $rowPagos['nroordenpago']."-".$rowPagos['nrocominterno']  ?>" name="recibo-<?php echo $rowPagos['nroordenpago']."-".$rowPagos['nrocominterno']  ?>" /></td>
 					 			<td class="nover"><input size="5px" type="text" value="<?php echo $rowPagos['asiento'] ?>" id="asiento-<?php echo $rowPagos['nroordenpago']."-".$rowPagos['nrocominterno']  ?>" name="asiento-<?php echo $rowPagos['nroordenpago']."-".$rowPagos['nrocominterno'] ?>" onblur='validoNumero("asiento-<?php echo $rowPagos['nroordenpago']."-".$rowPagos['nrocominterno'] ?>")'/></td>
 					 			<td class="nover"><input size="5px" type="text" value="<?php echo $rowPagos['folio'] ?>" id="folio-<?php echo $rowPagos['nroordenpago']."-".$rowPagos['nrocominterno']  ?>" name="folio-<?php echo $rowPagos['nroordenpago']."-".$rowPagos['nrocominterno']  ?>" onblur='validoNumero("folio-<?php echo $rowPagos['nroordenpago']."-".$rowPagos['nrocominterno'] ?>")'/></td>
 					 		</tbody>
