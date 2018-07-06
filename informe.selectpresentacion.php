@@ -2,12 +2,14 @@
 
 $informe = $_GET['informe'];
 $sqlPresentacion = "";
-if ($informe != "pagos" && $informe != "delegacion") {
-	$sqlPresentacion = "SELECT DISTINCT p.id, c.periodo, c.carpeta FROM intepresentacion p, interendicioncontrol s, intecronograma c 
-								WHERE s.idpresentacion = p.id and p.idcronograma = c.id ORDER BY p.id DESC";
+if ($informe != "pagos") {
+	$sqlPresentacion = "SELECT DISTINCT p.id, c.periodo, c.carpeta 
+							FROM intepresentacion p, intecronograma c 
+							WHERE p.fechacancelacion is null and p.idcronograma = c.id ORDER BY p.id DESC";
 } else { 
-	$sqlPresentacion = "SELECT DISTINCT p.id, c.periodo, c.carpeta FROM intepresentacion p, intepagoscabecera s, intecronograma c
-								WHERE s.idpresentacion = p.id and p.idcronograma = c.id ORDER BY p.id DESC";
+	$sqlPresentacion = "SELECT DISTINCT p.id, c.periodo, c.carpeta 
+							FROM intepresentacion p, intepagoscabecera s, intecronograma c
+							WHERE s.idpresentacion = p.id and p.idcronograma = c.id ORDER BY p.id DESC";
 }
 
 $resPresentacion = mysql_query($sqlPresentacion);
