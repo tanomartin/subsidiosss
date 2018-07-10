@@ -4,9 +4,9 @@ set_time_limit(0);
 $idPresentacion = $_GET['id'];
 $carpeta = $_GET['carpeta'];
 $sqlFactura = "SELECT
-  CASE WHEN (tipoarchivo = 'DB') THEN SUM(-impcomprobanteintegral) ELSE SUM(impcomprobanteintegral) END as impcomprobanteintegral,
-  CASE WHEN (tipoarchivo = 'DB') THEN SUM(-impdebito) ELSE SUM(impdebito) END as impdebito,
-  CASE WHEN (tipoarchivo = 'DB') THEN SUM(-impnointe) ELSE SUM(impnointe) END as impnointe,
+  SUM(CASE WHEN tipoarchivo = 'DB' THEN -impcomprobanteintegral ELSE impcomprobanteintegral END) as impcomprobanteintegral,
+  SUM(CASE WHEN tipoarchivo = 'DB' THEN -impdebito ELSE impdebito END) as impdebito,
+  SUM(CASE WHEN tipoarchivo = 'DB' THEN -impnointe ELSE impnointe END) as impnointe,
   SUM(impsolicitadosubsidio) as impsolicitadosubsidio,
   SUM(impmontosubsidio) as impmontosubsidio,
 	CASE
@@ -74,7 +74,7 @@ header("Content-Disposition: attachment; filename=$file");
 					$totNOI += $rowFactura['impnointe'];
 					$totSol += $rowFactura['impsolicitadosubsidio'];
 					$totMonSub += $rowFactura['impmontosubsidio']; 
-					$monOS =  $rowFactura['impsolicitadosubsidio'] - $rowFactura['impmontosubsidio']; 
+					$monOS =  $rowFactura['impcomprobanteintegral'] - $rowFactura['impdebito'] -  $rowFactura['impnointe'] - $rowFactura['impmontosubsidio']; 
 					$totOS += $monOS;
 					
 					$delegacion = "3200 - DELEGACION AUXILIAR";
