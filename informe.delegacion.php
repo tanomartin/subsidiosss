@@ -74,7 +74,7 @@ header("Content-Disposition: attachment; filename=$file");
 					$totNOI += $rowFactura['impnointe'];
 					$totSol += $rowFactura['impsolicitadosubsidio'];
 					$totMonSub += $rowFactura['impmontosubsidio']; 
-					$monOS =  $rowFactura['impcomprobanteintegral'] - $rowFactura['impdebito'] -  $rowFactura['impnointe'] - $rowFactura['impmontosubsidio']; 
+					$monOS =  $rowFactura['impsolicitadosubsidio'] - $rowFactura['impmontosubsidio']; 
 					$totOS += $monOS;
 					
 					$delegacion = "3200 - DELEGACION AUXILIAR";
