@@ -136,7 +136,7 @@ try {
 		$canFacutra = mysql_num_rows($resFactura);	
 		if ($canFacutra == 1) {
 			$cantidadUpdate++;
-			if ($rowRendicion['tipoarchivo'] != 'DB') {
+			if ($rowRendicion['tipoarchivo'] == 'DS') {
 				if (round($arrayLiquidado[$indexLiqui],2) >= round($rowRendicion['impsolicitado'],2)) {		
 					$arrayLiquidado[$indexLiqui] -= (float) $rowRendicion['impsolicitado'];
 					$updateFactura = "UPDATE intepresentaciondetalle
@@ -177,10 +177,17 @@ try {
 											tipoarchivo = '".$rowRendicion['tipoarchivo']."'";
 				}
 			} else {
-				$montoDebito = (float) $arrayLiquidado[$indexLiqui];
+				$monto = (float) $arrayLiquidado[$indexLiqui];
+				if ($rowRendicion['tipoarchivo'] == "DC" and $monto < 0) {
+					$monto = 0;
+				}
+				if ($rowRendicion['tipoarchivo'] == "DB" and $monto >= 0) {
+					$monto = 0;
+				}
+				
 				$updateFactura = "UPDATE intepresentaciondetalle
 										SET impsolicitadosubsidio = ".(float) $rowRendicion['impsolicitado'].",
-											impmontosubsidio = ".(float) $montoDebito."
+											impmontosubsidio = ".(float) $monto."
 										WHERE idpresentacion = $idPresentacion and 
 											  deverrorformato is null and 
 											  deverrorintegral is null and 

@@ -48,8 +48,9 @@ foreach ($arrayFacturas as $key => $rowFactura) {
 	$montoCalculo = $rowFactura['impcomprobanteintegral'] - $rowFactura['impdebito'];
 	$montoRet = 0;
 	if($rowFactura['retiene'] == 1) {
-		if ($montoCalculo > 30000) {
-			$montoRet = ($montoCalculo - 30000) * 0.02;
+		$minImpo = 42700;
+		if ($montoCalculo > $minImpo) {
+			$montoRet = ($montoCalculo - $minImpo) * 0.02;
 			if ($montoRet <= 150) {
 				$montoRet = 0;
 			}
