@@ -36,7 +36,7 @@ $(function() {
 				filter_startsWith  : false,
 				filter_hideFilters : false,
 			}
-		});
+		}).tablesorterPager({container: $("#paginador")});
 });
 
 function cancelarPresentacion(id) {
@@ -98,6 +98,26 @@ function cancelarPresentacion(id) {
 			<?php } ?>
 				</tbody>
 			</table>
+			<div id="paginador" class="pager">
+				<form>
+					<p>
+						<img src="img/first.png" width="16" height="16" class="first"/>
+						<img src="img/prev.png" width="16" height="16" class="prev"/>
+						<input type="text" class="pagedisplay" size="8" readonly="readonly" style="background:#CCCCCC; text-align:center"/>
+						<img src="img/next.png" width="16" height="16" class="next"/>
+						<img src="img/last.png" width="16" height="16" class="last"/>
+					</p>
+					<p>
+						<select class="pagesize">
+							<option selected value="20">10 por pagina</option>
+							<option value="30">20 por pagina</option>
+							<option value="40">30 por pagina</option>
+							<option value="50">50 por pagina</option>
+							<option value="<?php echo $numTotales?>">Todos</option>
+						</select>
+					</p>
+				</form>
+			</div>
   <?php } else { ?>
 			<h3 style="color: blue">No existen pagos realizados</h3>
   <?php }?>

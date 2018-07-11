@@ -2,7 +2,7 @@
 include_once 'include/conector.php';
 $sqlErrores = "SELECT * FROM inteerror c ORDER BY id";
 $resErrores = mysql_query($sqlErrores);
-
+$canErrores = mysql_num_rows($resErrores);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -30,7 +30,7 @@ $(function() {
 			filter_startsWith  : false,
 			filter_hideFilters : false,	
 		}		
-	});
+	}).tablesorterPager({container: $("#paginador")});
 });
 </script>
 
@@ -61,6 +61,26 @@ $(function() {
 		<?php } ?>
 		  	</tbody>
 		</table>
+		<div id="paginador" class="pager">
+			<form>
+				<p>
+					<img src="img/first.png" width="16" height="16" class="first"/>
+					<img src="img/prev.png" width="16" height="16" class="prev"/>
+					<input type="text" class="pagedisplay" size="8" readonly="readonly" style="background:#CCCCCC; text-align:center"/>
+					<img src="img/next.png" width="16" height="16" class="next"/>
+					<img src="img/last.png" width="16" height="16" class="last"/>
+				</p>
+				<p>
+					<select class="pagesize">
+						<option selected value="10">10 por pagina</option>
+						<option value="20">20 por pagina</option>
+						<option value="30">30 por pagina</option>
+						<option value="50">50 por pagina</option>
+						<option value="<?php echo $canErrores?>">Todos</option>
+					</select>
+				</p>
+			</form>
+		</div>
 	</div>
 </body>
 </html>
