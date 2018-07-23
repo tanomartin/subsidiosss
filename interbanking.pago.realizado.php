@@ -109,9 +109,9 @@ function cancelarPresentacion(id) {
 					</p>
 					<p>
 						<select class="pagesize">
-							<option selected value="20">10 por pagina</option>
-							<option value="30">20 por pagina</option>
-							<option value="40">30 por pagina</option>
+							<option selected value="10">10 por pagina</option>
+							<option value="20">20 por pagina</option>
+							<option value="30">30 por pagina</option>
 							<option value="50">50 por pagina</option>
 							<option value="<?php echo $numTotales?>">Todos</option>
 						</select>
