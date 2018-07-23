@@ -179,7 +179,7 @@ function sacarPago(id, cuit) {
 					<th colspan="7">CONTROLES</th>
 					<th><?php echo number_format($rowTotales['impcomprobanteintegral'],2,",",".") ?></th>	
 					<th colspan="3"><?php echo number_format($rowTotales['impdebito']+$rowTotales['impobrasocial'] + $rowTotales['impnointe'] +$rowTotales['impmontosubsidio'] ,2,",",".") ?></th>	
-					<th colspan="2"><?php echo number_format($rowTotales['impretencion']+$rowTotales['impapagar'],2,",",".") ?></th>
+					<th colspan="2"><?php echo number_format($rowTotales['impretencion']+$rowTotales['impapagar']+$rowTotales['impdebito'],2,",",".") ?></th>
 				</tr>
 			</tbody>
 		</table>

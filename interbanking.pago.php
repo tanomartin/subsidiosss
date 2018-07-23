@@ -225,7 +225,7 @@ function sacarEnvio(id, cuit) {
 						<th colspan="7">CONTROLES</th>
 						<th><?php echo number_format($totComSub,2,",",".") ?></th>
 						<th colspan="3"><?php echo number_format($totMonDeb + $totMonNOI + $totMonOS + $totMonSub,2,",",".") ?></th>
-						<th colspan="2"><?php echo number_format($totRete + $totApagar,2,",",".") ?></th>
+						<th colspan="2"><?php echo number_format($totRete + $totApagar + $totMonDeb,2,",",".") ?></th>
 					</tr>
 				</table>
 			<input type="submit" name="submit" value="Generar Archivo" /><br/>
