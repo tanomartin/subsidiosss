@@ -13,6 +13,9 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 	$arrayErrores[$rowErrores['id']] = array("campo" => $rowErrores['campo'], "descrip" => $rowErrores['descripcion']);
 }
 
+$sqlCantidad = "SELECT deverrorformato, count(*) as cantidad FROM intepresentaciondetalle where idpresentacion = $idPresentacion and deverrorformato is not null group by deverrorformato";
+$resCantidad = mysql_query($sqlCantidad);
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -64,6 +67,35 @@ $(function() {
 	 	<?php include_once("include/detalle.php")?>
 	 	
 	 	<h2>Errores Formato</h2>
+	 	
+	 	<div class="grilla" style="width: 400px">
+	 		<table>
+	 			<thead>
+	 				<tr>
+		 				<th>Error</th>
+		 				<th>Cantidad</th>
+	 				</tr>
+	 			</thead>
+	 			<tbody>
+	 	<?php 	$totalErrores = 0;
+	 	  		while ($rowCantidad = mysql_fetch_array($resCantidad)) {  
+	 				$totalErrores += $rowCantidad['cantidad'];  ?>
+	 				<tr>
+	 					<td><?php echo  substr($rowCantidad['deverrorformato'],1)?></td>
+	 					<td><?php echo $rowCantidad['cantidad']?></td>
+	 				</tr>
+	 	<?php   } ?>
+	 			</tbody>
+	 			<thead>
+		 			<tr>
+		 				<th>TOTAL</th>
+		 				<th><?php echo $totalErrores?></th>
+		 			</tr>
+	 			</thead>
+	 		</table>
+	 	</div>	
+	 	
+	 	<h2>Detalle Errores Formato</h2>
 	 	
 			 <table id="listaResultado" class="tablesorter" style="text-align: center;">
 			 	<thead>
