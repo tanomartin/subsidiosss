@@ -28,7 +28,7 @@ $resTotalesCuit = mysql_query($sqlTotalesCuit);
 <script src="include/jquery.tablesorter/jquery.tablesorter.widgets.js"></script>
 <script src="include/jquery.tablesorter/addons/pager/jquery.tablesorter.pager.js"></script> 
 <script src="include/funcionControl.js" type="text/javascript"></script>
-<script src="/madera/lib/jquery.blockUI.js" type="text/javascript"></script>
+<script src="include/jquery.blockUI.js" type="text/javascript"></script>
 <script type="text/javascript">
 $(function() {
 	$("#listaResultado")
@@ -127,13 +127,17 @@ function validar(fomulario) {
 						<td><?php echo number_format($rowTotales['impretencion'],2,",",".") ?></td>
 						<td><?php echo number_format($rowTotales['impapagar'],2,",",".") ?></td>
 						<td>
-						<?php if ($rowTotales['fechaenvio'] != NULL) { 
-								echo $rowTotales['fechaenvio']; 
-							  } else { 
-							  		if ($rowTotales['cbu'] != NULL && $rowTotales['interbanking'] == 1 && $rowTotales['fechainterbanking'] != NULL && $rowTotales['impapagar'] > 0) { ?>
-										<input type="checkbox" id="<?php echo $rowTotales['cuit']?>" name="<?php echo $rowTotales['cuit']?>" value="<?php echo $rowTotales['cuit'] ?>" />
-							  <?php } 
-							  } ?>		
+						<?php if ($rowTotales['nopagar'] == 1) {
+									echo "NP";
+							  } else {
+								  if ($rowTotales['fechaenvio'] != NULL) { 
+									echo $rowTotales['fechaenvio']; 
+								  } else { 
+								  		if ($rowTotales['cbu'] != NULL && $rowTotales['interbanking'] == 1 && $rowTotales['fechainterbanking'] != NULL && $rowTotales['impapagar'] > 0) { ?>
+											<input type="checkbox" id="<?php echo $rowTotales['cuit']?>" name="<?php echo $rowTotales['cuit']?>" value="<?php echo $rowTotales['cuit'] ?>" />
+								  <?php } 
+								  } 
+							   }?>		
 						</td>
 						<td><?php if ($rowTotales['fechapago'] != NULL) { echo $rowTotales['fechapago']; } ?></td>
 					</tr>

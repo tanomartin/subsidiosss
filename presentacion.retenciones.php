@@ -74,7 +74,8 @@ $(function() {
 			 	 12:{sorter:false, filter:false},
 			 	 13:{sorter:false},
 			 	 14:{sorter:false, filter:false},
-			 	 15:{sorter:false, filter:false}},
+			 	 15:{sorter:false, filter:false},
+			 	 16:{sorter:false, filter:false}},
 			widgetOptions : { 
 				filter_cssFilter   : '',
 				filter_childRows   : false,
@@ -145,6 +146,7 @@ function cerrarPresentacion(idpresentacion) {
 				 		<th>$ S.S.S</th>
 				 		<th class="filter-select" data-placeholder="Selccione" >Ret.</th>
 				 		<th>$ Ret.</th>
+				 		<th>No Pagar</th>
 				 		<th>$ A Pagar</th>
 				 	</tr>
 				 </thead>
@@ -157,6 +159,7 @@ function cerrarPresentacion(idpresentacion) {
 				 	$totMonSub = 0;
 				 	$totMonOS = 0;
 				 	$totApagar = 0;	
+				 	$totNopagar = 0;
 				 	$totRete = 0;
 				 	foreach ($arrayFacturas as $key => $rowFactura) {  
 				 		$pos = strpos($key, "TOTAL");
@@ -184,11 +187,16 @@ function cerrarPresentacion(idpresentacion) {
 								<td></td>
 								<td></td>
 								<td></td>
+								<td></td>
 							</tr>
 					<?php } else {
 							$cuit = substr($key,0,11);  
 							$totRete += $rowFactura['impretencion']; 
-							$totApagar += $rowFactura['impapagar'];?>
+							if ($rowFactura['nopagar'] == 1) {
+								$totNopagar += $rowFactura['impapagar'];
+							} else {
+								$totApagar += $rowFactura['impapagar'];
+							} ?>
 					 		<tr>
 					 			<td style="background-color: #99bfe6"></td>
 					 			<td style="background-color: #99bfe6"></td>
@@ -205,6 +213,11 @@ function cerrarPresentacion(idpresentacion) {
 					 			<td style="background-color: #99bfe6"><b><?php echo number_format($rowFactura['impmontosubsidio'],2,",",".") ?></b></td>
 					 			<td style="background-color: #99bfe6"><b><?php if($rowFactura['retiene'] == 1) { echo "SI"; } else { echo "NO"; } ?></b></td>
 					 			<th><?php if($rowFactura['retiene'] == 1) { ?> <input onchange="actualizarDatos(this,<?php echo $rowFactura['impretencion']?>,<?php echo $cuit?>,<?php echo $rowFactura['impcomprobanteintegral']?>,<?php echo $rowFactura['impdebito']?>,<?php echo $rowFactura['impapagar']?> )" type="text" size="4" name="rete<?php echo $cuit?>" id="rete"<?php echo $cuit?>" value="<?php echo number_format($rowFactura['impretencion'],2,".","") ?>"/> <?php } ?></th>
+					 			<?php $checkquitar = "";
+					 				  if ($rowFactura['nopagar'] == 1) {
+					 				  	$checkquitar = "checked='checked'";
+									  } ?>
+					 			<th style="background-color: #99bfe6"><input type="checkbox" name="nopagar<?php echo $cuit?>" id="nopagar<?php echo $cuit?>" <?php echo $checkquitar ?></th>
 					 			<th><b>
 					 			<?php if($rowFactura['retiene'] == 1) { ?> 
 					 					<input type="text" size="8" readonly="readonly" style="background-color: silver; text-align: center" name="apagar<?php echo $cuit?>" id="apagar<?php echo $cuit?>" value="<?php echo number_format($rowFactura['impapagar'],2,".","") ?>"/> 
@@ -225,6 +238,7 @@ function cerrarPresentacion(idpresentacion) {
 						<th><?php echo number_format($totMonOS,2,",",".") ?></th>
 						<th rowspan="2"><?php echo number_format($totMonSub,2,",",".") ?></th>
 						<th rowspan="2" colspan="2"><?php echo number_format($totRete,2,",",".") ?></th>
+						<th rowspan="2"><?php echo number_format($totNopagar,2,",",".") ?></th>
 						<th rowspan="2"><?php echo number_format($totApagar,2,",",".") ?></th>
 					</tr>
 					<tr>					
@@ -234,7 +248,7 @@ function cerrarPresentacion(idpresentacion) {
 						<th>COM<br><?php echo number_format($totComSub,2,",",".") ?></th>
 						<th colspan="3">DEB+SOL+NOI<br><?php echo number_format($totMonDeb + $totSolSub + $totMonNOI,2,",",".") ?></th>
 						<th colspan="2">NOI+OS+SUB+DEB<br><?php echo number_format($totMonNOI + $totMonOS + $totMonSub + $totMonDeb,2,",",".") ?></th>
-						<th colspan="3">RET+DEB+PAG<br><?php echo number_format($totRete + $totMonDeb + $totApagar,2,",",".") ?></th>
+						<th colspan="4">RET+DEB+NO PAG+PAG<br><?php echo number_format($totRete + $totMonDeb + $totNopagar + $totApagar,2,",",".") ?></th>
 					</tr>	
 			</table>
 			<hr/>

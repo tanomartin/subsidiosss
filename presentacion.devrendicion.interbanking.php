@@ -71,7 +71,10 @@ foreach ($arrayFacturas as $key => $rowFactura) {
 								".$rowFactura['montoobrasocial'].",
 								".$rowFactura['impmontosubsidio'].",
 								".$rowFactura['imprete'].",
-								".$rowFactura['apagar'].",NULL,NULL)";
+							  	0,
+								".$rowFactura['apagar'].",
+							 	NULL,
+								NULL)";
 }
 
 try {
