@@ -19,7 +19,6 @@ $arrayFacturas = array();
 if ($numPagos > 0) {
 	while ($rowTotalesCuit = mysql_fetch_assoc($resPagos)) {
 		$indexT = $rowTotalesCuit['cuit']."TOTAL";
-		$arrayFacturas[$indexT] = $rowTotalesCuit;
 		if (array_key_exists($indexT, $arrayFacturas)) {
 			$arrayFacturas[$indexT]['impcomprobanteintegral'] += $rowTotalesCuit['impcomprobanteintegral'];
 			$arrayFacturas[$indexT]['impdebito'] += $rowTotalesCuit['impdebito'];
