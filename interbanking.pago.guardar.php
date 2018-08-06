@@ -23,7 +23,7 @@ foreach ($_POST as $key => $datos) {
 		$cuit = $datos;
 		$nompres = "pres".$cuit;
 		$idpres = $_POST[$nompres];
-		$arrayUpdateInter[$index] = "UPDATE inteinterbanking SET idpago = idcabecera WHERE idpresentacion = $idpres and cuit = '$cuit'";
+		$arrayUpdateInter[$index] = "UPDATE inteinterbanking SET idpago = idcabecera WHERE idpresentacion in ($idpres) and cuit = '$cuit'";
 	}
 }
 

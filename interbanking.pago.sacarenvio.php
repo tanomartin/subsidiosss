@@ -1,10 +1,10 @@
 <?php
 include_once 'include/conector.php';
 
-$id = $_GET['id'];
 $cuit = $_GET['cuit'];
-
-$updateDetalle = "UPDATE inteinterbanking SET fechaenvio = NULL WHERE idpresentacion = $id and cuit = '$cuit'";
+$updateDetalle = "UPDATE inteinterbanking 
+					SET fechaenvio = NULL 
+					WHERE cuit = '$cuit' and fechaenvio is not null and idpago is null";
 
 try {
 	$dbh = new PDO("mysql:host=$hostLocal;dbname=$dbname",$usuarioLocal,$claveLocal);

@@ -21,7 +21,18 @@ $rowTotales = mysql_fetch_assoc($resTotales);
 $arrayFacturas = array();
 while ($rowTotalesCuit = mysql_fetch_assoc($resPagos)) {
 	$indexT = $rowTotalesCuit['cuit']."TOTAL";
-	$arrayFacturas[$indexT] = $rowTotalesCuit;
+	if (array_key_exists($indexT, $arrayFacturas)) {
+		$arrayFacturas[$indexT]['impcomprobanteintegral'] += $rowTotalesCuit['impcomprobanteintegral'];
+		$arrayFacturas[$indexT]['impdebito'] += $rowTotalesCuit['impdebito'];
+		$arrayFacturas[$indexT]['impnointe'] += $rowTotalesCuit['impnointe'];
+		$arrayFacturas[$indexT]['impsolicitadosubsidio'] += $rowTotalesCuit['impsolicitadosubsidio'];
+		$arrayFacturas[$indexT]['impobrasocial'] += $rowTotalesCuit['impobrasocial'];
+		$arrayFacturas[$indexT]['impmontosubsidio'] += $rowTotalesCuit['impmontosubsidio'];
+		$arrayFacturas[$indexT]['impretencion'] += $rowTotalesCuit['impretencion'];
+		$arrayFacturas[$indexT]['impapagar'] += $rowTotalesCuit['impapagar'];
+	} else {
+		$arrayFacturas[$indexT] = $rowTotalesCuit;	
+	}
 
 	$sqlFactura = "SELECT * FROM intepresentaciondetalle
 						WHERE idpresentacion = ".$rowTotalesCuit['idpresentacion']." and
@@ -84,31 +95,33 @@ $objPHPExcel->getActiveSheet()->getPageSetup()->setVerticalCentered(false);
 $objPHPExcel->getActiveSheet()->getPageSetup()->setRowsToRepeatAtTopByStartAndEnd(1, 1);
 
 $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(10);
-$objPHPExcel->getActiveSheet()->setCellValue('A1', 'Nro Int.');
-$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(5);
-$objPHPExcel->getActiveSheet()->setCellValue('B1', 'Tipo');
-$objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(8);
-$objPHPExcel->getActiveSheet()->setCellValue('C1', 'Periodo');
-$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(13);
-$objPHPExcel->getActiveSheet()->setCellValue('D1', 'C.U.I.T.');
-$objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(25);
-$objPHPExcel->getActiveSheet()->setCellValue('E1', 'C.B.U.');
-$objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(13);
-$objPHPExcel->getActiveSheet()->setCellValue('F1', 'Fecha');
-$objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(12);
-$objPHPExcel->getActiveSheet()->setCellValue('G1', 'Nro. Comp.');
+$objPHPExcel->getActiveSheet()->setCellValue('A1', 'Id. Pres.');
+$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(10);
+$objPHPExcel->getActiveSheet()->setCellValue('B1', 'Nro Int.');
+$objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(5);
+$objPHPExcel->getActiveSheet()->setCellValue('C1', 'Tipo');
+$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(8);
+$objPHPExcel->getActiveSheet()->setCellValue('D1', 'Periodo');
+$objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(13);
+$objPHPExcel->getActiveSheet()->setCellValue('E1', 'C.U.I.T.');
+$objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(25);
+$objPHPExcel->getActiveSheet()->setCellValue('F1', 'C.B.U.');
+$objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(13);
+$objPHPExcel->getActiveSheet()->setCellValue('G1', 'Fecha');
 $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(12);
-$objPHPExcel->getActiveSheet()->setCellValue('H1', '$ Comp.');
+$objPHPExcel->getActiveSheet()->setCellValue('H1', 'Nro. Comp.');
 $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(12);
-$objPHPExcel->getActiveSheet()->setCellValue('I1', '$ Deb.');
+$objPHPExcel->getActiveSheet()->setCellValue('I1', '$ Comp.');
 $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(12);
-$objPHPExcel->getActiveSheet()->setCellValue('J1', '$ O.S.');
+$objPHPExcel->getActiveSheet()->setCellValue('J1', '$ Deb.');
 $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(12);
-$objPHPExcel->getActiveSheet()->setCellValue('K1', '$ S.S.S.');
+$objPHPExcel->getActiveSheet()->setCellValue('K1', '$ O.S.');
 $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(12);
-$objPHPExcel->getActiveSheet()->setCellValue('L1', '$ Ret');
+$objPHPExcel->getActiveSheet()->setCellValue('L1', '$ S.S.S.');
 $objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(12);
-$objPHPExcel->getActiveSheet()->setCellValue('M1', '$ Transf.');
+$objPHPExcel->getActiveSheet()->setCellValue('M1', '$ Ret');
+$objPHPExcel->getActiveSheet()->getColumnDimension('N')->setWidth(12);
+$objPHPExcel->getActiveSheet()->setCellValue('N1', '$ Transf.');
 
 $file = fopen($archivo_txt_name, "w");
 $cbuOS = "0110599520000054914032";
@@ -125,37 +138,38 @@ foreach ($arrayFacturas as $key => $rowFactura) {
 	$pos = strpos($key, "TOTAL");
 	if ($pos === false) {
 		$obs .= $rowFactura['nrocomprobante']."-";
-		$objPHPExcel->getActiveSheet()->setCellValue('A'.$fila, $rowFactura['nrocominterno']);
-		$objPHPExcel->getActiveSheet()->setCellValue('B'.$fila, $rowFactura['tipoarchivo']);
-		$objPHPExcel->getActiveSheet()->setCellValue('C'.$fila, $rowFactura['periodo']);
-		$objPHPExcel->getActiveSheet()->setCellValue('D'.$fila, $rowFactura['cuit']);
-		$objPHPExcel->getActiveSheet()->setCellValue('E'.$fila, "");
-		$objPHPExcel->getActiveSheet()->setCellValue('F'.$fila, $rowFactura['fechacomprobante']);
-		$objPHPExcel->getActiveSheet()->setCellValue('G'.$fila, $rowFactura['nrocomprobante']);
-		$objPHPExcel->getActiveSheet()->setCellValue('H'.$fila, $rowFactura['impcomprobanteintegral']);
-		$objPHPExcel->getActiveSheet()->setCellValue('I'.$fila, $rowFactura['impdebito']);
-		$objPHPExcel->getActiveSheet()->setCellValue('J'.$fila, $rowFactura['impnointe'] + $rowFactura['impobrasocial']);
-		$objPHPExcel->getActiveSheet()->setCellValue('K'.$fila, $rowFactura['impmontosubsidio']);
-		$objPHPExcel->getActiveSheet()->setCellValue('L'.$fila, "");
-		$objPHPExcel->getActiveSheet()->setCellValue('M'.$fila, "");
-	} else {
-		$objPHPExcel->getActiveSheet()->mergeCells('A'.$fila.':C'.$fila);
-		$objPHPExcel->getActiveSheet()->setCellValue('A'.$fila, $rowFactura['nombre']);
-		$objPHPExcel->getActiveSheet()->setCellValue('D'.$fila, $rowFactura['cuit']);
-		$objPHPExcel->getActiveSheet()->setCellValue('E'.$fila, "'".$rowFactura['cbu']."'");
+		$objPHPExcel->getActiveSheet()->setCellValue('A'.$fila, $rowFactura['idpresentacion']);
+		$objPHPExcel->getActiveSheet()->setCellValue('B'.$fila, $rowFactura['nrocominterno']);
+		$objPHPExcel->getActiveSheet()->setCellValue('C'.$fila, $rowFactura['tipoarchivo']);
+		$objPHPExcel->getActiveSheet()->setCellValue('D'.$fila, $rowFactura['periodo']);
+		$objPHPExcel->getActiveSheet()->setCellValue('E'.$fila, $rowFactura['cuit']);
 		$objPHPExcel->getActiveSheet()->setCellValue('F'.$fila, "");
+		$objPHPExcel->getActiveSheet()->setCellValue('G'.$fila, $rowFactura['fechacomprobante']);
+		$objPHPExcel->getActiveSheet()->setCellValue('H'.$fila, $rowFactura['nrocomprobante']);
+		$objPHPExcel->getActiveSheet()->setCellValue('I'.$fila, $rowFactura['impcomprobanteintegral']);
+		$objPHPExcel->getActiveSheet()->setCellValue('J'.$fila, $rowFactura['impdebito']);
+		$objPHPExcel->getActiveSheet()->setCellValue('K'.$fila, $rowFactura['impnointe'] + $rowFactura['impobrasocial']);
+		$objPHPExcel->getActiveSheet()->setCellValue('L'.$fila, $rowFactura['impmontosubsidio']);
+		$objPHPExcel->getActiveSheet()->setCellValue('M'.$fila, "");
+		$objPHPExcel->getActiveSheet()->setCellValue('N'.$fila, "");
+	} else {
+		$objPHPExcel->getActiveSheet()->mergeCells('A'.$fila.':D'.$fila);
+		$objPHPExcel->getActiveSheet()->setCellValue('A'.$fila, $rowFactura['nombre']);
+		$objPHPExcel->getActiveSheet()->setCellValue('E'.$fila, $rowFactura['cuit']);
+		$objPHPExcel->getActiveSheet()->setCellValue('F'.$fila, "'".$rowFactura['cbu']."'");
 		$objPHPExcel->getActiveSheet()->setCellValue('G'.$fila, "");
-		$objPHPExcel->getActiveSheet()->setCellValue('H'.$fila, $rowFactura['impcomprobanteintegral']);
-		$objPHPExcel->getActiveSheet()->setCellValue('I'.$fila, $rowFactura['impdebito']);
-		$objPHPExcel->getActiveSheet()->setCellValue('J'.$fila, $rowFactura['impnointe'] + $rowFactura['impobrasocial']);
-		$objPHPExcel->getActiveSheet()->setCellValue('K'.$fila, $rowFactura['impmontosubsidio']);
-		$objPHPExcel->getActiveSheet()->setCellValue('L'.$fila, $rowFactura['impretencion']);
-		$objPHPExcel->getActiveSheet()->setCellValue('M'.$fila, $rowFactura['impapagar']);
+		$objPHPExcel->getActiveSheet()->setCellValue('H'.$fila, "");
+		$objPHPExcel->getActiveSheet()->setCellValue('I'.$fila, $rowFactura['impcomprobanteintegral']);
+		$objPHPExcel->getActiveSheet()->setCellValue('J'.$fila, $rowFactura['impdebito']);
+		$objPHPExcel->getActiveSheet()->setCellValue('K'.$fila, $rowFactura['impnointe'] + $rowFactura['impobrasocial']);
+		$objPHPExcel->getActiveSheet()->setCellValue('L'.$fila, $rowFactura['impmontosubsidio']);
+		$objPHPExcel->getActiveSheet()->setCellValue('M'.$fila, $rowFactura['impretencion']);
+		$objPHPExcel->getActiveSheet()->setCellValue('N'.$fila, $rowFactura['impapagar']);
 		
-		$objPHPExcel->getActiveSheet()->getStyle('A'.$fila.':M'.$fila)->getFont()->setBold(true);
-		$objPHPExcel->getActiveSheet()->getStyle('A'.$fila.':M'.$fila)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
-		$objPHPExcel->getActiveSheet()->getStyle('A'.$fila.':M'.$fila)->getFill()->getStartColor()->setARGB('00CCFF');
-		$objPHPExcel->getActiveSheet()->getStyle('A'.$fila.':M'.$fila)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		$objPHPExcel->getActiveSheet()->getStyle('A'.$fila.':N'.$fila)->getFont()->setBold(true);
+		$objPHPExcel->getActiveSheet()->getStyle('A'.$fila.':N'.$fila)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
+		$objPHPExcel->getActiveSheet()->getStyle('A'.$fila.':N'.$fila)->getFill()->getStartColor()->setARGB('00CCFF');
+		$objPHPExcel->getActiveSheet()->getStyle('A'.$fila.':N'.$fila)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 	
 		
 		$impApagar = number_format($rowFactura['impapagar'],2,"","");
@@ -188,10 +202,10 @@ foreach ($arrayFacturas as $key => $rowFactura) {
 $objPHPExcel->getDefaultStyle()->getFont()->setName('Arial');
 $objPHPExcel->getDefaultStyle()->getFont()->setSize(10);
 
-$objPHPExcel->getActiveSheet()->getStyle('A1:M1')->getFont()->setBold(true);
-$objPHPExcel->getActiveSheet()->getStyle('A1:M1')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
-$objPHPExcel->getActiveSheet()->getStyle('A1:M1')->getFill()->getStartColor()->setARGB('00CCFF');
-$objPHPExcel->getActiveSheet()->getStyle('A1:M1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+$objPHPExcel->getActiveSheet()->getStyle('A1:N1')->getFont()->setBold(true);
+$objPHPExcel->getActiveSheet()->getStyle('A1:N1')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
+$objPHPExcel->getActiveSheet()->getStyle('A1:N1')->getFill()->getStartColor()->setARGB('00CCFF');
+$objPHPExcel->getActiveSheet()->getStyle('A1:N1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
 //TOTALES
 $fila++;
@@ -203,17 +217,18 @@ $objPHPExcel->getActiveSheet()->setCellValue('D'.$fila, "");
 $objPHPExcel->getActiveSheet()->setCellValue('E'.$fila, "");
 $objPHPExcel->getActiveSheet()->setCellValue('F'.$fila, "");
 $objPHPExcel->getActiveSheet()->setCellValue('G'.$fila, "");
-$objPHPExcel->getActiveSheet()->setCellValue('H'.$fila, $rowTotales['impcomprobanteintegral']);
-$objPHPExcel->getActiveSheet()->setCellValue('I'.$fila, $rowTotales['impdebito']);
-$objPHPExcel->getActiveSheet()->setCellValue('J'.$fila, $rowTotales['impnointe'] + $rowTotales['impobrasocial']);
-$objPHPExcel->getActiveSheet()->setCellValue('K'.$fila, $rowTotales['impmontosubsidio']);
-$objPHPExcel->getActiveSheet()->setCellValue('L'.$fila, $rowTotales['impretencion']);
-$objPHPExcel->getActiveSheet()->setCellValue('M'.$fila, $rowTotales['impapagar']);
+$objPHPExcel->getActiveSheet()->setCellValue('H'.$fila, "");
+$objPHPExcel->getActiveSheet()->setCellValue('I'.$fila, $rowTotales['impcomprobanteintegral']);
+$objPHPExcel->getActiveSheet()->setCellValue('J'.$fila, $rowTotales['impdebito']);
+$objPHPExcel->getActiveSheet()->setCellValue('K'.$fila, $rowTotales['impnointe'] + $rowTotales['impobrasocial']);
+$objPHPExcel->getActiveSheet()->setCellValue('L'.$fila, $rowTotales['impmontosubsidio']);
+$objPHPExcel->getActiveSheet()->setCellValue('M'.$fila, $rowTotales['impretencion']);
+$objPHPExcel->getActiveSheet()->setCellValue('N'.$fila, $rowTotales['impapagar']);
 
-$objPHPExcel->getActiveSheet()->getStyle('A'.$fila.':M'.$fila)->getFont()->setBold(true);
-$objPHPExcel->getActiveSheet()->getStyle('A'.$fila.':M'.$fila)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
-$objPHPExcel->getActiveSheet()->getStyle('A'.$fila.':M'.$fila)->getFill()->getStartColor()->setARGB('00CCFF');
-$objPHPExcel->getActiveSheet()->getStyle('A'.$fila.':M'.$fila)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+$objPHPExcel->getActiveSheet()->getStyle('A'.$fila.':N'.$fila)->getFont()->setBold(true);
+$objPHPExcel->getActiveSheet()->getStyle('A'.$fila.':N'.$fila)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
+$objPHPExcel->getActiveSheet()->getStyle('A'.$fila.':N'.$fila)->getFill()->getStartColor()->setARGB('00CCFF');
+$objPHPExcel->getActiveSheet()->getStyle('A'.$fila.':N'.$fila)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
 
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');

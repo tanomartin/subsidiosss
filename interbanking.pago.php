@@ -1,6 +1,6 @@
 <?php
 include_once 'include/conector.php';
-
+set_time_limit(0);
 $sqlPagos = "SELECT inteinterbanking.*, prestadoresauxiliar.cbu,
 			DATE_FORMAT(inteinterbanking.fechaenvio, '%d-%m-%Y') as fechaenvio,
 			madera.prestadoresauxiliar.cbu
@@ -12,10 +12,25 @@ $resPagos = mysql_query($sqlPagos);
 $numPagos = mysql_num_rows($resPagos);
 
 $arrayFacturas = array();
+$arrayPresenta = array();
 if ($numPagos > 0) {
 	while ($rowTotalesCuit = mysql_fetch_assoc($resPagos)) {
 		$indexT = $rowTotalesCuit['cuit']."TOTAL";
-		$arrayFacturas[$indexT] = $rowTotalesCuit;
+		if (array_key_exists($indexT, $arrayFacturas)) {
+			$arrayFacturas[$indexT]['impcomprobanteintegral'] += $rowTotalesCuit['impcomprobanteintegral'];
+			$arrayFacturas[$indexT]['impdebito'] += $rowTotalesCuit['impdebito'];
+			$arrayFacturas[$indexT]['impnointe'] += $rowTotalesCuit['impnointe'];
+			$arrayFacturas[$indexT]['impsolicitadosubsidio'] += $rowTotalesCuit['impsolicitadosubsidio'];
+			$arrayFacturas[$indexT]['impobrasocial'] += $rowTotalesCuit['impobrasocial'];
+			$arrayFacturas[$indexT]['impmontosubsidio'] += $rowTotalesCuit['impmontosubsidio'];
+			$arrayFacturas[$indexT]['impretencion'] += $rowTotalesCuit['impretencion'];
+			$arrayFacturas[$indexT]['impapagar'] += $rowTotalesCuit['impapagar'];
+			
+			$arrayPresenta[$indexT] .= ",".$rowTotalesCuit['idpresentacion'];
+		} else {
+			$arrayFacturas[$indexT] = $rowTotalesCuit;
+			$arrayPresenta[$indexT] = $rowTotalesCuit['idpresentacion'];
+		}
 		
 		$sqlFactura = "SELECT * FROM intepresentaciondetalle
 						WHERE idpresentacion = ".$rowTotalesCuit['idpresentacion']." and 
@@ -52,7 +67,7 @@ ksort($arrayFacturas);
 <script src="include/jquery.tablesorter/jquery.tablesorter.widgets.js"></script>
 <script src="include/jquery.tablesorter/addons/pager/jquery.tablesorter.pager.js"></script> 
 <script src="include/funcionControl.js" type="text/javascript"></script>
-<script src="/madera/lib/jquery.blockUI.js" type="text/javascript"></script>
+<script src="include/jquery.blockUI.js" type="text/javascript"></script>
 <script type="text/javascript">
 
 $(function() {
@@ -92,9 +107,9 @@ function validar(fomulario) {
 	return true;
 }
 
-function sacarEnvio(id, cuit) {
-	var redire = "interbanking.pago.sacarenvio.php?id="+id+"&cuit="+cuit;
-	var r = confirm("Desea Quitar del Envio al cuit "+ cuit +" de la presentacion con id "+ id);
+function sacarEnvio(cuit) {
+	var redire = "interbanking.pago.sacarenvio.php?cuit="+cuit;
+	var r = confirm("Desea Quitar del Envio al cuit "+ cuit);
 	if (r == true) {
 		window.location.href = redire;
 	} 
@@ -116,6 +131,7 @@ function sacarEnvio(id, cuit) {
 			<table id="listaResultado" class="tablesorter" style="text-align: center; font-size: 15px" >
 				<thead>
 				 	<tr>
+				 		<th>Id. Pres.</th>
 				 		<th>Nº Comp.</th>
 				 		<th>Tipo</th>
 				 		<th>Periodo</th>
@@ -140,6 +156,8 @@ function sacarEnvio(id, cuit) {
 				 	$totMonOS = 0;
 				 	$totApagar = 0;	
 				 	$totRete = 0;
+				 	$arrayPres = array();
+				 	$canPagos = 0;
 				 	foreach ($arrayFacturas as $key => $rowFactura) {  
 				 		$pos = strpos($key, "TOTAL");
 				 		if ($pos === false) {
@@ -149,6 +167,7 @@ function sacarEnvio(id, cuit) {
 					 		$totMonOS += $rowFactura['impobrasocial'];
 					 		$totMonSub += $rowFactura['impmontosubsidio']; ?>
 						 	<tr>
+						 		<td><?php echo $rowFactura['idpresentacion'] ?></td>
 								<td><?php echo $rowFactura['nrocominterno'] ?></td>
 								<td><?php echo $rowFactura['tipoarchivo'] ?></td>
 								<td><?php echo $rowFactura['periodo'] ?></td>
@@ -164,20 +183,21 @@ function sacarEnvio(id, cuit) {
 								<td></td>
 							</tr>
 					<?php } else {
+							$canPagos++;
 							$cuit = substr($key,0,11);  
 							$totRete += $rowFactura['impretencion']; 
-							$totApagar += $rowFactura['impapagar'];?>
+							$totApagar += $rowFactura['impapagar']; ?>
 					 		<tr>
-					 			<th colspan="3">
+					 			<th colspan="4">
 					 			<?php if ($_SESSION['usuario'] == "sistemas" || $_SESSION['usuario'] == "vresch") {?>
-					 				<input type="button" value="SACAR ENVIO" onclick="sacarEnvio(<?php echo $rowFactura['idpresentacion'] ?>, <?php echo $rowFactura['cuit'] ?>)"/>
+					 				<input type="button" value="SACAR ENVIO" onclick="sacarEnvio(<?php echo $rowFactura['cuit'] ?>)"/>
 					 			<?php }?>
 					 			</th>
 					 			<th>
 					 				<?php echo $cuit ?></b>
 					 				<input style="display: none" type="text" value="<?php echo $cuit?>" id="cuit<?php echo $cuit?>" name="cuit<?php echo $cuit?>"/>
-			 						<input style="display: none" type="text" value="<?php echo $rowFactura['idpresentacion']?>" id="pres<?php echo $cuit?>" name="pres<?php echo $cuit?>"/>
-					 			
+					 				<input style="display: none" type="text" value="<?php echo $arrayPresenta[$key] ?>" id="pres<?php echo $cuit?>" name="pres<?php echo $cuit?>"/>
+					 			</th>					 			
 					 			<th><?php echo $rowFactura['cbu'] ?></th>
 					 			<th colspan="2"></th>
 					 			<th><?php echo number_format($rowFactura['impcomprobanteintegral'],2,",",".") ?></th>	
@@ -191,9 +211,9 @@ function sacarEnvio(id, cuit) {
 				 	} ?>
 				 	</tbody>
 					<tr>
-						<th colspan="7">
+						<th colspan="8">
 							TOTALES
-							<input style="display: none" type="text" value="<?php echo $numPagos?>" id="totCantidad" name="totCantidad"/>
+							<input style="display: none" type="text" value="<?php echo $canPagos?>" id="totCantidad" name="totCantidad"/>
 						</th>
 						<th>
 							<?php echo number_format($totComSub,2,",",".") ?>
@@ -222,7 +242,7 @@ function sacarEnvio(id, cuit) {
 						</th>
 					</tr>
 					<tr>
-						<th colspan="7">CONTROLES</th>
+						<th colspan="8">CONTROLES</th>
 						<th><?php echo number_format($totComSub,2,",",".") ?></th>
 						<th colspan="3"><?php echo number_format($totMonDeb + $totMonNOI + $totMonOS + $totMonSub,2,",",".") ?></th>
 						<th colspan="2"><?php echo number_format($totRete + $totApagar + $totMonDeb,2,",",".") ?></th>

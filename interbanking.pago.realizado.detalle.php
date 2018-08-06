@@ -20,7 +20,19 @@ if ($numPagos > 0) {
 	while ($rowTotalesCuit = mysql_fetch_assoc($resPagos)) {
 		$indexT = $rowTotalesCuit['cuit']."TOTAL";
 		$arrayFacturas[$indexT] = $rowTotalesCuit;
-
+		if (array_key_exists($indexT, $arrayFacturas)) {
+			$arrayFacturas[$indexT]['impcomprobanteintegral'] += $rowTotalesCuit['impcomprobanteintegral'];
+			$arrayFacturas[$indexT]['impdebito'] += $rowTotalesCuit['impdebito'];
+			$arrayFacturas[$indexT]['impnointe'] += $rowTotalesCuit['impnointe'];
+			$arrayFacturas[$indexT]['impsolicitadosubsidio'] += $rowTotalesCuit['impsolicitadosubsidio'];
+			$arrayFacturas[$indexT]['impobrasocial'] += $rowTotalesCuit['impobrasocial'];
+			$arrayFacturas[$indexT]['impmontosubsidio'] += $rowTotalesCuit['impmontosubsidio'];
+			$arrayFacturas[$indexT]['impretencion'] += $rowTotalesCuit['impretencion'];
+			$arrayFacturas[$indexT]['impapagar'] += $rowTotalesCuit['impapagar'];
+		} else {
+			$arrayFacturas[$indexT] = $rowTotalesCuit;
+		}
+		
 		$sqlFactura = "SELECT * FROM intepresentaciondetalle
 						WHERE idpresentacion = ".$rowTotalesCuit['idpresentacion']." and
 							  cuit = ".$rowTotalesCuit['cuit']." and
@@ -56,7 +68,6 @@ ksort($arrayFacturas);
 <script src="include/jquery.tablesorter/jquery.tablesorter.widgets.js"></script>
 <script src="include/jquery.tablesorter/addons/pager/jquery.tablesorter.pager.js"></script> 
 <script src="include/funcionControl.js" type="text/javascript"></script>
-<script src="/madera/lib/jquery.blockUI.js" type="text/javascript"></script>
 <script type="text/javascript">
 
 $(function() {
@@ -112,6 +123,7 @@ function sacarPago(id, cuit) {
 		<table id="listaResultado" class="tablesorter" style="text-align: center; font-size: 15px" >
 			<thead>
 				<tr>
+					<th>Id. Pres.</th>
 				 	<th>Nº Comp.</th>
 				 	<th>Tipo</th>
 				 	<th>Periodo</th>
@@ -132,6 +144,7 @@ function sacarPago(id, cuit) {
 				$pos = strpos($key, "TOTAL");
 				if ($pos === false) {?>
 					<tr>
+						<td><?php echo $rowFactura['idpresentacion'] ?></td>
 						<td><?php echo $rowFactura['nrocominterno'] ?></td>
 						<td><?php echo $rowFactura['tipoarchivo'] ?></td>
 						<td><?php echo $rowFactura['periodo'] ?></td>
@@ -149,7 +162,7 @@ function sacarPago(id, cuit) {
 		<?php } else { 
 					$cuit = substr($key,0,11);  ?>
 					 <tr>
-					 	<th colspan="3">
+					 	<th colspan="4">
 					 	<?php if ($_SESSION['usuario'] == "sistemas" || $_SESSION['usuario'] == "vresch") {?>
 					 			<input type="button" value="SACAR PAGO" onclick="sacarPago(<?php echo $rowTotales['id'] ?>, <?php echo $rowFactura['cuit'] ?>)"/>
 					 	<?php }?>
@@ -167,7 +180,7 @@ function sacarPago(id, cuit) {
 		<?php	}
 			} ?>
 				<tr>
-					<th colspan="7">TOTALES</th>
+					<th colspan="8">TOTALES</th>
 					<th><?php echo number_format($rowTotales['impcomprobanteintegral'],2,",",".") ?></th>	
 					<th><?php echo number_format($rowTotales['impdebito'],2,",",".") ?></th>	
 					<th><?php echo number_format($rowTotales['impobrasocial'] + $rowTotales['impnointe'], 2,",",".") ?></th>
@@ -176,7 +189,7 @@ function sacarPago(id, cuit) {
 					<th><?php echo number_format($rowTotales['impapagar'],2,",",".") ?></th>
 				</tr>
 				<tr>
-					<th colspan="7">CONTROLES</th>
+					<th colspan="8">CONTROLES</th>
 					<th><?php echo number_format($rowTotales['impcomprobanteintegral'],2,",",".") ?></th>	
 					<th colspan="3"><?php echo number_format($rowTotales['impdebito']+$rowTotales['impobrasocial'] + $rowTotales['impnointe'] +$rowTotales['impmontosubsidio'] ,2,",",".") ?></th>	
 					<th colspan="2"><?php echo number_format($rowTotales['impretencion']+$rowTotales['impapagar']+$rowTotales['impdebito'],2,",",".") ?></th>
