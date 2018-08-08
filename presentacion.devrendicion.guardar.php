@@ -180,8 +180,6 @@ try {
 				$monto = (float) $arrayLiquidado[$indexLiqui];
 				if ($rowRendicion['tipoarchivo'] == "DC" and $monto < 0) {
 					$monto = 0;
-				} else {
-					$arrayLiquidado[$indexLiqui] -= (float) $rowRendicion['impsolicitado'];
 				}
 				if ($rowRendicion['tipoarchivo'] == "DB" and $monto >= 0) {
 					$monto = 0;
