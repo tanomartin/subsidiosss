@@ -181,10 +181,10 @@ try {
 				if ($rowRendicion['tipoarchivo'] == "DC" and $monto < 0) {
 					$monto = 0;
 				} else {
-					$arrayLiquidado[$indexLiqui] -= (float) $rowRendicion['impsolicitado'];
 					if (round($arrayLiquidado[$indexLiqui],2) >= round($rowRendicion['impsolicitado'],2)) {
 						$monto = $rowRendicion['impsolicitado'];
 					}
+					$arrayLiquidado[$indexLiqui] -= (float) $rowRendicion['impsolicitado'];
 				}
 				if ($rowRendicion['tipoarchivo'] == "DB" and $monto >= 0) {
 					$monto = 0;
