@@ -1,6 +1,4 @@
-<?php 
-include_once 'include/conector.php';
-?>
+<?php include_once 'include/conector.php'; ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -19,13 +17,12 @@ include_once 'include/conector.php';
 	  </td>
       <td width="200">
 	    <p>PRESENTACIONES</p>
-	    <p><a href="presentacion.php"><img src="img/presentacion.png" width="90" height="90" border="0" alt="enviar"/></a></p>
+	    <p><a href="presentacion.php"><img src="img/presentacion.png" width="90" height="90" border="0" /></a></p>
 	  </td>
 	  <td width="200">
 	    <p>BUSCADOR</p>
 	    <p><a href="buscador.php"><img src="img/buscar.png" width="90" height="90" border="0" /></a></p>
 	  </td>
-	  
      </tr>	
      <tr>
        <td>
@@ -34,7 +31,7 @@ include_once 'include/conector.php';
 	  </td>
 	  <td>
 	    <p>COMPROBANTES</p>
-	    <p><a href="comprobantes.php"><img src="img/comprobante.png" width="90" height="90" border="0" alt="enviar"/></a></p>
+	    <p><a href="comprobantes.php"><img src="img/comprobante.png" width="90" height="90" border="0"/></a></p>
 	  </td>
 	  <td>
 	    <p>NOMENCLADOR</p>
@@ -45,15 +42,15 @@ include_once 'include/conector.php';
      <tr>
        <td>
 	    <p>INTERBANKING</p>
-	    <p><a href="interbanking.php"><img src="img/interbanking.png" width="90" height="90" border="0" alt="enviar"/></a></p>
+	    <p><a href="interbanking.php"><img src="img/interbanking.png" width="90" height="90" border="0"/></a></p>
 	  </td>
 	  <td>
 	    <p>INFORMES</p>
-	    <p><a href="informes.php"><img src="img/excellogo.png" width="90" height="90" border="0" alt="enviar"/></a></p>
+	    <p><a href="informes.php"><img src="img/excellogo.png" width="90" height="90" border="0"/></a></p>
 	  </td>
 	  <td>
-	    <p></p>
-	    <p></p>
+	    <p>MAILING</p>
+	    <p><a href="mailing.php"><img src="img/mailing.png" width="90" height="90" border="0"/></a></p>
 	  </td>
 	  </tr>
     </tr>
