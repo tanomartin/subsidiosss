@@ -11,7 +11,11 @@ if (isset($_SESSION['aut'])) {
 	exit(0);
 }
 
+$maquina = $_SERVER['SERVER_NAME'];
 $hostLocal = "localhost";
+if(strcmp("poseidon",$maquina)==0) {
+	$hostLocal = "poseidon";
+}
 $usuarioLocal = $_SESSION['usuario'];
 $claveLocal = $_SESSION['clave'];
 $dbname = "subsidiosss";
