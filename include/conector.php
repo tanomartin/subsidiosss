@@ -1,5 +1,4 @@
 <?php
-include_once("claves.php");
 session_start();
 $redire = "Location: sesionCaducada.php";
 if (isset($_SESSION['aut'])) {
@@ -11,6 +10,11 @@ if (isset($_SESSION['aut'])) {
 	header($redire);
 	exit(0);
 }
+
+$hostLocal = "localhost";
+$usuarioLocal = $_SESSION['usuario'];
+$claveLocal = $_SESSION['clave'];
+$dbname = "subsidiosss";
 
 $db =  mysql_connect($hostLocal,$usuarioLocal,$claveLocal);
 if (!$db) {
