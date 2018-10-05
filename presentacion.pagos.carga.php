@@ -4,9 +4,9 @@ $idPresentacion = $_GET['id'];
 $canPagos = 0;
 if (isset($_GET['cuit'])) {
 	$nrocuit= $_GET['cuit'];
-	$sqlPagos = "SELECT d.*,f.tipoarchivo, f.nrocomprobante, f.impcomprobante , 
+	$sqlPagos = "SELECT d.*,f.tipoarchivo, f.nrocomprobante, f.impcomprobante, t.descripcion as tipocomprobante, 
 					DATE_FORMAT(c.fechatransferencia, '%d-%m-%Y') as fechatransferencia, c.nrotransferencia
-					FROM intepagosdetalle d, intepresentaciondetalle f, intepagoscabecera c
+					FROM intepagosdetalle d, intepresentaciondetalle f, intepagoscabecera c, madera.tipocomprobante t
 					WHERE
 					d.idpresentacion = $idPresentacion and
 					c.idpresentacion = d.idpresentacion and
@@ -14,8 +14,10 @@ if (isset($_GET['cuit'])) {
 					d.idpresentacion = f.idpresentacion and
 					d.nrocominterno = f.nrocominterno and
 					f.codpractica not in (97,98,99) and
-					f.cuit = $nrocuit and f.tipoarchivo != 'DB'
+					f.cuit = $nrocuit and f.tipoarchivo != 'DB' and
+					f.tipocomprobante = t.id 
 					order by f.nrocomprobante";
+	echo $sqlPagos;
 	$resPagos = mysql_query($sqlPagos);
 	$canPagos = mysql_num_rows($resPagos);
 }
@@ -83,7 +85,7 @@ if (isset($_GET['cuit'])) {
 					 			<th>Nro. Orden Pago</th>
 					 			<th>Nro. Comp. Interno</th>
 					 			<th>Tipo</th>
-					 			<th>Nro. Factura</th>
+					 			<th>Comprobante</th>
 					 			<th>Monto Factura</th>
 					 			<th width="90px">Fec. Transf.</th>
 					 			<th>Nro. Transf.</th>
@@ -95,7 +97,7 @@ if (isset($_GET['cuit'])) {
 					 			<td><?php echo $rowPagos['nroordenpago'] ?></td>
 					 			<td><?php echo $rowPagos['nrocominterno'] ?></td>
 					 			<td><?php echo $rowPagos['tipoarchivo'] ?></td>
-					 			<td><?php echo $rowPagos['nrocomprobante'] ?></td>
+					 			<td><?php echo $rowPagos['tipocomprobante']." - Nro: ".$rowPagos['nrocomprobante'] ?></td>
 					 			<td><?php echo number_format($rowPagos['impcomprobante'],"2",",","."); ?></td>
 					 			<td><?php echo $rowPagos['fechatransferencia'] ?></td>
 					 			<td><?php echo $rowPagos['nrotransferencia'] ?></td>	
