@@ -17,7 +17,6 @@ if (isset($_GET['cuit'])) {
 					f.cuit = $nrocuit and f.tipoarchivo != 'DB' and
 					f.tipocomprobante = t.id 
 					order by f.nrocomprobante";
-	echo $sqlPagos;
 	$resPagos = mysql_query($sqlPagos);
 	$canPagos = mysql_num_rows($resPagos);
 }
