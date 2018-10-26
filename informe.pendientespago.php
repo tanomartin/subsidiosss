@@ -8,7 +8,7 @@ $sqlPendientes = "SELECT inteinterbanking.*,
 				  FROM inteinterbanking
 				  LEFT JOIN madera.prestadores on inteinterbanking.cuit = madera.prestadores.cuit
 				  LEFT JOIN madera.prestadoresauxiliar on madera.prestadores.codigoprestador = madera.prestadoresauxiliar.codigoprestador
-				  WHERE idpago is null ORDER BY idpresentacion";
+				  WHERE idpago is null and nopagar = 0 ORDER BY idpresentacion";
 $resPendientes = mysql_query($sqlPendientes);
 
 $today = date("m-d-y");
