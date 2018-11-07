@@ -95,8 +95,10 @@ $rowPresentacion = mysql_fetch_array($resPresentacion); ?>
 				?>
 				
 				<td rowspan="4" style="font-size: 11px"><?php echo number_format($rowPresentacion['importesolicitado'],"2",",",".") ?></td>
-				<td rowspan="5" style="font-size: 11px"><?php echo number_format($rowPresentacion['importeliquidado'],"2",",",".") ?></td>
-				<td rowspan="5" style="font-size: 11px"><?php echo number_format($rowPresentacion['importesolicitado']-$rowPresentacion['importeliquidado'],"2",",",".") ?></td>
+				<?php if ($rowPresentacion['importeliquidado'] != 0) { $porcentaje = ( $rowPresentacion['importeliquidado']/$rowPresentacion['importesolicitado']) * 100; } else { $porcentaje = "0"; };?>
+				<td rowspan="5" style="font-size: 11px"><?php echo (number_format($rowPresentacion['importeliquidado'],"2",",",".")."<br>".number_format($porcentaje,"2",",",".")." %"); ?></td>
+				<?php if ($rowPresentacion['importeliquidado'] != 0) { $porcentaje = ( ($rowPresentacion['importesolicitado']-$rowPresentacion['importeliquidado'])/$rowPresentacion['importesolicitado']) * 100; } else { $porcentaje = "0"; };?>
+				<td rowspan="5" style="font-size: 11px"><?php echo (number_format($rowPresentacion['importesolicitado']-$rowPresentacion['importeliquidado'],"2",",",".")."<br>".number_format($porcentaje,"2",",",".")." %"); ?></td>
 				<td rowspan="5" style="font-size: 11px"> <?php echo number_format($rowPresentacion['montodepositado'],"2",",",".") ?> </td>
 			</tr>
 			<tr>
