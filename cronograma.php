@@ -5,7 +5,7 @@ $resCronograma = mysql_query($sqlCronograma);
 
 $today = date("Y-m-d");
 $carpeta = date("Ym");
-$sqlCarpetaActual = "SELECT id FROM intecronograma i where fechacierre >= '$today' and carpeta < '$carpeta'";
+$sqlCarpetaActual = "SELECT id FROM intecronograma i where fechacierre >= '$today' LIMIT 1";
 $resCarpetaActual = mysql_query($sqlCarpetaActual);
 $rowCarpetaActual = mysql_fetch_array($resCarpetaActual);
 $idCarpetaActual = $rowCarpetaActual['id'];
