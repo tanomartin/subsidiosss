@@ -54,10 +54,10 @@ $fechacierrefondo = $rowCarpetaActualFondo['fechacierrefondo'];
 				<tr>
 					<td <?php echo $color.$colorFondo ?>><?php echo $rowCronograma['periodo'] ?></td>
 					<td <?php echo $color.$colorFondo ?>><?php echo $rowCronograma['carpeta'] ?></td>
-					<td <?php echo $color.$colorFondo ?>><?php if ($rowCronograma['fechacierre'] != NULL) { echo $rowCronograma['fechacierre']; } else { echo "-"; } ?></td>
-					<td <?php echo $color.$colorFondo ?>><?php echo $rowCronograma['periodosincluidos'] ?></td>
-					<td <?php echo $color.$colorFondo ?>><?php if ($rowCronograma['fechapago'] != NULL) { echo $rowCronograma['fechapago']; } else { echo "-"; } ?></td>
-					<td <?php echo $color.$colorFondo ?>><?php if ($rowCronograma['fechacierrefondo'] != NULL) { echo $rowCronograma['fechacierrefondo']; } else { echo "-"; } ?></td>
+					<td <?php echo $color ?>><?php if ($rowCronograma['fechacierre'] != NULL) { echo $rowCronograma['fechacierre']; } else { echo "-"; } ?></td>
+					<td <?php echo $color ?>><?php echo $rowCronograma['periodosincluidos'] ?></td>
+					<td <?php echo $colorFondo ?>><?php if ($rowCronograma['fechapago'] != NULL) { echo $rowCronograma['fechapago']; } else { echo "-"; } ?></td>
+					<td <?php echo $colorFondo ?>><?php if ($rowCronograma['fechacierrefondo'] != NULL) { echo $rowCronograma['fechacierrefondo']; } else { echo "-"; } ?></td>
 				</tr>
 		<?php } ?>
 		  	</tbody>
