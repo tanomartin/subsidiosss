@@ -59,6 +59,7 @@ if (isset($_POST['dato']) && isset($_POST['filtro'])) {
 .nover {display:none}
 </style>
 <script src="include/jquery-ui-1.9.2.custom/js/jquery-1.8.3.js" type="text/javascript"></script>
+<script src="include/jquery.blockUI.js" type="text/javascript"></script>
 <link rel="stylesheet" href="include/jquery.tablesorter/themes/theme.blue.css"/>
 <script src="include/jquery.tablesorter/jquery.tablesorter.js"></script>
 <script src="include/jquery.tablesorter/jquery.tablesorter.widgets.js"></script>
@@ -113,18 +114,10 @@ function validar(formulario) {
 	if (formulario.filtro[3].checked) {
 		resultado = esEnteroPositivo(formulario.dato.value);
 		if (!resultado) {
-			alert("El Código de Delegación debe ser un numero entero positivo");
+			alert("El Nro de Factura debe ser un numero entero positivo");
 			return false;
 		} 
 	}
-	if (formulario.filtro[4].checked) {
-		resultado = esEnteroPositivo(formulario.dato.value);
-		if (!resultado) {
-			alert("El Nro. de afiliado debe ser un numero entero positivo");
-			return false;
-		} 
-	}
-	
 	$.blockUI({ message: "<h1>Generando Busqueda... <br>Esto puede tardar unos segundos.<br> Aguarde por favor</h1>" });
 	return true;
 }
