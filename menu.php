@@ -34,7 +34,7 @@
 	    <p><a href="interbanking.php"><img src="img/interbanking.png" width="90" height="90" border="0"/></a></p>
 	  </td>
 	   <td>
-	    <p>PRESENTACIONES APLICACION DE FONDO</p>
+	    <p>APLI. DE FONDO</p>
 	    <p><a href="fondos.php"><img src="img/fondos.png" width="90" height="90" border="0"/></a></p>
 	  </td>
 	 </tr>

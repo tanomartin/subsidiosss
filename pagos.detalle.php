@@ -3,7 +3,7 @@ include_once 'include/conector.php';
 $usuario = $_SESSION['usuario'];
 $idPresentacion = $_GET['id'];
 
-$sqlPagos = "SELECT c.idpresentacion, c.nroordenpago, nrotransferencia, nrocominterno,
+$sqlPagos = "SELECT c.idpresentacion, c.nroordenpago, nrotransferencia, nrocominterno, impretencion,
 DATE_FORMAT(c.fechatransferencia,'%d/%m/%Y') as fechatransferencia, recibo, asiento, folio
 FROM intepagoscabecera c, intepagosdetalle d
 WHERE c.idpresentacion = $idPresentacion and c.idpresentacion = d.idpresentacion and c.nroordenpago = d.nroordenpago";
@@ -17,6 +17,7 @@ while ($rowPagos = mysql_fetch_assoc($resPagos)) {
 		$arrayPagos[$rowPagos['nrocominterno']]['recibo'] .= "<br>".$rowPagos['recibo'];
 		$arrayPagos[$rowPagos['nrocominterno']]['asiento'] .= "<br>".$rowPagos['asiento'];
 		$arrayPagos[$rowPagos['nrocominterno']]['folio'] .= "<br>".$rowPagos['folio'];
+		$arrayPagos[$rowPagos['nrocominterno']]['impretencion'] .= "<br>".$rowPagos['impretencion'];
 	} else {
 		$arrayPagos[$rowPagos['nrocominterno']] = $rowPagos;
 	}
@@ -186,7 +187,13 @@ $(function() {
 								<td><?php echo number_format($rowFactura['impnointe'],2,",",".") ?></td>
 								<td><?php echo number_format($rowFactura['impobrasocial'],2,",",".") ?></td>
 								<td><?php echo number_format($rowFactura['impmontosubsidio'],2,",",".") ?></td>
-								<td></td>
+								<td>
+								<?php if (isset($arrayPagos[$rowFactura['nrocominterno']])) { 
+										echo number_format($arrayPagos[$rowFactura['nrocominterno']]['impretencion'],2,",","."); 
+									  } else { 
+										echo "0,00"; 
+									  } ?>
+								</td>
 								<td></td>
 							<?php if (isset($arrayPagos[$rowFactura['nrocominterno']]) && $rowFactura['tipoarchivo'] != "DB") { ?>
 									<td><?php echo $arrayPagos[$rowFactura['nrocominterno']]['nroordenpago'] ?></td>
@@ -197,7 +204,7 @@ $(function() {
 									<td><?php echo $arrayPagos[$rowFactura['nrocominterno']]['folio'] ?></td>
 							<?php } else { 
 										if (isset($arrayReversiones[$rowFactura['nrocominterno']]) && $rowFactura['tipoarchivo'] != "DB") { ?>
-											<td>Rev <?php echo $arrayReversiones[$rowFactura['nrocominterno']] ?></td>
+											<td>R <?php echo $arrayReversiones[$rowFactura['nrocominterno']] ?></td>
 											<td>-</td>
 											<td>-</td>
 											<td>-</td>
