@@ -13,8 +13,18 @@ while ($rowErrores = mysql_fetch_array($resErrores)) {
 	$arrayErrores[$rowErrores['id']] = array("campo" => $rowErrores['campo'], "descrip" => $rowErrores['descripcion']);
 }
 
-$sqlCantidad = "SELECT deverrorintegral, count(*) as cantidad FROM intepresentaciondetalle where idpresentacion = $idPresentacion and deverrorintegral is not null group by deverrorintegral";
+$sqlCantidad = "SELECT deverrorintegral FROM intepresentaciondetalle 
+					WHERE idpresentacion = $idPresentacion and deverrorintegral is not null";
 $resCantidad = mysql_query($sqlCantidad);
+$arrayCantidad = array();
+while ($rowCantidad = mysql_fetch_array($resCantidad)) {
+	$keyArray = explode("-",$rowCantidad['deverrorintegral']);
+	foreach ($keyArray as $key => $error) {
+		if ($error != "") {
+			if (isset($arrayCantidad[$error])) { $arrayCantidad[$error] += 1; } else { $arrayCantidad[$error] = 1; }
+		}
+	}
+}
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -86,11 +96,11 @@ $(function() {
 	 			</thead>
 	 			<tbody>
 	 	<?php 	$totalErrores = 0;
-	 	  		while ($rowCantidad = mysql_fetch_array($resCantidad)) {  
-	 				$totalErrores += $rowCantidad['cantidad'];  ?>
+	 	  		foreach ($arrayCantidad as $error=>$cantidad) {
+	 				$totalErrores += $cantidad;  ?>
 	 				<tr>
-	 					<td><?php echo substr($rowCantidad['deverrorintegral'],1,4)?></td>
-	 					<td><?php echo $rowCantidad['cantidad']?></td>
+	 					<td><?php echo $error ?></td>
+	 					<td><?php echo $cantidad ?></td>
 	 				</tr>
 	 	<?php   } ?>
 	 			</tbody>
