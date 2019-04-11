@@ -39,7 +39,7 @@ $(function() {
 
 <body bgcolor="#CCCCCC">
 	<div align="center">
-	 	<p><input type="reset" name="volver" value="Volver" onClick="location.href = 'menu.php'" /></p>
+	 	<p><input type="reset" name="volver" value="Volver" onClick="location.href = 'codificadora.php'" /></p>
 	 	<h2>Nomenclador Subsidio S.S.S.</h2>
 		<div style="width: 900px">
 			<table class="tablesorter" id="listado">

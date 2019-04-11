@@ -14,7 +14,7 @@ $resCompro = mysql_query($sqlCompro);
 
 <body bgcolor="#CCCCCC">
 	<div align="center">
-	 <p><input type="reset" name="volver" value="Volver" onClick="location.href = 'menu.php'" /></p>
+	 <p><input type="reset" name="volver" value="Volver" onClick="location.href = 'codificadora.php'" /></p>
 	 <h2>Comprobantes Subsidio S.S.S.</h2>
 	 <div class="grilla">
 		 <table>

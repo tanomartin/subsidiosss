@@ -22,7 +22,7 @@ try {
 	}
 
 	$dbh->commit();
-	Header("Location: presentacion.pagos.interbanking.php?id=$idPresentacion");
+	Header("Location: pagos.interbanking.php?id=$idPresentacion");
 } catch (PDOException $e) {
 	$redire = "Location: presentacion.error.php?id=$idPresentacion&page='Enviar Pago'&error=".$e->getMessage();
 	Header($redire);

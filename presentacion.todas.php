@@ -123,9 +123,9 @@ $(function() {
 			 			<th rowspan="2" style="font-size: 11px">Fecha Dev. Formato</th>
 			 			<th rowspan="2" style="font-size: 11px">Fecha Dev. Integral</th>
 			 			<th rowspan="2" style="font-size: 11px">Fecha Dev. Subsidio</th>
-			 			<th rowspan="2" style="font-size: 11px">Fecha Cancelacion</th>
-			 			<th rowspan="2" style="font-size: 11px">Fecha Cierre</th>
+			 			<th rowspan="2" style="font-size: 11px">Fecha Cancelacion</th>	
 			 			<th rowspan="2" style="font-size: 11px">Deposito</th>
+			 			<th rowspan="2" style="font-size: 11px">Fecha Cierre</th>
 			 			<th rowspan="2" style="font-size: 11px">Informacion</th>
 			 			<th rowspan="2" style="font-size: 11px">Errores</th>
 			 			<th rowspan="2" class="filter-select" data-placeholder="Selccione" style="font-size: 11px">Estado</th>
@@ -152,14 +152,11 @@ $(function() {
 						<td style="font-size: 12px"><?php echo $rowPresentacion['fechaintegral'] ?></td>
 						<td style="font-size: 12px"><?php echo $rowPresentacion['fecharendicion'] ?></td>
 						<td style="font-size: 12px"><?php echo $rowPresentacion['fechacancelacion'] ?></td>		
-						<td style="font-size: 12px"><?php echo $rowPresentacion['fechacierre'] ?></td>
 						<td style="font-size: 12px"><?php echo $rowPresentacion['fechadeposito'] ?> <br><b><?php if ($rowPresentacion['montodepositado'] != NULL) { echo "[".number_format($rowPresentacion['montodepositado'],2,",",".")."]"; } ?></b></td>	
+						<td style="font-size: 12px"><?php echo $rowPresentacion['fechacierre'] ?></td>
 						<td>
 							<input style="margin-bottom: 5px" type="button" value="Facturas" onClick="location.href = 'presentacion.facturas.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
 							<input style="margin-bottom: 5px" type="button" value="Detalle" onClick="location.href = 'presentacion.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
-							<?php if (in_array($rowPresentacion['id'],$arrayPagos)) { ?>
-									<input type="button" value="Pagos" onClick="location.href = 'presentacion.pagos.php?id=<?php echo $rowPresentacion['id'] ?>'"/>									
-							<?php }  ?>
 						</td>
 						<td>
 					<?php	if ($rowPresentacion['fechadevformato'] != NULL && $rowPresentacion['cantformatonok'] != 0) { ?>

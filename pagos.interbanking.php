@@ -76,9 +76,9 @@ function validar(fomulario) {
 
 <body bgcolor="#CCCCCC">
 	<div align="center">
-		<p><input class="nover" type="button" name="volver" value="Volver" onClick="location.href = 'presentacion.php'" /></p>
+		<p><input class="nover" type="button" name="volver" value="Volver" onClick="location.href = 'pagos.php'" /></p>
 		<?php include_once("include/detalle.php")?>
-		<form action="presentacion.pagos.interbanking.guardar.php?id=<?php echo $idPresentacion ?>" onSubmit="return validar(this)"  method="post">
+		<form action="pagos.interbanking.guardar.php?id=<?php echo $idPresentacion ?>" onSubmit="return validar(this)"  method="post">
 			<h2>Enviar a Pago por Interbanking</h2>
 			<table id="listaResultado" class="tablesorter" style="text-align: center; font-size: 15px; width: 1100px" >
 				<thead>

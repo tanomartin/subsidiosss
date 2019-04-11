@@ -1,5 +1,6 @@
 <?php
 include_once 'include/conector.php';
+set_time_limit(0);
 $id = $_GET['id'];
 $sqlTotales = "SELECT i.*, DATE_FORMAT(i.fechapago,'%d/%m/%Y') as fechapago FROM inteinterbankingcabecera i WHERE id = $id";
 $resTotales = mysql_query($sqlTotales);

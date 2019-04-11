@@ -39,13 +39,14 @@ $(function() {
 
 <body bgcolor="#CCCCCC">
 	<div align="center">
-	 	<p><input type="reset" name="volver" value="Volver" onClick="location.href = 'menu.php'" /></p>
+	 	<p><input type="reset" name="volver" value="Volver" onClick="location.href = 'codificadora.php'" /></p>
 	 	<h2>Errores Subsidio S.S.S.</h2>
-		 <table class="tablesorter" id="listado">
+		 <table class="tablesorter" id="listado" style="width: 1000px">
 		 	<thead>
 		 		<tr>
 		 			<th>Código</th>
-		 			<th class="filter-select" data-placeholder="Seleccione Campo">Campo del error</th>
+		 			<th class="filter-select" data-placeholder="Seleccione">Proceso</th>
+		 			<th class="filter-select" data-placeholder="Seleccione">Campo del error</th>
 		 			<th>Descripcion</th>
 		 			<th>Accion a realizar</th>
 		 		</tr>
@@ -54,6 +55,7 @@ $(function() {
 		<?php while ($rowErrores = mysql_fetch_array($resErrores)) {  ?>
 				<tr>
 					<td><?php echo $rowErrores['id'] ?></td>
+					<td><?php echo $rowErrores['proceso'] ?></td>
 					<td><?php echo $rowErrores['campo'] ?></td>
 					<td><?php echo $rowErrores['descripcion'] ?></td>
 					<td><?php echo $rowErrores['accion'] ?></td>

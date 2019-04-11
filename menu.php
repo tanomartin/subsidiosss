@@ -25,35 +25,33 @@
 	  </td>
      </tr>	
      <tr>
-       <td>
-	    <p>ERRORES</p>
-	    <p><a href="errores.php"><img src="img/error.png" width="90" height="90" border="0" /></a></p>
+	  <td>
+	   	<p>PAGOS</p>
+	    <p><a href="pagos.php"><img src="img/pagos.png" width="90" height="90" border="0" /></a></p>
 	  </td>
 	  <td>
-	    <p>COMPROBANTES</p>
-	    <p><a href="comprobantes.php"><img src="img/comprobante.png" width="90" height="90" border="0"/></a></p>
-	  </td>
-	  <td>
-	    <p>NOMENCLADOR</p>
-	    <p><a href="nomenclador.php"><img src="img/nomenclador.png" width="90" height="90" border="0" /></a></p>
-	  </td>
-	  </tr>
-    </tr>
-     <tr>
-       <td>
 	    <p>INTERBANKING</p>
 	    <p><a href="interbanking.php"><img src="img/interbanking.png" width="90" height="90" border="0"/></a></p>
 	  </td>
-	  <td>
-	    <p>INFORMES</p>
-	    <p><a href="informes.php"><img src="img/excellogo.png" width="90" height="90" border="0"/></a></p>
+	   <td>
+	    <p>PRESENTACIONES APLICACION DE FONDO</p>
+	    <p><a href="fondos.php"><img src="img/fondos.png" width="90" height="90" border="0"/></a></p>
 	  </td>
-	  <td>
-	    <p>MAILING</p>
-	    <p><a href="mailing.php"><img src="img/mailing.png" width="90" height="90" border="0"/></a></p>
-	  </td>
-	  </tr>
-    </tr>
+	 </tr>
+	 <tr>
+	 	<td>
+	    	<p>CODIFICADORAS</p>
+	    	<p><a href="codificadora.php"><img src="img/codificadoras.png" width="90" height="90" border="0" /></a></p>
+	  	</td>
+	 	<td>
+	    	<p>INFORMES</p>
+	   	 	<p><a href="informes.php"><img src="img/excellogo.png" width="90" height="90" border="0"/></a></p>
+	  	</td>
+	  	<td>
+	   	 	<p>MAILING</p>
+	    	<p><a href="mailing.php"><img src="img/mailing.png" width="90" height="90" border="0"/></a></p>
+	  	</td>
+	 </tr>
   </table>
    <p><input type="button" name="salir" value="SALIR" onclick="location.href='logout.php'" /></p>
 </div>

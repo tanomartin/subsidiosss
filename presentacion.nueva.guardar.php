@@ -121,7 +121,7 @@ while ($data = fgetcsv ($fp, 1000, ";")) {
 fclose ($fp);
 $sqlInsertPresentacion = "INSERT INTO intepresentacion VALUES(DEFAULT, ".$_POST['idCronograma'].", NULL, NULL, NULL,
 						$cantFacturas,$impCompTotal,$impDebitoTotal,$impNoInteTotal,$impPedido,
-						$impCompTotalD,$impDebitoTotalD,$impNoInteTotalD,$impPedidoD,NULL,NULL,NULL)";
+						$impCompTotalD,$impDebitoTotalD,$impNoInteTotalD,$impPedidoD,NULL,NULL,NULL,NULL)";
 
 $anio = substr($_POST['carpeta'],0,4);
 $carpetaanio = "archivos/$anio";
