@@ -48,7 +48,7 @@ LEFT JOIN madera.titulares titufamibaja on madera.familiaresdebaja.nroafiliado =
 LEFT JOIN madera.titularesdebaja titubajafamibaja on madera.familiaresdebaja.nroafiliado = madera.titubajafamibaja.nroafiliado
 LEFT JOIN madera.prestadores on f.cuit = madera.prestadores.cuit	
 WHERE
-	p.recibo = '' and
+	p.recibo is null and
 	p.nrocominterno = f.nrocominterno and
 	p.idpresentacion = f.idpresentacion and 
 	p.idpresentacion = pc.idpresentacion and 

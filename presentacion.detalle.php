@@ -230,7 +230,7 @@ $(function() {
 									
 									$sqlDebeRecibo = "SELECT f.nrocomprobante FROM intepagosdetalle p, intepresentaciondetalle f
 														WHERE
-														p.recibo = '' and
+														p.recibo is null and
 														p.nrocominterno = f.nrocominterno and codpractica not in (97,98,99) and
 														f.cuit = ".$rowFactura['cuit']." and
 														f.impsolicitadosubsidio is not null and
