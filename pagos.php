@@ -94,14 +94,20 @@ $(function() {
 });
 
 function finalizar(id) {
-	var text = "¿Está seguro que desea cerrar el pago de la resentacion " + id +"?"
+	/*var text = "¿Está seguro que desea cerrar el pago de la resentacion " + id +"?"
 	var ask = window.confirm(text);
     if (ask) {
     	$.blockUI({ message: "<h1>Finalizando Proceso de Pagos de la Presentacion... <br>Esto puede tardar unos segundos.<br> Aguarde por favor</h1>" });
         window.location.href = "pagos.finalizar.php?id="+id;
 
-    }
+    }*/
+    alert("FUNCION NO DISPONIBLE POR EL MOMENTO");
 }
+
+function descargarAF(id) {
+    alert("FUNCION NO DISPONIBLE POR EL MOMENTO");
+}
+
 
 </script>
 
@@ -163,8 +169,8 @@ function finalizar(id) {
 						</td>
 						<td>
 					  <?php if (in_array($rowPresentacion['id'],$arrayPagos)) {?>
-					     	 	<input style="margin-top: 5px" type="button" value="R.A.F.O." onClick="location.href = 'pagos.rafo.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
-					     	 	<input style="margin-top: 5px" type="button" value="A.F. SSS" onClick="location.href = 'pagos.fondos.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
+					     	 	<input style="margin-top: 5px" type="button" value="R.A.F.O.R" onClick="location.href = 'pagos.rafo.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
+					     	 	<input style="margin-top: 5px" type="button" value="A.F. SSS" onClick="descargarAF('<?php echo $rowPresentacion['id'] ?>')"/></br>
 					 	  <?php if ($rowPresentacion['fechacierrepagos'] == NULL) { ?>
 					 				<input style="margin-top: 5px" type="button" value="FINALIZAR" onClick="finalizar('<?php echo $rowPresentacion['id'] ?>')"/>
 					 	  <?php } ?>
