@@ -31,7 +31,7 @@ foreach ($arrayDatosPagos as $key => $data) {
 	}
 	$sqlUpdatePago[$i] = "UPDATE intepagosdetalle 
 							SET 
-								recibo = ".$data['recibo'].", 
+								recibo = '".$data['recibo']."', 
 								asiento = ".$data['asiento'].", 
 								folio = ".$data['folio'].",
 								observacion = ".$data['obs'].",
