@@ -29,7 +29,9 @@ if (isset($_GET['cuit'])) {
 <link rel="stylesheet" href="css/tablas.css"/>
 <title>.: Carga Info Pagos S.S.S. :.</title>
 
-<script src="include/funcionControl.js" type="text/javascript"></script><base />
+<script src="include/jquery-ui-1.9.2.custom/js/jquery-1.8.3.js" type="text/javascript"></script>
+<script src="include/funcionControl.js" type="text/javascript"></script>
+<script src="include/jquery.blockUI.js" type="text/javascript"></script>
 <script type="text/javascript">
 
 	function buscar(id) {
@@ -78,6 +80,11 @@ if (isset($_GET['cuit'])) {
 		}
 	}
 
+	function validar() {
+		$.blockUI({ message: "<h1>Guardando datos de R.A.F.O.R. <br>Esto puede tardar unos segundos.<br> Aguarde por favor</h1>" });
+		return true;
+	}
+
 </script>
 
 <style type="text/css" media="print">
@@ -98,7 +105,7 @@ if (isset($_GET['cuit'])) {
 	<?php 	if ($canPagos != 0) { ?>
 				<h2>Datos de Pagos</h2><h3> C.U.I.T. "<?php echo $nrocuit ?>"</h3>	
 				<p><input class="nover" type="button" name="imprimir" value="Imprimir" onclick="window.print();"></p>
-				<form action="pagos.rafo.guardar.php" method="post">
+				<form action="pagos.rafo.guardar.php" method="post" onSubmit="return validar()">
 			 		<input style="display: none" type="text" id="idpresentacion" name="idpresentacion" value="<?php echo $idPresentacion ?>" />
 					<div class="grilla" style="margin-bottom: 20px;">
 						<table>
