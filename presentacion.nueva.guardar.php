@@ -127,6 +127,7 @@ $anio = substr($_POST['carpeta'],0,4);
 $carpetaanio = "archivos/$anio";
 $carpetaGeneracion = "archivos/$anio/".$_POST['carpeta']."/generacion";
 $carpetaResultados= "archivos/$anio/".$_POST['carpeta']."/resultados";
+$carpetaFondos= "archivos/$anio/".$_POST['carpeta']."/fondos";
 
 try {
 	if (!file_exists($carpetaanio)) {
@@ -137,6 +138,9 @@ try {
 	}
 	if (!file_exists($carpetaResultados)) {
 		mkdir($carpetaResultados, 0777, true);
+	}
+	if (!file_exists($carpetaFondos)) {
+		mkdir($carpetaFondos, 0777, true);
 	}
 	$archivocsv = $carpetaGeneracion."/mi".$_POST['carpeta'].".csv";
 	copy($archivo, $archivocsv);

@@ -54,8 +54,11 @@ $canApliFondo = mysql_num_rows($resApliFondo);
 
 $arrayReversiones = array();
 $sqlReversionesFuturas = "SELECT d.nrocominterno
-							FROM intepresentaciondetalle d
-							WHERE d.idpresentacion > $idPresentacion AND d.tipoarchivo = 'DB'";
+							FROM intepresentaciondetalle d, intepresentacion p
+							WHERE d.idpresentacion > $idPresentacion AND 
+								  d.tipoarchivo = 'DB' AND 
+ 								  d.idpresentacion = p.id AND
+								  p.fechacancelacion is NULL";
 $resReversionesFuturas = mysql_query($sqlReversionesFuturas);
 $canReversionesFuturas = mysql_num_rows($resReversionesFuturas);
 if ($canReversionesFuturas > 0) {
