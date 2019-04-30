@@ -37,7 +37,6 @@ FROM
 	intecronograma c, 
 	madera.tipocomprobante m, 
 	intepresentaciondetalle f
-		
 LEFT JOIN madera.titulares on f.cuil = madera.titulares.cuil
 LEFT JOIN madera.titularesdebaja on f.cuil = madera.titularesdebaja.cuil
 LEFT JOIN madera.familiares on f.cuil = madera.familiares.cuil
@@ -48,7 +47,7 @@ LEFT JOIN madera.titulares titufamibaja on madera.familiaresdebaja.nroafiliado =
 LEFT JOIN madera.titularesdebaja titubajafamibaja on madera.familiaresdebaja.nroafiliado = madera.titubajafamibaja.nroafiliado
 LEFT JOIN madera.prestadores on f.cuit = madera.prestadores.cuit	
 WHERE
-	p.recibo is null and
+	(p.recibo is null or p.recibo = '') and
 	p.nrocominterno = f.nrocominterno and
 	p.idpresentacion = f.idpresentacion and 
 	p.idpresentacion = pc.idpresentacion and 
