@@ -22,6 +22,8 @@ $sqlRecibos = "SELECT
 	f.nrocomprobante,
 	f.periodo,
 	f.impcomprobante,
+	f.impdebito,
+	p.impretencion,
 	pc.nrotransferencia,
 	DATE_FORMAT(pc.fechatransferencia,'%d-%m-%Y') as fechatrasferencia,
 	madera.prestadores.email1,
@@ -86,6 +88,9 @@ header("Content-Disposition: attachment; filename=$file");
 				 	<th>Periodo</th>
 				 	<th>Nro Compr.</th>
 				 	<th>$ Comprobante</th>
+				 	<th>$ Debito</th>
+				 	<th>$ Retencion</th>
+				 	<th>$ Tranferido</th>
 				 	<th>Nro Transf</th>
 				 	<th>Fecha</th>
 				 	<th>Emails</th>
@@ -108,6 +113,9 @@ header("Content-Disposition: attachment; filename=$file");
 			 		<td><?php echo $rowRecibo['periodo'] ?></td>
 			 		<td><?php echo $rowRecibo['nrocomprobante'] ?></td>
 			 		<td><?php echo number_format($rowRecibo['impcomprobante'],"2",",",".") ?></td>
+			 		<td><?php echo number_format($rowRecibo['impdebito'],"2",",",".") ?></td>
+			 		<td><?php echo number_format($rowRecibo['impretencion'],"2",",",".") ?></td>
+			 		<td><?php echo number_format($rowRecibo['impcomprobante']-$rowRecibo['impdebito']-$rowRecibo['impretencion'],"2",",",".") ?></td>
 			 		<td><?php echo $rowRecibo['nrotransferencia'] ?></td>
 			 		<td><?php echo $rowRecibo['fechatrasferencia'] ?></td>
 			 		<?php $emails =  $rowRecibo['email1']." ".$rowRecibo['email2'];
