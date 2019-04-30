@@ -2,7 +2,6 @@
 $sqlIds = "SELECT idpresentacion FROM interendicioncontrol order by idpresentacion DESC";
 $resIds = mysql_query($sqlIds);
 
-
 $sqlPromedio = "SELECT
 count(*) as cantidad,
 sum(importesolicitado) as totsoli, 
@@ -14,7 +13,20 @@ sum(importeliquidado) / count(*) as promliq,
 (sum(importeliquidado) / sum(importesolicitado)) * 100 as porcentaje
 FROM interendicioncontrol";
 $resPromedio = mysql_query($sqlPromedio);
-$rowPromedio = mysql_fetch_array($resPromedio)
+$rowPromedio = mysql_fetch_array($resPromedio);
+
+$today = date("Y-m-d");
+$carpeta = date("Ym");
+$sqlCarpetaActual = "SELECT id FROM intecronograma i where fechacierre >= '$today' LIMIT 1";
+$resCarpetaActual = mysql_query($sqlCarpetaActual);
+$rowCarpetaActual = mysql_fetch_array($resCarpetaActual);
+$idCarpetaActual = $rowCarpetaActual['id'];
+
+$sqlCantidadPresentada = "SELECT count(id) as cantPresentadas 
+							FROM intepresentacion 
+							WHERE idcronograma != $idCarpetaActual";
+$resCantidadPresentada = mysql_query($sqlCantidadPresentada);
+$rowCantidadPresentada = mysql_fetch_array($resCantidadPresentada);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -44,18 +56,20 @@ $rowPromedio = mysql_fetch_array($resPromedio)
 		<table>
 			<thead>
 				<tr>
-					<th>Can. Pres.</th>
-					<th>Tot. Solicitado</th>
-					<th>Tot. Liquidado</th>
-					<th>Tot. Diferencia</th>
-					<th>Prom. Solicitado</th>
-					<th>Prom. Liquidado</th>
-					<th>Prom. Diferencia</th>
-					<th>%. Recuperado</th>
+					<th>Can.</br>Pres.</th>
+					<th>Can.</br>Pres/Car</th>
+					<th>Tot.</br> Solicitado</th>
+					<th>Tot.</br> Liquidado</th>
+					<th>Tot.</br> Diferencia</th>
+					<th>Prom.</br> Solicitado</th>
+					<th>Prom.</br> Liquidado</th>
+					<th>Prom.</br> Diferencia</th>
+					<th>%.</br> Recuperado</th>
 				</tr>
 			</thead>
 				<tr>
 					<td><?php echo $rowPromedio['cantidad']?></td>
+					<td><?php echo ($rowCantidadPresentada['cantPresentadas'] / $rowPromedio['cantidad']) ?></td>
 					<td><?php echo "$ ".number_format($rowPromedio['totsoli'],"2",",",".") ?></td>
 					<td><?php echo "$ ".number_format($rowPromedio['totliqui'],"2",",",".") ?></td>
 					<td><?php echo "$ ".number_format($rowPromedio['dif'],"2",",",".") ?></td>
