@@ -24,6 +24,7 @@ $sqlPresentacion = "SELECT
 						p.montodepositado,
 						intefondos.canterrores,
 						intefondos.id as idfondo,
+						intefondos.pathExtracto,
 						DATE_FORMAT(intefondos.fechafinalizacion, '%d-%m-%Y') as fechafinalizacionfondo
 					FROM intepresentacion p
           			INNER JOIN intecronograma on p.idcronograma = intecronograma.id
@@ -102,6 +103,10 @@ function generarArchivo(idPres,carpeta) {
 	window.location.href = dire;
 }
 
+function descargaExtracto(path) {
+	window.open(path, "Extracto", "width=600, height=600")
+}
+
 </script>
 
 <title>.: Presentaciones Aplicacion Fondos S.S.S. :.</title>
@@ -176,16 +181,17 @@ function generarArchivo(idPres,carpeta) {
 									  if ($rowPresentacion['canterrores'] == 0) {
 									  	if ($rowPresentacion['canterrores'] != NULL) { 
 										  	$estado = "SIN</br>ERRORES"; ?>
-										  	<input style="margin-top: 5px" type="button" value="EXTRACTO" onClick="location.href = 'fondos.extracto.php?id=<?php echo $rowPresentacion['idfondo'] ?>&idpresentacion=<?php echo $rowPresentacion['id'] ?>&carpeta=<?php echo $rowPresentacion['carpeta'] ?>'"/>
+										  	<input style="margin-top: 5px" type="button" value="SUBIR EXTRACTO" onClick="location.href = 'fondos.extracto.php?id=<?php echo $rowPresentacion['idfondo'] ?>&idpresentacion=<?php echo $rowPresentacion['id'] ?>&carpeta=<?php echo $rowPresentacion['carpeta'] ?>'"/>
 								<?php 	} else { 
 											$estado = "PRESENTADA"; ?>
 											<input style="margin-top: 5px" type="button" value="DEVOLUCION" onClick="location.href = 'fondos.devolucion.php?id=<?php echo $rowPresentacion['idfondo'] ?>&idpresentacion=<?php echo $rowPresentacion['id'] ?>&carpeta=<?php echo $rowPresentacion['carpeta'] ?>'"/>
 								<?php	}
  							     	  }	
 								  } else {
-								  		$estado = "FINALIZADA (".$rowPresentacion['fechafinalizacionfondo'].")";
-								  		$color = 'style="color: blue"';
-						   	 	  } 
+								  		$estado = "FINALIZADA</br>(".$rowPresentacion['fechafinalizacionfondo'].")";
+								  		$color = 'style="color: blue"'; ?>
+								  		<input style="margin-top: 5px" type="button" value="EXTRACTO" onClick="descargaExtracto('<?php echo $rowPresentacion['pathExtracto'] ?>')"/>		  		
+						   	<?php } 
 							  } else { ?>
 							  		<input style="margin-top: 5px" type="button" value="ARCHIVO" onClick="generarArchivo('<?php echo $rowPresentacion['id'] ?>','<?php echo $rowPresentacion['carpeta']?>')"/>
 						<?php } ?>

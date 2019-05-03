@@ -66,28 +66,6 @@ if (isset($_POST['sinerrores'])) {
 			}
 			$sqlUpdateCabecera = "UPDATE intefondos SET canterrores = $indexUpdate WHERE id = $idFondos";
 		}
-		
-		try {
-			$dbh = new PDO("mysql:host=$hostLocal;dbname=$dbname",$usuarioLocal,$claveLocal);
-			$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$dbh->beginTransaction();
-			
-			$dbh->exec($sqlUpdateCabecera);
-			//echo $sqlUpdateCabecera."<br>";
-			foreach ($arrayErrores as $sqlUpdate) {
-				//echo $sqlUpdate."<br>";
-				$dbh->exec($sqlUpdate);
-			}
-			$dbh->commit();
-			Header("Location: fondos.php?id=$lastId");
-		} catch (PDOException $e) {
-			$dbh->rollback();
-			$error = $e->getMessage();
-			$redire = "Location: presentacion.error.php?page='Fondos Devolucion'&error=$error";
-			Header($redire);
-			exit -1;
-		}
-		
 	} else {
 		$error = "No se cargo archivo de errores";
 		$redire = "Location: presentacion.error.php?id=$idPresentacion&page='Dev. Fondos'&error=".$error;
@@ -95,6 +73,27 @@ if (isset($_POST['sinerrores'])) {
 		exit -1;
 	}
 }
+try {
+	$dbh = new PDO("mysql:host=$hostLocal;dbname=$dbname",$usuarioLocal,$claveLocal);
+	$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$dbh->beginTransaction();
+		
+	$dbh->exec($sqlUpdateCabecera);
+	//echo $sqlUpdateCabecera."<br>";
+	if (isset($arrayErrores)) {
+		foreach ($arrayErrores as $sqlUpdate) {
+			//echo $sqlUpdate."<br>";
+			$dbh->exec($sqlUpdate);
+		}
+	}
+	$dbh->commit();
+	Header("Location: fondos.php");
+} catch (PDOException $e) {
+	$dbh->rollback();
+	$error = $e->getMessage();
+	$redire = "Location: presentacion.error.php?page='Fondos Devolucion'&error=$error";
+	Header($redire);
+	exit -1;
+}
 
-echo $sqlUpdateCabecera;
 ?>
