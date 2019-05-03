@@ -35,7 +35,7 @@
 	  </td>
 	   <td>
 	    <p>APLI. DE FONDO</p>
-	    <p><a href="moduloNoDisponible.php"><img src="img/fondos.png" width="90" height="90" border="0"/></a></p>
+	    <p><a href="fondos.php"><img src="img/fondos.png" width="90" height="90" border="0"/></a></p>
 	  </td>
 	 </tr>
 	 <tr>
