@@ -6,7 +6,7 @@ $idPresentacion = $_GET['id'];
 $sqlFactura = "SELECT * FROM intepresentaciondetalle WHERE idpresentacion = $idPresentacion and deverrorformato is not null";
 $resFactura = mysql_query($sqlFactura);
 
-$sqlErrores = "SELECT * FROM inteerror";
+$sqlErrores = "SELECT * FROM inteerror WHERE proceso = 'FORMATO'";
 $resErrores = mysql_query($sqlErrores);
 $arrayErrores = array();
 while ($rowErrores = mysql_fetch_array($resErrores)) {
