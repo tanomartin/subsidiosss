@@ -88,6 +88,11 @@ $(function() {
 			}
 		}).tablesorterPager({container: $("#paginador")});
 });
+
+function descargaExtracto(path) {
+	window.open(path, "Extracto", "width=600, height=600")
+}
+
 </script>
 <title>.: Presentaciones Aplicacion Fondos S.S.S. :.</title>
 </head>
@@ -113,7 +118,7 @@ $(function() {
 			 			<th rowspan="2" style="font-size: 11px">Deposito</th>
 			 			<th rowspan="2" style="font-size: 11px">Fecha Cierre Rete.</th>
 			 			<th rowspan="2" style="font-size: 11px">Fecha Cierre Pagos</th>
-			 			<th rowspan="2" style="font-size: 11px">Errores</th>
+			 			<th rowspan="2" style="font-size: 11px">Info.</th>
 			 			<th rowspan="2" class="filter-select" data-placeholder="Selccione" style="font-size: 11px">Estado</th>
 			 		</tr>
 			 		<tr>
@@ -141,7 +146,14 @@ $(function() {
 						<td style="font-size: 12px"><?php if ($rowPresentacion['fechadeposito'] != NULL) { echo $rowPresentacion['fechadeposito'] ?> <br><b>[<?php echo number_format($rowPresentacion['montodepositado'],2,",",".") ?>]</b><?php } ?></td>
 						<td style="font-size: 12px"><?php echo $rowPresentacion['fechacierre'] ?></td>
 						<td style="font-size: 12px"><?php echo $rowPresentacion['fechacierrepagos'] ?></td>
-						<td><?php if ($rowPresentacion['canterrores'] > 0) { ?><button>ERRORES</button><?php } ?></td>
+						<td>
+						<?php if ($rowPresentacion['canterrores'] > 0) { ?>
+								<input style="margin-top: 5px" type="button" value="ERRORES" onClick="location.href = 'fondos.devolucion.errores.php?id=<?php echo $rowPresentacion['idfondo'] ?>&idpresentacion=<?php echo $rowPresentacion['id'] ?>&carpeta=<?php echo $rowPresentacion['carpeta'] ?>'"/>
+						<?php } else {
+							  		if ($rowPresentacion['fechafinalizacionfondo'] != NULL) { ?>
+							  			<input style="margin-top: 5px" type="button" value="EXTRACTO" onClick="descargaExtracto('<?php echo $rowPresentacion['pathExtracto'] ?>')"/>
+							 <?php  }
+							  }	?></td>
 						<?php $estado = "SIN</br>PRESENTAR";
 							  $color = "";
 							  if ($rowPresentacion['idfondo'] != NULL) { 
