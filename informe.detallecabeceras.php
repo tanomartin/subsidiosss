@@ -63,7 +63,7 @@ $rowCantidadPresentada = mysql_fetch_array($resCantidadPresentada); ?>
 			</thead>
 				<tr>
 					<td><?php echo $rowPromedio['cantidad']?></td>
-					<td><?php echo ($rowCantidadPresentada['cantPresentadas'] / $rowPromedio['cantidad']) ?></td>
+					<td><?php echo number_format($rowCantidadPresentada['cantPresentadas'] / $rowPromedio['cantidad'],"2",",",".") ?></td>
 					<td><?php echo "$ ".number_format($rowPromedio['totsoli'],"2",",",".") ?></td>
 					<td><?php echo "$ ".number_format($rowPromedio['totliqui'],"2",",",".") ?></td>
 					<td><?php echo "$ ".number_format($rowPromedio['dif'],"2",",",".") ?></td>

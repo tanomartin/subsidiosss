@@ -179,13 +179,9 @@ try {
 				}
 			} else {
 				$monto = (float) $arrayLiquidado[$indexLiqui];
-				if ($rowRendicion['tipoarchivo'] == "DC" and $monto < 0) {
+				if ($rowRendicion['tipoarchivo'] == "DC" and $monto <= 0) {
 					$monto = 0;
 				}
-				if ($rowRendicion['tipoarchivo'] == "DB" and $monto >= 0) {
-					$monto = 0;
-				}
-				
 				if ($rowRendicion['tipoarchivo'] == "DC" and $monto > 0) {
 					if (round($arrayLiquidado[$indexLiqui],2) >= round($rowRendicion['impsolicitado'],2)) {
 						$monto = $rowRendicion['impsolicitado'];
@@ -194,7 +190,18 @@ try {
 						$arrayLiquidado[$indexLiqui] = 0.00;
 					}
 				}
-				
+				if ($rowRendicion['tipoarchivo'] == "DB" and $monto >= 0) {
+					$monto = 0;
+				}
+				if ($rowRendicion['tipoarchivo'] == "DB" and $monto < 0) {
+					if (round($arrayLiquidado[$indexLiqui],2) <= round($rowRendicion['impsolicitado'],2)) {
+						$monto = $rowRendicion['impsolicitado'];
+						$arrayLiquidado[$indexLiqui] -= (float) $rowRendicion['impsolicitado'];
+					} else {
+						$arrayLiquidado[$indexLiqui] = 0.00;
+					}
+				}				
+
 				$updateFactura = "UPDATE intepresentaciondetalle
 										SET impsolicitadosubsidio = ".(float) $rowRendicion['impsolicitado'].",
 											impmontosubsidio = ".(float) $monto."
