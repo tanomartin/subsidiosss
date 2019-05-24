@@ -128,7 +128,7 @@ $cbuOS = "0110599520000054914032";
 $obsU = str_pad(" ",61,' ',STR_PAD_RIGHT);
 $secuencia = str_pad($nrosecu,8,' ',STR_PAD_RIGHT);
 $blanco = str_pad(" ",123,' ',STR_PAD_RIGHT);
-$filaUtxt = "*U*".$cbuOS."D".date("Ymd")."S".$obsU."00000".date("d/m/y").$secuencia.$blanco;
+$filaUtxt = "*U*".$cbuOS."D".date("Ymd")."S".$obsU."00000".date("m/d/y").$secuencia.$blanco;
 fwrite($file, $filaUtxt . PHP_EOL);
 
 $fila=1;
