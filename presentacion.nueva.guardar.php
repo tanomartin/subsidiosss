@@ -38,18 +38,28 @@ $impNoInteTotalD = 0;
 $impPedidoD = 0;
 $cantFacturas = 0;
 $sqlInsertFacturas = array();
+
+$sqlCodVto = "SELECT cuil, codigocertificado, DATE_FORMAT(vencimientocertificado,'%d/%m/%Y') as vencimientocertificado
+				FROM madera.discapacitados 
+				WHERE codigocertificado is not null and codigocertificado != ''";
+$resCodVto = mysql_query($sqlCodVto);
+$arrayCodVto = array();
+while ($rowCodVto = mysql_fetch_array($resCodVto)) {
+	$arrayCodVto[$rowCodVto['cuil']] = array('codigo' => $rowCodVto['codigocertificado'], 'vto' => $rowCodVto['vencimientocertificado']);
+}
+
 while ($data = fgetcsv ($fp, 1000, ";")) { 
 	if ($data['1'] == 'DS' || $data['1'] == 'DC') {
-		$impCompTotal += str_replace(',','.',$data['15']);
-		$impDebitoTotal += str_replace(',','.',$data['16']);
-		$impNoInteTotal += str_replace(',','.',$data['17']);
-		$impPedido += str_replace(',','.',$data['18']);
+		$impCompTotal += str_replace(',','.',$data['13']);
+		$impDebitoTotal += str_replace(',','.',$data['14']);
+		$impNoInteTotal += str_replace(',','.',$data['15']);
+		$impPedido += str_replace(',','.',$data['16']);
 	}
 	if ($data['1'] == 'DB') {
-		$impCompTotalD += str_replace(',','.',$data['15']);
-		$impDebitoTotalD += str_replace(',','.',$data['16']);
-		$impNoInteTotalD += str_replace(',','.',$data['17']);
-		$impPedidoD += str_replace(',','.',$data['18']);
+		$impCompTotalD += str_replace(',','.',$data['13']);
+		$impDebitoTotalD += str_replace(',','.',$data['14']);
+		$impNoInteTotalD += str_replace(',','.',$data['15']);
+		$impPedidoD += str_replace(',','.',$data['16']);
 	}
 
 	try {
@@ -58,8 +68,8 @@ while ($data = fgetcsv ($fp, 1000, ";")) {
 			$error = "Error en el C.U.I.L. $cuil nro comprobante interno ".$data['0'];
 			throw new Exception($error);
 		}
-		$cuit = $data['7'];
-		$codpractica = $data['19'];
+		$cuit = $data['5'];
+		$codpractica = $data['17'];
 		if ($codpractica != 97 && $codpractica != 98 && $codpractica != 99) {
 			if (!esValidoCUIT($cuit)) {
 				$error = "Error en el C.U.I.T. $cuit nro comprobante interno ".$data['0'];
@@ -67,10 +77,15 @@ while ($data = fgetcsv ($fp, 1000, ";")) {
 			}
 		} 
 		
-		$impFactura = str_replace(',','.',$data['15']);
-		$impDebito = str_replace(',','.',$data['16']);
-		$impNoInte = str_replace(',','.',$data['17']);
-		$impSolicit = str_replace(',','.',$data['18']);
+		if ($data['20'] != 'S' and $data['20'] != 'N') {
+			$error = "Error en la dependencia nro comprobante interno ".$data['0'];
+			throw new Exception($error);
+		}
+		
+		$impFactura = str_replace(',','.',$data['13']);
+		$impDebito = str_replace(',','.',$data['14']);
+		$impNoInte = str_replace(',','.',$data['15']);
+		$impSolicit = str_replace(',','.',$data['16']);
 		if ($data['1'] == 'DS' || $data['1'] == 'DC') { 
 			if ($impFactura < $impSolicit) {
 				$error = "El monto solicitado no puede ser superior al monto de la facutra nor comprobante interno ".$data['0'];
@@ -83,10 +98,16 @@ while ($data = fgetcsv ($fp, 1000, ";")) {
 				throw new Exception($error);
 			}
 		}
+		
+		if (!array_key_exists($cuil,$arrayCodVto)) {
+			$error = "El cuil '$cuil' no tiene cargada toda la inforacion completa del certificado de discapacidad";
+			throw new Exception($error);
+		}
 	} catch (Exception $e) {
 		$error = $e->getMessage();
+		echo $error;
 		$redire = "Location: presentacion.error.php?page='Nueva Presentacion'&error=$error";
-		Header($redire);
+		//Header($redire);
 		exit -1;
 	}
 	
@@ -94,25 +115,25 @@ while ($data = fgetcsv ($fp, 1000, ";")) {
     		'".$data['1']."',
     		".$data['2'].",
     		'".$cuil."',
+    		'".$arrayCodVto[$cuil]['codigo']."',
+    		'".$arrayCodVto[$cuil]['vto']."',
     		'".$data['4']."',
-    		'".$data['5']."',
-    		'".$data['6']."',
     		'".$cuit."',
-    		'".$data['8']."',
-    		".$data['9'].",
-    		'".strtoupper($data['10'])."',
-    		'".$data['11']."',
-    		'".str_pad($data['12'],14,'0',STR_PAD_LEFT)."',
-    		".$data['13'].",
-    		'".$data['14']."',
+    		'".$data['6']."',
+    		".$data['7'].",
+    		'".strtoupper($data['8'])."',
+    		'".$data['9']."',
+    		'".str_pad($data['10'],14,'0',STR_PAD_LEFT)."',
+    		".$data['11'].",
+    		'".$data['12']."',
     		".$impFactura.",
     		".$impDebito.",
     		".$impNoInte.",		
     		".$impSolicit.",
     		".$codpractica.",
-    		".$data['20'].",
-    		".$data['21'].",
-    		'".strtoupper($data['22'])."',
+    		".$data['18'].",
+    		".$data['19'].",
+    		'".strtoupper($data['20'])."',
     		NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL)";
     $sqlInsertFacturas[$cantFacturas] = $linea;
     $cantFacturas++;
@@ -183,6 +204,7 @@ try {
 	$dbh->commit();
 	
 	$error = $e->getMessage()." (INSERT: ".$sqlinsert.")";
+	//echo $error;
 	$redire = "Location: presentacion.error.php?page='Nueva Presentacion'&error=$error";
 	Header($redire);
 	exit -1;
