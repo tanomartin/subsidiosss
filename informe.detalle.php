@@ -66,17 +66,17 @@ header("Content-Disposition: attachment; filename=$file");
 			 			<th rowspan="2">$ Deb.</th>
 			 			<th rowspan="2">$ No Int.</th>
 			 			<th rowspan="2">$ Soli.</th>
-			 			<th colspan="2">Resultado Formato</th>
-			 			<th colspan="2">Resultado Integral</th>
+			 		<!--<th colspan="2">Resultado Formato</th>
+			 			<th colspan="2">Resultado Integral</th>-->
 			 			<th colspan="3">Resultado Subsidio</th>
 			 			<th rowspan="2">Ret.</th>
 			 			<th rowspan="2"># Rec. Debe</th>
 			 		</tr>
 			 		<tr>
-			 			<th>Comp.</th>
+			 		<!--<th>Comp.</th>
 			 			<th>Soli.</th>
 			 			<th>Comp.</th>
-			 			<th>Soli.</th>
+			 			<th>Soli.</th>-->
 			 			
 			 			<th>Soli.</th>
 			 			<th>Subs.</th>
@@ -89,10 +89,10 @@ header("Content-Disposition: attachment; filename=$file");
 				$totDeb = 0;
 				$totNOI = 0;
 				$totSol = 0;
-				$totComFor = 0;
-				$totSolFor = 0;
-				$totComInt = 0;
-				$totSolInt = 0;
+				//$totComFor = 0;
+				//$totSolFor = 0;
+				//$totComInt = 0;
+				//$totSolInt = 0;
 				$totSolSub = 0;
 				$totMonSub = 0;
 				$totMonOsp = 0;
@@ -132,7 +132,7 @@ header("Content-Disposition: attachment; filename=$file");
 						    <td><?php echo number_format($rowFactura['impsolicitado'],2,",",".") ?></td>
 					<?php } 
 					   
-						  if ($rowPresentacion['fechadevformato'] != null) {			
+		/*				  if ($rowPresentacion['fechadevformato'] != null) {			
 							  if ($rowFactura['deverrorformato'] != null ) { ?>
 								<td colspan="2" style="font-size: 11px; color: red"><?php  echo "ERROR: ".$rowFactura['deverrorformato'] ?></td>
 						<?php } else { 
@@ -192,7 +192,7 @@ header("Content-Disposition: attachment; filename=$file");
 						  } else { ?>
 						  		<td>-</td>
 								<td>-</td>
-			<?php		  }
+			<?php		  }*/
 			
 						  if ($rowPresentacion['fecharendicion'] != null) {
 						  		if ($rowFactura['deverrorintegral'] == null && $rowFactura['deverrorformato'] == null) { 
@@ -252,10 +252,10 @@ header("Content-Disposition: attachment; filename=$file");
 						<th><?php echo number_format($totDeb,2,",",".") ?></td>
 						<th><?php echo number_format($totNOI,2,",",".") ?></td>		
 						<th><?php echo number_format($totSol,2,",",".") ?></td>
-						<th><?php echo number_format($totComFor,2,",",".") ?></td>
-						<th><?php echo number_format($totSolFor,2,",",".") ?></td>
-						<th><?php echo number_format($totComInt,2,",",".") ?></td>
-						<th><?php echo number_format($totSolInt,2,",",".") ?></td>
+					<!--<th><?php //echo number_format($totComFor,2,",",".") ?></td>
+						<th><?php //echo number_format($totSolFor,2,",",".") ?></td>
+						<th><?php //echo number_format($totComInt,2,",",".") ?></td>
+						<th><?php //echo number_format($totSolInt,2,",",".") ?></td>-->
 						<th><?php echo number_format($totSolSub,2,",",".") ?></td>
 						<th><?php echo number_format($totMonSub,2,",",".") ?></td>
 						<th><?php echo number_format($totMonOsp,2,",",".") ?></td>
