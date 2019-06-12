@@ -118,6 +118,7 @@ while ($rowApliFondo = mysql_fetch_assoc($resApliFondo)) {
 		$rowApliFondo['impos'] = 0;
 	}
 	
+	//CAMBIO EL SIGNO PARA PODER COLOCAR EL NEGATIVO EN LA PRIMERA POSICION
 	$impsubsidiado = number_format($rowApliFondo['impsubsidiado'],2,"","");
 	if ($impsubsidiado < 0) {
 		$impsubsidiado = (-1)*$impsubsidiado;
@@ -165,8 +166,8 @@ while ($rowApliFondo = mysql_fetch_assoc($resApliFondo)) {
 	} else {
 		$impoc = str_pad($impoc,10,0,STR_PAD_LEFT);
 	}
-	
-	//TODO: ver los montos negativos para completar con 0, deja el signo negativo en el medio.
+	//********************************************************************************
+
 	$linea = $rowApliFondo['clave']."|".
 			 $rowApliFondo['rnos']."|".
 			 $rowApliFondo['tipoarchivo']."|".
