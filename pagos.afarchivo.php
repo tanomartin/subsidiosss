@@ -12,6 +12,7 @@ $sqlApliFondo = "SELECT
 					i.cuil,
 					i.codpractica,
 					p.descripcion,
+					i.impsubsidiado,
 					d.impmontosubsidio,
 					d.periodo,
 					i.cuit,
@@ -159,17 +160,23 @@ header("Content-Disposition: attachment; filename=$file");
 			$totC622 = 0;
 			$totC623 = 0;
 			while ($rowApliFondo = mysql_fetch_assoc($resApliFondo)) {  
-				$rowApliFondo['liquidado'] = $rowApliFondo['impmontosubsidio'];
-
 				$impDevolucionSSS = 0;
 				$especial = false;
+				
 				if ($rowApliFondo['tipoarchivo'] == "DB") {	
 					$rowApliFondo['impos'] = (-1)*$rowApliFondo['impos'];
 					$rowApliFondo['recibo'] = "";
+					$rowApliFondo['cbu'] = "";
+					$rowApliFondo['nroordenpago'] = "";
+					$rowApliFondo['fechatransferencia'] = "";
 					if (!in_array($rowApliFondo['nrocominterno'],$arrayCredito)) {
 						$impDevolucionSSS = $rowApliFondo['impmontosubsidio'];
 						$rowApliFondo['impoc'] = $rowApliFondo['impsolicitado'] - $rowApliFondo['impmontosubsidio'];
 						$especial = true;
+					} else {
+						$rowApliFondo['impsolicitado'] = 0;
+						$rowApliFondo['impos'] = 0;
+						$rowApliFondo['imprecupero'] = 0;
 					}
 				}
 				
@@ -182,17 +189,17 @@ header("Content-Disposition: attachment; filename=$file");
 					} else {
 						$impNoAplicado =  $rowApliFondo['impmontosubsidio'];
 					}
-					$rowApliFondo['impoc'] = $rowApliFondo['impsolicitado'] - $rowApliFondo['impmontosubsidio'];
+					$rowApliFondo['impos'] = $rowApliFondo['impsolicitado'] - $rowApliFondo['impmontosubsidio'];
 				}
 				
 				if ($especial) {
 					$rowApliFondo['imppago'] = 0;
 					$rowApliFondo['impretencion'] = 0;
 					$rowApliFondo['impmontosubsidio'] = 0;
-					$rowApliFondo['impos'] = 0;
+					$rowApliFondo['impoc'] = 0;
 				}
 				
-				$totImpSubidiado += $rowApliFondo['liquidado'];
+				$totImpSubidiado += $rowApliFondo['impsubsidiado'];
 				$totImpSolicitado += $rowApliFondo['impsolicitado'];
 				$totImpTransferido += $rowApliFondo['imppago'];
 				$totRetGanancias += $rowApliFondo['impretencion'];
@@ -212,7 +219,7 @@ header("Content-Disposition: attachment; filename=$file");
 					<td style="background-color: aqua;"><?php echo $rowApliFondo['cuil']?></td>
 					<td style="background-color: aqua;"><?php echo $rowApliFondo['codpractica']?></td>
 					<td style="background-color: aqua;"><?php echo $rowApliFondo['descripcion']?></td>			
-					<td style="background-color: aqua;"><?php echo number_format($rowApliFondo['liquidado'],2,",",".");?></td>
+					<td style="background-color: aqua;"><?php echo number_format($rowApliFondo['impsubsidiado'],2,",",".");?></td>
 					<td style="background-color: lime;"><?php echo $rowApliFondo['periodo']?></td>
 					<td style="background-color: lime;"><?php echo $rowApliFondo['cuit']?></td>
 					<td style="background-color: lime;"><?php echo $rowApliFondo['tipocomprobante']?></td>
