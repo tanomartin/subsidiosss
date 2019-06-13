@@ -1,7 +1,9 @@
-<?php
-include_once 'include/conector.php';
+<?php include_once 'include/conector.php';
+set_time_limit(0);
+
 $idPresentacion = $_GET['id'];
 $carpeta = $_GET['carpeta'];
+
 $sqlApliFondo = "SELECT
 					d.nrocominterno,
 					i.clave, 
@@ -12,15 +14,15 @@ $sqlApliFondo = "SELECT
 					i.cuil,
 					i.codpractica,
 					i.impsubsidiado,
+					d.impmontosubsidio,
+					i.cuit,
 					i.impsolicitado,
 					i.nroenvioafip,
-					i.cuit,
 					madera.prestadoresauxiliar.cbu,
 					intepagosdetalle.nroordenpago,
 					DATE_FORMAT(intepagoscabecera.fechatransferencia,'%d/%m/%Y') as fechatransferencia,
-					(d.impmontosubsidio - IFNULL(intepagosdetalle.impretencion,0)) as imppago,
-					IFNULL(intepagosdetalle.impretencion,0) as impretencion,
-					d.impmontosubsidio,
+					IFNULL(intepagosdetalle.impretencion,0) as impretencion,	
+					(d.impmontosubsidio - IFNULL(intepagosdetalle.impretencion,0)) as imppago,		
 					IF(i.tipoarchivo != 'DB', IF((d.impsolicitado - d.impmontosubsidio)<0,0,(d.impsolicitado - d.impmontosubsidio)),d.impsolicitado + d.impmontosubsidio) as impos,
 					0 as impoc,
 					intepagosdetalle.recibo,
@@ -62,8 +64,8 @@ if ($canReversionesFuturas > 0) {
 }
 
 $arrayCredito = array();
-$sqlDebitos = "SELECT d.nrocominterno FROM intepresentaciondetalle d
-WHERE d.idpresentacion = $idPresentacion AND d.tipoarchivo = 'DB'";
+$sqlDebitos = "SELECT d.nrocominterno FROM intepresentaciondetalle d 
+				WHERE d.idpresentacion = $idPresentacion AND d.tipoarchivo = 'DB'";
 $resDebitos = mysql_query($sqlDebitos);
 $canDebitos = mysql_num_rows($resDebitos);
 if ($canDebitos > 0) {
@@ -73,14 +75,28 @@ if ($canDebitos > 0) {
 	}
 	$whereIn = substr($whereIn, 0, -1);
 	$whereIn .= ")";
-
+	
 	$sqlCredito = "SELECT d.nrocominterno FROM intepresentaciondetalle d
-	WHERE d.idpresentacion = $idPresentacion AND d.tipoarchivo != 'DB' and nrocominterno in $whereIn";
+					WHERE d.idpresentacion = $idPresentacion AND d.tipoarchivo != 'DB' and nrocominterno in $whereIn";
 	$resCredito = mysql_query($sqlCredito);
 	$canCredito = mysql_num_rows($resCredito);
 	if ($canCredito > 0) {
+		$whereIn = "(";
 		while ($rowCredito = mysql_fetch_assoc($resCredito)) {
-			$arrayCredito[$rowCredito['nrocominterno']] = $rowCredito['nrocominterno'];
+			$arrayCredito[$rowCredito['nrocominterno']] = 0;
+			$whereIn .= $rowCredito['nrocominterno'].",";
+		}
+		$whereIn = substr($whereIn, 0, -1);
+		$whereIn .= ")";
+		
+		$sqlCreditoMontos = "SELECT d.nrocominterno, d.impmontosubsidio FROM intepresentaciondetalle d
+							WHERE d.idpresentacion < $idPresentacion AND d.tipoarchivo = 'DS' and nrocominterno in $whereIn"; 
+		$resCreditoMontos = mysql_query($sqlCreditoMontos);
+		$canCreditoMontos = mysql_num_rows($resCreditoMontos);
+		if ($canCreditoMontos > 0) {
+			while ($rowCreditoMontos = mysql_fetch_assoc($resCreditoMontos)) {
+				$arrayCredito[$rowCreditoMontos['nrocominterno']] += $rowCreditoMontos['impmontosubsidio'];
+			}
 		}
 	}
 }
@@ -89,16 +105,29 @@ $file = fopen($archivoGeneracion, "w");
 while ($rowApliFondo = mysql_fetch_assoc($resApliFondo)) {
 	$impDevolucionSSS = 0;
 	$especial = false;
-	if ($rowApliFondo['tipoarchivo'] == "DB") {
+	
+	if (array_key_exists($rowApliFondo['nrocominterno'],$arrayCredito) && $rowApliFondo['tipoarchivo'] != "DB") {
+		$rowApliFondo['impmontosubsidio'] += $arrayCredito[$rowApliFondo['nrocominterno']];
+		$rowApliFondo['imppago'] = $rowApliFondo['impmontosubsidio'] - $rowApliFondo['impretencion'];
+		$rowApliFondo['impos'] = $rowApliFondo['impsolicitado'] - $rowApliFondo['impmontosubsidio'];
+	}
+				
+	if ($rowApliFondo['tipoarchivo'] == "DB") {	
 		$rowApliFondo['impos'] = (-1)*$rowApliFondo['impos'];
 		$rowApliFondo['recibo'] = "";
-		if (!in_array($rowApliFondo['nrocominterno'],$arrayCredito)) {
+		$rowApliFondo['cbu'] = "";
+		$rowApliFondo['nroordenpago'] = "";
+		$rowApliFondo['fechatransferencia'] = "";
+		if (!array_key_exists($rowApliFondo['nrocominterno'],$arrayCredito)) {
 			$impDevolucionSSS = $rowApliFondo['impmontosubsidio'];
 			$rowApliFondo['impoc'] = $rowApliFondo['impsolicitado'] - $rowApliFondo['impmontosubsidio'];
 			$especial = true;
+		} else {
+			$rowApliFondo['impos'] = 0;
+			$rowApliFondo['imprecupero'] = 0;
 		}
 	}
-		
+				
 	$impTransladado = 0;
 	$impNoAplicado = 0;
 	if ($rowApliFondo['nroordenpago'] == NULL and $rowApliFondo['tipoarchivo'] != "DB") {
@@ -108,14 +137,14 @@ while ($rowApliFondo = mysql_fetch_assoc($resApliFondo)) {
 		} else {
 			$impNoAplicado =  $rowApliFondo['impmontosubsidio'];
 		}
-		$rowApliFondo['impoc'] = $rowApliFondo['impsolicitado'] - $rowApliFondo['impmontosubsidio'];
+		$rowApliFondo['impos'] = 0;
 	}
-		
+				
 	if ($especial) {
 		$rowApliFondo['imppago'] = 0;
 		$rowApliFondo['impretencion'] = 0;
 		$rowApliFondo['impmontosubsidio'] = 0;
-		$rowApliFondo['impos'] = 0;
+		$rowApliFondo['impoc'] = 0;
 	}
 	
 	//CAMBIO EL SIGNO PARA PODER COLOCAR EL NEGATIVO EN LA PRIMERA POSICION

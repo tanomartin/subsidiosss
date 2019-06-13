@@ -6,6 +6,7 @@ $carpeta = $_GET['carpeta'];
 
 $sqlApliFondo = "SELECT
 					d.nrocominterno,
+					i.clave,
 					i.tipoarchivo,
 					i.periodopresentacion,
 				 	i.periodoprestacion,
@@ -20,7 +21,6 @@ $sqlApliFondo = "SELECT
 					i.puntoventa,
 					i.nrocomprobante,
 					i.impsolicitado,
-					i.clave, 
 					madera.prestadoresauxiliar.cbu,
 					intepagosdetalle.nroordenpago, 
 					DATE_FORMAT(intepagoscabecera.fechatransferencia,'%d-%m-%Y') as fechatransferencia,
@@ -86,12 +86,26 @@ if ($canDebitos > 0) {
 	$resCredito = mysql_query($sqlCredito);
 	$canCredito = mysql_num_rows($resCredito);
 	if ($canCredito > 0) {
+		$whereIn = "(";
 		while ($rowCredito = mysql_fetch_assoc($resCredito)) {
-			$arrayCredito[$rowCredito['nrocominterno']] = $rowCredito['nrocominterno'];
+			$arrayCredito[$rowCredito['nrocominterno']] = 0;
+			$whereIn .= $rowCredito['nrocominterno'].",";
+		}
+		$whereIn = substr($whereIn, 0, -1);
+		$whereIn .= ")";
+		
+		$sqlCreditoMontos = "SELECT d.nrocominterno, d.impmontosubsidio FROM intepresentaciondetalle d
+							WHERE d.idpresentacion < $idPresentacion AND d.tipoarchivo = 'DS' and nrocominterno in $whereIn"; 
+		$resCreditoMontos = mysql_query($sqlCreditoMontos);
+		$canCreditoMontos = mysql_num_rows($resCreditoMontos);
+		if ($canCreditoMontos > 0) {
+			while ($rowCreditoMontos = mysql_fetch_assoc($resCreditoMontos)) {
+				$arrayCredito[$rowCreditoMontos['nrocominterno']] += $rowCreditoMontos['impmontosubsidio'];
+			}
 		}
 	}
 }
-
+//var_dump($arrayCredito);
 $today = date("m-d-y");
 $file= "Aplicacion de fondo $carpeta al $today.xls";
 header("Content-type: application/vnd.ms-excel");
@@ -143,8 +157,7 @@ header("Content-Disposition: attachment; filename=$file");
 				</tr>
 			</thead>
 			<tbody>
-		<?php
-			$totImpSubidiado = 0;
+	<?php	$totImpSubidiado = 0;
 			$totImpSolicitado = 0;
 			$totImpTransferido = 0;
 			$totRetGanancias = 0;
@@ -163,18 +176,23 @@ header("Content-Disposition: attachment; filename=$file");
 				$impDevolucionSSS = 0;
 				$especial = false;
 				
+				if (array_key_exists($rowApliFondo['nrocominterno'],$arrayCredito) && $rowApliFondo['tipoarchivo'] != "DB") {
+					$rowApliFondo['impmontosubsidio'] += $arrayCredito[$rowApliFondo['nrocominterno']];
+					$rowApliFondo['imppago'] = $rowApliFondo['impmontosubsidio'] - $rowApliFondo['impretencion'];
+					$rowApliFondo['impos'] = $rowApliFondo['impsolicitado'] - $rowApliFondo['impmontosubsidio'];
+				}
+				
 				if ($rowApliFondo['tipoarchivo'] == "DB") {	
 					$rowApliFondo['impos'] = (-1)*$rowApliFondo['impos'];
 					$rowApliFondo['recibo'] = "";
 					$rowApliFondo['cbu'] = "";
 					$rowApliFondo['nroordenpago'] = "";
 					$rowApliFondo['fechatransferencia'] = "";
-					if (!in_array($rowApliFondo['nrocominterno'],$arrayCredito)) {
+					if (!array_key_exists($rowApliFondo['nrocominterno'],$arrayCredito)) {
 						$impDevolucionSSS = $rowApliFondo['impmontosubsidio'];
 						$rowApliFondo['impoc'] = $rowApliFondo['impsolicitado'] - $rowApliFondo['impmontosubsidio'];
 						$especial = true;
 					} else {
-						$rowApliFondo['impsolicitado'] = 0;
 						$rowApliFondo['impos'] = 0;
 						$rowApliFondo['imprecupero'] = 0;
 					}
@@ -189,7 +207,7 @@ header("Content-Disposition: attachment; filename=$file");
 					} else {
 						$impNoAplicado =  $rowApliFondo['impmontosubsidio'];
 					}
-					$rowApliFondo['impos'] = $rowApliFondo['impsolicitado'] - $rowApliFondo['impmontosubsidio'];
+					$rowApliFondo['impos'] = 0;
 				}
 				
 				if ($especial) {
