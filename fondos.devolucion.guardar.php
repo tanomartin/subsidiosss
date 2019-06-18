@@ -29,6 +29,7 @@ if (isset($_POST['sinerrores'])) {
 				if ($linea != '') {
 					//echo $linea."<br>";
 					$arrayDatos = explode("|",$linea);
+					var_dump($arrayDatos);echo "<br><br>";
 					$clave = $arrayDatos[0];
 					$cuitcbu = $arrayDatos[10];
 					$cbu = $arrayDatos[11];
@@ -41,20 +42,19 @@ if (isset($_POST['sinerrores'])) {
 						$fectr2 = 'NULL';
 					}
 					$cheque = $arrayDatos[16];
-					$imptra = substr($arrayDatos[17],0,-2).".".substr($arrayDatos[17],-2);
-					$retgan = substr($arrayDatos[18],0,-2).".".substr($arrayDatos[18],-2);
-					$retib = substr($arrayDatos[19],0,-2).".".substr($arrayDatos[19],-2);
-					$retotr = substr($arrayDatos[20],0,-2).".".substr($arrayDatos[20],-2);
-					$fondossss = substr($arrayDatos[21],0,-2).".".substr($arrayDatos[21],-2);
-					echo $fondossss."<br>";
-					$fondospropios = substr($arrayDatos[22],0,-2).".".substr($arrayDatos[22],-2);
-					$fondosoc = substr($arrayDatos[23],0,-2).".".substr($arrayDatos[23],-2);
+					$imptra = str_replace(",",".",$arrayDatos[17]);
+					$retgan = str_replace(",",".",$arrayDatos[18]);
+					$retib = str_replace(",",".",$arrayDatos[19]);
+					$retotr = str_replace(",",".",$arrayDatos[20]);
+					$fondossss = str_replace(",",".",$arrayDatos[21]);
+					$fondospropios = str_replace(",",".",$arrayDatos[22]);
+					$fondosoc = str_replace(",",".",$arrayDatos[23]);
 					$recibo = $arrayDatos[24];
-					$imptrasladado = substr($arrayDatos[25],0,-2).".".substr($arrayDatos[25],-2);
-					$impdevuelto = substr($arrayDatos[26],0,-2).".".substr($arrayDatos[26],-2);
-					$noaplicado = substr($arrayDatos[27],0,-2).".".substr($arrayDatos[27],-2);
-					$recupero = substr($arrayDatos[28],0,-2).".".substr($arrayDatos[28],-2);
-					$coderror = $arrayDatos[29];
+					$imptrasladado = str_replace(",",".",$arrayDatos[25]);
+					$impdevuelto = str_replace(",",".",$arrayDatos[26]);
+					$noaplicado = str_replace(",",".",$arrayDatos[27]);
+					$recupero = str_replace(",",".",$arrayDatos[28]);
+					$coderror = $arrayDatos[30];
 					
 					$sqlInsertError = "INSERT INTO intefondodevolucion VALUES ($idFondos,$clave,'$cuitcbu','$cbu','$orden1',
 									  '$orden2','$fectr1','$fectr2','$cheque','$imptra','$retgan','$retib','$retotr',

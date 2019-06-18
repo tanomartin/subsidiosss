@@ -117,14 +117,7 @@ header("Content-Disposition: attachment; filename=$file");
 		<table border="1">
 			<thead>
 				<tr>
-					<th style="background-color: silver;" rowspan="2">NRO. COM. INT.</th>
-					<th style="background-color: aqua;" colspan="7">LIQUIDACION SSSALUD</th>
-					<th style="background-color: lime;" colspan="6">INF. PRESENTADA POR LA OS</th>
-					<th style="background-color: lime;" rowspan="2">CLAVE UNICA REGISTRO</th>
-					<th colspan="14">INFORMACION DE PAGOS QUE DEBE COMPLETAR LA OBRA SOCIAL</th>
-					<th style="background-color: silver;" colspan="2">CONTROLES</th>
-				</tr>
-				<tr>
+					<th style="background-color: silver;">NRO. COM. INT.</th>
 				 	<th style="background-color: aqua;">TIPO</BR>REG</th>
 				 	<th style="background-color: aqua;">PERIODO</BR>PRESENTAC.</th>
 				 	<th style="background-color: aqua;">PERIODO</BR>PRESTACION</th>			 	
@@ -138,6 +131,7 @@ header("Content-Disposition: attachment; filename=$file");
 				 	<th style="background-color: lime;">P</BR>V</th>
 				 	<th style="background-color: lime;">Nº FC</th>
 				 	<th style="background-color: lime;">IMPORTE</BR>SOLICITADO</th>
+				 	<th style="background-color: lime;">CLAVE UNICA REGISTRO</th>
 				 	<th>CBU</th>
 				 	<th>OR. DE</BR>PAGO</th>
 				 	<th>FECHA</BR>TRANSF.</th>
@@ -176,11 +170,11 @@ header("Content-Disposition: attachment; filename=$file");
 				$impDevolucionSSS = 0;
 				$especial = false;
 				
-				if (array_key_exists($rowApliFondo['nrocominterno'],$arrayCredito) && $rowApliFondo['tipoarchivo'] != "DB") {
+				/*if (array_key_exists($rowApliFondo['nrocominterno'],$arrayCredito) && $rowApliFondo['tipoarchivo'] != "DB") {
 					$rowApliFondo['impmontosubsidio'] += $arrayCredito[$rowApliFondo['nrocominterno']];
 					$rowApliFondo['imppago'] = $rowApliFondo['impmontosubsidio'] - $rowApliFondo['impretencion'];
 					$rowApliFondo['impos'] = $rowApliFondo['impsolicitado'] - $rowApliFondo['impmontosubsidio'];
-				}
+				}*/
 				
 				if ($rowApliFondo['tipoarchivo'] == "DB") {	
 					$rowApliFondo['impos'] = (-1)*$rowApliFondo['impos'];
@@ -207,7 +201,7 @@ header("Content-Disposition: attachment; filename=$file");
 					} else {
 						$impNoAplicado =  $rowApliFondo['impmontosubsidio'];
 					}
-					$rowApliFondo['impos'] = 0;
+					//$rowApliFondo['impos'] = 0;
 				}
 				
 				if ($especial) {
@@ -262,10 +256,10 @@ header("Content-Disposition: attachment; filename=$file");
 					<?php $C622 = $rowApliFondo['impmontosubsidio']-($rowApliFondo['imppago']+$rowApliFondo['impretencion']); 
 						  $totC622 += $C622;?>
 					<td style="background-color: silver;"><?php echo number_format($C622,2,",","."); ?></td>
-					<?php $C623 = 0;
-						  if ($rowApliFondo['tipoarchivo'] != "DB") {
+					<?php //$C623 = 0;
+						  //if ($rowApliFondo['tipoarchivo'] != "DB") {
 							$C623 = $rowApliFondo['impsolicitado'] - ($rowApliFondo['impos']+$rowApliFondo['impoc']+$rowApliFondo['impmontosubsidio']+$impTransladado+$impDevolucionSSS+$impNoAplicado+$rowApliFondo['imprecupero']);
-						  }
+						 // }
 						  $totC623 += $C623;?>
 					<td style="background-color: silver;"><?php echo number_format($C623,2,",","."); ?></td>
 				</tr>

@@ -24,7 +24,7 @@ $id = $_GET['id'];
  			<input style="display: none" type="text" name="idpresentacion" id=""idpresentacion"" value="<?php echo $idPresentacion ?>" />
  			<h3>Sin Errores <input type="checkbox" id="sinerrores" name="sinerrores" /></h3>
  			<h3>Cargar Archivo ERROR</h3>
- 			<p><input type="file" name="archivoerror" id="archivoerror" accept=".err" /></p>
+ 			<p><input type="file" name="archivoerror" id="archivoerror" accept=".txt" /></p>
  			<p><input type="submit" name="importar"  value="Cargar Devolucion"/></p>
  		</form>
 	</div>

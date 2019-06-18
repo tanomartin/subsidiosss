@@ -14,9 +14,9 @@ $sqlApliFondo = "SELECT
 					i.cuil,
 					i.codpractica,
 					i.impsubsidiado,
+					i.impsolicitado,
 					d.impmontosubsidio,
 					i.cuit,
-					i.impsolicitado,
 					i.nroenvioafip,
 					madera.prestadoresauxiliar.cbu,
 					intepagosdetalle.nroordenpago,
@@ -106,11 +106,11 @@ while ($rowApliFondo = mysql_fetch_assoc($resApliFondo)) {
 	$impDevolucionSSS = 0;
 	$especial = false;
 	
-	if (array_key_exists($rowApliFondo['nrocominterno'],$arrayCredito) && $rowApliFondo['tipoarchivo'] != "DB") {
+	/*if (array_key_exists($rowApliFondo['nrocominterno'],$arrayCredito) && $rowApliFondo['tipoarchivo'] != "DB") {
 		$rowApliFondo['impmontosubsidio'] += $arrayCredito[$rowApliFondo['nrocominterno']];
 		$rowApliFondo['imppago'] = $rowApliFondo['impmontosubsidio'] - $rowApliFondo['impretencion'];
 		$rowApliFondo['impos'] = $rowApliFondo['impsolicitado'] - $rowApliFondo['impmontosubsidio'];
-	}
+	}*/
 				
 	if ($rowApliFondo['tipoarchivo'] == "DB") {	
 		$rowApliFondo['impos'] = (-1)*$rowApliFondo['impos'];
@@ -137,7 +137,7 @@ while ($rowApliFondo = mysql_fetch_assoc($resApliFondo)) {
 		} else {
 			$impNoAplicado =  $rowApliFondo['impmontosubsidio'];
 		}
-		$rowApliFondo['impos'] = 0;
+		//$rowApliFondo['impos'] = 0;
 	}
 				
 	if ($especial) {
@@ -148,52 +148,52 @@ while ($rowApliFondo = mysql_fetch_assoc($resApliFondo)) {
 	}
 	
 	//CAMBIO EL SIGNO PARA PODER COLOCAR EL NEGATIVO EN LA PRIMERA POSICION
-	$impsubsidiado = number_format($rowApliFondo['impsubsidiado'],2,"","");
+	$impsubsidiado = number_format($rowApliFondo['impsubsidiado'],2,",","");
 	if ($impsubsidiado < 0) {
-		$impsubsidiado = (-1)*$impsubsidiado;
-		$impsubsidiado = "-".str_pad($impsubsidiado,9,0,STR_PAD_LEFT);
+		$impsubsidiado = str_replace("-","",$impsubsidiado);
+		$impsubsidiado = "-".str_pad($impsubsidiado,13,0,STR_PAD_LEFT);
 	} else {
-		$impsubsidiado = str_pad($impsubsidiado,10,0,STR_PAD_LEFT);
+		$impsubsidiado = str_pad($impsubsidiado,13,0,STR_PAD_LEFT);
 	}
 	
-	$impsolicitado = number_format($rowApliFondo['impsolicitado'],2,"","");
+	$impsolicitado = number_format($rowApliFondo['impsolicitado'],2,",","");
 	if ($impsolicitado < 0) {
-		$impsolicitado = (-1)*$impsolicitado;
-		$impsolicitado = "-".str_pad($impsolicitado,9,0,STR_PAD_LEFT);
+		$impsolicitado = str_replace("-","",$impsolicitado);
+		$impsolicitado = "-".str_pad($impsolicitado,13,0,STR_PAD_LEFT);
 	} else {
-		$impsolicitado = str_pad($impsubsidiado,10,0,STR_PAD_LEFT);
+		$impsolicitado = str_pad($impsolicitado,13,0,STR_PAD_LEFT);
 	}
 	
-	$imppago = number_format($rowApliFondo['imppago'],2,"","");
+	$imppago = number_format($rowApliFondo['imppago'],2,",","");
 	if ($imppago < 0) {
-		$imppago = (-1)*$imppago;
-		$imppago = "-".str_pad($imppago,9,0,STR_PAD_LEFT);
+		$imppago = str_replace("-","",$imppago);
+		$imppago = "-".str_pad($imppago,13,0,STR_PAD_LEFT);
 	} else {
-		$imppago = str_pad($imppago,10,0,STR_PAD_LEFT);
+		$imppago = str_pad($imppago,13,0,STR_PAD_LEFT);
 	}
 	
-	$impmontosubsidio = number_format($rowApliFondo['impmontosubsidio'],2,"","");
+	$impmontosubsidio = number_format($rowApliFondo['impmontosubsidio'],2,",","");
 	if ($impmontosubsidio < 0) {
-		$impmontosubsidio = (-1)*$impmontosubsidio;
-		$impmontosubsidio = "-".str_pad($impmontosubsidio,9,0,STR_PAD_LEFT);
+		$impmontosubsidio =  str_replace("-","",$impmontosubsidio);
+		$impmontosubsidio = "-".str_pad($impmontosubsidio,13,0,STR_PAD_LEFT);
 	} else {
-		$impmontosubsidio = str_pad($impmontosubsidio,10,0,STR_PAD_LEFT);
+		$impmontosubsidio = str_pad($impmontosubsidio,13,0,STR_PAD_LEFT);
 	}
 	
-	$impos = number_format($rowApliFondo['impos'],2,"","");
+	$impos = number_format($rowApliFondo['impos'],2,",","");
 	if ($impos < 0) {
-		$impos = (-1)*$impos;
-		$impos = "-".str_pad($impos,9,0,STR_PAD_LEFT);
+		$impos = str_replace("-","",$impos);
+		$impos = "-".str_pad($impos,13,0,STR_PAD_LEFT);
 	} else {
-		$impos = str_pad($impos,10,0,STR_PAD_LEFT);
+		$impos = str_pad($impos,13,0,STR_PAD_LEFT);
 	}
 	
-	$impoc = number_format($rowApliFondo['impoc'],2,"","");
+	$impoc = number_format($rowApliFondo['impoc'],2,",","");
 	if ($impos < 0) {
-		$impoc = (-1)*$impoc;
-		$impoc = "-".str_pad($impoc,9,0,STR_PAD_LEFT);
+		$impoc = str_replace("-","",$impoc);
+		$impoc = "-".str_pad($impoc,13,0,STR_PAD_LEFT);
 	} else {
-		$impoc = str_pad($impoc,10,0,STR_PAD_LEFT);
+		$impoc = str_pad($impoc,13,0,STR_PAD_LEFT);
 	}
 	//********************************************************************************
 
@@ -215,18 +215,19 @@ while ($rowApliFondo = mysql_fetch_assoc($resApliFondo)) {
 		 	 str_pad("",10," ",STR_PAD_RIGHT)."|".
 		 	 str_pad("",10," ",STR_PAD_RIGHT)."|".
 			 $imppago."|".
-		 	 str_pad(number_format($rowApliFondo['impretencion'],2,"",""),10,0,STR_PAD_LEFT)."|".
-		 	 str_pad(number_format(0,2,"",""),10,0,STR_PAD_LEFT)."|".
-		 	 str_pad(number_format(0,2,"",""),10,0,STR_PAD_LEFT)."|".
+		 	 str_pad(number_format($rowApliFondo['impretencion'],2,",",""),12,0,STR_PAD_LEFT)."|".
+		 	 str_pad(number_format(0,2,",",""),13,0,STR_PAD_LEFT)."|".
+		 	 str_pad(number_format(0,2,",",""),13,0,STR_PAD_LEFT)."|".
 		 	 $impmontosubsidio."|".
 		 	 $impos."|".
 		 	 $impoc."|".
 			 str_pad($rowApliFondo['recibo'],8,0,STR_PAD_RIGHT)."|".
-			 str_pad(number_format($impTransladado,2,"",""),10,0,STR_PAD_LEFT)."|".
-			 str_pad(number_format($impDevolucionSSS,2,"",""),10,0,STR_PAD_LEFT)."|".
-			 str_pad(number_format($impNoAplicado,2,"",""),10,0,STR_PAD_LEFT)."|".
-			 str_pad(number_format($rowApliFondo['imprecupero'],2,"",""),10,0,STR_PAD_LEFT)."|".
+			 str_pad(number_format($impTransladado,2,",",""),13,0,STR_PAD_LEFT)."|".
+			 str_pad(number_format($impDevolucionSSS,2,",",""),13,0,STR_PAD_LEFT)."|".
+			 str_pad(number_format($impNoAplicado,2,",",""),12,0,STR_PAD_LEFT)."|".
+			 str_pad(number_format($rowApliFondo['imprecupero'],2,",",""),13,0,STR_PAD_LEFT)."|".
 			 str_pad($rowApliFondo['observacion'],150," ",STR_PAD_RIGHT);
+	//echo $linea."<br>";
 	fwrite($file, $linea . PHP_EOL);
 }
 fclose($file);
