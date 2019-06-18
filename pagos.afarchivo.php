@@ -94,7 +94,7 @@ if ($canDebitos > 0) {
 		$whereIn = substr($whereIn, 0, -1);
 		$whereIn .= ")";
 		
-		$sqlCreditoMontos = "SELECT d.nrocominterno, d.impmontosubsidio FROM intepresentaciondetalle d
+		/*$sqlCreditoMontos = "SELECT d.nrocominterno, d.impmontosubsidio FROM intepresentaciondetalle d
 							WHERE d.idpresentacion < $idPresentacion AND d.tipoarchivo = 'DS' and nrocominterno in $whereIn"; 
 		$resCreditoMontos = mysql_query($sqlCreditoMontos);
 		$canCreditoMontos = mysql_num_rows($resCreditoMontos);
@@ -102,7 +102,7 @@ if ($canDebitos > 0) {
 			while ($rowCreditoMontos = mysql_fetch_assoc($resCreditoMontos)) {
 				$arrayCredito[$rowCreditoMontos['nrocominterno']] += $rowCreditoMontos['impmontosubsidio'];
 			}
-		}
+		}*/
 	}
 }
 //var_dump($arrayCredito);
