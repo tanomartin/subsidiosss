@@ -9,7 +9,8 @@ if ($_FILES['archivoextracto']['tmp_name'] != "") {
 	$anio = substr($carpeta,0,4);
 	$carpetaFondos = "archivos/$anio/$carpeta/fondos";
 	try {
-		$archivodestino = $carpetaFondos."/".$_FILES['archivoextracto']['name'];
+		$nombreExtracto = "111001-".$carpeta."_EB.pdf";
+		$archivodestino = $carpetaFondos."/".$nombreExtracto;
 		copy($archivoextracto, $archivodestino);
 	} catch (Exception $e) {
 		$redire = "Location: presentacion.error.php?id=$idPresentacion&page='Dev. Fondos Extracto'&error=".$e->getMessage();

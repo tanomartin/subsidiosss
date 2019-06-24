@@ -9,10 +9,12 @@ $carpetaanio = "archivos/$anio";
 $carpetaFondos = "archivos/$anio/$carpeta/fondos";
 $archivo = $carpetaFondos."/111001-".$carpeta."_DR.DEVOLUCION.txt";
 $archivoerr = $carpetaFondos."/111001-".$carpeta."_DR.DEVOLUCION.ERR";
+$archivook = $carpetaFondos."/111001-".$carpeta."_DR.DEVOLUCION.OK";
 
 try {
 	if (file_exists($archivo)){ unlink($archivo); }
 	if (file_exists($archivoerr)){ unlink($archivoerr); }
+	if (file_exists($archivook)){ unlink($archivook); }
 } catch (Exception $e) {
 	$redire = "Location: presentacion.error.php?id=$idPresentacion&page='Cancelar Fondos'&error=".$e->getMessage();
 	Header($redire);
