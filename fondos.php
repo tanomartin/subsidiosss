@@ -103,8 +103,8 @@ function generarArchivo(idPres,carpeta) {
 	window.location.href = dire;
 }
 
-function descargaExtracto(path) {
-	window.open(path, "Extracto", "width=600, height=600")
+function descargaArchivo(path) {
+	window.open(path, "Archivo", "width=600, height=600")
 }
 
 </script>
@@ -189,8 +189,10 @@ function descargaExtracto(path) {
  							     	  }	
 								  } else {
 								  		$estado = "FINALIZADA</br>(".$rowPresentacion['fechafinalizacionfondo'].")";
-								  		$color = 'style="color: blue"'; ?>
-								  		<input style="margin-top: 5px" type="button" value="EXTRACTO" onClick="descargaExtracto('<?php echo $rowPresentacion['pathExtracto'] ?>')"/>		  		
+								  		$color = 'style="color: blue"'; 
+								  		$archivo = "archivos/2019/201901/fondos/111001-".$rowPresentacion['carpeta']."_DR.DEVOLUCION_OK.txt"; ?>
+								  		<input style="margin-top: 5px" type="button" value="EXTRACTO" onClick="descargaArchivo('<?php echo $rowPresentacion['pathExtracto'] ?>')"/></br>
+								  		<input style="margin-top: 5px" type="button" value="ARCHIVO OK" onClick="descargaArchivo('<?php echo $archivo ?>')"/>		  		
 						   	<?php } 
 							  } else { ?>
 							  		<input style="margin-top: 5px" type="button" value="ARCHIVO" onClick="generarArchivo('<?php echo $rowPresentacion['id'] ?>','<?php echo $rowPresentacion['carpeta']?>')"/>
