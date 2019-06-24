@@ -140,7 +140,7 @@ while ($rowApliFondo = mysql_fetch_assoc($resApliFondo)) {
 		//$rowApliFondo['impos'] = 0;
 	}
 				
-	if ($especial) {
+	if ($especial || $rowApliFondo['imprecupero'] != 0) {
 		$rowApliFondo['imppago'] = 0;
 		$rowApliFondo['impretencion'] = 0;
 		$rowApliFondo['impmontosubsidio'] = 0;

@@ -204,7 +204,7 @@ header("Content-Disposition: attachment; filename=$file");
 					//$rowApliFondo['impos'] = 0;
 				}
 				
-				if ($especial) {
+				if ($especial || $rowApliFondo['imprecupero'] != 0) {
 					$rowApliFondo['imppago'] = 0;
 					$rowApliFondo['impretencion'] = 0;
 					$rowApliFondo['impmontosubsidio'] = 0;
