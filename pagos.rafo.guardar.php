@@ -13,7 +13,7 @@ foreach ($_POST as $key => $data) {
 		if ($data == "") { 
 			$data = 'NULL'; 
 		} else {
-			if ($keyArray[0] == "obs") { 
+			if ($keyArray[0] == "obs" || $keyArray[0] == "recibo") { 
 				$data = "'".$data."'"; 
 			} 
 		}
@@ -31,7 +31,7 @@ foreach ($arrayDatosPagos as $key => $data) {
 	}
 	$sqlUpdatePago[$i] = "UPDATE intepagosdetalle 
 							SET 
-								recibo = '".$data['recibo']."', 
+								recibo = ".$data['recibo'].", 
 								asiento = ".$data['asiento'].", 
 								folio = ".$data['folio'].",
 								observacion = ".$data['obs'].",
