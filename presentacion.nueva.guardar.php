@@ -105,9 +105,9 @@ while ($data = fgetcsv ($fp, 1000, ";")) {
 		}
 	} catch (Exception $e) {
 		$error = $e->getMessage();
-		echo $error;
+		//echo $error;
 		$redire = "Location: presentacion.error.php?page='Nueva Presentacion'&error=$error";
-		//Header($redire);
+		Header($redire);
 		exit -1;
 	}
 	

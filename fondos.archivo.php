@@ -118,6 +118,7 @@ while ($rowApliFondo = mysql_fetch_assoc($resApliFondo)) {
 		$rowApliFondo['cbu'] = "";
 		$rowApliFondo['nroordenpago'] = "";
 		$rowApliFondo['fechatransferencia'] = "";
+		$rowApliFondo['observacion'] = "";
 		if (!array_key_exists($rowApliFondo['nrocominterno'],$arrayCredito)) {
 			$impDevolucionSSS = $rowApliFondo['impmontosubsidio'];
 			$rowApliFondo['impoc'] = $rowApliFondo['impsolicitado'] - $rowApliFondo['impmontosubsidio'];
