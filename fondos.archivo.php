@@ -195,6 +195,39 @@ while ($rowApliFondo = mysql_fetch_assoc($resApliFondo)) {
 	} else {
 		$impoc = str_pad($impoc,13,0,STR_PAD_LEFT);
 	}
+	
+	$impTransladado = number_format($impTransladado,2,",","");
+	if ($impTransladado < 0) {
+		$impTransladado = str_replace("-","",$impTransladado);
+		$impTransladado = "-".str_pad($impTransladado,13,0,STR_PAD_LEFT);
+	} else {
+		$impTransladado = str_pad($impTransladado,13,0,STR_PAD_LEFT);
+	}
+	
+	$impDevolucionSSS = number_format($impDevolucionSSS,2,",","");
+	if ($impDevolucionSSS < 0) {
+		$impDevolucionSSS = str_replace("-","",$impDevolucionSSS);
+		$impDevolucionSSS = "-".str_pad($impDevolucionSSS,13,0,STR_PAD_LEFT);
+	} else {
+		$impDevolucionSSS = str_pad($impDevolucionSSS,13,0,STR_PAD_LEFT);
+	}
+	
+	$impNoAplicado = number_format($impNoAplicado,2,",","");
+	if ($impNoAplicado < 0) {
+		$impNoAplicado = str_replace("-","",$impNoAplicado);
+		$impNoAplicado = "-".str_pad($impNoAplicado,13,0,STR_PAD_LEFT);
+	} else {
+		$impNoAplicado = str_pad($impNoAplicado,13,0,STR_PAD_LEFT);
+	}
+	
+	$impRecupero = number_format($rowApliFondo['imprecupero'],2,",","");
+	if ($impRecupero < 0) {
+		$impRecupero = str_replace("-","",$impRecupero);
+		$impRecupero = "-".str_pad($impRecupero,13,0,STR_PAD_LEFT);
+	} else {
+		$impRecupero = str_pad($impRecupero,13,0,STR_PAD_LEFT);
+	}
+	
 	//********************************************************************************
 
 	$linea = $rowApliFondo['clave']."|".
@@ -222,10 +255,10 @@ while ($rowApliFondo = mysql_fetch_assoc($resApliFondo)) {
 		 	 $impos."|".
 		 	 $impoc."|".
 			 str_pad($rowApliFondo['recibo'],8,0,STR_PAD_RIGHT)."|".
-			 str_pad(number_format($impTransladado,2,",",""),13,0,STR_PAD_LEFT)."|".
-			 str_pad(number_format($impDevolucionSSS,2,",",""),13,0,STR_PAD_LEFT)."|".
-			 str_pad(number_format($impNoAplicado,2,",",""),12,0,STR_PAD_LEFT)."|".
-			 str_pad(number_format($rowApliFondo['imprecupero'],2,",",""),13,0,STR_PAD_LEFT)."|".
+			 $impTransladado."|".
+			 $impDevolucionSSS."|".
+			 $impNoAplicado."|".
+			 $impRecupero."|".
 			 str_pad($rowApliFondo['observacion'],150," ",STR_PAD_RIGHT);
 	//echo $linea."<br>";
 	fwrite($file, $linea . PHP_EOL);
