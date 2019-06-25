@@ -171,6 +171,7 @@ function descargaArchivo(path) {
 						<td>
 						<?php $estado = "SIN</br>PRESENTAR";
 							  $color = "";
+							  $archivo = "archivos/2019/201901/fondos/111001-".$rowPresentacion['carpeta']."_DR.DEVOLUCION_OK.txt";
 							  if ($rowPresentacion['idfondo'] != NULL) { 
 								  if ($rowPresentacion['fechafinalizacionfondo'] == NULL) { ?>
 								  	  <input style="margin-top: 5px" type="button" value="CANCELAR" onClick="cancelar('<?php echo $rowPresentacion['idfondo'] ?>','<?php echo $rowPresentacion['carpeta'] ?>')"/>
@@ -181,7 +182,8 @@ function descargaArchivo(path) {
 									  if ($rowPresentacion['canterrores'] == 0) {
 									  	if ($rowPresentacion['canterrores'] != NULL) { 
 										  	$estado = "SIN</br>ERRORES"; ?>
-										  	<input style="margin-top: 5px" type="button" value="SUBIR EXTRACTO" onClick="location.href = 'fondos.extracto.php?id=<?php echo $rowPresentacion['idfondo'] ?>&idpresentacion=<?php echo $rowPresentacion['id'] ?>&carpeta=<?php echo $rowPresentacion['carpeta'] ?>'"/>
+										  	<input style="margin-top: 5px" type="button" value="SUBIR EXTRACTO" onClick="location.href = 'fondos.extracto.php?id=<?php echo $rowPresentacion['idfondo'] ?>&idpresentacion=<?php echo $rowPresentacion['id'] ?>&carpeta=<?php echo $rowPresentacion['carpeta'] ?>'"/></br>
+											<input style="margin-top: 5px" type="button" value="ARCHIVO OK" onClick="descargaArchivo('<?php echo $archivo ?>')"/>
 								<?php 	} else { 
 											$estado = "PRESENTADA"; ?>
 											<input style="margin-top: 5px" type="button" value="DEVOLUCION" onClick="location.href = 'fondos.devolucion.php?id=<?php echo $rowPresentacion['idfondo'] ?>&idpresentacion=<?php echo $rowPresentacion['id'] ?>&carpeta=<?php echo $rowPresentacion['carpeta'] ?>'"/>
@@ -189,8 +191,7 @@ function descargaArchivo(path) {
  							     	  }	
 								  } else {
 								  		$estado = "FINALIZADA</br>(".$rowPresentacion['fechafinalizacionfondo'].")";
-								  		$color = 'style="color: blue"'; 
-								  		$archivo = "archivos/2019/201901/fondos/111001-".$rowPresentacion['carpeta']."_DR.DEVOLUCION_OK.txt"; ?>
+								  		$color = 'style="color: blue"'; ?>
 								  		<input style="margin-top: 5px" type="button" value="EXTRACTO" onClick="descargaArchivo('<?php echo $rowPresentacion['pathExtracto'] ?>')"/></br>
 								  		<input style="margin-top: 5px" type="button" value="ARCHIVO OK" onClick="descargaArchivo('<?php echo $archivo ?>')"/>		  		
 						   	<?php } 
