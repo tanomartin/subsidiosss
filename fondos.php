@@ -171,7 +171,7 @@ function descargaArchivo(path) {
 						<td>
 						<?php $estado = "SIN</br>PRESENTAR";
 							  $color = "";
-							  $archivo = "archivos/2019/201901/fondos/111001-".$rowPresentacion['carpeta']."_DR.DEVOLUCION_OK.txt";
+							  $archivo = "archivos/".substr($rowPresentacion['carpeta'],0,4)."/".$rowPresentacion['carpeta']."/fondos/111001-".$rowPresentacion['carpeta']."_DR.DEVOLUCION_OK.txt";
 							  if ($rowPresentacion['idfondo'] != NULL) { 
 								  if ($rowPresentacion['fechafinalizacionfondo'] == NULL) { ?>
 								  	  <input style="margin-top: 5px" type="button" value="CANCELAR" onClick="cancelar('<?php echo $rowPresentacion['idfondo'] ?>','<?php echo $rowPresentacion['carpeta'] ?>')"/>
