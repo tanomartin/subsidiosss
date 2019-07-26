@@ -51,7 +51,7 @@ foreach ($arrayFacturas as $key => $rowFactura) {
 		$minImpo = 42700;
 		if ($montoCalculo > $minImpo) {
 			$montoRet = ($montoCalculo - $minImpo) * 0.02;
-			if ($montoRet <= 150) {
+			if ($montoRet <= 250) {
 				$montoRet = 0;
 			}
 		}
