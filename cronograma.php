@@ -4,7 +4,7 @@ $sqlCronograma = "SELECT *,
 						 DATE_FORMAT(fechacierre,'%d/%m/%Y') as fechacierre,
 						 DATE_FORMAT(fechapago,'%d/%m/%Y') as fechapago,
 						 DATE_FORMAT(fechacierrefondo,'%d/%m/%Y') as fechacierrefondo
-					FROM intecronograma ORDER By carpeta DESC";
+					FROM intecronograma ORDER By carpeta DESC LIMIT 12";
 $resCronograma = mysql_query($sqlCronograma);
 
 $today = date("Y-m-d");
