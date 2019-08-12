@@ -222,7 +222,7 @@ header("Content-Disposition: attachment; filename=$file");
 				$totImpSSS += $rowApliFondo['impmontosubsidio'];
 				$totImpOS += $rowApliFondo['impos'];
 				$totImpOC += $rowApliFondo['impoc'];
-				$totRecuperoFondos += $rowApliFondo['imprecupero'];				
+				$totRecuperoFondos += $rowApliFondo['imprecupero'];
 				
 				$totImpTransladado += $impTransladado;
 				$totImpDevueltoSSS += $impDevolucionSSS;

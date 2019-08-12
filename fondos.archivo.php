@@ -140,6 +140,10 @@ while ($rowApliFondo = mysql_fetch_assoc($resApliFondo)) {
 		}
 		//$rowApliFondo['impos'] = 0;
 	}
+	
+	if ($rowApliFondo['codpractica'] == 97 || $rowApliFondo['codpractica'] == 98 || $rowApliFondo['codpractica'] == 99) {
+		$especial = true;
+	}
 				
 	if ($especial || $rowApliFondo['imprecupero'] != 0) {
 		$rowApliFondo['imppago'] = 0;
