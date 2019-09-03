@@ -42,20 +42,21 @@ if ($agrupa != 0) {
 $sqlMailingReplace = substr($sqlMailingReplace, 0, -1);
 $sqlMailingReplace .=";";
 
-$sqlEmailCabecera = "INSERT INTO madera.bandejasalida VALUES ";
-foreach ($arrayMailsAgrupados as $agrupados) {
-	$sqlEmailCabecera .= "(DEFAULT, '$from', '$subject', '$bodymail', '$agrupados', '$modulo', '$fecharegistro', '$usuarioregistro'),";
-}
-$sqlEmailCabecera = substr($sqlEmailCabecera, 0, -1);
-$sqlEmailCabecera .= ";";
-
 try {
 	$dbh = new PDO("mysql:host=$hostLocal;dbname=$dbname",$usuarioLocal,$claveLocal);
 	$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	$dbh->beginTransaction();
 	
-	//echo $sqlEmailCabecera."<br>";
-	$dbh->exec($sqlEmailCabecera);
+	foreach ($arrayMailsAgrupados as $agrupados) {
+		$sqlMetaEmail = "INSERT INTO madera.bandejasalidameta VALUES (DEFAULT, '$modulo', '$fecharegistro', '$usuarioregistro')";
+		//echo $sqlMetaEmail."<br>";
+		$dbh->exec($sqlMetaEmail);
+		$lastId = $dbh->lastInsertId();
+		$sqlEmailCabecera = "INSERT INTO madera.bandejasalida VALUES ($lastId, '$from', '$subject', '$bodymail', '$agrupados')";
+		//echo $sqlEmailCabecera."<br>";
+		$dbh->exec($sqlEmailCabecera);
+	}
+	
 	//echo $sqlMailingReplace."<br>";
 	$dbh->exec($sqlMailingReplace);
 	
@@ -65,7 +66,7 @@ try {
 } catch (PDOException $e) {
 	$dbh->rollback();
 	$error = $e->getMessage()." (SQL: ".$sqlinsert.")";
-	$redire = "Location: presentacion.error.php?page='Generar Archivo Pago'&error=$error";
+	$redire = "Location: presentacion.error.php?page='Generar Mailing Intranet'&error=$error";
 	Header($redire);
 	exit -1;
 }
