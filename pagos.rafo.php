@@ -125,7 +125,11 @@ if (isset($_GET['cuit'])) {
 						 		<th class="nover">Recupero</br>Fondo</th>
 						 	</thead>
 						 	<tbody>
-					  <?php while ($rowPagos = mysql_fetch_array($resPagos)) { 
+					  <?php $totFac = 0;
+					  		$totSub = 0;
+					  		while ($rowPagos = mysql_fetch_array($resPagos)) { 
+					  			$totFac += $rowPagos['impcomprobante'];
+					  			$totSub += $rowPagos['impmontosubsidio'];
 								$inputName = $rowPagos['nroordenpago']."-".$rowPagos['nrocominterno']; ?>	
 						 		<td><?php echo $rowPagos['nroordenpago'] ?></td>
 						 		<td><?php echo $rowPagos['nrocominterno'] ?></td>
@@ -166,7 +170,15 @@ if (isset($_GET['cuit'])) {
 						 		</td>
 						 	</tbody>
 					   <?php } ?>
-						 </table>
+					   		<tr>
+					   			<thead>
+					   				<th colspan="4">TOTALES</th>
+					   				<th><?php echo number_format($totFac,"2",",","."); ?></th>
+					   				<th><?php echo number_format($totSub,"2",",","."); ?></th>
+					   				<th colspan="7"></th>
+					   			</thead>
+					   		</tr>
+					   	</table>
 					</div>	
 					<p class="nover"><input type="submit" value="Guardar" style="margin-top: 15px"></input></p>
 				</form>
