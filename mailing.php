@@ -164,6 +164,7 @@ function habilitarDelega(vista) {
 	 	<p><input type="submit" name="submit" value="Listar Prestadores"/></p>
 	 </form>
 <?php if (isset($_POST['filtro'])) { ?>
+		 <p><input class="nover" type="button" name="imprimir" value="Imprimir" onclick="window.print();"></p>
 		 <h3><?php echo $cartel ?></h3>
 <?php	 if ($canPrestadoresMailing > 0) {?>
 		 <form id="form1" name="form1" action="mailing.redaccion.php" onsubmit="return validar(this)" method="post">
@@ -195,7 +196,9 @@ function habilitarDelega(vista) {
 						<td>
 						<?php if ($rowPrestadoresMailing['email1'] != NULL or $rowPrestadoresMailing['email2'] != NULL) {  ?>
 								<input type="checkbox" name="<?php echo $rowPrestadoresMailing['codigoprestador'] ?>" id="seleccion" value="<?php echo $email ?>" />
-						<?php } ?>
+						<?php } else {
+								echo "-";	
+							  } ?>
 						</td>
 					</tr>
 				 <?php } ?>
