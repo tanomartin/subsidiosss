@@ -8,7 +8,7 @@ if (isset($_POST['filtro'])) {
 		$sqlPrestadoresMailing = "SELECT p.*, intemailing.asunto, intemailing.fecha
 				FROM madera.prestadorservicio s, madera.prestadores p
 				LEFT JOIN intemailing ON p.codigoprestador = intemailing.codigoprestador
-				WHERE p.codigoprestador = s.codigoprestador and s.codigoservicio = 8 and (email1 is not null or email2 is not null)";
+				WHERE p.codigoprestador = s.codigoprestador and s.codigoservicio = 8";
 		$resPrestadoresMailing = mysql_query($sqlPrestadoresMailing);
 		$canPrestadoresMailing = mysql_num_rows($resPrestadoresMailing);
 		$cartel = "Listado Completo de Prestadores [$canPrestadoresMailing]";
@@ -34,8 +34,7 @@ if (isset($_POST['filtro'])) {
 				WHERE j.codidelega = ".$arrayDelega[0]." and 
 					  j.codidelega = d.codidelega and
 					  j.codigoprestador = p.codigoprestador and
-					  p.codigoprestador = s.codigoprestador and s.codigoservicio = 8 and
-					  (email1 is not null or email2 is not null)";
+					  p.codigoprestador = s.codigoprestador and s.codigoservicio = 8";
 		$resPrestadoresMailing = mysql_query($sqlPrestadoresMailing);
 		$canPrestadoresMailing = mysql_num_rows($resPrestadoresMailing);
 		$cartel = "Listado Prestadores Por Delegacion ".$arrayDelega[1]." [$canPrestadoresMailing]";
