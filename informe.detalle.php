@@ -216,7 +216,7 @@ header("Content-Disposition: attachment; filename=$file");
 									
 									$sqlDebeRecibo = "SELECT f.nrocomprobante FROM intepagosdetalle p, intepresentaciondetalle f
 														WHERE
-														p.recibo is null and
+														(p.recibo is null or p.recibo = '') and
 														p.nrocominterno = f.nrocominterno and codpractica not in (97,98,99) and
 														f.cuit = ".$rowFactura['cuit']." and
 														f.impsolicitadosubsidio is not null and

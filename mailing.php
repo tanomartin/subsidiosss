@@ -20,8 +20,7 @@ if (isset($_POST['filtro'])) {
 				WHERE (r.recibo is null or r.recibo = '') and
 					  r.nrocominterno = f.nrocominterno and
 					  f.cuit = p.cuit and
-					  p.codigoprestador = s.codigoprestador and s.codigoservicio = 8 and
-					  (email1 is not null or email2 is not null) 
+					  p.codigoprestador = s.codigoprestador and s.codigoservicio = 8
 				GROUP BY f.cuit";
 		$resPrestadoresMailing = mysql_query($sqlPrestadoresMailing);
 		$canPrestadoresMailing = mysql_num_rows($resPrestadoresMailing);
@@ -169,12 +168,12 @@ function habilitarDelega(vista) {
 		 <h3><?php echo $cartel ?></h3>
 <?php	 if ($canPrestadoresMailing > 0) {?>
 		 <form id="form1" name="form1" action="mailing.redaccion.php" onsubmit="return validar(this)" method="post">
-			
 			 <table class="tablesorter" id="listado" style="width: 1200px">
 				 <thead>
 				 	<tr>
 				 		<th>Código</th>
 				 		<th>Razón Social</th>
+				 		<th>C.U.I.T.</th>
 				 		<th>Email</th>
 				 		<th width="30%">Asunto</th>
 				 		<th width="10%">Fecha</th>
@@ -187,13 +186,18 @@ function habilitarDelega(vista) {
 				 	<tr>
 						<td><?php echo $rowPrestadoresMailing['codigoprestador'] ?></td>
 						<td><?php echo $rowPrestadoresMailing['nombre'] ?></td>
+						<td><?php echo $rowPrestadoresMailing['cuit'] ?></td>
 						<?php 	$email = $rowPrestadoresMailing['email1'];
 								if ($email == NULL) { $email = $rowPrestadoresMailing['email2']; } ?>
 						<td><?php echo $email ?></td>
 						<td><?php echo $rowPrestadoresMailing['asunto'] ?></td>
 						<td><?php echo $rowPrestadoresMailing['fecha'] ?></td>
 						<?php if ($filtro == 1) { ?> <td><?php echo $rowPrestadoresMailing['canRecibos'] ?></td> <?php } ?>
-						<td><input type="checkbox" name="<?php echo $rowPrestadoresMailing['codigoprestador'] ?>" id="seleccion" value="<?php echo $email ?>" /></td>
+						<td>
+						<?php if ($rowPrestadoresMailing['email1'] != NULL or $rowPrestadoresMailing['email2'] != NULL) {  ?>
+								<input type="checkbox" name="<?php echo $rowPrestadoresMailing['codigoprestador'] ?>" id="seleccion" value="<?php echo $email ?>" />
+						<?php } ?>
+						</td>
 					</tr>
 				 <?php } ?>
 				</tbody>
