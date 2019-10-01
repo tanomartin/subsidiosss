@@ -74,7 +74,7 @@ $(function() {
 });
 
 function validarBusqueda(formulario) {
-	$.blockUI({ message: "<h1>Lisatdo Prestadores por Filtro Seleccionado... <br>Esto puede tardar unos segundos.<br> Aguarde por favor</h1>" });
+	$.blockUI({ message: "<h1>Listando Prestadores por Filtro Seleccionado... <br>Esto puede tardar unos segundos.<br> Aguarde por favor</h1>" });
 }
 
 
