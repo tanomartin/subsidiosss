@@ -131,15 +131,18 @@ function habilitarDelega(vista) {
 }
 
 </script>
+<style type="text/css" media="print">
+.nover {display:none}
+</style>
 <title>.: Mailing S.S.S. :.</title>
 </head>
 <body bgcolor="#CCCCCC">
 <div align="center">
-	 <p><input type="reset" name="volver" value="Volver" onClick="location.href = 'menu.php'" /></p>
+	 <p><input type="button" class="nover" name="volver" value="Volver" onClick="location.href = 'menu.php'" /></p>
 	 <h2>Mailing Prestadores Integración</h2>
-	 <?php if (isset($_GET['envio'])) { ?><h3 style="color: blue">Se guardaron en cola de envio los correos a enviar</h3> <?php } ?>
-	 <h3>Filtros de busqueda</h3>
-	 <form id="buscador" name="buscador" action="mailing.php" onsubmit="return validarBusqueda(this)" method="post">
+	 <?php if (isset($_GET['envio'])) { ?><h3 class="nover" style="color: blue">Se guardaron en cola de envio los correos a enviar</h3> <?php } ?>
+	 <h3 class="nover">Filtros de busqueda</h3>
+	 <form class="nover" id="buscador" name="buscador" action="mailing.php" onsubmit="return validarBusqueda(this)" method="post">
 	 	<table>
 	 		<tr>
 	 			<td><input type="radio" name="filtro" value="0" checked="checked" onclick="habilitarDelega(0);"></td> 
@@ -164,8 +167,8 @@ function habilitarDelega(vista) {
 	 	<p><input type="submit" name="submit" value="Listar Prestadores"/></p>
 	 </form>
 <?php if (isset($_POST['filtro'])) { ?>
-		 <p><input class="nover" type="button" name="imprimir" value="Imprimir" onclick="window.print();"></p>
 		 <h3><?php echo $cartel ?></h3>
+		 <p><input class="nover" type="button" name="imprimir" value="Imprimir" onclick="window.print();"></p>
 <?php	 if ($canPrestadoresMailing > 0) {?>
 		 <form id="form1" name="form1" action="mailing.redaccion.php" onsubmit="return validar(this)" method="post">
 			 <table class="tablesorter" id="listado" style="width: 1200px">
@@ -204,7 +207,7 @@ function habilitarDelega(vista) {
 				 <?php } ?>
 				</tbody>
 			</table>
-			<p><input type="submit" name="submit" value="Seleccionar Prestadores"/></p>
+			<p><input class="nover" type="submit" name="submit" value="Seleccionar Prestadores"/></p>
 		  </form>
 	<?php } else { ?>
 	 		<h3 style="color: blue">No existe Prestadores con el filtro seleccionado</h3>
