@@ -17,7 +17,7 @@ if (isset($_POST['filtro'])) {
 		$sqlPrestadoresMailing = "SELECT p.*, count(f.cuit) as canRecibos, intemailing.asunto, intemailing.fecha
 				FROM madera.prestadorservicio s, intepagosdetalle r, intepresentaciondetalle f, madera.prestadores p 
 				LEFT JOIN intemailing ON p.codigoprestador = intemailing.codigoprestador
-				WHERE r.recibo is null and
+				WHERE (r.recibo is null or r.recibo = '') and
 					  r.nrocominterno = f.nrocominterno and
 					  f.cuit = p.cuit and
 					  p.codigoprestador = s.codigoprestador and s.codigoservicio = 8 and
