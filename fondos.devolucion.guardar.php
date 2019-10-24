@@ -40,7 +40,7 @@ if ($_FILES['archivoerror']['tmp_name'] != "") {
 			if ($linea != '') {
 				//echo $linea."<br>";
 				$arrayDatos = explode("|",$linea);
-				var_dump($arrayDatos);echo "<br><br>";
+				//var_dump($arrayDatos);echo "<br><br>";
 				$clave = $arrayDatos[0];
 				$cuitcbu = $arrayDatos[10];
 				$cbu = $arrayDatos[11];
