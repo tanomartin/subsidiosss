@@ -8,8 +8,8 @@ $anio = substr($carpeta,0,4);
 $carpetaanio = "archivos/$anio";
 $carpetaFondos = "archivos/$anio/$carpeta/fondos";
 $archivo = $carpetaFondos."/111001-".$carpeta."_DR.DEVOLUCION.txt";
-$archivoerr = $carpetaFondos."/111001-".$carpeta."_DR.DEVOLUCION.ERR";
-$archivook = $carpetaFondos."/111001-".$carpeta."_DR.DEVOLUCION.OK";
+$archivoerr = $carpetaFondos."/111001-".$carpeta."_DR.DEVOLUCION.ERR.txt";
+$archivook = $carpetaFondos."/111001-".$carpeta."_DR.DEVOLUCION.OK.txt";
 
 try {
 	if (file_exists($archivo)){ unlink($archivo); }
