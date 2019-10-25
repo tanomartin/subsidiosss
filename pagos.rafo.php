@@ -46,7 +46,7 @@ if (isset($_GET['cuit'])) {
 
 	function validoNumero(inputObj) {
 		var valorNumero = inputObj.value;
-		var errorNumero = "Error en la carga. Asiento y Folio deben ser numericos enteros postivos";
+		var errorNumero = "Error en la carga. Recibo, Asiento y Folio deben ser numericos enteros postivos";
 		if(!isNumberPositivo(valorNumero)) {
 			alert(errorNumero);
 			inputObj.value = "";
@@ -143,7 +143,7 @@ if (isset($_GET['cuit'])) {
 						 		<td><?php echo $rowPagos['fechatransferencia'] ?></td>
 						 		<td><?php echo $rowPagos['nrotransferencia'] ?></td>	
 						 		<td class="nover">
-						 			<input size="5px" type="text" value="<?php echo $rowPagos['recibo'] ?>" id="recibo-<?php echo $inputName ?>" name="recibo-<?php echo $inputName ?>" />
+						 			<input size="5px" type="text" value="<?php echo $rowPagos['recibo'] ?>" id="recibo-<?php echo $inputName ?>" name="recibo-<?php echo $inputName ?>" onblur="validoNumero(this)" />
 						 		</td>
 						 		<td class="nover">
 						 			<input size="5px" type="text" value="<?php echo $rowPagos['asiento'] ?>" id="asiento-<?php echo $inputName ?>" name="asiento-<?php echo $inputName ?>" onblur="validoNumero(this)"/>
