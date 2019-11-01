@@ -14,12 +14,11 @@ $resCarpetaActual = mysql_query($sqlCarpetaActual);
 $rowCarpetaActual = mysql_fetch_array($resCarpetaActual);
 $idCarpetaActual = $rowCarpetaActual['id'];
 
-$sqlCarpetaActualFondo = "SELECT DATE_FORMAT(fechacierrefondo,'%d/%m/%Y') as fechacierrefondo FROM intecronograma i where fechacierrefondo >= '$today' and fechacierrefondo is not null LIMIT 1";
+$sqlCarpetaActualFondo = "SELECT id FROM intecronograma i where fechacierrefondo >= '$today' and fechacierrefondo is not null LIMIT 1";
 $resCarpetaActualFondo = mysql_query($sqlCarpetaActualFondo);
 $rowCarpetaActualFondo = mysql_fetch_array($resCarpetaActualFondo);
-//CAMBIAR A ID CUANDO NO HAYA REPETACION DE FECHA DE CIERRE DE FONDO
-$fechacierrefondo = $rowCarpetaActualFondo['fechacierrefondo'];
-?>
+$idAplicacionFondo = $rowCarpetaActualFondo['id']; ?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -49,8 +48,8 @@ $fechacierrefondo = $rowCarpetaActualFondo['fechacierrefondo'];
 		<?php while ($rowCronograma = mysql_fetch_array($resCronograma)) { 
 				$color = "";
 				$colorFondo = "";
-				if ($idCarpetaActual == $rowCronograma['id']) { $color = 'style = "color: red"'; }
-				if ($fechacierrefondo == $rowCronograma['fechacierrefondo']) { $colorFondo = 'style = "color: blue"'; }?>
+				if ($idCarpetaActual == $rowCronograma['id'] && $rowCronograma['id'] != "") { $color = 'style = "color: red"'; }
+				if ($idAplicacionFondo == $rowCronograma['id']  && $rowCronograma['id'] != "") { $colorFondo = 'style = "color: blue"'; }?>
 				<tr>
 					<td <?php echo $color.$colorFondo ?>><?php echo $rowCronograma['periodo'] ?></td>
 					<td <?php echo $color.$colorFondo ?>><?php echo $rowCronograma['carpeta'] ?></td>
