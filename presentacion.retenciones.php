@@ -23,7 +23,8 @@ while ($rowFactura = mysql_fetch_assoc($resFactura)) {
 
 $sqlTotalesCuit = "SELECT inteinterbanking.*,
 	CASE
-		WHEN (madera.prestadores.situacionfiscal in (0,1,4) || (madera.prestadores.situacionfiscal = 3 and madera.prestadores.vtoexento >= CURDATE())) THEN 0
+		WHEN (madera.prestadores.situacionfiscal = 0) THEN -1
+		WHEN (madera.prestadores.situacionfiscal in (1,4) || (madera.prestadores.situacionfiscal = 3 and madera.prestadores.vtoexento >= CURDATE())) THEN 0
 		WHEN (madera.prestadores.situacionfiscal = 2 || (madera.prestadores.situacionfiscal = 3 and madera.prestadores.vtoexento < CURDATE())) THEN 1
 	END as retiene
 	FROM inteinterbanking 
@@ -211,7 +212,17 @@ function cerrarPresentacion(idpresentacion) {
 					 			<td style="background-color: #99bfe6"><b><?php echo number_format($rowFactura['impnointe'],2,",",".") ?></b></td>
 					 			<td style="background-color: #99bfe6"><b><?php echo number_format($rowFactura['impobrasocial'],2,",",".") ?></b></td>
 					 			<td style="background-color: #99bfe6"><b><?php echo number_format($rowFactura['impmontosubsidio'],2,",",".") ?></b></td>
-					 			<td style="background-color: #99bfe6"><b><?php if($rowFactura['retiene'] == 1) { echo "SI"; } else { echo "NO"; } ?></b></td>
+					 			<td style="background-color: #99bfe6"><b>
+					 			<?php if($rowFactura['retiene'] == 1) { 
+					 					echo "SI"; 
+					 				   } else {
+					 				   	 if ($rowFactura['retiene'] == 0) {
+					 				   		echo "NO"; 
+					 				   	 } else {
+											echo "S/S";	
+					 				   	 }
+									   } ?>
+								</b></td>
 					 			<th><?php if($rowFactura['retiene'] == 1) { ?> <input onchange="actualizarDatos(this,<?php echo $rowFactura['impretencion']?>,<?php echo $cuit?>,<?php echo $rowFactura['impcomprobanteintegral']?>,<?php echo $rowFactura['impdebito']?>,<?php echo $rowFactura['impapagar']?> )" type="text" size="4" name="rete<?php echo $cuit?>" id="rete"<?php echo $cuit?>" value="<?php echo number_format($rowFactura['impretencion'],2,".","") ?>"/> <?php } ?></th>
 					 			<?php $checkquitar = "";
 					 				  if ($rowFactura['nopagar'] == 1) {
