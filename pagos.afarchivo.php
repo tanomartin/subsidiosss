@@ -30,7 +30,7 @@ $sqlApliFondo = "SELECT
 					0 as impoc,
 					intepagosdetalle.recibo,
 					intepagosdetalle.imprecupero
-				 FROM interendicion i, madera.practicas p, intepresentaciondetalle d
+				 FROM interendicion i, practicas p, intepresentaciondetalle d
 				 LEFT JOIN intepagosdetalle ON d.idpresentacion = intepagosdetalle.idpresentacion AND 
 											   d.nrocominterno = intepagosdetalle.nrocominterno
 				 LEFT JOIN intepagoscabecera ON intepagosdetalle.idpresentacion = intepagoscabecera.idpresentacion AND 
@@ -48,7 +48,7 @@ $sqlApliFondo = "SELECT
 					i.tipocomprobante = d.tipocomprobante and
 					i.puntoventa = d.puntoventa and
 					i.nrocomprobante = d.nrocomprobante and 
-					p.nomenclador = 7 and i.codpractica = p.codigopractica
+					i.codpractica = p.codigopractica
 				 ORDER BY i.clave";
 $resApliFondo = mysql_query($sqlApliFondo);
 $canApliFondo = mysql_num_rows($resApliFondo);
