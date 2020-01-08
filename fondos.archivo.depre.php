@@ -27,8 +27,7 @@ $sqlApliFondo = "SELECT
 					0 as impoc,
 					intepagosdetalle.recibo,
 					intepagosdetalle.imprecupero,
-					intepagosdetalle.observacion,
-					intepagoscabecera.nrotransferencia
+					intepagosdetalle.observacion			
 				 FROM interendicion i, intepresentaciondetalle d
 				 LEFT JOIN intepagosdetalle ON d.idpresentacion = intepagosdetalle.idpresentacion AND 
 											   d.nrocominterno = intepagosdetalle.nrocominterno
@@ -47,7 +46,7 @@ $sqlApliFondo = "SELECT
 					i.tipocomprobante = d.tipocomprobante and
 					i.puntoventa = d.puntoventa and
 					i.nrocomprobante = d.nrocomprobante
-				 ORDER BY i.clave, nrotransferencia DESC";
+				 ORDER BY i.clave";
 $resApliFondo = mysql_query($sqlApliFondo);
 $anio = substr($carpeta,0,4);
 $archivoGeneracion = "archivos/$anio/$carpeta/fondos/111001-".$carpeta."_DR.DEVOLUCION.txt";
@@ -103,7 +102,6 @@ if ($canDebitos > 0) {
 }
 
 $file = fopen($archivoGeneracion, "w");
-$arrayLineas = array();
 while ($rowApliFondo = mysql_fetch_assoc($resApliFondo)) {
 	$impDevolucionSSS = 0;
 	$especial = false;
@@ -250,10 +248,10 @@ while ($rowApliFondo = mysql_fetch_assoc($resApliFondo)) {
 		 	 str_pad($rowApliFondo['cuit'],11,0,STR_PAD_LEFT)."|".
 		 	 str_pad($rowApliFondo['cbu'],22,0,STR_PAD_LEFT)."|".
 		 	 str_pad($rowApliFondo['nroordenpago'],22," ",STR_PAD_RIGHT)."|".
-		 	 str_pad("nropago2",22," ",STR_PAD_RIGHT)."|".
+		 	 str_pad("",22," ",STR_PAD_RIGHT)."|".
 		 	 str_pad($rowApliFondo['fechatransferencia'],10," ",STR_PAD_RIGHT)."|".
-		 	 str_pad("fecha2",10," ",STR_PAD_RIGHT)."|".
-		 	 str_pad("cheque",10," ",STR_PAD_RIGHT)."|".
+		 	 str_pad("",10," ",STR_PAD_RIGHT)."|".
+		 	 str_pad("",10," ",STR_PAD_RIGHT)."|".
 			 $imppago."|".
 		 	 str_pad(number_format($rowApliFondo['impretencion'],2,",",""),12,0,STR_PAD_LEFT)."|".
 		 	 str_pad(number_format(0,2,",",""),13,0,STR_PAD_LEFT)."|".
@@ -267,37 +265,9 @@ while ($rowApliFondo = mysql_fetch_assoc($resApliFondo)) {
 			 $impNoAplicado."|".
 			 $impRecupero."|".
 			 str_pad($rowApliFondo['observacion'],150," ",STR_PAD_RIGHT);
-	
-	 
-	 if (!isset($arrayLineas[$rowApliFondo['clave']])) {
-	 	$arrayLineas[$rowApliFondo['clave']] = $linea;
-	 } else {
-	 	//2do PAGO MISMA FACTURA
-	 	$cheque = "";
-	 	$fecha2 = $rowApliFondo['fechatransferencia'];
-	 	$nroorden2 = $rowApliFondo['nroordenpago'];
-	 	$pos = strpos($rowApliFondo['nrotransferencia'], "T");
-	 	if ($pos === false) {
-	 		$cheque = $rowApliFondo['nrotransferencia'];
-	 		$fecha2 = "";
-	 	}
-	 	
-	 	$arrayLineas[$rowApliFondo['clave']] = str_replace(str_pad("nropago2",22," ",STR_PAD_RIGHT), str_pad($nroorden2,22," ",STR_PAD_RIGHT), $arrayLineas[$rowApliFondo['clave']]);
-	 	$arrayLineas[$rowApliFondo['clave']] = str_replace(str_pad("fecha2",10," ",STR_PAD_RIGHT), str_pad($fecha2,10," ",STR_PAD_RIGHT), $arrayLineas[$rowApliFondo['clave']]);
-	 	$arrayLineas[$rowApliFondo['clave']] = str_replace(str_pad("cheque",10," ",STR_PAD_RIGHT), str_pad($cheque,10," ",STR_PAD_RIGHT), $arrayLineas[$rowApliFondo['clave']]);
-	 }
-}
-
-foreach ($arrayLineas as $linea) {
-	//LIMPIO LOS QUE SOLO TUVIERON UN PAGO
-	$linea = str_replace(str_pad("nropago2",22," ",STR_PAD_RIGHT), str_pad("",22," ",STR_PAD_RIGHT) , $linea);
-	$linea = str_replace(str_pad("fecha2",10," ",STR_PAD_RIGHT), str_pad("",10," ",STR_PAD_RIGHT) , $linea);
-	$linea = str_replace(str_pad("cheque",10," ",STR_PAD_RIGHT), str_pad("",10," ",STR_PAD_RIGHT), $linea);
-	
 	//echo $linea."<br>";
 	fwrite($file, $linea . PHP_EOL);
 }
-
 fclose($file);
 
 try {
