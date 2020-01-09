@@ -17,7 +17,7 @@ while ($rowPagos = mysql_fetch_assoc($resPagos)) {
 		$arrayPagos[$rowPagos['nrocominterno']]['recibo'] .= "<br>".$rowPagos['recibo'];
 		$arrayPagos[$rowPagos['nrocominterno']]['asiento'] .= "<br>".$rowPagos['asiento'];
 		$arrayPagos[$rowPagos['nrocominterno']]['folio'] .= "<br>".$rowPagos['folio'];
-		$arrayPagos[$rowPagos['nrocominterno']]['impretencion'] .= "<br>".$rowPagos['impretencion'];
+		$arrayPagos[$rowPagos['nrocominterno']]['impretencion'] += $rowPagos['impretencion'];
 	} else {
 		$arrayPagos[$rowPagos['nrocominterno']] = $rowPagos;
 	}
