@@ -17,7 +17,7 @@ $idCarpetaActual = $rowCarpetaActual['id'];
 $sqlCarpetaActualFondo = "SELECT id FROM intecronograma i 
 							WHERE fechacierrefondo >= '$today' and 
 								  fechacierrefondo is not null 
-						    ORDER BY fechacierrefondo DESC LIMIT 1";
+						    ORDER BY fechacierrefondo ASC LIMIT 1";
 $resCarpetaActualFondo = mysql_query($sqlCarpetaActualFondo);
 $rowCarpetaActualFondo = mysql_fetch_array($resCarpetaActualFondo);
 $idAplicacionFondo = $rowCarpetaActualFondo['id'];  ?>
