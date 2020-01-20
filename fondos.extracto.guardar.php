@@ -19,8 +19,8 @@ if ($_FILES['archivoextracto']['tmp_name'] != "") {
 	}	
 	$sqlUpdateCabecera = "UPDATE intefondos SET pathExtracto = '$archivodestino', fechafinalizacion = CURDATE() WHERE id = $idFondos";
 } else {
-	$error = "No se cargo archivo de errores";
-	$redire = "Location: presentacion.error.php?id=$idPresentacion&page='Dev. Fondos'&error=".$error;
+	$error = "No se cargo archivo de extracto";
+	$redire = "Location: presentacion.error.php?id=$idPresentacion&page='Dev. Fondos Extracto'&error=".$error;
 	Header($redire);
 	exit -1;
 }
