@@ -21,6 +21,7 @@ $sqlPresentacion = "SELECT
 						DATE_FORMAT(p.fechacierre, '%d-%m-%Y') as fechacierre,
 						DATE_FORMAT(p.fechadeposito, '%d-%m-%Y') as fechadeposito,
 						DATE_FORMAT(p.fechacierrepagos, '%d-%m-%Y') as fechacierrepagos,
+						DATE_FORMAT(p.fechaasignacionretencion, '%d-%m-%Y') as fechaasignacionretencion,
 						p.montodepositado
 					FROM intepresentacion p
           			INNER JOIN intecronograma on p.idcronograma = intecronograma.id
@@ -158,17 +159,20 @@ function finalizar(id) {
 						<td>
 					  <?php if (in_array($rowPresentacion['id'],$arrayPagos)) { ?>
 								<input type="button" value="Pagos" onClick="location.href = 'pagos.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+								<input style="margin-top: 5px" type="button" value="A.F. SSS" onClick="location.href = 'pagos.afarchivo.php?id=<?php echo $rowPresentacion['id'] ?>&carpeta=<?php echo $rowPresentacion['carpeta']?>'"/></br>
 					  <?php	}  ?>
 						</td>
 						<td>
 					  <?php if (in_array($rowPresentacion['id'],$arrayPagos)) {?>
-					     	 	<input style="margin-top: 5px" type="button" value="R.A.F.O.R" onClick="location.href = 'pagos.rafo.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
-					     	 	<input style="margin-top: 5px" type="button" value="A.F. SSS" onClick="location.href = 'pagos.afarchivo.php?id=<?php echo $rowPresentacion['id'] ?>&carpeta=<?php echo $rowPresentacion['carpeta']?>'"/></br>
+					     	 	<input type="button" value="R.A.F.O.R" onClick="location.href = 'pagos.rafo.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>	
 					 	  <?php if ($rowPresentacion['fechacierrepagos'] == NULL) { ?>
-					 				<input style="margin-top: 5px" type="button" value="FINALIZAR" onClick="finalizar('<?php echo $rowPresentacion['id'] ?>')"/>
+					 	  				<input  style="margin-top: 5px" type="button" value="ASIG. RET." onClick="location.href = 'pagos.asignarretenciones.php?id=<?php echo $rowPresentacion['id'] ?>'"/></br>
+					 	  	<?php	if ($rowPresentacion['fechaasignacionretencion'] != NULL) { ?>
+					 					<input style="margin-top: 5px" type="button" value="FINALIZAR" onClick="finalizar('<?php echo $rowPresentacion['id'] ?>')"/>
+					 				<?php } ?>
 					 	  <?php } ?>
 					  <?php } else { ?>
-					     		<input type="button" value="Enviar Pago" onClick="location.href = 'pagos.interbanking.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+					     		<input type="button" value="ENVIAR PAGO" onClick="location.href = 'pagos.interbanking.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 					  <?php } ?>
 						</td>
 				  <?php if ($rowPresentacion['fechacierrepagos'] == NULL) { ?>
