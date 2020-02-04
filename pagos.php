@@ -158,7 +158,7 @@ function finalizar(id) {
 						<td style="font-size: 12px"><?php echo $rowPresentacion['fechacierrepagos'] ?></td>
 						<td>
 					  <?php if (in_array($rowPresentacion['id'],$arrayPagos)) { ?>
-								<input type="button" value="Pagos" onClick="location.href = 'pagos.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+								<input type="button" value="PAGOS" onClick="location.href = 'pagos.detalle.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
 								<input style="margin-top: 5px" type="button" value="A.F. SSS" onClick="location.href = 'pagos.afarchivo.php?id=<?php echo $rowPresentacion['id'] ?>&carpeta=<?php echo $rowPresentacion['carpeta']?>'"/></br>
 					  <?php	}  ?>
 						</td>
