@@ -75,7 +75,9 @@ while ($data = fgetcsv ($fp, 1000, ";")) {
 				$error = "Error en el C.U.I.T. $cuit nro comprobante interno ".$data['0'];
 				throw new Exception($error);
 			}
-		} 
+		} else {
+			$cuit = (int) $cuit;
+		}
 		
 		if ($data['20'] != 'S' and $data['20'] != 'N') {
 			$error = "Error en la dependencia nro comprobante interno ".$data['0'];
