@@ -143,7 +143,7 @@ if (isset($_GET['cuit'])) {
 						 		<td><?php echo $rowPagos['fechatransferencia'] ?></td>
 						 		<td><?php echo $rowPagos['nrotransferencia'] ?></td>	
 						 		<td class="nover">
-						 			<input size="5px" type="text" value="<?php echo $rowPagos['recibo'] ?>" id="recibo-<?php echo $inputName ?>" name="recibo-<?php echo $inputName ?>" onblur="validoNumero(this)" />
+						 			<input size="5px" type="text" value="<?php echo $rowPagos['recibo'] ?>" id="recibo-<?php echo $inputName ?>" name="recibo-<?php echo $inputName ?>" onblur="validoNumero(this)" maxlength="8"/>
 						 		</td>
 						 		<td class="nover">
 						 			<input size="5px" type="text" value="<?php echo $rowPagos['asiento'] ?>" id="asiento-<?php echo $inputName ?>" name="asiento-<?php echo $inputName ?>" onblur="validoNumero(this)"/>
