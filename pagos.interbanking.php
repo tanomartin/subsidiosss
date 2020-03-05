@@ -47,7 +47,7 @@ $(function() {
 			 	 8:{sorter:false, filter:false},
 			 	 9:{sorter:false, filter:false},
 			 	 10:{sorter:false, filter:false},
-			 	 11:{sorter:false, filter:false}},
+			 	 11:{filter:false}},
 			widgetOptions : { 
 				filter_cssFilter   : '',
 				filter_childRows   : false,
