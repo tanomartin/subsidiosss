@@ -36,8 +36,7 @@ $(function() {
 			theme: 'blue', 
 			widthFixed: true, 
 			widgets: ["filter"],
-			headers:{0:{sorter:false},
-				 1:{sorter:false, filter:false},
+			headers: 1:{sorter:false, filter:false},
 			 	 2:{sorter:false, filter:false},
 			 	 3:{sorter:false, filter:false},
 			 	 4:{sorter:false, filter:false},
@@ -87,8 +86,8 @@ function validar(fomulario) {
 				 		<th>C.B.U.</th>
 				 		<th>$ Comp.</th>
 				 		<th>$ Deb.</th>
-				 		<th>$ No Int</th>
 				 		<th>$ Soli.</th>
+				 		<th>$ No Int</th>
 				 		<th>$ O.S.</th>
 				 		<th>$ S.S.S</th>
 				 		<th>$ Ret.</th>
@@ -120,8 +119,8 @@ function validar(fomulario) {
 						<td><?php echo $rowTotales['cbu'] ?></td>
 						<td><?php echo number_format($rowTotales['impcomprobanteintegral'],2,",",".") ?></td>
 						<td><?php echo number_format($rowTotales['impdebito'],2,",",".") ?></td>
-						<td><?php echo number_format($rowTotales['impnointe'],2,",",".") ?></td>
-						<td><?php echo number_format($rowTotales['impsolicitadosubsidio'],2,",",".") ?></td>					
+						<td><?php echo number_format($rowTotales['impsolicitadosubsidio'],2,",",".") ?></td>	
+						<td><?php echo number_format($rowTotales['impnointe'],2,",",".") ?></td>				
 						<td><?php echo number_format($rowTotales['impobrasocial'],2,",",".") ?></td>
 						<td><?php echo number_format($rowTotales['impmontosubsidio'],2,",",".") ?></td>				
 						<td><?php echo number_format($rowTotales['impretencion'],2,",",".") ?></td>
