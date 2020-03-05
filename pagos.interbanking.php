@@ -36,7 +36,7 @@ $(function() {
 			theme: 'blue', 
 			widthFixed: true, 
 			widgets: ["filter"],
-			headers: 1:{sorter:false, filter:false},
+			headers:{1:{sorter:false, filter:false},
 			 	 2:{sorter:false, filter:false},
 			 	 3:{sorter:false, filter:false},
 			 	 4:{sorter:false, filter:false},
