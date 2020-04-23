@@ -261,7 +261,7 @@ while ($rowApliFondo = mysql_fetch_assoc($resApliFondo)) {
 		 	 $impmontosubsidio."|".
 		 	 $impos."|".
 		 	 $impoc."|".
-			 str_pad($rowApliFondo['recibo'],8,0,STR_PAD_RIGHT)."|".
+			 str_pad($rowApliFondo['recibo'],8,0,STR_PAD_LEFT)."|".
 			 $impTransladado."|".
 			 $impDevolucionSSS."|".
 			 $impNoAplicado."|".
