@@ -15,10 +15,12 @@ if (isset($_POST['filtro'])) {
 	}
 	if ($filtro == 1) {
 		$sqlPrestadoresMailing = "SELECT p.*, count(f.cuit) as canRecibos, intemailing.asunto, intemailing.fecha
-				FROM madera.prestadorservicio s, intepagosdetalle r, intepresentaciondetalle f, madera.prestadores p 
+				FROM madera.prestadorservicio s, intepagosdetalle r, intepresentaciondetalle f, intepresentacion c, madera.prestadores p 
 				LEFT JOIN intemailing ON p.codigoprestador = intemailing.codigoprestador
 				WHERE (r.recibo is null or r.recibo = '') and
 					  r.nrocominterno = f.nrocominterno and
+                      f.idpresentacion = c.id and f.tipoarchivo != 'DB' and f.tipoarchivo != 'DC' and
+                      c.fechacancelacion is null and
 					  f.cuit = p.cuit and
 					  p.codigoprestador = s.codigoprestador and s.codigoservicio = 8
 				GROUP BY f.cuit";
@@ -26,6 +28,7 @@ if (isset($_POST['filtro'])) {
 		$canPrestadoresMailing = mysql_num_rows($resPrestadoresMailing);
 		$cartel = "Listado Prestadores Con deuda de Recibos [$canPrestadoresMailing]";
 	}
+	
 	if ($filtro == 2) {
 		$arrayDelega = explode("-",$_POST['delega']);
 		$sqlPrestadoresMailing = "SELECT p.*, intemailing.asunto, intemailing.fecha
