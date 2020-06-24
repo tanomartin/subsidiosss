@@ -189,6 +189,7 @@ header("Content-Disposition: attachment; filename=$file");
 					} else {
 						$rowApliFondo['impos'] = 0;
 						$rowApliFondo['imprecupero'] = 0;
+						$rowApliFondo['impretencion'] = 0;
 					}
 				}
 				

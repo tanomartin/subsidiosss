@@ -128,6 +128,7 @@ while ($rowApliFondo = mysql_fetch_assoc($resApliFondo)) {
 		} else {
 			$rowApliFondo['impos'] = 0;
 			$rowApliFondo['imprecupero'] = 0;
+			$rowApliFondo['impretencion'] = 0;
 		}
 	}
 				
