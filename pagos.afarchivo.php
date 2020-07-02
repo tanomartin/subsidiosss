@@ -190,6 +190,7 @@ header("Content-Disposition: attachment; filename=$file");
 						$rowApliFondo['impos'] = 0;
 						$rowApliFondo['imprecupero'] = 0;
 						$rowApliFondo['impretencion'] = 0;
+						$rowApliFondo['imppago'] = 0;
 					}
 				}
 				

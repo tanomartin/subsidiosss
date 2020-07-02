@@ -129,6 +129,7 @@ while ($rowApliFondo = mysql_fetch_assoc($resApliFondo)) {
 			$rowApliFondo['impos'] = 0;
 			$rowApliFondo['imprecupero'] = 0;
 			$rowApliFondo['impretencion'] = 0;
+			$rowApliFondo['imppago'] = 0;
 		}
 	}
 				
