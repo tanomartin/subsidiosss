@@ -5,7 +5,7 @@ $idPresentacion = $_GET['id'];
 $arrayUpdateDetalle = array();
 $i = 0;
 
-var_dump($_POST);
+//var_dump($_POST);
 
 foreach ($_POST as $cuit => $datos) {
 	$pos = strpos($cuit, "-ret");
