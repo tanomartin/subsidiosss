@@ -194,7 +194,7 @@ function validar(formulario, cuits) {
 							  }  ?>
 							</td>						
 							<td>
-							<?php if ($arrayFacturas[$cuit."TOTAL"]['impretencion'] <= $rowFactura['impcomprobanteintegral'] && 
+							<?php if ($arrayFacturas[$cuit."TOTAL"]['impretencion'] <= $rowFactura['impmontosubsidio'] && 
 										isset($arrayPagos[$rowFactura['nrocominterno']]['nroordenpago']) && $rowFactura['tipoarchivo'] != 'DB') {   ?>
 									<input <?php echo $checked ?> onclick="checkInput(<?php echo $cuit ?>)" type="radio" name="<?php echo $rowFactura['cuit']?>" value="<?php echo $rowFactura['nrocominterno']."-".$arrayPagos[$rowFactura['nrocominterno']]['nroordenpago'] ?>"/>
 							<?php } ?>
