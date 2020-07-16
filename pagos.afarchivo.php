@@ -26,7 +26,7 @@ $sqlApliFondo = "SELECT
 					DATE_FORMAT(intepagoscabecera.fechatransferencia,'%d-%m-%Y') as fechatransferencia,
 					IFNULL(intepagosdetalle.impretencion,0) as impretencion,
 					(d.impmontosubsidio - IFNULL(intepagosdetalle.impretencion,0)) as imppago,
-					IF(i.tipoarchivo != 'DB', IF((i.impsolicitado - d.impmontosubsidio)<0,0,(i.impsolicitado - d.impmontosubsidio)),d.impsolicitado + d.impmontosubsidio) as impos,
+					IF(i.tipoarchivo != 'DB', IF((i.impsolicitado - d.impmontosubsidio)<0,0,(i.impsolicitado - d.impmontosubsidio)),i.impsolicitado + d.impmontosubsidio) as impos,
 					0 as impoc,
 					intepagosdetalle.recibo,
 					intepagosdetalle.imprecupero
