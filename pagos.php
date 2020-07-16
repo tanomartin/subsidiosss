@@ -171,9 +171,11 @@ function finalizar(id) {
 					 					<input style="margin-top: 5px" type="button" value="FINALIZAR" onClick="finalizar('<?php echo $rowPresentacion['id'] ?>')"/>
 					 				<?php } ?>
 					 	  <?php } ?>
-					  <?php } else { ?>
-					     		<input type="button" value="ENVIAR PAGO" onClick="location.href = 'pagos.interbanking.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
-					  <?php } ?>
+					  <?php } else {
+					            if ($rowPresentacion['fechacierrepagos'] == NULL) { ?>
+					     			<input type="button" value="ENVIAR PAGO" onClick="location.href = 'pagos.interbanking.php?id=<?php echo $rowPresentacion['id'] ?>'"/>
+					  <?php     } 
+					        } ?>
 						</td>
 				  <?php if ($rowPresentacion['fechacierrepagos'] == NULL) { ?>
 							<td style="font-size: 12px">EN PROCESO</td>
