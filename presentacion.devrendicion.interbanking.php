@@ -11,7 +11,7 @@ END as retiene
 FROM intepresentaciondetalle
 LEFT JOIN madera.prestadores on intepresentaciondetalle.cuit = madera.prestadores.cuit
 LEFT JOIN madera.prestadoresauxiliar on madera.prestadores.codigoprestador = madera.prestadoresauxiliar.codigoprestador
-WHERE idpresentacion = $idPresentacion and deverrorintegral is null and codpractica not in (97,98,99)
+WHERE idpresentacion = $idPresentacion and deverrorformato is null and deverrorintegral is null and codpractica not in (97,98,99)
 ORDER BY cuit, periodo, codpractica";
 $resFactura = mysql_query($sqlFactura);
 $arrayFacturas = array();
