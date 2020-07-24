@@ -62,8 +62,9 @@ $(function() {
 	<div align="center">
 	 	<p><input class="nover" type="button" name="volver" value="Volver" onClick="location.href = 'presentacion.php'" /></p>
 	 	
-	 	<?php include_once("include/detalle.php")?>
-	 	
+	 	<?php include_once("include/detalle.php");
+	 	      include_once("include/totales.php"); ?>
+
 	 	<h2>Facturas</h2>
 	 	
 			 <table id="listaResultado" class="tablesorter" style="text-align: center;">
