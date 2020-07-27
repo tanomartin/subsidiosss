@@ -109,7 +109,7 @@ header("Content-Disposition: attachment; filename=$file");
 						<td><?php echo "'".$rowFactura['cbu']."'" ?></td>
 						<td><?php echo "'".$rowFactura['cae']."'" ?></td>
 						<td><?php echo $rowFactura['fechacomprobante'] ?></td>
-						<td><?php echo $rowFactura['nrocomprobante'] ?></td>
+						<td><?php echo str_pad($rowFactura['puntoventa'],4,"0",STR_PAD_LEFT)."-".str_pad($rowFactura['nrocomprobante'],8,"0",STR_PAD_LEFT) ?></td>
 						<td><?php echo $rowFactura['codpractica'] ?></td>
 				 
 				  <?php if ($rowFactura['tipoarchivo'] == 'DB') { 
