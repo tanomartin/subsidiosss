@@ -10,7 +10,7 @@
 <div align="center">
 	<p><input type="button" name="volver" value="Volver" onClick="location.href = 'menu.php'" /></p>
   	<h2>Tablas Codificadoras S.S.S.</h2>
-  	<table width="600" border="1" style="text-align: center">
+  	<table width="400" border="1" style="text-align: center">
      <tr>
        <td width="200"> 
 	    <p>ERRORES</p>
@@ -20,9 +20,15 @@
 	    <p>COMPROBANTES</p>
 	    <p><a href="codificadora.comprobantes.php"><img src="img/comprobante.png" width="90" height="90" border="0"/></a></p>
 	  </td>
-	  <td width="200">
+	 </tr>
+	 <tr>
+	  <td>
 	    <p>NOMENCLADOR</p>
 	    <p><a href="codificadora.nomenclador.php"><img src="img/nomenclador.png" width="90" height="90" border="0" /></a></p>
+	  </td>
+	  <td>
+	    <p>ZONAS</br>DESFAVORABLES</p>
+	    <p><a href="codificadora.provincias.php"><img src="img/provincias.png" width="80" height="90" border="0" /></a></p>
 	  </td>
 	  </tr>
   </table>

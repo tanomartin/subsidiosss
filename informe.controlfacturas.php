@@ -61,7 +61,7 @@ $(function() {
 			theme: 'blue', 
 			widthFixed: true, 
 			widgets: ["zebra", "filter"],
-			headers:{4:{sorter:false, filter:false},5:{sorter:false, filter:false},6:{sorter:false, filter:false},7:{sorter:false, filter:false},8:{sorter:false, filter:false}},
+			headers:{4:{sorter:false, filter:false},5:{sorter:false},6:{sorter:false},7:{sorter:false, filter:false},8:{sorter:false, filter:false}},
 			widgetOptions : { 
 				filter_cssFilter   : '',
 				filter_childRows   : false,
@@ -98,7 +98,7 @@ $(function() {
 					<th style="font-size: 11px">Prestador</th>
 					<th style="font-size: 11px">Nro. Comprobante</th>
 					<th style="font-size: 11px">Importe</th>
-					<th style="font-size: 11px">Liquidadora</th>
+					<th class="filter-select" data-placeholder="--" style="font-size: 11px">Liquidadora</th>
 					<th style="font-size: 11px">Fecha Cierre Liq.</th>
 					<th style="font-size: 11px">Pres. Anterior</th>
 					<th style="font-size: 11px">Errores</th>
