@@ -71,7 +71,7 @@ $(function() {
 				filter_startsWith  : false,
 				filter_hideFilters : false,
 			}
-		});
+		}).tablesorterPager({container: $("#paginador")});
 });
 
 
