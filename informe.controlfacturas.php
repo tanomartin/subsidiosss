@@ -119,10 +119,32 @@ $(function() {
 				</tr>
 		<?php } ?>		
 			</tbody>
+		</table>
+		  		
+  		<div id="paginador" class="pager">
+				<form>
+					<p>
+						<img src="img/first.png" width="16" height="16" class="first"/>
+						<img src="img/prev.png" width="16" height="16" class="prev"/>
+						<input type="text" class="pagedisplay" size="8" readonly="readonly" style="background:#CCCCCC; text-align:center"/>
+						<img src="img/next.png" width="16" height="16" class="next"/>
+						<img src="img/last.png" width="16" height="16" class="last"/>
+					</p>
+					<p>
+						<select class="pagesize">
+							<option selected value="10">10 por pagina</option>
+							<option value="20">20 por pagina</option>
+							<option value="30">30 por pagina</option>
+							<option value="50">50 por pagina</option>
+							<option value="<?php echo $canControl?>">Todos</option>
+						</select>
+					</p>
+				</form>
+			</div>
   <?php } else { ?>
   			<h3 style="color: blue">No existen facturas fuera de circuito de integracion</h3>
   <?php } ?>
-  		</table>
+
   		<p><input class="nover" type="button" name="imprimir" value="Imprimir" onclick="window.print();"></p>
   </div>
 </body>
