@@ -5,7 +5,7 @@ $resUltimaActiva = mysql_query($sqlUltimaActiva);
 $rowUltimaActiva = mysql_fetch_assoc($resUltimaActiva);
 $idPresActiva = $rowUltimaActiva['id'];
 
-$sqlControl = "SELECT f.*, prestadores.cuit, prestadores.nombre 
+$sqlControl = "SELECT f.*, prestadores.cuit, prestadores.nombre, DATE_FORMAT(p.fechapractica,'%Y%m') as periodo
                 FROM madera.facturasprestaciones p, madera.facturasintegracion i, madera.facturas f
                 LEFT JOIN madera.prestadores ON madera.prestadores.codigoprestador = f.idPrestador 
                 WHERE 
@@ -61,7 +61,8 @@ $(function() {
 			theme: 'blue', 
 			widthFixed: true, 
 			widgets: ["zebra", "filter"],
-			headers:{4:{sorter:false, filter:false},5:{sorter:false},6:{sorter:false},7:{sorter:false, filter:false},8:{sorter:false, filter:false}},
+			headers:{5:{sorter:false, filter:false},6:{sorter:false},7:{sorter:false},
+					 8:{sorter:false, filter:false},9:{sorter:false, filter:false}},
 			widgetOptions : { 
 				filter_cssFilter   : '',
 				filter_childRows   : false,
@@ -96,6 +97,7 @@ $(function() {
 					<th style="font-size: 11px">Id Factura</th>
 					<th style="font-size: 11px">C.U.I.T.</th>
 					<th style="font-size: 11px">Prestador</th>
+					<th class="filter-select" data-placeholder="--" style="font-size: 11px">Periodo</th>
 					<th style="font-size: 11px">Nro. Comprobante</th>
 					<th style="font-size: 11px">Importe</th>
 					<th class="filter-select" data-placeholder="--" style="font-size: 11px">Liquidadora</th>
@@ -110,6 +112,7 @@ $(function() {
 					<td><?php echo $factura['id'] ?></td>
 					<td><?php echo $factura['cuit'] ?></td>
 					<td><?php echo strtoupper($factura['nombre']) ?></td>
+					<td><?php echo $factura['periodo'] ?></td>
 					<td><?php echo $factura['puntodeventa']."-".$factura['nrocomprobante'] ?></td>
 					<td><?php echo number_format($factura['importecomprobante'],2,',','.'); ?></td>
 					<td><?php echo $factura['usuarioliquidacion'] ?></td>
