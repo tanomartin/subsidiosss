@@ -121,12 +121,11 @@ while ($rowApliFondo = mysql_fetch_assoc($resApliFondo)) {
 		$rowApliFondo['nroordenpago'] = "";
 		$rowApliFondo['fechatransferencia'] = "";
 		$rowApliFondo['observacion'] = "";
+		$rowApliFondo['impos'] = 0;
 		if (!array_key_exists($rowApliFondo['nrocominterno'],$arrayCredito)) {
 			$impDevolucionSSS = $rowApliFondo['impmontosubsidio'];
-			$rowApliFondo['impoc'] = $rowApliFondo['impsolicitado'] - $rowApliFondo['impmontosubsidio'];
 			$especial = true;
 		} else {
-			$rowApliFondo['impos'] = 0;
 			$rowApliFondo['imprecupero'] = 0;
 			$rowApliFondo['impretencion'] = 0;
 			$rowApliFondo['imppago'] = 0;

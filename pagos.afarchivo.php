@@ -182,12 +182,11 @@ header("Content-Disposition: attachment; filename=$file");
 					$rowApliFondo['cbu'] = "";
 					$rowApliFondo['nroordenpago'] = "";
 					$rowApliFondo['fechatransferencia'] = "";
+					$rowApliFondo['impos'] = 0;
 					if (!array_key_exists($rowApliFondo['nrocominterno'],$arrayCredito)) {
 						$impDevolucionSSS = $rowApliFondo['impmontosubsidio'];
-						$rowApliFondo['impoc'] = $rowApliFondo['impsolicitado'] - $rowApliFondo['impmontosubsidio'];
 						$especial = true;
 					} else {
-						$rowApliFondo['impos'] = 0;
 						$rowApliFondo['imprecupero'] = 0;
 						$rowApliFondo['impretencion'] = 0;
 						$rowApliFondo['imppago'] = 0;
