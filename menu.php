@@ -49,7 +49,7 @@
 	  	</td>
 	  	<td>
 	   	 	<p>MAILING</p>
-	    	<p><a href="mailing.php"><img src="img/mailing.png" width="90" height="90" border="0"/></a></p>
+	    	<p><a href="moduloNoDisponible.php"><img src="img/mailing.png" width="90" height="90" border="0"/></a></p>
 	  	</td>
 	 </tr>
   </table>
