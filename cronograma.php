@@ -14,13 +14,21 @@ $resCarpetaActual = mysql_query($sqlCarpetaActual);
 $rowCarpetaActual = mysql_fetch_array($resCarpetaActual);
 $idCarpetaActual = $rowCarpetaActual['id'];
 
-$sqlCarpetaActualFondo = "SELECT id FROM intecronograma i 
+$sqlCarpetaActualFondo = "SELECT id,fechacierrefondo FROM intecronograma i 
 							WHERE fechacierrefondo >= '$today' and 
 								  fechacierrefondo is not null 
 						    ORDER BY fechacierrefondo ASC LIMIT 1";
 $resCarpetaActualFondo = mysql_query($sqlCarpetaActualFondo);
 $rowCarpetaActualFondo = mysql_fetch_array($resCarpetaActualFondo);
-$idAplicacionFondo = $rowCarpetaActualFondo['id'];  ?>
+$fechaCierreFondo = $rowCarpetaActualFondo['fechacierrefondo'];
+
+$sqlCarpetaActualFondo = "SELECT id FROM intecronograma i 
+							WHERE fechacierrefondo = '$fechaCierreFondo'";
+$resCarpetaActualFondo = mysql_query($sqlCarpetaActualFondo);
+$arrayIdAplicacionFondo = array();
+while ($rowCarpetaActualFondo = mysql_fetch_array($resCarpetaActualFondo)) {
+	$arrayIdAplicacionFondo[$rowCarpetaActualFondo['id']] = $rowCarpetaActualFondo['id'];
+} ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -55,7 +63,7 @@ $idAplicacionFondo = $rowCarpetaActualFondo['id'];  ?>
 				$colorFondo = "";
 				$colorFondoDetalle = "";
 				if ($idCarpetaActual == $rowCronograma['id'] && $rowCronograma['id'] != "") { $color = 'style = "color: red"'; }
-				if ($idAplicacionFondo == $rowCronograma['id']  && $rowCronograma['id'] != "") { $colorFondo = 'style = "color: blue"'; } ?>
+				if (array_key_exists($rowCronograma['id'],$arrayIdAplicacionFondo)  && $rowCronograma['id'] != "") { $colorFondo = 'style = "color: blue"'; } ?>
 				<tr>
 					<td <?php echo $color.$colorFondo ?>><?php echo $rowCronograma['periodo'] ?></td>
 					<td <?php echo $color.$colorFondo ?>><?php echo $rowCronograma['carpeta'] ?></td>
