@@ -158,12 +158,18 @@ if (isset($_GET['cuit'])) {
 						  <?php if ($rowPagos['impmontosubsidio'] != 0) {
 						 			$checked = '';
 						 			$imprecu = '';
+						 			$readonly = '';
+						 			$disabledInput = 'disabled="disabled"';
+						 			$background = '';
 						 			if ($rowPagos['imprecupero'] != 0) {
 						 				$checked = 'checked="checked"';
 						 				$imprecu = $rowPagos['imprecupero'];
+						 				$readonly = 'readonly="readonly"';
+						 				$disabledInput = '';
+						 				$background = 'style="background-color: silver;"';
 						 		  	} ?>
 						 			<input <?php echo $checked ?> type="checkbox" id="recucheck-<?php echo $inputName ?>" name="recucheck-<?php echo $inputName ?>" onclick="habilitoRecupero(this)" />
-						 			<input value="<?php echo $imprecu ?>" disabled="disabled" size="5px" type="text" value="<?php echo $rowPagos['folio'] ?>" id="recu-<?php echo $inputName ?>" name="recu-<?php echo $inputName ?>" onblur="validoValor(this)"/>
+						 			<input <?php echo $background ?> value="<?php echo $imprecu ?>" <?php echo $readonly ?> <?php echo $disabledInput ?> size="5px" type="text" value="<?php echo $rowPagos['folio'] ?>" id="recu-<?php echo $inputName ?>" name="recu-<?php echo $inputName ?>" onblur="validoValor(this)"/>
 						 	<?php } else {
 						 			echo "----------";
 						  		  }?>
