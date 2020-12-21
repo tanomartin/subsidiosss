@@ -61,8 +61,7 @@ $(function() {
 			theme: 'blue', 
 			widthFixed: true, 
 			widgets: ["zebra", "filter"],
-			headers:{5:{sorter:false, filter:false},6:{sorter:false},7:{sorter:false},
-					 8:{sorter:false, filter:false},9:{sorter:false, filter:false}},
+			headers:{5:{sorter:false, filter:false},6:{sorter:false},7:{sorter:false},9:{sorter:false, filter:false}},
 			widgetOptions : { 
 				filter_cssFilter   : '',
 				filter_childRows   : false,
