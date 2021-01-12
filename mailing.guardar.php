@@ -13,7 +13,7 @@ $mensaje .= "<br><br>";
 $bodymail ="<body>".$mensaje."</body>";
 $modulo = "Integracion";	
 
-$limiteEnvio = 20;
+$limiteEnvio = 5;
 $agrupa = 0;
 $index = 0;
 $agrupaTemporal = "";
@@ -55,6 +55,8 @@ try {
 		$sqlEmailCabecera = "INSERT INTO madera.bandejasalida VALUES ($lastId, '$from', '$subject', '$bodymail', '$agrupados')";
 		//echo $sqlEmailCabecera."<br>";
 		$dbh->exec($sqlEmailCabecera);
+		$nuevafecha = strtotime ('+2 hour',strtotime ($fecharegistro));
+		$fecharegistro = date('Y-m-d H:i:s',$nuevafecha);
 	}
 	
 	//echo $sqlMailingReplace."<br>";
