@@ -16,6 +16,7 @@ if (isset($_GET['id'])) {
 </head>
 <body bgcolor="#CCCCCC" link="#D5913A" vlink="#CF8B34" alink="#D18C35">
   <div align="center">
+  	<p><input class="nover" type="button" name="volver" value="Volver" onClick="location.href = 'presentacion.php'" /></p>
     <h1>&iexcl;&iexcl;ERROR de Sistema!!</h1>
     <?php if (isset($_GET['id'])) {?>
    		<h2>Detalle Presentacion</h2>

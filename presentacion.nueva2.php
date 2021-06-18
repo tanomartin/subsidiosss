@@ -61,6 +61,7 @@ if ($canAnteriores > 0) {
 <script src="include/jquery.tablesorter/jquery.tablesorter.widgets.js"></script>
 <script src="include/jquery.tablesorter/addons/pager/jquery.tablesorter.pager.js"></script> 
 <script src="include/funcionControl.js" type="text/javascript"></script>
+<script src="include/jquery.blockUI.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 
@@ -91,7 +92,8 @@ $(function() {
 
 function control(formulario) {
 	formulario.guardar.disabled = true;
-	return true
+	$.blockUI({ message: "<h1>Generando Presentacion... <br>Esto puede tardar unos segundos.<br> Aguarde por favor</h1>" });
+	return true;
 }
 
 
