@@ -71,13 +71,18 @@ $(function() {
 			theme: 'blue', 
 			widthFixed: true, 
 			widgets: ["zebra", "filter"],
-			headers:{5:{sorter:false, filter:false},
+			headers:{4:{sorter:false},
+					 5:{sorter:false, filter:false},
 				     6:{sorter:false,filter:false},
-				     7:{sorter:false},8:{sorter:false},
-				     8:{sorter:false},8:{sorter:false},
-				     12:{sorter:false, filter:false},
-				     13:{sorter:false, filter:false},
-				     14:{sorter:false, filter:false}},
+				     7:{sorter:false,filter:false},
+				     8:{filter:false},
+				     9:{sorter:false,filter:false},
+				     10:{sorter:false,filter:false},
+				     11:{filter:false},
+				     12:{sorter:false},
+				     13:{filter:false},
+				     14:{sorter:false, filter:false},
+				     15:{sorter:false, filter:false}},
 			widgetOptions : { 
 				filter_cssFilter   : '',
 				filter_childRows   : false,
@@ -132,6 +137,7 @@ function control(formulario) {
 						<th style="font-size: 11px">Importe</th>
 						<th style="font-size: 11px">Debito</th>
 						<th style="font-size: 11px">Solicitado</th>
+						<th style="font-size: 11px">CONTROL</th>
 						<th style="font-size: 11px">Practica</th>
 						<th style="font-size: 11px">Cantidad</th>
 						<th style="font-size: 11px">Escuela</th>
@@ -152,6 +158,7 @@ function control(formulario) {
 						<td><?php echo number_format($factura['importecomprobante'],2,',','.'); ?></td>
 						<td><?php echo number_format($factura['totaldebito'],2,',','.'); ?></td>
 						<td><?php echo number_format($factura['totalsolicitado'],2,',','.'); ?></td>
+						<td><b><?php echo number_format(($factura['importecomprobante']-$factura['totaldebito']-$factura['totalsolicitado']),2,',','.'); ?></b></td>
 						<td><?php echo $factura['codigopractica'] ?></td>
 						<td><?php echo number_format($factura['cantidad'],0,',','.') ?></td>
 						<td><?php echo $factura['idEscuela'] ?></td>
