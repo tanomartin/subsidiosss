@@ -99,7 +99,7 @@ if ($canIdFactura != 0) {
 	        $arrayCodVto[$rowCodVto['cuil']] = array('codigo' => $rowCodVto['codigocertificado'], 'vto' => $rowCodVto['vencimientocertificado']);
 	    }
 	    
-    	$sqlFacturas = "SELECT f.id, 'DS' as tipo, 111001 as codigoOS,
+    	$sqlFacturas = "SELECT f.id, 'DS' as tipoarchivo, 111001 as codigoOS,
     					       (CASE
     					           WHEN madera.titulares.cuil is not NULL THEN madera.titulares.cuil
     					           WHEN madera.titularesdebaja.cuil is not NULL THEN madera.titularesdebaja.cuil
@@ -159,7 +159,7 @@ if ($canIdFactura != 0) {
     	    $index++;
     	}
     	
-    	$sqlEscuelas = "SELECT f.id, 'DS', 111001,
+    	$sqlEscuelas = "SELECT f.id, 'DS' as tipoarchivo, 111001 as codigoOS,,
     							(CASE
     							    WHEN madera.titulares.cuil is not NULL THEN madera.titulares.cuil
     							    WHEN madera.titularesdebaja.cuil is not NULL THEN madera.titularesdebaja.cuil
@@ -256,8 +256,8 @@ if ($canIdFactura != 0) {
     	    }
     	
         	$linea = "INSERT INTO intepresentaciondetalle VALUES (".str_replace('.','',$data['id']).",idpres,
-        		'".$data['id']."',
-        	    'DS',
+        		'".$data['tipoarchivo']."',
+        	    '".$data['codigoOS']."',
         		'".$cuil."',
         		'".$arrayCodVto[$cuil]['codigo']."',
         		'".$arrayCodVto[$cuil]['vto']."',

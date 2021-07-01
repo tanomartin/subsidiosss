@@ -41,14 +41,14 @@ function validar(formulario) {
 	 	<h2>Nueva Reversion para la Presentacion</h2>
 	 	<?php include_once("include/detalle.php")?>
 	 	<form action="presentacion.reversiones.vistaprevia.php?id=<?php echo $idPresentacion ?>" method="post" onSubmit="return validar(this)">
-	 		<p><b>Id Factura: </b><input style="text-align: center;" type="text" name="nrocominterno" id="nrocominterno" maxlength="6" size="6"/></p>
+	 		<p><b>Id Factura: </b><input style="text-align: center;" type="text" name="nrocominterno" id="nrocominterno" maxlength="6" size="6" value="259601"/></p>
 	 		<p><b>Tipo de Reversion: </b>
 	 			<select name="tipo" id="tipo">
 	 				<option value='0' selected="selected">Seleccione tipo de Reversion</option>
 	 				<option value='1-SOLO DB'>SOLO DB</option>
 	 				<option value='2-DB/DC'>DB/DC</option>
 	 				<option value='3-DB/DS (misma presentacion)'>DB/DS (misma presentacion)</option>
-	 				<option value='4-DB-DS (dos presentaciones)'>DB-DS (dos presentaciones)</option>
+	 				<option value='4-DB/DS (dos presentaciones)'>DB/DS (dos presentaciones)</option>
 	 			</select>
 	 		</p>
 	 		<p><input type="submit" value="Vista Previa" id="vista" style="margin-top: 15px"></input></p>
