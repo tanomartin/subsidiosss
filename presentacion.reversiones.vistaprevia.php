@@ -141,8 +141,16 @@ if ($canRevExistente == 0) {
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>.: Nueva Reversiones Presentaciones S.S.S. :.</title>
 <script src="include/jquery-ui-1.9.2.custom/js/jquery-1.8.3.js" type="text/javascript"></script>
-<script src="include/funcionControl.js" type="text/javascript"></script>
+<script src="include/jquery.blockUI.js" type="text/javascript"></script>
 <link rel="stylesheet" href="css/tablas.css"/>
+
+<script type="text/javascript">
+
+function validar() {
+	$.blockUI({ message: "<h1>Guardando Reversion... <br>Esto puede tardar unos segundos.<br> Aguarde por favor</h1>" });
+}
+
+</script>
 
 </head>
 
