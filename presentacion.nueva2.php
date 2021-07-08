@@ -1,6 +1,6 @@
 <?php 
 include_once 'include/conector.php';
-
+set_time_limit(0);
 $sqlAPresentar = "SELECT c.*,DATE_FORMAT(c.fechacierre,'%d/%m/%Y') as fechacierre FROM intecronograma c WHERE fechacierre >= CURDATE() LIMIT 1";
 $resAPresentar = mysql_query($sqlAPresentar);
 $rowAPresentar = mysql_fetch_array($resAPresentar);
@@ -47,7 +47,10 @@ if ($canAnteriores > 0) {
 		$arrayAnteriores[$rowAnteriores['nrocominterno']] = array('idpres'=> $rowAnteriores['idpresentacion'], 'formato' => $rowAnteriores['deverrorformato'], 'integral' => $rowAnteriores['deverrorintegral']);
 	}
 }
-?>
+
+$sqlRevDosPasos = "SELECT * FROM intepresentacionreversion WHERE estado = 0";
+$relRevDosPasos = mysql_query($sqlRevDosPasos);
+$canRevDosPasos = mysql_num_rows($relRevDosPasos); ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -57,6 +60,7 @@ if ($canAnteriores > 0) {
 <title>.: Nueva Presentaciones S.S.S. :.</title>
 <script src="include/jquery-ui-1.9.2.custom/js/jquery-1.8.3.js" type="text/javascript"></script>
 <link rel="stylesheet" href="include/jquery.tablesorter/themes/theme.blue.css"/>
+<link rel="stylesheet" href="css/tablas.css"/>
 <script src="include/jquery.tablesorter/jquery.tablesorter.js"></script>
 <script src="include/jquery.tablesorter/jquery.tablesorter.widgets.js"></script>
 <script src="include/jquery.tablesorter/addons/pager/jquery.tablesorter.pager.js"></script> 
@@ -123,6 +127,66 @@ function control(formulario) {
 	 	<form id="nuevapresentacion" name="nuevapresentacion" action="presentacion.nueva.guardar2.php"  method="post" onsubmit="return control(this)">
  			<p><input style="display: none" type="text" name="idCronograma" id="idCronograma" value="<?php echo $rowAPresentar['id']?>"/></p>
  			<p><input style="display: none" type="text" name="carpeta" id="carpeta" value="<?php echo $rowAPresentar['carpeta']?>"/></p>
+ 			<h3>Reversiones de dos pasos con DB ya presentados</h3>
+ 	 <?php if ($canRevDosPasos > 0) { ?>
+ 	 		<div class="grilla">
+ 	 			<table>
+     	 			<thead>
+    					<tr>
+    						<th style="font-size: 11px">Comp. Interno</th>
+    						<th class="filter-select" data-placeholder="Selccione" style="font-size: 11px">Tipo</th>
+    			 			<th style="font-size: 11px">Codigo O.S.</th>
+    			 			<th style="font-size: 11px">C.U.I.L.</th>
+    						<th style="font-size: 11px">Cod. Certif.</th>
+    						<th style="font-size: 11px">Vto. Certif.</th>
+    						<th class="filter-select" data-placeholder="Selccione" style="font-size: 11px">Periodo</th>
+    						<th style="font-size: 11px">C.U.I.T.</th>
+    						<th style="font-size: 11px">Tipo Comp.</th>
+    						<th style="font-size: 11px">Tipo Emision</th>
+    						<th style="font-size: 11px">Fec. Comp.</th>
+    						<th style="font-size: 11px">C.A.E.</th>
+    						<th style="font-size: 11px">Pto. Venta</th>
+    						<th style="font-size: 11px">Num. Comp.</th>
+    						<th style="font-size: 11px">$ Comp.</th>
+    						<th style="font-size: 11px">$ Soli.</th>
+    						<th style="font-size: 11px">Cod. Prac.</th>
+    						<th style="font-size: 11px">Cant.</th>
+    						<th style="font-size: 11px">Prov.</th>
+    						<th class="filter-select" data-placeholder="Selccione" style="font-size: 11px">Dep.</th>
+    					</tr>
+    				</thead>
+    				<tbody>
+    		<?php 	while ($rowRevDosPasos = mysql_fetch_assoc($relRevDosPasos)) { ?>
+    					<tr>
+    						<td style="font-size: 12px"><?php echo number_format($rowRevDosPasos['nrocominterno'],0,"",".") ?></td>
+    						<td style="font-size: 12px"><?php echo $rowRevDosPasos['tipoarchivo'] ?></td>
+    						<td style="font-size: 12px"><?php echo $rowRevDosPasos['codigoob'] ?></td>
+    						<td style="font-size: 12px"><?php echo $rowRevDosPasos['cuil'] ?></td>
+    						<td style="font-size: 12px"><?php echo $rowRevDosPasos['codcertificado'] ?></td>
+    						<td style="font-size: 12px"><?php echo $rowRevDosPasos['vtocertificado'] ?></td>
+    						<td style="font-size: 12px"><?php echo $rowRevDosPasos['periodo'] ?></td>
+    						<td style="font-size: 12px"><?php echo $rowRevDosPasos['cuit'] ?></td>
+    						<td style="font-size: 12px"><?php echo $rowRevDosPasos['tipocomprobante'] ?></td>
+    						<td style="font-size: 12px"><?php echo $rowRevDosPasos['tipoemision'] ?></td>
+    						<td style="font-size: 12px"><?php echo $rowRevDosPasos['fechacomprobante'] ?></td>
+    						<td style="font-size: 12px"><?php echo $rowRevDosPasos['cae'] ?></td>
+    						<td style="font-size: 12px"><?php echo (int) $rowRevDosPasos['puntoventa'] ?></td>
+    						<td style="font-size: 12px"><?php echo (int) $rowRevDosPasos['nrocomprobante'] ?></td>					
+    						<td style="font-size: 12px"><?php echo number_format($rowRevDosPasos['impcomprobante'],2,",",".") ?></td>
+    						<td style="font-size: 12px"><?php echo number_format($rowRevDosPasos['impsolicitado'],2,",",".") ?></td>
+    						<td style="font-size: 12px"><?php echo $rowRevDosPasos['codpractica'] ?></td>
+    						<td style="font-size: 12px"><?php echo $rowRevDosPasos['cantidad'] ?></td>
+    						<td style="font-size: 12px"><?php echo $rowRevDosPasos['provincia'] ?></td>
+    						<td style="font-size: 12px"><?php echo $rowRevDosPasos['dependencia'] ?></td>
+    					</tr>
+    		<?php   } ?>
+    				</tbody>
+				</table>
+ 	 		</div>
+ 	 <?php } else { ?>
+	  			<h4 style="color: blue">No existen reversiones de dos pasos para esta presentacion</h4>
+	  <?php } ?>
+ 			
  			<h3>Facturas a incluir</h3>
  			<h4 style="color: blue">Tildar las facturas que no se quieren incluir en la presentación</h4>
  	  <?php if ($canControl > 0) { ?>

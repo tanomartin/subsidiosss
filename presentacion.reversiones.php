@@ -18,7 +18,7 @@ if ($canDebitos != 0) {
     $resReversiones = mysql_query($sqlReversiones);
     $canReversiones = mysql_num_rows($resReversiones);
     
-    $sqlRevercionesFuturas = "SELECT * FROM intepresentacionreversion WHERE estado = 0 and idpresentacion = $idPresentacion";
+    $sqlRevercionesFuturas = "SELECT * FROM intepresentacionreversion WHERE estado = 0 and idpresentaciondb = $idPresentacion";
     $resRevercionesFuturas = mysql_query($sqlRevercionesFuturas);
     $canRevercionesFuturas = mysql_num_rows($resRevercionesFuturas);
 }

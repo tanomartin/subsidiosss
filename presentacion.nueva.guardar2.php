@@ -159,7 +159,7 @@ if ($canIdFactura != 0) {
     	    $index++;
     	}
     	
-    	$sqlEscuelas = "SELECT f.id, 'DS' as tipoarchivo, 111001 as codigoOS,,
+    	$sqlEscuelas = "SELECT f.id, 'DS' as tipoarchivo, 111001 as codigoOS,
     							(CASE
     							    WHEN madera.titulares.cuil is not NULL THEN madera.titulares.cuil
     							    WHEN madera.titularesdebaja.cuil is not NULL THEN madera.titularesdebaja.cuil
@@ -209,6 +209,28 @@ if ($canIdFactura != 0) {
     	$resEscuelas = mysql_query($sqlEscuelas);
     	while ($rowEscuelas = mysql_fetch_assoc($resEscuelas)) {
     	    $arrayRegistrosInsert[$index] = $rowEscuelas;
+    	    $index++;
+    	}
+    	
+    	
+    	$sqlRevDospasos = "SELECT i.*, i.nrocominterno as id,
+                                  i.impcomprobante as importecomprobante,
+                                  i.impdebito as totaldebito,
+                                  i.impnointe as nointe,
+                                  i.impsolicitado as totalsolicitado,
+                                  i.codpractica as codigopractica,
+                                  i.codigoob as codigoOS,
+                                  i.tipocomprobante as idTipocomprobante, 
+                                  i.cae as nroautorizacion,
+                                  i.puntoventa as puntodeventa,
+                                  i.provincia as prov,
+                                  i.dependencia as dep
+                            FROM intepresentacionreversion i WHERE estado = 0";
+    	//echo $sqlRevDospasos."<br><br>";
+    	$resRevDospasos = mysql_query($sqlRevDospasos);
+    	while ($rowRevDospasos = mysql_fetch_assoc($resRevDospasos)) {
+    	    $arrayRegistrosInsert[$index] = $rowRevDospasos;
+    	    echo $rowRevDospasos."<br><br>";
     	    $index++;
     	}
     	   
@@ -293,6 +315,8 @@ if ($canIdFactura != 0) {
 	    exit -1;
 	}
 	
+	$sqlRevDosPasosPres = "UPDATE intepresentacionreversion SET estado = 1, idpresentacion = idpresactual WHERE estado = 0";
+	
 	try {
 	    $dbh = new PDO("mysql:host=$hostLocal;dbname=$dbname",$usuarioLocal,$claveLocal);
 	    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -307,6 +331,10 @@ if ($canIdFactura != 0) {
 	        //echo $sqlinsert."<br>";
 	        $dbh->exec($sqlinsert);
 	    }
+	    
+	    $sqlRevDosPasosPres = str_replace("idpresactual", $lastId, $sqlRevDosPasosPres );
+	    //echo $sqlRevDosPasosPres."<br>";
+	    $dbh->exec($sqlRevDosPasosPres);
 	    
 	    $dbh->commit();
 	    
@@ -358,8 +386,6 @@ if ($canIdFactura != 0) {
 	    Header($redire);
 	    exit -1;
 	}
-	
-	
 } else {
 	echo "NO HAY FACTURAS PARA PRESENTAR";
 }

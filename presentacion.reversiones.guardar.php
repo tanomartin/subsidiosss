@@ -62,7 +62,7 @@ foreach ($reversionArray as $reversion) {
                                 ($nrocominterno,$idPresentacion,'$tipo','$codob','$cuil','$codcert','$vtocert',
                                  '$periodo','$cuit','$nombre',$tipcomp,'$tipemis','$fechacomp','$cae',$ptoventa,'$nrocomp',
                                  $impcomp,$impdeb,$nointe,$impsoli,$codprac,$cant,$prov,'$dep',
-                                 NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0)";
+                                 NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL)";
     }
     $index++;
 } 

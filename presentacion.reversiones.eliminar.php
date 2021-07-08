@@ -45,7 +45,7 @@ while ($rowGetReversion = mysql_fetch_array($resGetReversion)) {
 	}
 	
 	if ($canReversionFut == 1) {
-		$deleteReversion[$index] = "DELETE FROM intepresentacionreversion WHERE idpresentacion = $idPresentacion and nrocominterno = $nrocom";
+		$deleteReversion[$index] = "DELETE FROM intepresentacionreversion WHERE idpresentaciondb = $idPresentacion and nrocominterno = $nrocom";
 		$index++;
 	}
 	
